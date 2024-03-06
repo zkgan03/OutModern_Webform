@@ -84,7 +84,6 @@
     <Content Include="App_Data\OutModern_log.ldf">
       <DependentUpon>OutModern.mdf</DependentUpon>
     </Content>
-    <Content Include="Client\Home\Home.aspx" />
     <Content Include="favicon\android-chrome-192x192.png" />
     <Content Include="favicon\android-chrome-512x512.png" />
     <Content Include="favicon\apple-touch-icon.png" />
@@ -448,31 +447,32 @@
     <Content Include="images\TnG_logo.png" />
     <Content Include="images\vid-poster.png" />
     <Content Include="images\visa_logo.png" />
+    <Content Include="src\Client\Home\Home.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Admin\Admin.Master.cs">
-      <DependentUpon>Admin.Master</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Admin.Master.designer.cs">
-      <DependentUpon>Admin.Master</DependentUpon>
-    </Compile>
-    <Compile Include="Client\Client.Master.cs">
-      <DependentUpon>Client.Master</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Client\Client.Master.designer.cs">
-      <DependentUpon>Client.Master</DependentUpon>
-    </Compile>
-    <Compile Include="Client\Home\Home.aspx.cs">
-      <DependentUpon>Home.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Client\Home\Home.aspx.designer.cs">
-      <DependentUpon>Home.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\Admin\Admin.Master.cs">
+      <DependentUpon>Admin.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Admin\Admin.Master.designer.cs">
+      <DependentUpon>Admin.Master</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\Client.Master.cs">
+      <DependentUpon>Client.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\Client.Master.designer.cs">
+      <DependentUpon>Client.Master</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\Home\Home.aspx.cs">
+      <DependentUpon>Home.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\Home\Home.aspx.designer.cs">
+      <DependentUpon>Home.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon\site.webmanifest" />
@@ -480,9 +480,9 @@
     <Content Include="images\shirt2.webp" />
     <Content Include="images\shirt2After.webp" />
     <Content Include="images\shirt3.webp" />
-    <Content Include="Client\Client.Master" />
-    <Content Include="Admin\Admin.Master" />
     <None Include="packages.config" />
+    <Content Include="src\Admin\Admin.Master" />
+    <Content Include="src\Client\Client.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -491,12 +491,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Client\Home\css\" />
-    <Folder Include="Client\Home\js\" />
-    <Folder Include="Client\Login\" />
-    <Folder Include="Client\Payment\" />
-    <Folder Include="Client\Product\" />
-    <Folder Include="Client\Register\" />
+    <Folder Include="src\Client\Home\css\" />
+    <Folder Include="src\Client\Home\js\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
