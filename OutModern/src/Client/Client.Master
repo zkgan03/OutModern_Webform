@@ -5,14 +5,26 @@
 <html>
 <head runat="server">
     <title></title>
+    <script src="../../../public/tailwind/tailwind.js"></script>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
 <body>
     <form id="form1" runat="server">
-        <div>
-            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-            </asp:ContentPlaceHolder>
+        <div class="bg-[url('../../../images/marble.jpg')]">
+            <div class="w-[90%] m-auto bg-[#f5f5f5] ">
+                <header class="bg-[#f5f5f5] h-20 hover:bg-[#f7efd5] mb-10 text-center sticky top-0 shadow">
+                    This is master Page Header
+                </header>
+                <div>
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                    </asp:ContentPlaceHolder>
+                </div>
+
+                <footer class="bg-[#f5f5f5] h-20 hover:bg-[#f7efd5] mt-10 text-center border-t">
+                    This is master Page Footer
+                </footer>
+            </div>
         </div>
     </form>
 </body>
