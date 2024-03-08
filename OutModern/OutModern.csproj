@@ -16,7 +16,8 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>44338</IISExpressSSLPort>
+    <IISExpressSSLPort>
+    </IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -67,7 +68,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-
     <Content Include="App_Data\OutModern.mdf" />
     <Content Include="App_Data\OutModern_log.ldf">
       <DependentUpon>OutModern.mdf</DependentUpon>
@@ -436,7 +436,6 @@
     <Content Include="images\vid-poster.png" />
     <Content Include="images\visa_logo.png" />
     <Content Include="src\Client\Home\Home.aspx" />
-    
     <Compile Include="src\Admin\Admin.Master.cs">
       <DependentUpon>Admin.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -465,10 +464,10 @@
     <Content Include="images\shirt2.webp" />
     <Content Include="images\shirt2After.webp" />
     <Content Include="images\shirt3.webp" />
-
     <None Include="packages.config" />
     <Content Include="src\Admin\Admin.Master" />
     <Content Include="src\Client\Client.Master" />
+    <Content Include="Web.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -476,12 +475,10 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="src\Client\Home\css\" />
     <Folder Include="src\Client\Home\js\" />
   </ItemGroup>
-
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -497,7 +494,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>58776</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44338/</IISUrl>
+          <IISUrl>http://localhost:44338/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
