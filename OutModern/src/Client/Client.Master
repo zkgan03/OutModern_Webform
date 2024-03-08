@@ -9,33 +9,198 @@
     <title>OutModern | Modernised Outfits Online</title>
     <link rel="icon" type="image/png" sizes="32x32" href="<%= Page.ResolveClientUrl("~/favicon/favicon-32x32.png") %>">
     <link rel="icon" type="image/png" sizes="16x16" href="<%= Page.ResolveClientUrl("~/favicon/favicon-16x16.png") %>">
-    <!-- import tailwind -->
-    <script src="<%= Page.ResolveClientUrl("~/public/tailwind/tailwind.js") %>"></script>
+
+    <!-- import font type css-->
+    <link href="<%=Page.ResolveClientUrl("~/lib/fonts/ChakraPetch/ChakraPetch.css") %>" rel="stylesheet" />
+
+    <!-- import fontawesome css-->
+    <link href="<%= Page.ResolveClientUrl("~/lib/fontawesome/css/all.min.css") %>" rel="stylesheet" />
+
+    <!-- import tailwind js-->
+    <script src="<%= Page.ResolveClientUrl("~/lib/tailwind/tailwind.js") %>"></script>
+
+    <style type="text/tailwindcss">
+        * {
+            scroll-behavior: smooth;
+            color: rgba(0,0,0,0.65);
+            transition: 0.25s
+        }
+
+        @layer components {
+            .top-nav {
+                @apply bg-[#f5f5f5] h-[90px] hover:bg-[#f7efd5] mb-10 text-center sticky top-0 shadow flex justify-between;
+            }
+
+            .top-nav-scroll {
+                @apply h-[70px];
+            }
+
+            .top-nav-item {
+                @apply relative after:transition-all after:w-0 hover:after:w-[100%] hover:text-black after:absolute after:left-0 after:right-0 after:bottom-0 after:m-auto after:h-[1px] after:bg-black;
+            }
+
+            .top-nav-item-active {
+                @apply relative after:w-[100%] after:absolute after:left-0 text-black after:right-0 after:bottom-0 after:m-auto after:h-[1px] after:bg-black;
+            }
+
+
+            .nav-dropdown-list {
+                @apply transition-all my-2 py-2 cursor-pointer box-border pl-2 rounded-3xl hover:bg-black hover:text-white;
+            }
+        }
+    </style>
 
     <!-- your head -->
     <asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
 </head>
 <body>
     <form id="form1" runat="server">
+
         <div class="bg-fixed bg-[url(<%= Page.ResolveClientUrl("~/images/marble.jpg") %>)]">
             <div class="w-[90%] m-auto bg-[#f5f5f5]">
+
+                <!-- Ads -->
+                <div class="nav-ads flex relative text-center bg-[#626262] h-10 text-white justify-center items-center">
+                    Buy over RM100 to get free shipping now !
+                    <i class="fa-solid fa-xmark absolute top-[10px] right-[10px] cursor-pointer"
+                        style="color: #ffffff; font-size: 20px;"></i>
+                </div>
                 <!-- Header -->
-                <header class="bg-[#f5f5f5] h-20 hover:bg-[#f7efd5] mb-10 text-center sticky top-0 shadow">
-                    This is master Page Header
+                <header id="header" class="top-nav">
+                    <!-- Logo -->
+                    <div class="flex items-center justify-center nav-logo ml-20 mr-20">
+                        <asp:HyperLink ID="linkLogo" ImageWidth="100px" runat="server" ImageUrl="~/images/logo2.png" Width="115px" NavigateUrl="~/src/Client/Home/Home.aspx">HyperLink</asp:HyperLink>
+                    </div>
+
+                    <!-- Top navigation bar-->
+                    <nav class="flex items-center justify-around w-[50%]">
+                        <!-- home-nav-->
+                        <asp:HyperLink ID="hyperlinkHome" CssClass="top-nav-item py-1" runat="server" NavigateUrl="~/src/Client/Home/Home.aspx">
+                            Home
+                        </asp:HyperLink>
+
+                        <!-- about-nav-->
+                        <asp:HyperLink ID="hyperlinkAbout" CssClass="top-nav-item py-1" runat="server" NavigateUrl="#">
+                            About Us
+                        </asp:HyperLink>
+
+                        <!-- Categories-nav-->
+                        <div href="javascript:void 0"
+                            class="group relative py-1.5 nav-dropdown hover:text-black">
+                            Categories
+                            <i class="fa-solid fa-angle-down align-middle"></i>
+                            <div class="hidden group-hover:block absolute 
+                                left-0 top-[100%] mx-auto p-[10px] bg-[#f7efd5] text-left 
+                                drop-shadow rounded-2xl w-[150px]
+                                cursor-default">
+                                <ul>
+                                    <li class="nav-dropdown-list">item 1</li>
+                                    <li class="nav-dropdown-list">item 2</li>
+                                    <li class="nav-dropdown-list">item 3</li>
+                                    <li class="nav-dropdown-list">item 4</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- user-nav -->
+                        <div href="javascript:void 0"
+                            class="relative group py-1.5 nav-dropdown hover:text-black">
+                            <i class="fa-regular fa-user"></i>
+                            <i class="fa-solid fa-angle-down align-middle"></i>
+                            <div class="hidden group-hover:block absolute 
+                                        left-0 top-[100%] mx-auto p-[10px] bg-[#f7efd5] text-left 
+                                        drop-shadow rounded-2xl w-[150px]
+                                        cursor-default z-10">
+                                <ul>
+                                    <li class="nav-dropdown-list">item 1</li>
+                                    <li class="nav-dropdown-list">item 2</li>
+                                    <li class="nav-dropdown-list">item 3</li>
+                                    <li class="nav-dropdown-list">item 4</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Search-nav -->
+                        <div class="relative py-1">
+                            <asp:TextBox CssClass="rounded-2xl border-none h-[2rem] w-[100px] pl-[10px] pr-[30px] focus:w-[200px]" ID="txtSearch" runat="server"></asp:TextBox>
+                            <asp:LinkButton CssClass="absolute right-[10px] top-[5px] bottom-0 m-auto" ID="lBtnSearch" runat="server" OnClick="lBtnSearch_Click">
+                                <i class="fa-solid fa-magnifying-glass cursor pt-1.5"></i>
+                            </asp:LinkButton>
+                        </div>
+
+                        <!-- Cart-nav -->
+                        <div class=" py-1">
+                            <asp:HyperLink ID="hyperlinkCart" runat="server" NavigateUrl="#">
+                                <i class="fa-duotone fa-cart-shopping"></i>
+                            </asp:HyperLink>
+                            <span id="cart-item-number" class="inline-block text-center pl-2 pr-2 bg-[#84beb5] 
+                                rounded-xl text-white">13</span>
+                        </div>
+                    </nav>
                 </header>
 
                 <!-- Content -->
-                <div>
+                <div style="height: 1000px">
                     <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
                     </asp:ContentPlaceHolder>
                 </div>
 
                 <!-- Footer -->
-                <footer class="bg-[#f5f5f5] h-20 hover:bg-[#f7efd5] mt-10 text-center border-t">
+                <footer id="footer" class="bg-[#f5f5f5] h-20 hover:bg-[#f7efd5] mt-10 text-center border-t">
                     This is master Page Footer
                 </footer>
             </div>
         </div>
     </form>
+
+    <script>
+        // close ads
+        (() => {
+            let adsClsoeBtn = document.querySelector(".nav-ads .fa-solid.fa-xmark");
+            adsClsoeBtn.addEventListener("click", () => {
+                console.log(adsClsoeBtn)
+                adsClsoeBtn.parentElement.remove();
+            })
+        })();
+
+        // rotate the arrow in nav bar
+        (() => {
+            let navDropDown = document.querySelectorAll(".nav-dropdown");
+
+            navDropDown.forEach(item => {
+                item.addEventListener("mouseenter", function () {
+                    icon = this.querySelector(".fa-angle-down");
+                    icon.classList.add("fa-rotate-180");
+                })
+                item.addEventListener("mouseleave", function () {
+                    icon = this.querySelector(".fa-angle-down");
+                    icon.classList.remove("fa-rotate-180");
+                })
+            })
+        })();
+
+        //nav bar 
+        (() => {
+            let header = document.getElementById("header");
+
+            window.addEventListener("scroll", () => {
+
+                console.log(document.body.scrollTop, document.documentElement.scrollTop)
+
+                if (document.documentElement.scrollTop <= 40) {
+                    if (!header.classList.contains("top-nav-scroll")) return;
+
+                    header.querySelector(".nav-logo a img").style.width = "100px"
+                    header.classList.remove("top-nav-scroll");
+
+                }
+                else if (document.documentElement.scrollTop > 40) {
+                    header.classList.add("top-nav-scroll")
+                    header.querySelector("a img").style.width = "75px"
+                }
+            })
+        })();
+
+    </script>
 </body>
 </html>
