@@ -18,9 +18,9 @@
     <Use64BitIISExpress />
     <IISExpressSSLPort>
     </IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -435,6 +435,7 @@
     <Content Include="images\TnG_logo.png" />
     <Content Include="images\vid-poster.png" />
     <Content Include="images\visa_logo.png" />
+    <Content Include="public\tailwind\tailwind.js" />
     <Content Include="src\Client\Home\Home.aspx" />
     <Compile Include="src\Admin\Admin.Master.cs">
       <DependentUpon>Admin.Master</DependentUpon>
