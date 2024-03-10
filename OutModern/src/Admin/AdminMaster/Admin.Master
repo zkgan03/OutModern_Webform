@@ -1,11 +1,10 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Admin.master.cs" Inherits="OutModern.Admin.Admin" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Admin.Master.cs" Inherits="OutModern.src.Admin.AdminMaster.Site1" %>
 
 <!DOCTYPE html>
 
 <html>
 <head runat="server">
     <title></title>
-    <script src="../../../public/tailwind/tailwind.js"></script>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>

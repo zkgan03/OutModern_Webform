@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OutModern.Client
+namespace OutModern.src.Client.ClientMaster
 {
 
 
