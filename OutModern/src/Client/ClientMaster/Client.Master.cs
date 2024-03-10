@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace OutModern.Client
+namespace OutModern.src.Client.ClientMaster
 {
     public partial class Client : System.Web.UI.MasterPage
     {

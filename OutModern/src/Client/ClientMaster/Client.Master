@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Client.master.cs" Inherits="OutModern.Client.Client" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Client.master.cs" Inherits="OutModern.src.Client.ClientMaster.Client" %>
 
 <!DOCTYPE html>
 
@@ -18,7 +18,7 @@
 
     <!-- import tailwind js-->
     <script src="<%= Page.ResolveClientUrl("~/lib/tailwind/tailwind.js") %>"></script>
-
+    <link href="css/ClientMaster.css" rel="stylesheet" />
     <style type="text/tailwindcss">
         @layer base {
             h1 {
@@ -51,20 +51,16 @@
                 @apply text-xl relative after:w-[100%] after:absolute after:left-0 text-black after:right-0 after:bottom-0 after:m-auto after:h-[1px] after:bg-black;
             }
 
+            #top-nav .drop-down {
+                @apply h-0 overflow-hidden absolute left-0 top-[100%] mx-auto bg-[#f7efd5] text-left drop-shadow rounded-2xl w-[150px] cursor-default;
+            }
 
-            .nav-dropdown-list {
+            #top-nav .nav-dropdown-list {
                 @apply block transition-all my-2 py-2 cursor-pointer box-border pl-2 rounded-3xl hover:bg-black hover:text-white;
             }
         }
     </style>
 
-    <style>
-        * {
-            scroll-behavior: smooth;
-            color: rgba(0,0,0,0.65);
-            transition: 0.25s;
-        }
-    </style>
     <!-- your head -->
     <asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
 </head>
@@ -105,14 +101,10 @@
                         </asp:HyperLink>
 
                         <!-- Categories-nav-->
-                        <div href="javascript:void 0"
-                            class=" text-xl  group relative py-1.5 nav-dropdown hover:text-black cursor-pointer">
+                        <div class="nav-dropdown text-xl  group relative py-1.5 hover:text-black cursor-pointer">
                             Categories
                             <i class="fa-solid fa-angle-down align-middle group-hover:text-black"></i>
-                            <div class="hidden group-hover:block absolute 
-                                left-0 top-[100%] mx-auto p-[10px] bg-[#f7efd5] text-left 
-                                drop-shadow rounded-2xl w-[150px]
-                                cursor-default">
+                            <div class="drop-down">
                                 <ul>
                                     <li>
                                         <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink2" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
@@ -131,14 +123,12 @@
                         </div>
 
                         <!-- user-nav -->
-                        <div href="javascript:void 0"
-                            class=" text-xl  relative group py-1.5 nav-dropdown hover:text-black cursor-pointer">
-                            <i class="fa-regular fa-user align-middle group-hover:text-black text-xl"></i>
-                            <i class="fa-solid fa-angle-down align-middle group-hover:text-black"></i>
-                            <div class="hidden group-hover:block absolute 
-                                        left-0 top-[100%] mx-auto p-[10px] bg-[#f7efd5] text-left 
-                                        drop-shadow rounded-2xl w-[150px]
-                                        cursor-default z-10">
+                        <div class="nav-dropdown text-xl relative group py-1.5 hover:text-black cursor-pointer">
+                            <div>
+                                <i class="fa-regular fa-user align-middle group-hover:text-black text-xl"></i>
+                                <i class="fa-solid fa-angle-down align-middle group-hover:text-black"></i>
+                            </div>
+                            <div class="drop-down">
                                 <ul>
                                     <li>
                                         <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink5" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
@@ -175,7 +165,7 @@
                     </nav>
                 </header>
 
-                <!-- Your Content -->
+                <!--  Your Content -->
                 <div>
                     <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
                     </asp:ContentPlaceHolder>
@@ -329,70 +319,9 @@
             </div>
         </div>
 
+        <!-- Imports scripts-->
+        <script src="<%= Page.ResolveClientUrl("~/src/Client/ClientMaster/js/ClientMaster.js") %>"></script>
     </form>
-
-    <script>
-        // close ads
-        (() => {
-            let adsClsoeBtn = document.querySelector(".nav-ads .fa-solid.fa-xmark");
-            adsClsoeBtn.addEventListener("click", () => {
-                adsClsoeBtn.parentElement.remove();
-            })
-        })();
-
-        // rotate the arrow in nav bar
-        (() => {
-            let navDropDown = document.querySelectorAll(".nav-dropdown");
-
-            navDropDown.forEach(item => {
-                item.addEventListener("mouseenter", function () {
-                    icon = this.querySelector(".fa-angle-down");
-                    icon.classList.add("fa-rotate-180");
-                })
-                item.addEventListener("mouseleave", function () {
-                    icon = this.querySelector(".fa-angle-down");
-                    icon.classList.remove("fa-rotate-180");
-                })
-            })
-        })();
-
-        //nav bar 
-        (() => {
-            let header = document.getElementById("header");
-
-            window.addEventListener("scroll", () => {
-
-                if (document.documentElement.scrollTop <= 40) {
-                    if (!header.classList.contains("header-scroll")) return;
-                    header.classList.remove("header-scroll");
-
-                    // Logo transition                     
-                    header.querySelector("#nav-logo a img").style.width = "100px"
-                    header.querySelector("#nav-logo").style.marginLeft = "5rem";
-
-                    // Company name
-                    header.querySelector("#outmodern-header").style.fontSize = "0"
-
-                    // navigation bar transition
-                    header.querySelector("#top-nav").style.marginRight = "5rem";
-                }
-                else if (document.documentElement.scrollTop > 40) {
-                    header.classList.add("header-scroll")
-
-                    // Logo transition 
-                    header.querySelector("#nav-logo a img").style.width = "0px"
-                    header.querySelector("#nav-logo").style.marginLeft = "2rem";
-
-                    // Company name
-                    header.querySelector("#outmodern-header").style.fontSize = "1.875rem"
-
-                    // navigation bar transition
-                    header.querySelector("#top-nav").style.marginRight = "1rem";
-
-                }
-            })
-        })();
-
-    </script>
 </body>
 </html>
+

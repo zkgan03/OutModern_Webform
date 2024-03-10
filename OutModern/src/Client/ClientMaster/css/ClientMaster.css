@@ -1,0 +1,5 @@
+﻿* {
+    scroll-behavior: smooth;
+    color: rgba(0,0,0,0.65);
+    transition: 0.25s;
+}

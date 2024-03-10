@@ -7,11 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OutModern.Admin
+namespace OutModern.src.Admin.AdminMaster
 {
 
 
-    public partial class Admin
+    public partial class Site1
     {
 
         /// <summary>

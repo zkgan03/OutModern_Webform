@@ -5,9 +5,9 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace OutModern.Admin
+namespace OutModern.src.Admin.Dashboard
 {
-    public partial class Admin : System.Web.UI.MasterPage
+    public partial class Dashboard : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
