@@ -99,6 +99,8 @@
     <Content Include="images\grab_pay_logo.png" />
     <Content Include="images\half-star.svg" />
     <Content Include="images\loading.gif" />
+    <Content Include="images\logo-admin.png" />
+    <Content Include="images\logo-admin2.png" />
     <Content Include="images\logo2.png" />
     <Content Include="images\manage_pic1.jpg" />
     <Content Include="images\marble.jpg" />
@@ -440,6 +442,7 @@
     <Content Include="lib\fonts\ChakraPetch\OFL.txt" />
     <Content Include="lib\tailwind\tailwind.js" />
     <Content Include="src\Admin\AdminMaster\css\AdminMaster.css" />
+    <Content Include="src\Admin\AdminMaster\js\AdminMaster.js" />
     <Content Include="src\Admin\Dashboard\Dashboard.aspx" />
     <Content Include="src\Client\ClientMaster\css\ClientMaster.css" />
     <Content Include="src\Client\ClientMaster\js\ClientMaster.js" />

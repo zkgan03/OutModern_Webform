@@ -41,7 +41,7 @@
 
         @layer components {
             #side-menu .menu-title {
-                @apply mt-5 mb-2 text-xl mb-1;
+                @apply mb-2 text-xl mb-1 overflow-hidden;
             }
 
             #side-menu .menu-item {
@@ -75,72 +75,72 @@
 <body>
     <form id="form1" runat="server">
         <!-- Side menu -->
-        <div id="side-menu" class="float-left transition-none pt-2 drop-shadow px-5 bg-[#F8F8FA] min-h-screen h-max">
+        <div id="side-menu" class="float-left pt-2 drop-shadow px-5 bg-[#F8F8FA] min-h-screen h-max">
             <!-- Company name / logo -->
-            <div>
-                <asp:Image ID="imgLogo" runat="server" ImageUrl="" />
-                <h1 class="italic">OUTMODERN</h1>
+            <div id="companyLogo" class="relative">
+                <asp:Image ID="imgLogo" CssClass="transition-none absolute inset-0 m-auto w-0" runat="server" ImageUrl="~/images/logo-admin.png?a=1" />
+                <h1 class="italic overflow-hidden ">OUTMODERN</h1>
             </div>
 
             <!-- main -->
-            <div>
+            <div class="mt-5">
                 <div class="menu-title">Main</div>
                 <asp:HyperLink runat="server" NavigateUrl="#" ToolTip="Overall performace, report">
                    <div class="menu-item active">
-                        <i class="fa-regular fa-house fa-lg fa-fw mr-2"></i>
-                        Dashboard
+                        <i class="fa-regular fa-house fa-lg mr-2"></i>
+                        <span class="menu-item-text">Dashboard</span>
                     </div>
                 </asp:HyperLink>
             </div>
 
             <!-- Management -->
-            <div>
+            <div class="mt-5">
                 <div class="menu-title">Management</div>
                 <!--Staff-->
                 <asp:HyperLink runat="server" NavigateUrl="#" ToolTip="Manage staff, access level">
                     <div class="menu-item">
                         <i class="fa-regular fa-user-tie fa-lg fa-fw mr-2"></i>
-                        Staff
+                        <span class="menu-item-text">Staff</span>
                     </div>
                 </asp:HyperLink>
                 <!--MarketPlace-->
                 <asp:HyperLink runat="server" NavigateUrl="#" ToolTip="Manage product being sold">
                     <div class="menu-item">
                         <i class="fa-regular fa-store fa-lg fa-fw mr-2"></i>
-                        MarketPlace
+                        <span class="menu-item-text">MarketPlace</span>
                     </div>
                 </asp:HyperLink>
                 <!--Orders-->
                 <asp:HyperLink runat="server" NavigateUrl="#" ToolTip="Manage current orders">
                     <div class="menu-item">
                         <i class="fa-regular fa-cart-circle-check fa-lg fa-fw mr-2"></i>
-                        Orders
+                        <span class="menu-item-text">Orders</span>
                     </div>
                 </asp:HyperLink>
             </div>
 
             <!-- Customer Relation -->
-            <div>
+            <div class="mt-5">
                 <div class="menu-title">Customer Relation</div>
                 <!--Customer-->
                 <asp:HyperLink runat="server" NavigateUrl="#" ToolTip="Manage registered customer">
                     <div class="menu-item">
-                        <i class="fa-duotone fa-users fa-lg fa-fw mr-2"></i>
-                        Customer
+                        <i class="fa-duotone fa-users fa-lg fa-fw"></i>
+                        <span class="menu-item-text">Customer</span>
                     </div>
                 </asp:HyperLink>
                 <!--Promo Code-->
                 <asp:HyperLink runat="server" NavigateUrl="#" ToolTip="Set Promotion code for discount">
                     <div class="menu-item">
-                        <i class="fa-regular fa-tags fa-lg fa-fw mr-2"></i>
-                        Promo Code
+                        <i class="fa-regular fa-tags fa-lg fa-fw"></i>
+                        <span class="menu-item-text">Code</span>
                     </div>
                 </asp:HyperLink>
                 <!--Feedback-->
                 <asp:HyperLink runat="server" NavigateUrl="#" ToolTip="Feedback  by Customer">
                     <div class="menu-item">
-                        <i class="fa-regular fa-envelope fa-lg fa-fw mr-2"></i>
-                        Feedback
+                        <i class="fa-regular fa-envelope fa-lg fa-fw"></i>
+                        <span class="menu-item-text">Feedback</span>
                     </div>
                 </asp:HyperLink>
             </div>
