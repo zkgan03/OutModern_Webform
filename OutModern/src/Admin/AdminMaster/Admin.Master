@@ -33,6 +33,10 @@
             h3 {
                 @apply text-xl text-black font-bold;
             }
+
+            i {
+                @apply hover:text-black;
+            }
         }
 
         @layer components {
@@ -47,6 +51,22 @@
                 #side-menu .menu-item.active {
                     @apply bg-[#94D4CA];
                 }
+
+            .icon-button-bg {
+                @apply p-2 rounded cursor-pointer hover:bg-[#DBF0ED];
+            }
+
+            .drop-down {
+                @apply relative cursor-default hover:bg-[#DBF0ED] rounded flex justify-center items-center ml-1 h-full px-1 box-border;
+            }
+
+            .drop-down-list {
+                @apply absolute top-full w-full text-right left-0 bg-[#F8F8FA] border box-border hidden group-hover:block;
+            }
+
+            .drop-down-item {
+                @apply block text-sm py-2 cursor-pointer m-1 hover:bg-[#DBF0ED] box-border;
+            }
         }
     </style>
 
@@ -55,16 +75,17 @@
 <body>
     <form id="form1" runat="server">
         <!-- Side menu -->
-        <div id="side-menu" class="float-left pt-2 drop-shadow px-5 bg-[#F8F8FA] basis-1 min-h-screen h-max">
+        <div id="side-menu" class="float-left transition-none pt-2 drop-shadow px-5 bg-[#F8F8FA] min-h-screen h-max">
             <!-- Company name / logo -->
             <div>
+                <asp:Image ID="imgLogo" runat="server" ImageUrl="" />
                 <h1 class="italic">OUTMODERN</h1>
             </div>
 
             <!-- main -->
             <div>
                 <div class="menu-title">Main</div>
-                <asp:HyperLink runat="server" NavigateUrl="#">
+                <asp:HyperLink runat="server" NavigateUrl="#" ToolTip="Overall performace, report">
                    <div class="menu-item active">
                         <i class="fa-regular fa-house fa-lg fa-fw mr-2"></i>
                         Dashboard
@@ -76,21 +97,21 @@
             <div>
                 <div class="menu-title">Management</div>
                 <!--Staff-->
-                <asp:HyperLink runat="server" NavigateUrl="#">
+                <asp:HyperLink runat="server" NavigateUrl="#" ToolTip="Manage staff, access level">
                     <div class="menu-item">
                         <i class="fa-regular fa-user-tie fa-lg fa-fw mr-2"></i>
                         Staff
                     </div>
                 </asp:HyperLink>
                 <!--MarketPlace-->
-                <asp:HyperLink runat="server" NavigateUrl="#">
+                <asp:HyperLink runat="server" NavigateUrl="#" ToolTip="Manage product being sold">
                     <div class="menu-item">
                         <i class="fa-regular fa-store fa-lg fa-fw mr-2"></i>
                         MarketPlace
                     </div>
                 </asp:HyperLink>
                 <!--Orders-->
-                <asp:HyperLink runat="server" NavigateUrl="#">
+                <asp:HyperLink runat="server" NavigateUrl="#" ToolTip="Manage current orders">
                     <div class="menu-item">
                         <i class="fa-regular fa-cart-circle-check fa-lg fa-fw mr-2"></i>
                         Orders
@@ -102,21 +123,21 @@
             <div>
                 <div class="menu-title">Customer Relation</div>
                 <!--Customer-->
-                <asp:HyperLink runat="server" NavigateUrl="#">
+                <asp:HyperLink runat="server" NavigateUrl="#" ToolTip="Manage registered customer">
                     <div class="menu-item">
                         <i class="fa-duotone fa-users fa-lg fa-fw mr-2"></i>
                         Customer
                     </div>
                 </asp:HyperLink>
                 <!--Promo Code-->
-                <asp:HyperLink runat="server" NavigateUrl="#">
+                <asp:HyperLink runat="server" NavigateUrl="#" ToolTip="Set Promotion code for discount">
                     <div class="menu-item">
                         <i class="fa-regular fa-tags fa-lg fa-fw mr-2"></i>
                         Promo Code
                     </div>
                 </asp:HyperLink>
                 <!--Feedback-->
-                <asp:HyperLink runat="server" NavigateUrl="#">
+                <asp:HyperLink runat="server" NavigateUrl="#" ToolTip="Feedback  by Customer">
                     <div class="menu-item">
                         <i class="fa-regular fa-envelope fa-lg fa-fw mr-2"></i>
                         Feedback
@@ -126,38 +147,73 @@
         </div>
 
         <!-- Main content -->
-        <div class="overflow-hidden">
-            <!-- top  -->
-            <div id="top" class="h-12 py-2 box-border bg-[#f8f8fa] flex content-center items-center justify-between">
+        <div class="overflow-hidden min-h-screen">
+            <!-- top -->
+            <div id="top" class="h-14 py-2 box-border bg-[#f8f8fa] flex content-center items-center justify-between">
                 <!-- Left -->
-                <div class="flex items-center justify-between">
+                <div class="flex items-center h-full">
                     <!--Collapse / open side menu button-->
-                    <div class="h-full py-1 px-2 text-center cursor-pointer rounded-xl hover:bg-[#DBF0ED]">
-                        <i class="fa-regular fa-bars fa-xl leading-8"></i>
+                    <div id="menu-toggler" class="ml-1 icon-button-bg">
+                        <i class="fa-regular fa-bars fa-xl"></i>
                     </div>
 
                     <!-- Site Map -->
-                    <div class="">
-                        Dashboard > ... > ...
-                    <asp:SiteMapPath ID="sitemapAdmin" runat="server" SiteMapProvider="adminSiteMap"></asp:SiteMapPath>
+                    <div class="ml-1">
+                        <asp:SiteMapPath ID="sitemapAdmin" runat="server" SiteMapProvider="adminSiteMap"></asp:SiteMapPath>
                     </div>
                 </div>
 
                 <!-- Right -->
-                <div>
+                <div class="flex items-center h-full">
                     <!-- Search Bar -->
                     <div class="relative py-1">
-                        <asp:TextBox CssClass="rounded-2xl self-center w-[100px] pl-[10px] pr-[30px] focus:w-[200px]" ID="txtSearch" runat="server"></asp:TextBox>
-                        <asp:LinkButton CssClass="absolute right-[10px] top-[2px] bottom-0 m-auto" ID="lBtnSearch" runat="server">
-                            <i class="fa-solid fa-magnifying-glass cursor pt-1.5 hover:text-black"></i>
+                        <asp:TextBox placeholder="Search in current page" CssClass="rounded-2xl self-center w-56 pl-[10px] pr-[30px] border border-zinc-950 focus:w-96" ID="txtSearch" runat="server"></asp:TextBox>
+                        <asp:LinkButton CssClass="absolute right-[8px] top-[5px]" ID="lBtnSearch" runat="server">
+                            <i class="fa-solid fa-magnifying-glass"></i>
                         </asp:LinkButton>
+                    </div>
+
+                    <!-- Porfile Setting -->
+                    <div class="icon-button-bg ml-1">
+                        <asp:HyperLink ID="hyperlinkSetting" runat="server" NavigateUrl="<%# settingUrl %>">
+                            <i class="fa-regular fa-gear fa-xl"></i>
+                        </asp:HyperLink>
+                    </div>
+
+                    <!-- notification -->
+                    <div class="icon-button-bg ml-1">
+                        <asp:HyperLink ID="hyperlinkNotification" runat="server" NavigateUrl="<%# notificationUrl %>">
+                            <i class="fa-regular fa-bell fa-xl"></i>
+                        </asp:HyperLink>
+                    </div>
+
+                    <!-- Profile -->
+                    <div class="drop-down group mr-2">
+                        <asp:Image ID="imgProfile" CssClass="object-cover rounded-full w-9 h-9" runat="server" ImageUrl="~/images/about_us_img/img(b).jpg" />
+                        <div id="current-username" class="mx-1">
+                            Gan Zhi Ken
+                        </div>
+                        <i class="fa-solid fa-angle-down align-middle group-hover:text-black"></i>
+
+                        <!-- Profile drop down item -->
+                        <div class="drop-down-list">
+                            <asp:LinkButton CssClass="drop-down-item" ID="linkBtnLogout" runat="server">
+                                    <span>Logout</span>
+                                    <i class="fa-regular fa-arrow-right-from-bracket"></i>     
+                            </asp:LinkButton>
+                        </div>
+
                     </div>
                 </div>
             </div>
+
+            <!-- Page Content -->
             <div>
                 <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
             </div>
         </div>
     </form>
+
+    <script src="<%= Page.ResolveClientUrl("~/src/Admin/AdminMaster/js/AdminMaster.js") %>"></script>
 </body>
 </html>

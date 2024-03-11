@@ -82,7 +82,7 @@
                 <header id="header" class="header">
                     <!-- Logo -->
                     <div id="nav-logo" class="relative flex items-center justify-center ml-20 mr-20">
-                        <asp:HyperLink ID="hyperlinkLogo" runat="server" NavigateUrl="~/src/Client/Home/Home.aspx">
+                        <asp:HyperLink ID="hyperlinkLogo" runat="server" NavigateUrl="<%# homeUrl %>">
                             <h1 id="outmodern-header" class="text-[0px] absolute h-fit left-0 top-0 bottom-0 m-auto">OUTMODERN</h1>
                             <asp:Image ID="Image1" Width="115px" ImageUrl="~/images/logo2.png" runat="server" />
                         </asp:HyperLink>
@@ -91,12 +91,12 @@
                     <!-- Top navigation bar-->
                     <nav id="top-nav" class="flex items-center justify-around w-[60%] mr-20">
                         <!-- home-nav-->
-                        <asp:HyperLink ID="hyperlinkHome" CssClass="top-nav-item py-1" runat="server" NavigateUrl="~/src/Client/Home/Home.aspx">
+                        <asp:HyperLink ID="hyperlinkHome" CssClass="top-nav-item py-1" runat="server" NavigateUrl="<%# homeUrl %>">
                             Home
                         </asp:HyperLink>
 
                         <!-- about-nav-->
-                        <asp:HyperLink ID="hyperlinkAbout" CssClass="top-nav-item py-1" runat="server" NavigateUrl="#">
+                        <asp:HyperLink ID="hyperlinkAbout" CssClass="top-nav-item py-1" runat="server" NavigateUrl="<%# aboutUrl %>">
                             About Us
                         </asp:HyperLink>
 
@@ -156,7 +156,7 @@
 
                         <!-- Cart-nav -->
                         <div class="py-1">
-                            <asp:HyperLink ID="hyperlinkCart" runat="server" NavigateUrl="#">
+                            <asp:HyperLink ID="hyperlinkCart" runat="server" NavigateUrl="<%# cartUrl %>">
                                 <i class="fa-duotone fa-cart-shopping hover:text-black text-xl align-middle"></i>
                             </asp:HyperLink>
                             <span id="cart-item-number" class="inline-block text-center pl-2 pr-2 bg-[#84beb5] 
@@ -244,12 +244,12 @@
                                     </a>
                                 </div>
                             </div>
-                            <!-- contact us -->
+                            <!-- Feedback -->
                             <div class="mt-5">
                                 <div class="hover:text-black">
                                     <asp:HyperLink CssClass="group cursor-pointer hover:underline"
                                         ID="hyperlinkContact"
-                                        NavigateUrl="#"
+                                        NavigateUrl="<%# feedbackUrl %>"
                                         runat="server">
                                         <i class="fa-regular fa-memo text-black font-bold fa-lg hover:no-underline"></i>
                                         <br />

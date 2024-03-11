@@ -10,9 +10,12 @@ namespace OutModern.src.Admin.AdminMaster
     public partial class Site1 : System.Web.UI.MasterPage
     {
 
+        protected string settingUrl = "#";
+        protected string notificationUrl = "#";
+
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            Page.DataBind();
         }
     }
 }
