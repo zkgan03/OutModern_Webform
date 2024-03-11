@@ -439,6 +439,7 @@
     <Content Include="lib\fonts\ChakraPetch\ChakraPetch.css" />
     <Content Include="lib\fonts\ChakraPetch\OFL.txt" />
     <Content Include="lib\tailwind\tailwind.js" />
+    <Content Include="src\Admin\AdminMaster\css\AdminMaster.css" />
     <Content Include="src\Admin\Dashboard\Dashboard.aspx" />
     <Content Include="src\Client\ClientMaster\css\ClientMaster.css" />
     <Content Include="src\Client\ClientMaster\js\ClientMaster.js" />
@@ -514,6 +515,8 @@
     <Content Include="Web.config" />
     <Content Include="src\Admin\AdminMaster\Admin.Master" />
     <Content Include="src\Client\ClientMaster\Client.Master" />
+    <Content Include="src\Client\Client.sitemap" />
+    <Content Include="src\Admin\Admin.sitemap" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
