@@ -4,15 +4,159 @@
 
 <html>
 <head runat="server">
-    <title></title>
-    <asp:ContentPlaceHolder ID="head" runat="server">
-    </asp:ContentPlaceHolder>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OutModern Admin</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="<%= Page.ResolveClientUrl("~/favicon/favicon-32x32.png") %>">
+    <link rel="icon" type="image/png" sizes="16x16" href="<%= Page.ResolveClientUrl("~/favicon/favicon-16x16.png") %>">
+
+    <!-- import font type css-->
+    <link href="<%=Page.ResolveClientUrl("~/lib/fonts/ChakraPetch/ChakraPetch.css") %>" rel="stylesheet" />
+
+    <!-- import fontawesome css-->
+    <link href="<%= Page.ResolveClientUrl("~/lib/fontawesome/css/all.min.css") %>" rel="stylesheet" />
+
+    <!-- import tailwind js-->
+    <script src="<%= Page.ResolveClientUrl("~/lib/tailwind/tailwind.js") %>"></script>
+    <link href="css/AdminMaster.css" rel="stylesheet" />
+
+    <style type="text/tailwindcss">
+        @layer base {
+            h1 {
+                @apply text-3xl text-black font-bold;
+            }
+
+            h2 {
+                @apply text-2xl text-black font-bold;
+            }
+
+            h3 {
+                @apply text-xl text-black font-bold;
+            }
+        }
+
+        @layer components {
+            #side-menu .menu-title {
+                @apply mt-5 mb-2 text-xl mb-1;
+            }
+
+            #side-menu .menu-item {
+                @apply rounded-full py-2 pl-3 hover:bg-[#DBF0ED];
+            }
+
+                #side-menu .menu-item.active {
+                    @apply bg-[#94D4CA];
+                }
+        }
+    </style>
+
+    <asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
 </head>
 <body>
     <form id="form1" runat="server">
-        <div>
-            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-            </asp:ContentPlaceHolder>
+        <!-- Side menu -->
+        <div id="side-menu" class="float-left pt-2 drop-shadow px-5 bg-[#F8F8FA] basis-1 min-h-screen h-max">
+            <!-- Company name / logo -->
+            <div>
+                <h1 class="italic">OUTMODERN</h1>
+            </div>
+
+            <!-- main -->
+            <div>
+                <div class="menu-title">Main</div>
+                <asp:HyperLink runat="server" NavigateUrl="#">
+                   <div class="menu-item active">
+                        <i class="fa-regular fa-house fa-lg fa-fw mr-2"></i>
+                        Dashboard
+                    </div>
+                </asp:HyperLink>
+            </div>
+
+            <!-- Management -->
+            <div>
+                <div class="menu-title">Management</div>
+                <!--Staff-->
+                <asp:HyperLink runat="server" NavigateUrl="#">
+                    <div class="menu-item">
+                        <i class="fa-regular fa-user-tie fa-lg fa-fw mr-2"></i>
+                        Staff
+                    </div>
+                </asp:HyperLink>
+                <!--MarketPlace-->
+                <asp:HyperLink runat="server" NavigateUrl="#">
+                    <div class="menu-item">
+                        <i class="fa-regular fa-store fa-lg fa-fw mr-2"></i>
+                        MarketPlace
+                    </div>
+                </asp:HyperLink>
+                <!--Orders-->
+                <asp:HyperLink runat="server" NavigateUrl="#">
+                    <div class="menu-item">
+                        <i class="fa-regular fa-cart-circle-check fa-lg fa-fw mr-2"></i>
+                        Orders
+                    </div>
+                </asp:HyperLink>
+            </div>
+
+            <!-- Customer Relation -->
+            <div>
+                <div class="menu-title">Customer Relation</div>
+                <!--Customer-->
+                <asp:HyperLink runat="server" NavigateUrl="#">
+                    <div class="menu-item">
+                        <i class="fa-duotone fa-users fa-lg fa-fw mr-2"></i>
+                        Customer
+                    </div>
+                </asp:HyperLink>
+                <!--Promo Code-->
+                <asp:HyperLink runat="server" NavigateUrl="#">
+                    <div class="menu-item">
+                        <i class="fa-regular fa-tags fa-lg fa-fw mr-2"></i>
+                        Promo Code
+                    </div>
+                </asp:HyperLink>
+                <!--Feedback-->
+                <asp:HyperLink runat="server" NavigateUrl="#">
+                    <div class="menu-item">
+                        <i class="fa-regular fa-envelope fa-lg fa-fw mr-2"></i>
+                        Feedback
+                    </div>
+                </asp:HyperLink>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="overflow-hidden">
+            <!-- top  -->
+            <div id="top" class="h-12 py-2 box-border bg-[#f8f8fa] flex content-center items-center justify-between">
+                <!-- Left -->
+                <div class="flex items-center justify-between">
+                    <!--Collapse / open side menu button-->
+                    <div class="h-full py-1 px-2 text-center cursor-pointer rounded-xl hover:bg-[#DBF0ED]">
+                        <i class="fa-regular fa-bars fa-xl leading-8"></i>
+                    </div>
+
+                    <!-- Site Map -->
+                    <div class="">
+                        Dashboard > ... > ...
+                    <asp:SiteMapPath ID="sitemapAdmin" runat="server" SiteMapProvider="adminSiteMap"></asp:SiteMapPath>
+                    </div>
+                </div>
+
+                <!-- Right -->
+                <div>
+                    <!-- Search Bar -->
+                    <div class="relative py-1">
+                        <asp:TextBox CssClass="rounded-2xl self-center w-[100px] pl-[10px] pr-[30px] focus:w-[200px]" ID="txtSearch" runat="server"></asp:TextBox>
+                        <asp:LinkButton CssClass="absolute right-[10px] top-[2px] bottom-0 m-auto" ID="lBtnSearch" runat="server">
+                            <i class="fa-solid fa-magnifying-glass cursor pt-1.5 hover:text-black"></i>
+                        </asp:LinkButton>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
+            </div>
         </div>
     </form>
 </body>
