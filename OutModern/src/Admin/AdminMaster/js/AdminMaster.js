@@ -55,3 +55,19 @@
 
     });
 })();
+
+// Profile drop down and flip arrow 
+(() => {
+    const profile = document.querySelector("#nav-profile");
+    const profileArrowDown = profile.querySelector("i.fa-angle-down");
+
+    profile.addEventListener("mouseenter", () => {
+        profileArrowDown.classList.add("fa-rotate-180");
+
+    });
+
+    profile.addEventListener("mouseleave", () => {
+        profileArrowDown.classList.remove("fa-rotate-180");
+    });
+
+})();

@@ -85,7 +85,7 @@
             <!-- main -->
             <div class="mt-5">
                 <div class="menu-title">Main</div>
-                <asp:HyperLink runat="server" NavigateUrl="#" ToolTip="Overall performace, report">
+                <asp:HyperLink runat="server" NavigateUrl="<%# dashboardUrl %>" ToolTip="Overall performace, report">
                    <div class="menu-item active">
                         <i class="fa-regular fa-house fa-lg mr-2"></i>
                         <span class="menu-item-text">Dashboard</span>
@@ -97,21 +97,21 @@
             <div class="mt-5">
                 <div class="menu-title">Management</div>
                 <!--Staff-->
-                <asp:HyperLink runat="server" NavigateUrl="#" ToolTip="Manage staff, access level">
+                <asp:HyperLink runat="server" NavigateUrl="<%# staffUrl %>" ToolTip="Manage staff, access level">
                     <div class="menu-item">
                         <i class="fa-regular fa-user-tie fa-lg fa-fw mr-2"></i>
                         <span class="menu-item-text">Staff</span>
                     </div>
                 </asp:HyperLink>
                 <!--MarketPlace-->
-                <asp:HyperLink runat="server" NavigateUrl="#" ToolTip="Manage product being sold">
+                <asp:HyperLink runat="server" NavigateUrl="<%# marketUrl %>" ToolTip="Manage product being sold">
                     <div class="menu-item">
                         <i class="fa-regular fa-store fa-lg fa-fw mr-2"></i>
                         <span class="menu-item-text">MarketPlace</span>
                     </div>
                 </asp:HyperLink>
                 <!--Orders-->
-                <asp:HyperLink runat="server" NavigateUrl="#" ToolTip="Manage current orders">
+                <asp:HyperLink runat="server" NavigateUrl="<%# ordersUrl %>" ToolTip="Manage current orders">
                     <div class="menu-item">
                         <i class="fa-regular fa-cart-circle-check fa-lg fa-fw mr-2"></i>
                         <span class="menu-item-text">Orders</span>
@@ -123,21 +123,21 @@
             <div class="mt-5">
                 <div class="menu-title">Customer Relation</div>
                 <!--Customer-->
-                <asp:HyperLink runat="server" NavigateUrl="#" ToolTip="Manage registered customer">
+                <asp:HyperLink runat="server" NavigateUrl="<%# customerUrl %>" ToolTip="Manage registered customer">
                     <div class="menu-item">
                         <i class="fa-duotone fa-users fa-lg fa-fw"></i>
                         <span class="menu-item-text">Customer</span>
                     </div>
                 </asp:HyperLink>
                 <!--Promo Code-->
-                <asp:HyperLink runat="server" NavigateUrl="#" ToolTip="Set Promotion code for discount">
+                <asp:HyperLink runat="server" NavigateUrl="<%# promoUrl %>" ToolTip="Set Promotion code for discount">
                     <div class="menu-item">
                         <i class="fa-regular fa-tags fa-lg fa-fw"></i>
-                        <span class="menu-item-text">Code</span>
+                        <span class="menu-item-text">Promo Code</span>
                     </div>
                 </asp:HyperLink>
                 <!--Feedback-->
-                <asp:HyperLink runat="server" NavigateUrl="#" ToolTip="Feedback  by Customer">
+                <asp:HyperLink runat="server" NavigateUrl="<%# feedbackUrl %>" ToolTip="Feedback  by Customer">
                     <div class="menu-item">
                         <i class="fa-regular fa-envelope fa-lg fa-fw"></i>
                         <span class="menu-item-text">Feedback</span>
@@ -188,7 +188,7 @@
                     </div>
 
                     <!-- Profile -->
-                    <div class="drop-down group mr-2">
+                    <div id="nav-profile" class="drop-down group mr-2">
                         <asp:Image ID="imgProfile" CssClass="object-cover rounded-full w-9 h-9" runat="server" ImageUrl="~/images/about_us_img/img(b).jpg" />
                         <div id="current-username" class="mx-1">
                             Gan Zhi Ken

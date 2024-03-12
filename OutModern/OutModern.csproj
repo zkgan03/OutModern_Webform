@@ -44,6 +44,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -61,11 +64,6 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
-      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\OutModern.mdf" />
@@ -514,12 +512,12 @@
     <Content Include="lib\fonts\ChakraPetch\ChakraPetch-Regular.ttf" />
     <Content Include="lib\fonts\ChakraPetch\ChakraPetch-SemiBold.ttf" />
     <Content Include="lib\fonts\ChakraPetch\ChakraPetch-SemiBoldItalic.ttf" />
-    <None Include="packages.config" />
     <Content Include="Web.config" />
     <Content Include="src\Admin\AdminMaster\Admin.Master" />
     <Content Include="src\Client\ClientMaster\Client.Master" />
     <Content Include="src\Client\Client.sitemap" />
     <Content Include="src\Admin\Admin.sitemap" />
+    <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
