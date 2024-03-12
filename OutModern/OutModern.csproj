@@ -16,11 +16,13 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>
-    </IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>44338</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -68,6 +70,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\Client\ProductDetails\ProductDetails.aspx.cs">
+      <DependentUpon>ProductDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\ProductDetails\ProductDetails.aspx.designer.cs">
+      <DependentUpon>ProductDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\Products\Products.aspx.cs">
+      <DependentUpon>Products.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\Products\Products.aspx.designer.cs">
+      <DependentUpon>Products.aspx</DependentUpon>
+    </Compile>
     <Content Include="App_Data\OutModern.mdf" />
     <Content Include="App_Data\OutModern_log.ldf">
       <DependentUpon>OutModern.mdf</DependentUpon>
@@ -511,6 +527,8 @@
     <Content Include="lib\fonts\ChakraPetch\ChakraPetch-SemiBold.ttf" />
     <Content Include="lib\fonts\ChakraPetch\ChakraPetch-SemiBoldItalic.ttf" />
     <None Include="packages.config" />
+    <Content Include="src\Client\ProductDetails\ProductDetails.aspx" />
+    <Content Include="src\Client\Products\Products.aspx" />
     <Content Include="Web.config" />
     <Content Include="src\Admin\AdminMaster\Admin.Master" />
     <Content Include="src\Client\ClientMaster\Client.Master" />
