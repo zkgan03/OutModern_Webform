@@ -85,6 +85,7 @@
     <Content Include="favicon\favicon-16x16.png" />
     <Content Include="favicon\favicon-32x32.png" />
     <Content Include="favicon\favicon.ico" />
+    <Content Include="images\paypal.png" />
     <Content Include="images\about_us_img\aboutUs%281%29.jpg" />
     <Content Include="images\about_us_img\happy.jpg" />
     <Content Include="images\about_us_img\img%28a%29.jpg" />
@@ -536,6 +537,8 @@
     <Folder Include="src\Client\Cart\" />
     <Folder Include="src\Client\Home\css\" />
     <Folder Include="src\Client\Home\js\" />
+    <Folder Include="src\Client\Payment\css\" />
+    <Folder Include="src\Client\Payment\js\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
