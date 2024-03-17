@@ -66,6 +66,13 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\ErrorPages\404.aspx.cs">
+      <DependentUpon>404.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\ErrorPages\404.aspx.designer.cs">
+      <DependentUpon>404.aspx</DependentUpon>
+    </Compile>
     <Content Include="App_Data\OutModern.mdf" />
     <Content Include="App_Data\OutModern_log.ldf">
       <DependentUpon>OutModern.mdf</DependentUpon>
@@ -441,7 +448,14 @@
     <Content Include="lib\tailwind\tailwind.js" />
     <Content Include="src\Admin\AdminMaster\css\AdminMaster.css" />
     <Content Include="src\Admin\AdminMaster\js\AdminMaster.js" />
+    <Content Include="src\Admin\Customers\Customers.aspx" />
     <Content Include="src\Admin\Dashboard\Dashboard.aspx" />
+    <Content Include="src\Admin\Feedback\Feedback.aspx" />
+    <Content Include="src\Admin\Orders\Orders.aspx" />
+    <Content Include="src\Admin\Products\Products.aspx" />
+    <Content Include="src\Admin\PromoCode\PromoCode.aspx" />
+    <Content Include="src\Admin\Setting\Setting.aspx" />
+    <Content Include="src\Admin\Staffs\Staffs.aspx" />
     <Content Include="src\Client\ClientMaster\css\ClientMaster.css" />
     <Content Include="src\Client\ClientMaster\js\ClientMaster.js" />
     <Content Include="src\Client\Home\Home.aspx" />
@@ -452,12 +466,61 @@
     <Compile Include="src\Admin\AdminMaster\Admin.Master.designer.cs">
       <DependentUpon>Admin.Master</DependentUpon>
     </Compile>
+    <Compile Include="src\Admin\Customers\Customers.aspx.cs">
+      <DependentUpon>Customers.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Admin\Customers\Customers.aspx.designer.cs">
+      <DependentUpon>Customers.aspx</DependentUpon>
+    </Compile>
     <Compile Include="src\Admin\Dashboard\Dashboard.aspx.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="src\Admin\Dashboard\Dashboard.aspx.designer.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Admin\Feedback\Feedback.aspx.cs">
+      <DependentUpon>Feedback.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Admin\Feedback\Feedback.aspx.designer.cs">
+      <DependentUpon>Feedback.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Admin\Orders\Orders.aspx.cs">
+      <DependentUpon>Orders.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Admin\Orders\Orders.aspx.designer.cs">
+      <DependentUpon>Orders.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Admin\Products\Products.aspx.cs">
+      <DependentUpon>Products.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Admin\Products\Products.aspx.designer.cs">
+      <DependentUpon>Products.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Admin\PromoCode\PromoCode.aspx.cs">
+      <DependentUpon>PromoCode.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Admin\PromoCode\PromoCode.aspx.designer.cs">
+      <DependentUpon>PromoCode.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Admin\Setting\Setting.aspx.cs">
+      <DependentUpon>Setting.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Admin\Setting\Setting.aspx.designer.cs">
+      <DependentUpon>Setting.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Admin\Staffs\Staffs.aspx.cs">
+      <DependentUpon>Staffs.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Admin\Staffs\Staffs.aspx.designer.cs">
+      <DependentUpon>Staffs.aspx</DependentUpon>
     </Compile>
     <Compile Include="src\Client\ClientMaster\Client.Master.cs">
       <DependentUpon>Client.Master</DependentUpon>
@@ -512,6 +575,7 @@
     <Content Include="lib\fonts\ChakraPetch\ChakraPetch-Regular.ttf" />
     <Content Include="lib\fonts\ChakraPetch\ChakraPetch-SemiBold.ttf" />
     <Content Include="lib\fonts\ChakraPetch\ChakraPetch-SemiBoldItalic.ttf" />
+    <Content Include="src\ErrorPages\404.aspx" />
     <Content Include="Web.config" />
     <Content Include="src\Admin\AdminMaster\Admin.Master" />
     <Content Include="src\Client\ClientMaster\Client.Master" />
@@ -526,6 +590,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="src\Admin\Staffs\js\" />
     <Folder Include="src\Client\Home\css\" />
     <Folder Include="src\Client\Home\js\" />
   </ItemGroup>
