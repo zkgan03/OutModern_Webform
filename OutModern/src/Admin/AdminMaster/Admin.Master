@@ -48,9 +48,9 @@
                 @apply block rounded-full py-2 pl-3 hover:bg-[#DBF0ED] relative;
             }
 
-                #side-menu a.active {
-                    @apply bg-[#94D4CA];
-                }
+            a.active {
+                @apply bg-[#94D4CA];
+            }
 
 
             #side-menu .menu-item .menu-item-text {
@@ -79,91 +79,92 @@
 </head>
 <body>
     <form id="form1" runat="server">
-
         <!-- Container -->
-        <div class="flex">
+        <div class="flex items-stretch">
             <!-- Side menu -->
-            <div id="side-menu" class="pt-2 drop-shadow px-5 bg-[#F8F8FA] min-h-screen h-max">
-                <!-- Company name / logo -->
-                <div id="companyLogo" class="relative">
-                    <asp:Image ID="imgLogo" CssClass="transition-none absolute inset-0 m-auto w-0" runat="server" ImageUrl="~/images/logo-admin.png?a=1" />
-                    <h1 class="italic overflow-hidden ">OUTMODERN</h1>
-                </div>
+            <div id="side-menu" class="drop-shadow px-5 bg-[#F8F8FA]">
+                <div class="sticky top-0 pt-2">
+                    <!-- Company name / logo -->
+                    <div id="companyLogo" class="relative">
+                        <asp:Image ID="imgLogo" CssClass="transition-none absolute inset-0 m-auto w-0" runat="server" ImageUrl="~/images/logo-admin.png?a=1" />
+                        <h1 class="italic overflow-hidden ">OUTMODERN</h1>
+                    </div>
 
-                <!-- main -->
-                <div class="mt-5">
-                    <div class="menu-title">Main</div>
+                    <!-- main -->
+                    <div class="mt-5">
+                        <div class="menu-title">Main</div>
 
-                    <!--Dashboard-->
-                    <asp:HyperLink runat="server" ID="hyperlinkDashboard" NavigateUrl='<%# urls[Dashboard] %>' ToolTip="Overall performace, report">
+                        <!--Dashboard-->
+                        <asp:HyperLink runat="server" ID="hyperlinkDashboard" NavigateUrl='<%# urls[Dashboard] %>' ToolTip="Overall performace, report">
                        <div class="menu-item">
                             <i class="fa-regular fa-house fa-lg mr-2"></i>
                             <span class="menu-item-text">Dashboard</span>
                         </div>
-                    </asp:HyperLink>
-                </div>
+                        </asp:HyperLink>
+                    </div>
 
-                <!-- Management -->
-                <div class="mt-5">
-                    <div class="menu-title">Management</div>
-                    <!--Staff-->
-                    <asp:HyperLink runat="server" ID="hyperlinkStaffs" NavigateUrl='<%# urls[Staffs] %>' ToolTip="Manage staff, access level">
+                    <!-- Management -->
+                    <div class="mt-5">
+                        <div class="menu-title">Management</div>
+                        <!--Staff-->
+                        <asp:HyperLink runat="server" ID="hyperlinkStaffs" NavigateUrl='<%# urls[Staffs] %>' ToolTip="Manage staff, access level">
                         <div class="menu-item">
                             <i class="fa-regular fa-user-tie fa-lg fa-fw mr-2"></i>
                             <span class="menu-item-text">Staffs</span>
                         </div>
-                    </asp:HyperLink>
-                    <!--Products-->
-                    <asp:HyperLink runat="server" ID="hyperlinkProducts" NavigateUrl='<%# urls[Products] %>' ToolTip="Manage product being sold">
+                        </asp:HyperLink>
+                        <!--Products-->
+                        <asp:HyperLink runat="server" ID="hyperlinkProducts" NavigateUrl='<%# urls[Products] %>' ToolTip="Manage product being sold">
                     <div class="menu-item">
                         <i class="fa-regular fa-store fa-lg fa-fw mr-2"></i>
                         <span class="menu-item-text">Products</span>
                     </div>
-                    </asp:HyperLink>
-                    <!--Orders-->
-                    <asp:HyperLink runat="server" ID="hyperlinkOrders" NavigateUrl='<%# urls[Orders]  %>' ToolTip="Manage current orders">
+                        </asp:HyperLink>
+                        <!--Orders-->
+                        <asp:HyperLink runat="server" ID="hyperlinkOrders" NavigateUrl='<%# urls[Orders]  %>' ToolTip="Manage current orders">
                     <div class="menu-item">
                         <i class="fa-regular fa-cart-circle-check fa-lg fa-fw mr-2"></i>
                         <span class="menu-item-text">Orders</span>
                     </div>
-                    </asp:HyperLink>
-                </div>
+                        </asp:HyperLink>
+                    </div>
 
-                <!-- Customer Relation -->
-                <div class="mt-5">
-                    <div class="menu-title">Customer Relation</div>
-                    <!--Customers-->
-                    <asp:HyperLink runat="server" ID="hyperlinkCustomers" NavigateUrl='<%# urls[Customers]  %>' ToolTip="Manage registered customer">
+                    <!-- Customer Relation -->
+                    <div class="mt-5">
+                        <div class="menu-title">Customer Relation</div>
+                        <!--Customers-->
+                        <asp:HyperLink runat="server" ID="hyperlinkCustomers" NavigateUrl='<%# urls[Customers]  %>' ToolTip="Manage registered customer">
                     <div class="menu-item">
-                        <i class="fa-duotone fa-users fa-lg fa-fw"></i>
+                        <i class="fa-duotone fa-users fa-lg fa-fw mr-2"></i>
                         <span class="menu-item-text">Customers</span>
                     </div>
-                    </asp:HyperLink>
-                    <!--Promo Code-->
-                    <asp:HyperLink runat="server" ID="hyperlinkPromoCode" NavigateUrl='<%# urls[PromoCode] %>' ToolTip="Set Promotion code for discount">
+                        </asp:HyperLink>
+                        <!--Promo Code-->
+                        <asp:HyperLink runat="server" ID="hyperlinkPromoCode" NavigateUrl='<%# urls[PromoCode] %>' ToolTip="Set Promotion code for discount">
                     <div class="menu-item">
-                        <i class="fa-regular fa-tags fa-lg fa-fw"></i>
+                        <i class="fa-regular fa-tags fa-lg fa-fw mr-2"></i>
                         <span class="menu-item-text">Promo Code</span>
                     </div>
-                    </asp:HyperLink>
-                    <!--Feedback-->
-                    <asp:HyperLink runat="server" ID="hyperlinkFeedback" NavigateUrl='<%# urls[Feedback]  %>' ToolTip="Feedback  by Customer">
+                        </asp:HyperLink>
+                        <!--Feedback-->
+                        <asp:HyperLink runat="server" ID="hyperlinkFeedback" NavigateUrl='<%# urls[Feedback]  %>' ToolTip="Feedback  by Customer">
                     <div class="menu-item">
-                        <i class="fa-regular fa-envelope fa-lg fa-fw"></i>
+                        <i class="fa-regular fa-envelope fa-lg fa-fw mr-2"></i>
                         <span class="menu-item-text">Feedback</span>
                         <span class="item-notification-num absolute bg-red-500 
                             text-white text-center leading-6 rounded-full w-6 h-6
                             right-2 top-2
                             ">10</span>
                     </div>
-                    </asp:HyperLink>
+                        </asp:HyperLink>
+                    </div>
                 </div>
             </div>
 
             <!-- Main content -->
             <div class="flex-1">
                 <!-- top -->
-                <div id="top" class="h-14 py-2 box-border bg-[#f8f8fa] flex content-center items-center justify-between">
+                <div id="top" class="drop-shadow sticky z-10 top-0 h-14 py-2 box-border bg-[#f8f8fa] flex content-center items-center justify-between">
                     <!-- Left -->
                     <div class="flex items-center h-full">
 
@@ -174,26 +175,26 @@
 
                         <!-- Site Map -->
                         <div class="ml-1">
-                            <asp:SiteMapPath ID="sitemapAdmin" runat="server" SiteMapProvider="adminSiteMap"></asp:SiteMapPath>
+                            <asp:SiteMapPath ID="sitemapAdmin" runat="server" SiteMapProvider="adminSiteMap">
+                            </asp:SiteMapPath>
                         </div>
                     </div>
 
                     <!-- Right -->
                     <div class="flex flex-1 flex-row items-center h-full">
+
                         <!-- Search Bar -->
-                        <div class="relative group ml-auto flex-grow-0 transition-none focus-within:flex-grow pl-5">
-                            <asp:TextBox placeholder="Search in current page" CssClass="transition-none rounded-2xl self-center w-56 pl-[10px] pr-[30px] border border-zinc-950 group-focus-within:w-full" ID="txtSearch" runat="server"></asp:TextBox>
+                        <div class="relative group ml-auto pl-5">
+                            <asp:TextBox placeholder="Search in current page" CssClass="rounded-2xl self-center w-56 pl-[10px] pr-[30px] border border-zinc-950 group-focus-within:w-96" ID="txtSearch" runat="server"></asp:TextBox>
                             <asp:LinkButton CssClass="absolute right-[8px] top-[1px]" ID="lBtnSearch" runat="server">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                             </asp:LinkButton>
                         </div>
 
-                        <!-- Porfile Setting -->
-                        <div class="icon-button-bg ml-1">
-                            <asp:HyperLink ID="hyperlinkSetting" runat="server" NavigateUrl='<%# urls[Setting] %>'>
+                        <!-- Profile Setting -->
+                        <asp:HyperLink ID="hyperlinkSetting" runat="server" CssClass="icon-button-bg ml-1" NavigateUrl='<%# urls[Setting] %>'>
                             <i class="fa-regular fa-gear fa-xl"></i>
-                            </asp:HyperLink>
-                        </div>
+                        </asp:HyperLink>
 
                         <!-- Profile -->
                         <div id="nav-profile" class="drop-down group mr-2">
@@ -226,6 +227,11 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- Scroll Top -->
+        <div id="scrollTopBtn" class="hover:opacity-50 cursor-pointer fixed bottom-5 right-[-5rem] size-10 rounded-full border text-center leading-10 bg-black">
+            <i class="fa-regular fa-chevron-up text-white hover:text-white"></i>
         </div>
     </form>
 

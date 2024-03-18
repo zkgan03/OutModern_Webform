@@ -28,7 +28,7 @@
     let header = document.getElementById("header");
 
     window.addEventListener("scroll", () => {
-        if (document.documentElement.scrollTop <= 40) {
+        if (document.documentElement.scrollTop <= 40 || document.body.scrollTop <= 40) {
 
             if (!header.classList.contains("header-scroll")) return;
             header.classList.remove("header-scroll");
@@ -43,7 +43,7 @@
             // navigation bar transition
             header.querySelector("#top-nav").style.marginRight = "5rem";
         }
-        else if (document.documentElement.scrollTop > 40) {
+        else if (document.documentElement.scrollTop > 40 || document.body.scrollTop > 40) {
 
             header.classList.add("header-scroll")
 

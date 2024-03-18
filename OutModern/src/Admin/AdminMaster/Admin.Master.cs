@@ -57,7 +57,7 @@ namespace OutModern.src.Admin.AdminMaster
                     HyperLink hyperlink = FindControl("hyperlink" + item.Key) as HyperLink;
                     if (hyperlink != null)
                     {
-                        hyperlink.CssClass = "active";
+                        hyperlink.CssClass = hyperlink.CssClass + " active";
                         break; // Exit loop once active hyperlink is found
                     }
                 }

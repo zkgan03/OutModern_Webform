@@ -3,7 +3,12 @@
 	<siteMapNode url="" title="Panel"  description="">
 		<siteMapNode url="~/src/Admin/Dashboard/Dashboard.aspx" title="Dashboard"  description="" />
 		<siteMapNode url="~/src/Admin/Staffs/Staffs.aspx" title="Staffs"  description="" />
-		<siteMapNode url="~/src/Admin/Products/Products.aspx" title="Products"  description="" />
+
+		<siteMapNode url="~/src/Admin/Products/Products.aspx" title="Products"  description="" >
+			<siteMapNode url="~/src/Admin/ProductDetails/ProductDetails.aspx" title="Product Details" />
+			<siteMapNode url="~/src/Admin/ProductAdd/ProductAdd.aspx" title="Add New Product" />
+		</siteMapNode>
+
 		<siteMapNode url="~/src/Admin/Orders/Orders.aspx" title="Orders"  description="" />
 		<siteMapNode url="~/src/Admin/Customers/Customers.aspx" title="Customers"  description="" />
 		<siteMapNode url="~/src/Admin/PromoCode/PromoCode.aspx" title="PromoCode"  description="" />

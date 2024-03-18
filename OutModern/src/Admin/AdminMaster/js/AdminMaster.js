@@ -143,4 +143,21 @@
 
 })();
 
+//Scroll Top Button
+(() => {
+    scrollTopBtn = document.querySelector("#scrollTopBtn");
+
+    scrollTopBtn.addEventListener("click", () => {
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+    })
+
+    window.onscroll = () => {
+        if (document.documentElement.scrollTop > 79 || document.body.scrollTop > 79) {
+            scrollTopBtn.style.right = "1.25rem";
+        } else {
+            scrollTopBtn.style.right = "-5rem";
+        }
+    }
+})();
 

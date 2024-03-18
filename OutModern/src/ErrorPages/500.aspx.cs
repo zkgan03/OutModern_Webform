@@ -5,9 +5,9 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace OutModern.src.Admin.Staffs
+namespace OutModern.src.ErrorPages
 {
-    public partial class Staffs : System.Web.UI.Page
+    public partial class _500 : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

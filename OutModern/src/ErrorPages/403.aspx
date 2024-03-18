@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="404.aspx.cs" Inherits="OutModern.src.ErrorPages._404" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="403.aspx.cs" Inherits="OutModern.src.ErrorPages._403" %>
 
 <!DOCTYPE html>
 
@@ -9,7 +9,7 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            404 Page Not Found
+            403 Error
         </div>
     </form>
 </body>
