@@ -24,6 +24,15 @@ namespace OutModern.Client.Payment
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl paymentMethod;
 
         /// <summary>
+        /// lblCreditCardContainer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCreditCardContainer;
+
+        /// <summary>
         /// imgCreditCard control.
         /// </summary>
         /// <remarks>
@@ -31,15 +40,6 @@ namespace OutModern.Client.Payment
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Image imgCreditCard;
-
-        /// <summary>
-        /// lblCreditCard control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCreditCard;
 
         /// <summary>
         /// creditCard control.
@@ -51,6 +51,15 @@ namespace OutModern.Client.Payment
         protected global::System.Web.UI.WebControls.RadioButton creditCard;
 
         /// <summary>
+        /// lblPaypalContainer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblPaypalContainer;
+
+        /// <summary>
         /// imgPaypal control.
         /// </summary>
         /// <remarks>
@@ -58,15 +67,6 @@ namespace OutModern.Client.Payment
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Image imgPaypal;
-
-        /// <summary>
-        /// lblPaypal control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPaypal;
 
         /// <summary>
         /// paypal control.
@@ -229,6 +229,42 @@ namespace OutModern.Client.Payment
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl orderSummary;
+
+        /// <summary>
+        /// lblItemPrice control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblItemPrice;
+
+        /// <summary>
+        /// lvlDeliveryCost control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lvlDeliveryCost;
+
+        /// <summary>
+        /// lblText control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblText;
+
+        /// <summary>
+        /// lblTotal control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTotal;
 
         /// <summary>
         /// btnSubmitOrder control.
