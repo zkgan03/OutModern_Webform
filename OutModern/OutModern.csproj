@@ -441,6 +441,7 @@
     <Content Include="lib\tailwind\tailwind.js" />
     <Content Include="src\Admin\AdminMaster\css\AdminMaster.css" />
     <Content Include="src\Admin\Dashboard\Dashboard.aspx" />
+    <Content Include="src\Client\Cart\Cart.aspx" />
     <Content Include="src\Client\ClientMaster\css\ClientMaster.css" />
     <Content Include="src\Client\ClientMaster\js\ClientMaster.js" />
     <Content Include="src\Client\Home\Home.aspx" />
@@ -457,6 +458,13 @@
     </Compile>
     <Compile Include="src\Admin\Dashboard\Dashboard.aspx.designer.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\Cart\Cart.aspx.cs">
+      <DependentUpon>Cart.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\Cart\Cart.aspx.designer.cs">
+      <DependentUpon>Cart.aspx</DependentUpon>
     </Compile>
     <Compile Include="src\Client\ClientMaster\Client.Master.cs">
       <DependentUpon>Client.Master</DependentUpon>
