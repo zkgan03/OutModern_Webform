@@ -7,164 +7,128 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OutModern.src.Admin.AdminMaster
+namespace OutModern.src.Admin.ProductEdit
 {
 
 
-    public partial class Site1
+    public partial class ProductEdit
     {
 
         /// <summary>
-        /// head control.
+        /// HyperLink1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder head;
+        protected global::System.Web.UI.WebControls.HyperLink HyperLink1;
 
         /// <summary>
-        /// form1 control.
+        /// HyperLink2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.WebControls.HyperLink HyperLink2;
 
         /// <summary>
-        /// sm control.
+        /// txtProdId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.ScriptManager sm;
+        protected global::System.Web.UI.WebControls.TextBox txtProdId;
 
         /// <summary>
-        /// imgLogo control.
+        /// txtProdName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgLogo;
+        protected global::System.Web.UI.WebControls.TextBox txtProdName;
 
         /// <summary>
-        /// hyperlinkDashboard control.
+        /// ddlProdCat control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hyperlinkDashboard;
+        protected global::System.Web.UI.WebControls.DropDownList ddlProdCat;
 
         /// <summary>
-        /// hyperlinkStaffs control.
+        /// txtProdPrice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hyperlinkStaffs;
+        protected global::System.Web.UI.WebControls.TextBox txtProdPrice;
 
         /// <summary>
-        /// hyperlinkProducts control.
+        /// txtProdQuantity control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hyperlinkProducts;
+        protected global::System.Web.UI.WebControls.TextBox txtProdQuantity;
 
         /// <summary>
-        /// hyperlinkOrders control.
+        /// ddlProdStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hyperlinkOrders;
+        protected global::System.Web.UI.WebControls.DropDownList ddlProdStatus;
 
         /// <summary>
-        /// hyperlinkCustomers control.
+        /// ddlColor control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hyperlinkCustomers;
+        protected global::System.Web.UI.WebControls.DropDownList ddlColor;
 
         /// <summary>
-        /// hyperlinkPromoCode control.
+        /// imgProd1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hyperlinkPromoCode;
+        protected global::System.Web.UI.WebControls.Image imgProd1;
 
         /// <summary>
-        /// hyperlinkFeedback control.
+        /// imgProd2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hyperlinkFeedback;
+        protected global::System.Web.UI.WebControls.Image imgProd2;
 
         /// <summary>
-        /// sitemapAdmin control.
+        /// imgProd3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.SiteMapPath sitemapAdmin;
+        protected global::System.Web.UI.WebControls.Image imgProd3;
 
         /// <summary>
-        /// txtSearch control.
+        /// fileImgUpload control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSearch;
-
-        /// <summary>
-        /// lBtnSearch control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lBtnSearch;
-
-        /// <summary>
-        /// hyperlinkSetting control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hyperlinkSetting;
-
-        /// <summary>
-        /// linkBtnLogout control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton linkBtnLogout;
-
-        /// <summary>
-        /// ContentPlaceHolder1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder1;
+        protected global::System.Web.UI.WebControls.FileUpload fileImgUpload;
     }
 }

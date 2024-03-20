@@ -5,7 +5,9 @@
 		<siteMapNode url="~/src/Admin/Staffs/Staffs.aspx" title="Staffs"  description="" />
 
 		<siteMapNode url="~/src/Admin/Products/Products.aspx" title="Products"  description="" >
-			<siteMapNode url="~/src/Admin/ProductDetails/ProductDetails.aspx" title="Product Details" />
+			<siteMapNode url="~/src/Admin/ProductDetails/ProductDetails.aspx" title="Product Details" >
+				<siteMapNode url="~/src/Admin/ProductEdit/ProductEdit.aspx" title="Edit Product"/>
+			</siteMapNode>
 			<siteMapNode url="~/src/Admin/ProductAdd/ProductAdd.aspx" title="Add New Product" />
 		</siteMapNode>
 

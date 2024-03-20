@@ -37,16 +37,29 @@
             i {
                 @apply hover:text-black;
             }
+
+            input {
+                @apply border border-black rounded pl-2;
+            }
+
+            select {
+                @apply border border-black rounded pl-2;
+            }
         }
 
         @layer components {
-            #side-menu .menu-title {
-                @apply mb-2 text-xl mb-1 overflow-hidden text-nowrap;
+
+            #side-menu {
+                @apply drop-shadow px-5 bg-[#F8F8FA] min-h-screen;
             }
 
-            #side-menu a {
-                @apply block rounded-full py-2 pl-3 hover:bg-[#DBF0ED] relative;
-            }
+                #side-menu .menu-title {
+                    @apply mb-2 text-xl mb-1 overflow-hidden text-nowrap;
+                }
+
+                #side-menu a {
+                    @apply block rounded-full py-2 pl-3 hover:bg-[#DBF0ED] relative;
+                }
 
             a.active {
                 @apply bg-[#94D4CA];
@@ -82,7 +95,7 @@
         <!-- Container -->
         <div class="flex items-stretch">
             <!-- Side menu -->
-            <div id="side-menu" class="drop-shadow px-5 bg-[#F8F8FA]">
+            <div id="side-menu">
                 <div class="sticky top-0 pt-2">
                     <!-- Company name / logo -->
                     <div id="companyLogo" class="relative">
@@ -164,7 +177,7 @@
             <!-- Main content -->
             <div class="flex-1">
                 <!-- top -->
-                <div id="top" class="drop-shadow sticky z-10 top-0 h-14 py-2 box-border bg-[#f8f8fa] flex content-center items-center justify-between">
+                <div id="top" class="drop-shadow sticky z-10 top-0 h-14 box-border bg-[#f8f8fa] flex content-center items-center justify-between">
                     <!-- Left -->
                     <div class="flex items-center h-full">
 
@@ -217,10 +230,12 @@
 
                 <!-- Page Content -->
                 <div class="p-2">
+
                     <!-- Server Time-->
-                    <div class="text-center ">
-                        Server Time : <%=DateTime.Now%>
+                    <div class="text-center">
+                        Server Time : <%= DateTime.Now %>
                     </div>
+
                     <!-- Main content -->
                     <div>
                         <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
@@ -236,5 +251,9 @@
     </form>
 
     <script src="<%= Page.ResolveClientUrl("~/src/Admin/AdminMaster/js/AdminMaster.js") %>"></script>
+
+    <script>
+</script>
+
 </body>
 </html>

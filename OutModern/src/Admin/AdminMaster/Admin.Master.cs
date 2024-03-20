@@ -39,7 +39,6 @@ namespace OutModern.src.Admin.AdminMaster
             {
                 setMenuActive();
             }
-
             Page.DataBind(); // data bind
         }
 
@@ -63,5 +62,6 @@ namespace OutModern.src.Admin.AdminMaster
                 }
             }
         }
+
     }
 }

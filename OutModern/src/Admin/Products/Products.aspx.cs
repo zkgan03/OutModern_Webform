@@ -13,7 +13,6 @@ namespace OutModern.src.Admin.Products
         protected static readonly string ProductAdd = "ProductAdd";
         protected static readonly string ProductDetails = "ProductDetails";
 
-
         // Side menu urls
         protected Dictionary<string, string> urls = new Dictionary<string, string>()
         {
