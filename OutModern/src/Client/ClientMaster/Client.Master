@@ -66,255 +66,229 @@
 </head>
 <body>
     <form id="form1" runat="server">
-            <!-- container -->
-            <div class="w-[100%] m-auto bg-[#f5f5f5]">
+        <!-- container -->
+        <div class="w-[100%] m-auto bg-[#f5f5f5]">
 
-                <!-- Ads -->
-                <div class="nav-ads flex relative text-center bg-[#626262] h-10 text-white justify-center items-center">
-                    Buy over RM100 to get free shipping now !
+            <!-- Ads -->
+            <div class="nav-ads flex relative text-center bg-[#626262] h-10 text-white justify-center items-center">
+                Buy over RM100 to get free shipping now !
                     <i class="fa-solid fa-xmark absolute top-[10px] right-[10px] cursor-pointer"
                         style="color: #ffffff; font-size: 20px;"></i>
-                </div>
+            </div>
 
-                <!-- Header -->
-                <header id="header" class="header">
-                    <!-- Logo -->
-                    <div id="nav-logo" class="relative flex items-center justify-center ml-20 mr-20">
+            <!-- Header -->
+            <header class="bg-white shadow">
+                <nav class="container mx-auto flex items-center justify-between py-4">
+                    <div class="flex items-center">
                         <asp:HyperLink ID="hyperlinkLogo" runat="server" NavigateUrl="~/src/Client/Home/Home.aspx">
-                            <h1 id="outmodern-header" class="text-[0px] absolute h-fit left-0 top-0 bottom-0 m-auto">OUTMODERN</h1>
-                            <asp:Image ID="Image1" Width="115px" ImageUrl="~/images/logo2.png" runat="server" />
+                            <h1 class="text-2xl font-bold text-gray-800">OUTMODERN</h1>
                         </asp:HyperLink>
                     </div>
-
-                    <!-- Top navigation bar-->
-                    <nav id="top-nav" class="flex items-center justify-around w-[60%] mr-20">
-                        <!-- home-nav-->
-                        <asp:HyperLink ID="hyperlinkHome" CssClass="top-nav-item py-1" runat="server" NavigateUrl="~/src/Client/Home/Home.aspx">
-                            Home
-                        </asp:HyperLink>
-
-                        <!-- about-nav-->
-                        <asp:HyperLink ID="hyperlinkAbout" CssClass="top-nav-item py-1" runat="server" NavigateUrl="#">
-                            About Us
-                        </asp:HyperLink>
-
-                        <!-- Categories-nav-->
-                        <div class="nav-dropdown text-xl  group relative py-1.5 hover:text-black cursor-pointer">
-                            Categories
-                            <i class="fa-solid fa-angle-down align-middle group-hover:text-black"></i>
-                            <div class="drop-down">
+                    <div class="flex items-center space-x-6">
+                        <asp:HyperLink ID="hyperlinkHome" CssClass="text-gray-600 hover:text-gray-800" runat="server" NavigateUrl="~/src/Client/Home/Home.aspx">Home</asp:HyperLink>
+                        <asp:HyperLink ID="hyperlinkAbout" CssClass="text-gray-600 hover:text-gray-800" runat="server" NavigateUrl="#">About Us</asp:HyperLink>
+                        <div class="relative group">
+                            <span class="text-gray-600 hover:text-gray-800 cursor-pointer">Categories</span>
+                            <i class="fa-solid fa-angle-down align-middle group-hover:text-gray-800"></i>
+                            <div class="absolute z-10 bg-white shadow-lg p-4 rounded-lg mt-2 hidden group-hover:block">
                                 <ul>
                                     <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink2" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
-                                    </li>
+                                        <asp:HyperLink CssClass="block py-2 hover:text-gray-800" ID="HyperLink2" NavigateUrl="#" runat="server">item 1</asp:HyperLink></li>
                                     <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
-                                    </li>
+                                        <asp:HyperLink CssClass="block py-2 hover:text-gray-800" ID="HyperLink" NavigateUrl="#" runat="server">item 1</asp:HyperLink></li>
                                     <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink3" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
-                                    </li>
+                                        <asp:HyperLink CssClass="block py-2 hover:text-gray-800" ID="HyperLink3" NavigateUrl="#" runat="server">item 1</asp:HyperLink></li>
                                     <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink4" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
-                                    </li>
+                                        <asp:HyperLink CssClass="block py-2 hover:text-gray-800" ID="HyperLink4" NavigateUrl="#" runat="server">item 1</asp:HyperLink></li>
                                 </ul>
                             </div>
                         </div>
-
-                        <!-- user-nav -->
-                        <div class="nav-dropdown text-xl relative group py-1.5 hover:text-black cursor-pointer">
-                            <div>
-                                <i class="fa-regular fa-user align-middle group-hover:text-black text-xl"></i>
-                                <i class="fa-solid fa-angle-down align-middle group-hover:text-black"></i>
+                        <div class="relative group">
+                            <div class="text-gray-600 hover:text-gray-800 cursor-pointer flex items-center">
+                                <i class="fa-regular fa-user align-middle group-hover:text-gray-800 text-xl"></i>
+                                <i class="fa-solid fa-angle-down align-middle group-hover:text-gray-800"></i>
                             </div>
-                            <div class="drop-down">
+                            <div class="absolute z-10 bg-white shadow-lg p-4 rounded-lg mt-2 hidden group-hover:block">
                                 <ul>
                                     <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink5" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
-                                    </li>
+                                        <asp:HyperLink CssClass="block py-2 hover:text-gray-800" ID="HyperLink5" NavigateUrl="#" runat="server">item 1</asp:HyperLink></li>
                                     <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink6" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
-                                    </li>
+                                        <asp:HyperLink CssClass="block py-2 hover:text-gray-800" ID="HyperLink6" NavigateUrl="#" runat="server">item 1</asp:HyperLink></li>
                                     <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink7" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
-                                    </li>
+                                        <asp:HyperLink CssClass="block py-2 hover:text-gray-800" ID="HyperLink7" NavigateUrl="#" runat="server">item 1</asp:HyperLink></li>
                                     <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink8" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
-                                    </li>
+                                        <asp:HyperLink CssClass="block py-2 hover:text-gray-800" ID="HyperLink8" NavigateUrl="#" runat="server">item 1</asp:HyperLink></li>
                                 </ul>
                             </div>
                         </div>
-
-                        <!-- Search-nav -->
-                        <div class="relative py-1">
-                            <asp:TextBox CssClass="rounded-2xl border-none h-[2rem] w-[100px] pl-[10px] pr-[30px] focus:w-[200px]" ID="txtSearch" runat="server"></asp:TextBox>
-                            <asp:LinkButton CssClass="absolute right-[10px] top-[5px] bottom-0 m-auto" ID="lBtnSearch" runat="server" OnClick="lBtnSearch_Click">
-                                <i class="fa-solid fa-magnifying-glass cursor pt-1.5 hover:text-black"></i>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="relative">
+                            <asp:TextBox CssClass="rounded-2xl border-none h-[2rem] w-[100px] pl-[10px] pr-[30px] focus:w-[200px] text-gray-600" ID="txtSearch" runat="server"></asp:TextBox>
+                            <asp:LinkButton CssClass="absolute right-[10px] top-[5px] bottom-0 m-auto text-gray-600 hover:text-gray-800" ID="lBtnSearch" runat="server" OnClick="lBtnSearch_Click">
+                            <i class="fa-solid fa-magnifying-glass cursor pt-1.5"></i>
                             </asp:LinkButton>
                         </div>
+                        <asp:HyperLink ID="hyperlinkCart" runat="server" NavigateUrl="#" class="text-gray-600 hover:text-gray-800">
+                        <i class="fa-duotone fa-cart-shopping text-xl align-middle"></i>
+                        <span class="inline-block text-center pl-2 pr-2 bg-[#84beb5] rounded-xl text-white">13</span>
+                        </asp:HyperLink>
+                    </div>
+                </nav>
+            </header>
 
-                        <!-- Cart-nav -->
-                        <div class="py-1">
-                            <asp:HyperLink ID="hyperlinkCart" runat="server" NavigateUrl="#">
-                                <i class="fa-duotone fa-cart-shopping hover:text-black text-xl align-middle"></i>
-                            </asp:HyperLink>
-                            <span id="cart-item-number" class="inline-block text-center pl-2 pr-2 bg-[#84beb5] 
-                                rounded-xl text-white">13</span>
-                        </div>
-                    </nav>
-                </header>
+            <!--  Your Content -->
+            <div>
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
 
-                <!--  Your Content -->
-                <div>
-                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-                    </asp:ContentPlaceHolder>
-                </div>
-
-                <!-- Footer -->
-                <footer id="footer" class="h-fit hover:bg-[#f7efd5] mt-10 border-t-black border-t">
-                    <!-- Info -->
-                    <div class="mt-10 flex justify-evenly">
-                        <!-- Location -->
-                        <div>
-                            <h2>LOCATION</h2>
-                            <!-- Main Outlet -->
-                            <div class="mt-5">
-                                <h3>Main Outlet</h3>
-                                <!--Adress-->
-                                <div>
-                                    30 3 01, Jln Radin Anum
+            <!-- Footer -->
+            <footer id="footer" class="h-fit hover:bg-[#f7efd5] mt-10 border-t-black border-t">
+                <!-- Info -->
+                <div class="mt-10 flex justify-evenly">
+                    <!-- Location -->
+                    <div>
+                        <h2>LOCATION</h2>
+                        <!-- Main Outlet -->
+                        <div class="mt-5">
+                            <h3>Main Outlet</h3>
+                            <!--Adress-->
+                            <div>
+                                30 3 01, Jln Radin Anum
                                     <br />
-                                    Taman Seri Petaling
+                                Taman Seri Petaling
                                     <br />
-                                    57000 Kuala Lumpur
-                                </div>
-                            </div>
-                            <!-- 2 Outlet -->
-                            <div class="mt-5">
-
-                                <h3>2nd Outlet</h3>
-                                <!--Adress-->
-                                <div>
-                                    Unit 5.2, Level 5, Cp Tower 11
-                                    <br />
-                                    Section 16/11, Jalan Damansara
-                                    <br />
-                                    46350 Petaling Jaya, Selangor
-                                </div>
-                            </div>
-                            <!-- 3 Outlet -->
-                            <div class="mt-5">
-
-                                <h3>3rd Outlet</h3>
-                                <!--Adress-->
-                                <div>
-                                    2, Jln Tampoi 7/1
-                                    <br />
-                                    Tampoi Industrial Park
-                                    <br />
-                                    81200 Johor Bahru, Johor
-                                </div>
+                                57000 Kuala Lumpur
                             </div>
                         </div>
+                        <!-- 2 Outlet -->
+                        <div class="mt-5">
 
-                        <!-- Contact -->
-                        <div>
-                            <h2>CONTACT US</h2>
-                            <!-- phone -->
-                            <div class="mt-5">
-                                <div class="hover:text-black">
-                                    <a href="tel:#" class="group">
-                                        <div class="mb-[5px]">
-                                            <i class="fa-regular fa-phone text-black fa-lg mr-2 font-bold"></i>
-                                            <i class="fa-brands fa-whatsapp text-black fa-xl font-bold"></i>
-                                        </div>
-                                        <span class="group-hover:underline group-hover:text-black">(+60)12 123 1234</span>
-                                    </a>
-                                </div>
+                            <h3>2nd Outlet</h3>
+                            <!--Adress-->
+                            <div>
+                                Unit 5.2, Level 5, Cp Tower 11
+                                    <br />
+                                Section 16/11, Jalan Damansara
+                                    <br />
+                                46350 Petaling Jaya, Selangor
                             </div>
-                            <!-- email -->
-                            <div class="mt-5">
-                                <div class="hover:text-black">
-                                    <a href="mailto:outmoderncare@gmail.com"
-                                        class="group">
-                                        <i class="fa-regular fa-envelope text-black font-bold fa-lg hover:no-underline"></i>
-                                        <br />
-                                        <span class="group-hover:underline group-hover:text-black">outmoderncare@gmail.com</span>
-                                    </a>
-                                </div>
+                        </div>
+                        <!-- 3 Outlet -->
+                        <div class="mt-5">
+
+                            <h3>3rd Outlet</h3>
+                            <!--Adress-->
+                            <div>
+                                2, Jln Tampoi 7/1
+                                    <br />
+                                Tampoi Industrial Park
+                                    <br />
+                                81200 Johor Bahru, Johor
                             </div>
-                            <!-- contact us -->
-                            <div class="mt-5">
-                                <div class="hover:text-black">
-                                    <asp:HyperLink CssClass="group cursor-pointer hover:underline"
-                                        ID="hyperlinkContact"
-                                        NavigateUrl="#"
-                                        runat="server">
+                        </div>
+                    </div>
+
+                    <!-- Contact -->
+                    <div>
+                        <h2>CONTACT US</h2>
+                        <!-- phone -->
+                        <div class="mt-5">
+                            <div class="hover:text-black">
+                                <a href="tel:#" class="group">
+                                    <div class="mb-[5px]">
+                                        <i class="fa-regular fa-phone text-black fa-lg mr-2 font-bold"></i>
+                                        <i class="fa-brands fa-whatsapp text-black fa-xl font-bold"></i>
+                                    </div>
+                                    <span class="group-hover:underline group-hover:text-black">(+60)12 123 1234</span>
+                                </a>
+                            </div>
+                        </div>
+                        <!-- email -->
+                        <div class="mt-5">
+                            <div class="hover:text-black">
+                                <a href="mailto:outmoderncare@gmail.com"
+                                    class="group">
+                                    <i class="fa-regular fa-envelope text-black font-bold fa-lg hover:no-underline"></i>
+                                    <br />
+                                    <span class="group-hover:underline group-hover:text-black">outmoderncare@gmail.com</span>
+                                </a>
+                            </div>
+                        </div>
+                        <!-- contact us -->
+                        <div class="mt-5">
+                            <div class="hover:text-black">
+                                <asp:HyperLink CssClass="group cursor-pointer hover:underline"
+                                    ID="hyperlinkContact"
+                                    NavigateUrl="#"
+                                    runat="server">
                                         <i class="fa-regular fa-memo text-black font-bold fa-lg hover:no-underline"></i>
                                         <br />
                                         <span class="group-hover:underline group-hover:text-black">Give us feedback!</span>
-                                    </asp:HyperLink>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Social Media -->
-                        <div>
-                            <h2>FOLLOW US ON</h2>
-                            <!-- icons -->
-                            <div class="flex justify-between mt-5 text-center leading-loose">
-                                <a href="#" class="group inline-block size-8 border-black border 
-                                    rounded-full hover:bg-black">
-                                    <i class="fa-brands fa-facebook-f fa-lg group-hover:text-white"></i>
-                                </a>
-                                <a href="#" class="group inline-block size-8 border-black border 
-                                                    rounded-full hover:bg-black">
-                                    <i class="fa-brands fa-instagram fa-lg group-hover:text-white"></i>
-                                </a>
-                                <a href="#" class="group inline-block size-8 border-black border 
-                                                 rounded-full hover:bg-black">
-                                    <i class="fa-brands fa-x-twitter fa-lg group-hover:text-white"></i>
-                                </a>
-                                <a href="#" class="group inline-block size-8 border-black border 
-                                                  rounded-full hover:bg-black">
-                                    <i class="fa-brands fa-youtube fa-lg group-hover:text-white"></i>
-                                </a>
+                                </asp:HyperLink>
                             </div>
                         </div>
                     </div>
 
-                    <!--Bottom-->
-                    <div class="mt-10 border-t-black border text-center">
-                        <!-- Payment method -->
-                        <div class="mt-5 flex justify-center items-center gap-x-12">
-                            <asp:Image ID="imgTng" runat="server" ImageUrl="~/images/TnG_logo.png" Width="40px" />
-                            <asp:Image ID="imgGrabPay" runat="server" ImageUrl="~/images/grab_pay_logo.png" Width="40px" />
-                            <asp:Image ID="imgVisa" runat="server" ImageUrl="~/images/visa_logo.png" Width="40px" />
-                            <asp:Image ID="imgMastercard" runat="server" ImageUrl="~/images/mastercard_logo.png" Width="40px" />
-                            <asp:Image ID="imgMaybank" runat="server" ImageUrl="~/images/maybank_logo.png" Width="40px" />
+                    <!-- Social Media -->
+                    <div>
+                        <h2>FOLLOW US ON</h2>
+                        <!-- icons -->
+                        <div class="flex justify-between mt-5 text-center leading-loose">
+                            <a href="#" class="group inline-block size-8 border-black border 
+                                    rounded-full hover:bg-black">
+                                <i class="fa-brands fa-facebook-f fa-lg group-hover:text-white"></i>
+                            </a>
+                            <a href="#" class="group inline-block size-8 border-black border 
+                                                    rounded-full hover:bg-black">
+                                <i class="fa-brands fa-instagram fa-lg group-hover:text-white"></i>
+                            </a>
+                            <a href="#" class="group inline-block size-8 border-black border 
+                                                 rounded-full hover:bg-black">
+                                <i class="fa-brands fa-x-twitter fa-lg group-hover:text-white"></i>
+                            </a>
+                            <a href="#" class="group inline-block size-8 border-black border 
+                                                  rounded-full hover:bg-black">
+                                <i class="fa-brands fa-youtube fa-lg group-hover:text-white"></i>
+                            </a>
                         </div>
+                    </div>
+                </div>
 
-                        <!-- copyright -->
-                        <div class="my-10">
-                            <p class="text-black">&copy 2021-2024 OutModern</p>
-                            <div class="w-fit m-auto border-t border-t-black">
-                                <asp:HyperLink ID="hyperlinkTerm"
-                                    runat="server"
-                                    NavigateUrl="#"
-                                    CssClass="cursor-pointer hover:underline hover:text-black">
+                <!--Bottom-->
+                <div class="mt-10 border-t-black border text-center">
+                    <!-- Payment method -->
+                    <div class="mt-5 flex justify-center items-center gap-x-12">
+                        <asp:Image ID="imgTng" runat="server" ImageUrl="~/images/TnG_logo.png" Width="40px" />
+                        <asp:Image ID="imgGrabPay" runat="server" ImageUrl="~/images/grab_pay_logo.png" Width="40px" />
+                        <asp:Image ID="imgVisa" runat="server" ImageUrl="~/images/visa_logo.png" Width="40px" />
+                        <asp:Image ID="imgMastercard" runat="server" ImageUrl="~/images/mastercard_logo.png" Width="40px" />
+                        <asp:Image ID="imgMaybank" runat="server" ImageUrl="~/images/maybank_logo.png" Width="40px" />
+                    </div>
+
+                    <!-- copyright -->
+                    <div class="my-10">
+                        <p class="text-black">&copy 2021-2024 OutModern</p>
+                        <div class="w-fit m-auto border-t border-t-black">
+                            <asp:HyperLink ID="hyperlinkTerm"
+                                runat="server"
+                                NavigateUrl="#"
+                                CssClass="cursor-pointer hover:underline hover:text-black">
                                     Terms of Use
-                                </asp:HyperLink>
-                                |
+                            </asp:HyperLink>
+                            |
                                 <asp:HyperLink ID="hyperlinkPrivacy"
                                     runat="server"
                                     NavigateUrl="#"
                                     CssClass="hover:underline hover:text-black">
                                     Privacy Policy
                                 </asp:HyperLink>
-                            </div>
                         </div>
                     </div>
-                </footer>
-            </div>
+                </div>
+            </footer>
+        </div>
 
         <!-- Imports scripts-->
         <script src="<%= Page.ResolveClientUrl("~/src/Client/ClientMaster/js/ClientMaster.js") %>"></script>

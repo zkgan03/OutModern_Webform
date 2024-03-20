@@ -42,15 +42,6 @@ namespace OutModern.src.Client.ClientMaster
         protected global::System.Web.UI.WebControls.HyperLink hyperlinkLogo;
 
         /// <summary>
-        /// Image1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image Image1;
-
-        /// <summary>
         /// hyperlinkHome control.
         /// </summary>
         /// <remarks>
