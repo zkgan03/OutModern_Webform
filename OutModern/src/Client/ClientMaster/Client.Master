@@ -150,28 +150,28 @@
                             <asp:HyperLink ID="outModern" runat="server" NavigateUrl="~/src/Client/Home/Home.aspx">
                                 <h1 class="text-3xl font-semibold mb-4 text-white">OutModern</h1>
                             </asp:HyperLink>
-                            <p class="text-white"><i class="fa-solid fa-phone text-white pr-2"></i>(704) 555-0127</p>
-                            <p class="text-white"><i class="fas fa-phone-alt text-white pr-2"></i>krist@example.com</p>
-                            <p class="text-white">Pavilion, Kuala Lumpur</p>
+                            <p class="text-white pb-2"><i class="fa-solid fa-phone text-white pr-2"></i>(704) 555-0127</p>
+                            <p class="text-white pb-2"><i class="fa-regular fa-envelope text-white pr-2"></i>krist@example.com</p>
+                            <p class="text-white pb-2"><i class="fa-solid fa-location-dot text-white pr-2"></i>Pavilion, Kuala Lumpur</p>
                         </div>
                         <div>
                             <h3 class="text-lg font-semibold mb-4 text-white">Information</h3>
                             <ul>
-                                <li><a href="#" class="text-white">My Account</a></li>
-                                <li><a href="#" class="text-white">Login</a></li>
-                                <li><a href="#" class="text-white">My Cart</a></li>
-                                <li><a href="#" class="text-white">My Wishlist</a></li>
-                                <li><a href="#" class="text-white">Checkout</a></li>
+                                <li class="pb-2"><a href="#" class="text-white">My Account</a></li>
+                                <li class="pb-2"><a href="#" class="text-white">Login</a></li>
+                                <li class="pb-2"><a href="#" class="text-white">My Cart</a></li>
+                                <li class="pb-2"><a href="#" class="text-white">My Wishlist</a></li>
+                                <li class="pb-2"><a href="#" class="text-white">Checkout</a></li>
                             </ul>
                         </div>
                         <div>
                             <h3 class="text-lg font-semibold mb-4 text-white">Service</h3>
                             <ul>
-                                <li><a href="#" class="text-white">About Us</a></li>
-                                <li><a href="#" class="text-white">Careers</a></li>
-                                <li><a href="#" class="text-white">Delivery Information</a></li>
-                                <li><a href="#" class="text-white">Privacy Policy</a></li>
-                                <li><a href="#" class="text-white">Terms & Conditions</a></li>
+                                <li class="pb-2"><a href="#" class="text-white">About Us</a></li>
+                                <li class="pb-2"><a href="#" class="text-white">Careers</a></li>
+                                <li class="pb-2"><a href="#" class="text-white">Delivery Information</a></li>
+                                <li class="pb-2"><a href="#" class="text-white">Privacy Policy</a></li>
+                                <li class="pb-2"><a href="#" class="text-white">Terms & Conditions</a></li>
                             </ul>
                         </div>
                         <div>
@@ -183,10 +183,22 @@
                             </div>
                         </div>
                     </div>
-
-
-                    <div class="text-center mt-8">
-                        <p>&copy;2023 Krist All Rights are reserved</p>
+                    <div class="border-t border-gray-300 mt-5">
+                        <div class="mt-2 flex justify-between items-center">
+                            <div class="flex gap-4">
+                                <a href="#"><i class="fa-brands fa-cc-visa text-white text-2xl"></i></a>
+                                <a href="#"><i class="fab fa-cc-mastercard text-white text-2xl"></i></a>
+                                <a href="#"><i class="fa-brands fa-cc-paypal text-white text-2xl"></i></a>
+                            </div>
+                        
+                            <p class="text-gray-400 text-sm">&copy;2024 OutModern All Rights are reserved</p>
+                        
+                            <div class="flex gap-4">
+                                <a href="#"><i class="fab fa-facebook text-2xl text-white"></i></a>
+                                <a href="#"><i class="fab fa-instagram text-2xl text-white"></i></a>
+                                <a href="#"><i class="fab fa-twitter text-2xl text-white"></i></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </footer>

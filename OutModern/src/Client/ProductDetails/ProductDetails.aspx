@@ -2,7 +2,11 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style>/**/
-
+    
+        .colorChosen {
+             box-shadow: 0 0 0 2px whitesmoke, 0 0 0 4px black;
+        }
+            
         .size-chart tbody > :nth-child(odd) {
             background-color: rgb(255, 255, 255);
         }
@@ -89,8 +93,8 @@
             border: 2px solid #000;
             border-radius: 5px;
         }
-        input[name="color-choice"]:checked + .colorChosen {
-            box-shadow: 0 0 0 2px whitesmoke, 0 0 0 4px black;
+        .color_grp input[type="radio"]:checked + label {
+              box-shadow: 0 0 0 2px whitesmoke, 0 0 0 4px black;
         }
     </style>
     <script src="<%= Page.ResolveClientUrl("product-details.js") %>"></script>
@@ -145,18 +149,12 @@
                 <div>
                     <h3 class="text-lg font-semibold mb-2">Color: <asp:Label ID="lblColor" runat="server" Text="Beige"></asp:Label></h3>
                     <div class="flex space-x-2">
-                        <label class="color_grp relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none ring-gray-400">
-                            <asp:RadioButton ID="radColor" value="" runat="server" name="color-choice" class="sr-only" aria-labelledby="color-choice-0-label"  />
-                            <span aria-hidden="true" style="background-color: beige" class="w-7 h-7 rounded-full bg-blue-900 cursor-pointer colorChosen"></span>
-                        </label>
-                        <label class="color_grp relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none ring-gray-400">
-                            <asp:RadioButton ID="RadioButton1" value="" runat="server" name="color-choice" class="sr-only" aria-labelledby="color-choice-0-label" />
-                            <span aria-hidden="true" style="background-color: lightgray" class="w-7 h-7 rounded-full bg-blue-900 cursor-pointer colorChosen"></span>
-                        </label>
-                        <label class="color_grp relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none ring-gray-400">
-                            <asp:RadioButton ID="RadioButton2" value="" runat="server" name="color-choice" class="sr-only" aria-labelledby="color-choice-0-label" />
-                            <span aria-hidden="true" style="background-color: black" class="w-7 h-7 rounded-full bg-blue-900 cursor-pointer colorChosen"></span>
-                        </label>
+                        
+                            <asp:RadioButton ID="radColor" value="" runat="server" name="color-choice" class="sr-only"  />
+                            <span style="background-color:beige" class="h-8 w-8 rounded-full border border-black border-opacity-10"></span>                      
+                        
+                            
+                       
                     </div>
                 </div>
 
@@ -425,6 +423,8 @@ product is the best one on the market."></asp:Label>
             </div>
         </div>
     </div>
+        
     <script src="<%= Page.ResolveClientUrl("product-details.js") %>"></script>
+ 
 </asp:Content>
 
