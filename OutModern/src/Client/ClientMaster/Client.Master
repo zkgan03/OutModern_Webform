@@ -145,151 +145,54 @@
             </div>
 
             <!-- Footer -->
-            <footer id="footer" class="h-fit hover:bg-[#f7efd5] mt-10 border-t-black border-t">
-                <!-- Info -->
-                <div class="mt-10 flex justify-evenly">
-                    <!-- Location -->
-                    <div>
-                        <h2>LOCATION</h2>
-                        <!-- Main Outlet -->
-                        <div class="mt-5">
-                            <h3>Main Outlet</h3>
-                            <!--Adress-->
-                            <div>
-                                30 3 01, Jln Radin Anum
-                                    <br />
-                                Taman Seri Petaling
-                                    <br />
-                                57000 Kuala Lumpur
-                            </div>
-                        </div>
-                        <!-- 2 Outlet -->
-                        <div class="mt-5">
+                  <footer class="bg-[#131118] py-8">
+               <div class="container mx-auto px-4">
+                   <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                       <div>
+                           <asp:HyperLink ID="outModern" runat="server" NavigateUrl="~/src/Client/Home/Home.aspx">
+                               <h1 class="text-3xl font-semibold mb-4 text-white">OutModern</h1>
+                           </asp:HyperLink>
+                           <p class="text-white"><i class="fa-solid fa-phone text-white pr-2"></i>(704) 555-0127</p>
+                           <p class="text-white"><i class="fas fa-phone-alt text-white pr-2"></i>krist@example.com</p>
+                           <p class="text-white">Pavilion, Kuala Lumpur</p>
+                       </div>
+                       <div>
+                           <h3 class="text-lg font-semibold mb-4 text-white">Information</h3>
+                           <ul>
+                               <li><a href="#" class="text-white">My Account</a></li>
+                               <li><a href="#" class="text-white">Login</a></li>
+                               <li><a href="#" class="text-white">My Cart</a></li>
+                               <li><a href="#" class="text-white">My Wishlist</a></li>
+                               <li><a href="#" class="text-white">Checkout</a></li>
+                           </ul>
+                       </div>
+                       <div>
+                           <h3 class="text-lg font-semibold mb-4 text-white">Service</h3>
+                           <ul>
+                               <li><a href="#" class="text-white">About Us</a></li>
+                               <li><a href="#" class="text-white">Careers</a></li>
+                               <li><a href="#" class="text-white">Delivery Information</a></li>
+                               <li><a href="#" class="text-white">Privacy Policy</a></li>
+                               <li><a href="#" class="text-white">Terms & Conditions</a></li>
+                           </ul>
+                       </div>
+                       <div>
+                           <h3 class="text-lg font-semibold mb-4 text-white">Subscribe</h3>
+                           <p class="text-white">Enter your email below to be the first to know about new collections and product launches.</p>
+                           <div class="flex mt-4">
+                               <input type="email" placeholder="Your Email" class="bg-gray-700 text-gray-300 px-4 py-2 rounded-l">
+                               <button class="bg-gray-600 text-gray-300 px-4 py-2 rounded-r">→</button>
+                           </div>
+                       </div>
+                   </div>
 
-                            <h3>2nd Outlet</h3>
-                            <!--Adress-->
-                            <div>
-                                Unit 5.2, Level 5, Cp Tower 11
-                                    <br />
-                                Section 16/11, Jalan Damansara
-                                    <br />
-                                46350 Petaling Jaya, Selangor
-                            </div>
-                        </div>
-                        <!-- 3 Outlet -->
-                        <div class="mt-5">
 
-                            <h3>3rd Outlet</h3>
-                            <!--Adress-->
-                            <div>
-                                2, Jln Tampoi 7/1
-                                    <br />
-                                Tampoi Industrial Park
-                                    <br />
-                                81200 Johor Bahru, Johor
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Contact -->
-                    <div>
-                        <h2>CONTACT US</h2>
-                        <!-- phone -->
-                        <div class="mt-5">
-                            <div class="hover:text-black">
-                                <a href="tel:#" class="group">
-                                    <div class="mb-[5px]">
-                                        <i class="fa-regular fa-phone text-black fa-lg mr-2 font-bold"></i>
-                                        <i class="fa-brands fa-whatsapp text-black fa-xl font-bold"></i>
-                                    </div>
-                                    <span class="group-hover:underline group-hover:text-black">(+60)12 123 1234</span>
-                                </a>
-                            </div>
-                        </div>
-                        <!-- email -->
-                        <div class="mt-5">
-                            <div class="hover:text-black">
-                                <a href="mailto:outmoderncare@gmail.com"
-                                    class="group">
-                                    <i class="fa-regular fa-envelope text-black font-bold fa-lg hover:no-underline"></i>
-                                    <br />
-                                    <span class="group-hover:underline group-hover:text-black">outmoderncare@gmail.com</span>
-                                </a>
-                            </div>
-                        </div>
-                        <!-- contact us -->
-                        <div class="mt-5">
-                            <div class="hover:text-black">
-                                <asp:HyperLink CssClass="group cursor-pointer hover:underline"
-                                    ID="hyperlinkContact"
-                                    NavigateUrl="#"
-                                    runat="server">
-                                        <i class="fa-regular fa-memo text-black font-bold fa-lg hover:no-underline"></i>
-                                        <br />
-                                        <span class="group-hover:underline group-hover:text-black">Give us feedback!</span>
-                                </asp:HyperLink>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Social Media -->
-                    <div>
-                        <h2>FOLLOW US ON</h2>
-                        <!-- icons -->
-                        <div class="flex justify-between mt-5 text-center leading-loose">
-                            <a href="#" class="group inline-block size-8 border-black border 
-                                    rounded-full hover:bg-black">
-                                <i class="fa-brands fa-facebook-f fa-lg group-hover:text-white"></i>
-                            </a>
-                            <a href="#" class="group inline-block size-8 border-black border 
-                                                    rounded-full hover:bg-black">
-                                <i class="fa-brands fa-instagram fa-lg group-hover:text-white"></i>
-                            </a>
-                            <a href="#" class="group inline-block size-8 border-black border 
-                                                 rounded-full hover:bg-black">
-                                <i class="fa-brands fa-x-twitter fa-lg group-hover:text-white"></i>
-                            </a>
-                            <a href="#" class="group inline-block size-8 border-black border 
-                                                  rounded-full hover:bg-black">
-                                <i class="fa-brands fa-youtube fa-lg group-hover:text-white"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!--Bottom-->
-                <div class="mt-10 border-t-black border text-center">
-                    <!-- Payment method -->
-                    <div class="mt-5 flex justify-center items-center gap-x-12">
-                        <asp:Image ID="imgTng" runat="server" ImageUrl="~/images/TnG_logo.png" Width="40px" />
-                        <asp:Image ID="imgGrabPay" runat="server" ImageUrl="~/images/grab_pay_logo.png" Width="40px" />
-                        <asp:Image ID="imgVisa" runat="server" ImageUrl="~/images/visa_logo.png" Width="40px" />
-                        <asp:Image ID="imgMastercard" runat="server" ImageUrl="~/images/mastercard_logo.png" Width="40px" />
-                        <asp:Image ID="imgMaybank" runat="server" ImageUrl="~/images/maybank_logo.png" Width="40px" />
-                    </div>
-
-                    <!-- copyright -->
-                    <div class="my-10">
-                        <p class="text-black">&copy 2021-2024 OutModern</p>
-                        <div class="w-fit m-auto border-t border-t-black">
-                            <asp:HyperLink ID="hyperlinkTerm"
-                                runat="server"
-                                NavigateUrl="#"
-                                CssClass="cursor-pointer hover:underline hover:text-black">
-                                    Terms of Use
-                            </asp:HyperLink>
-                            |
-                                <asp:HyperLink ID="hyperlinkPrivacy"
-                                    runat="server"
-                                    NavigateUrl="#"
-                                    CssClass="hover:underline hover:text-black">
-                                    Privacy Policy
-                                </asp:HyperLink>
-                        </div>
-                    </div>
-                </div>
-            </footer>
-        </div>
+                   <div class="text-center mt-8 ">
+                       <p class="text-white">&copy;2023 OutModern All Rights are reserved</p>
+                   </div>
+               </div>
+           </footer>
+       </div>
 
         <!-- Imports scripts-->
         <script src="<%= Page.ResolveClientUrl("~/src/Client/ClientMaster/js/ClientMaster.js") %>"></script>
