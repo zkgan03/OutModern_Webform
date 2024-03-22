@@ -528,6 +528,7 @@
     <Content Include="lib\fonts\ChakraPetch\ChakraPetch-SemiBold.ttf" />
     <Content Include="lib\fonts\ChakraPetch\ChakraPetch-SemiBoldItalic.ttf" />
     <None Include="packages.config" />
+    <Content Include="src\Client\ProductDetails\product-details.js" />
     <Content Include="src\Client\ProductDetails\ProductDetails.aspx" />
     <Content Include="src\Client\Products\Products.aspx" />
     <Content Include="Web.config" />

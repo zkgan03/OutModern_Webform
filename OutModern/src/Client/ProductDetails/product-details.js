@@ -1,0 +1,74 @@
+﻿var slideIndex = 1;
+// Image Modal (some have 3 images, some 2 images)
+var modal = document.getElementById("myModal");
+var imgs = document.querySelectorAll("#productImg");
+
+var modalImg = document.getElementById("modal-img");
+imgs.forEach(
+    (img) =>
+    (img.onclick = function () {
+        modal.style.display = "block";
+        modalImg.src = this.src;
+    })
+);
+
+// Close Image Modal
+var span = document.getElementsByClassName("close-modal")[0];
+span.onclick = function () {
+    modal.style.display = "none";
+};
+
+showSlides(slideIndex);
+
+function plusSlides(n) {
+    showSlides((slideIndex += n));
+}
+
+function showSlides(n) {
+    var i;
+    var dots = document.getElementsByClassName("demo");
+    var slides = document.getElementsByClassName("slides");
+    if (n > slides.length) {
+        slideIndex = 1;
+    }
+    if (n < 1) {
+        slideIndex = slides.length;
+    }
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+    }
+    for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" opacity-off", "");
+        dots[i].style.border = "2px solid rgb(138, 138, 138)";
+    }
+    dots[slideIndex - 1].style.border = "2px solid #000";
+    dots[slideIndex - 1].className += " opacity-off";
+    slides[slideIndex - 1].style.display = "flex";
+}
+
+// The three images at bottom
+function currentDiv(n) {
+    showDivs((slideIndex = n));
+}
+
+function showDivs(n) {
+    var i;
+    var x = document.getElementsByClassName("slides");
+    var dots = document.getElementsByClassName("demo");
+    if (n > x.length) {
+        slideIndex = 1;
+    }
+    if (n < 1) {
+        slideIndex = x.length;
+    }
+    for (i = 0; i < x.length; i++) {
+        x[i].style.display = "none";
+    }
+    for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" opacity-off", "");
+        dots[i].style.border = "2px solid rgb(138, 138, 138)";
+    }
+    x[slideIndex - 1].style.display = "block";
+    dots[slideIndex - 1].className += " opacity-off";
+    dots[slideIndex - 1].style.border = "2px solid #000";
+}
