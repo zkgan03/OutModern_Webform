@@ -103,7 +103,7 @@
                                 </ul>
                             </div>
                         </div>
-                
+
                     </div>
                     <div class="flex items-center space-x-4">
                         <div class="relative">
@@ -113,8 +113,9 @@
                             </asp:LinkButton>
                         </div>
                         <asp:HyperLink ID="hyperlinkCart" runat="server" NavigateUrl="#" class="text-gray-600 hover:text-gray-800">
-                        <i class="fa-duotone fa-cart-shopping text-xl align-middle"></i>
-                        <span class="inline-block text-center pl-2 pr-2 bg-[#84beb5] rounded-xl text-white">13</span>
+                            <i class="fa-duotone fa-cart-shopping text-xl align-middle"></i>
+                            <asp:Label ID="numberLabel" runat="server" CssClass="inline-block text-center pl-2 pr-2 bg-[#131118] rounded-xl text-white" Text="13"></asp:Label>
+
                         </asp:HyperLink>
                         <div class="relative group">
                             <div class="text-gray-600 hover:text-gray-800 cursor-pointer flex items-center">
@@ -145,54 +146,111 @@
             </div>
 
             <!-- Footer -->
-                  <footer class="bg-[#131118] py-8">
-               <div class="container mx-auto px-4">
-                   <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
-                       <div>
-                           <asp:HyperLink ID="outModern" runat="server" NavigateUrl="~/src/Client/Home/Home.aspx">
-                               <h1 class="text-3xl font-semibold mb-4 text-white">OutModern</h1>
-                           </asp:HyperLink>
-                           <p class="text-white"><i class="fa-solid fa-phone text-white pr-2"></i>(704) 555-0127</p>
-                           <p class="text-white"><i class="fas fa-phone-alt text-white pr-2"></i>krist@example.com</p>
-                           <p class="text-white">Pavilion, Kuala Lumpur</p>
-                       </div>
-                       <div>
-                           <h3 class="text-lg font-semibold mb-4 text-white">Information</h3>
-                           <ul>
-                               <li><a href="#" class="text-white">My Account</a></li>
-                               <li><a href="#" class="text-white">Login</a></li>
-                               <li><a href="#" class="text-white">My Cart</a></li>
-                               <li><a href="#" class="text-white">My Wishlist</a></li>
-                               <li><a href="#" class="text-white">Checkout</a></li>
-                           </ul>
-                       </div>
-                       <div>
-                           <h3 class="text-lg font-semibold mb-4 text-white">Service</h3>
-                           <ul>
-                               <li><a href="#" class="text-white">About Us</a></li>
-                               <li><a href="#" class="text-white">Careers</a></li>
-                               <li><a href="#" class="text-white">Delivery Information</a></li>
-                               <li><a href="#" class="text-white">Privacy Policy</a></li>
-                               <li><a href="#" class="text-white">Terms & Conditions</a></li>
-                           </ul>
-                       </div>
-                       <div>
-                           <h3 class="text-lg font-semibold mb-4 text-white">Subscribe</h3>
-                           <p class="text-white">Enter your email below to be the first to know about new collections and product launches.</p>
-                           <div class="flex mt-4">
-                               <input type="email" placeholder="Your Email" class="bg-gray-700 text-gray-300 px-4 py-2 rounded-l">
-                               <button class="bg-gray-600 text-gray-300 px-4 py-2 rounded-r">→</button>
-                           </div>
-                       </div>
-                   </div>
+            <footer class="bg-[#131118] py-8">
+                <div class="container mx-auto px-4">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                        <div>
+                            <asp:HyperLink ID="outModern" runat="server" NavigateUrl="~/src/Client/Home/Home.aspx">
+                          <h1 class="text-3xl font-semibold mb-4 text-white">OutModern</h1>
+                      </asp:HyperLink>
+                            <p class="text-white pb-2"><i class="fa-solid fa-phone text-white pr-2"></i>(704) 555-0127</p>
+                            <p class="text-white pb-2"><i class="fa-regular fa-envelope text-white pr-2"></i>krist@example.com</p>
+                            <p class="text-white pb-2"><i class="fa-solid fa-location-dot text-white pr-2"></i>Pavilion, Kuala Lumpur</p>
+                        </div>
+
+                        <!--2nd Column-->
+                        <div>
+                            <h3 class="text-lg font-semibold mb-4 text-white">Information</h3>
+                            <ul>
+                                <li class="pb-2">
+                                    <asp:HyperLink ID="myAccountLink" runat="server" CssClass="text-white" NavigateUrl="#">My Account</asp:HyperLink>
+                                </li>
+                                <li class="pb-2">
+                                    <asp:HyperLink ID="loginLink" runat="server" CssClass="text-white" NavigateUrl="#">Login</asp:HyperLink>
+                                </li>
+                                <li class="pb-2">
+                                    <asp:HyperLink ID="myCartLink" runat="server" CssClass="text-white" NavigateUrl="#">My Cart</asp:HyperLink>
+                                </li>
+                                <li class="pb-2">
+                                    <asp:HyperLink ID="myWishlistLink" runat="server" CssClass="text-white" NavigateUrl="#">My Wishlist</asp:HyperLink>
+                                </li>
+                                <li class="pb-2">
+                                    <asp:HyperLink ID="checkoutLink" runat="server" CssClass="text-white" NavigateUrl="#">Checkout</asp:HyperLink>
+                                </li>
+                            </ul>
+                        </div>
 
 
-                   <div class="text-center mt-8 ">
-                       <p class="text-white">&copy;2023 OutModern All Rights are reserved</p>
-                   </div>
-               </div>
-           </footer>
-       </div>
+                        <!--3rd Column-->
+                        <div>
+                            <h3 class="text-lg font-semibold mb-4 text-white">Service</h3>
+                            <ul>
+                                <li class="pb-2">
+                                    <asp:HyperLink ID="aboutUsLink" runat="server" CssClass="text-white" NavigateUrl="#">About Us</asp:HyperLink>
+                                </li>
+                                <li class="pb-2">
+                                    <asp:HyperLink ID="careersLink" runat="server" CssClass="text-white" NavigateUrl="#">Careers</asp:HyperLink>
+                                </li>
+                                <li class="pb-2">
+                                    <asp:HyperLink ID="deliveryInfoLink" runat="server" CssClass="text-white" NavigateUrl="#">Delivery Information</asp:HyperLink>
+                                </li>
+                                <li class="pb-2">
+                                    <asp:HyperLink ID="privacyPolicyLink" runat="server" CssClass="text-white" NavigateUrl="#">Privacy Policy</asp:HyperLink>
+                                </li>
+                                <li class="pb-2">
+                                    <asp:HyperLink ID="termsConditionsLink" runat="server" CssClass="text-white" NavigateUrl="#">Terms & Conditions</asp:HyperLink>
+                                </li>
+                            </ul>
+                        </div>
+
+
+                        <!--Last Column-->
+                        <div>
+                            <h3 class="text-lg font-semibold mb-4 text-white">Subscribe</h3>
+                            <p class="text-white">Enter your email below to be the first to know about new collections and product launches.</p>
+                            <div class="flex mt-4">
+                                <asp:TextBox ID="emailTextBox" runat="server" CssClass="bg-gray-700 text-gray-300 px-4 py-2 rounded-l" placeholder="Your Email"></asp:TextBox>
+                                <asp:Button ID="subscribeButton" runat="server" CssClass="bg-gray-600 text-gray-300 px-4 py-2 rounded-r" Text="→" />
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <!--ICON FOOTER-->
+                    <div class="border-t border-gray-300 mt-5">
+                        <div class="mt-2 flex justify-between items-center">
+                            <div class="flex gap-4">
+                                <asp:HyperLink ID="visaLink" runat="server" NavigateUrl="#" CssClass="text-white text-2xl">
+                <i class="fa-brands fa-cc-visa text-white text-2xl"></i>
+                                </asp:HyperLink>
+                                <asp:HyperLink ID="mastercardLink" runat="server" NavigateUrl="#" CssClass="text-white text-2xl">
+                <i class="fab fa-cc-mastercard text-white text-2xl"></i>
+                                </asp:HyperLink>
+                                <asp:HyperLink ID="paypalLink" runat="server" NavigateUrl="#" CssClass="text-white text-2xl">
+                <i class="fa-brands fa-cc-paypal text-white text-2xl"></i>
+                                </asp:HyperLink>
+                            </div>
+
+                            <p class="text-gray-400 text-sm">&copy;<%: DateTime.Now.Year %> OutModern All Rights are reserved</p>
+
+                            <div class="flex gap-4">
+                                <asp:HyperLink ID="facebookLink" runat="server" NavigateUrl="#" CssClass="text-white text-2xl">
+                <i class="fab fa-facebook text-2xl text-white"></i>
+                                </asp:HyperLink>
+                                <asp:HyperLink ID="instagramLink" runat="server" NavigateUrl="#" CssClass="text-white text-2xl">
+                <i class="fab fa-instagram text-2xl text-white"></i>
+                                </asp:HyperLink>
+                                <asp:HyperLink ID="twitterLink" runat="server" NavigateUrl="#" CssClass="text-white text-2xl">
+                <i class="fab fa-twitter text-2xl text-white"></i>
+                                </asp:HyperLink>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </footer>
+        </div>
 
         <!-- Imports scripts-->
         <script src="<%= Page.ResolveClientUrl("~/src/Client/ClientMaster/js/ClientMaster.js") %>"></script>
