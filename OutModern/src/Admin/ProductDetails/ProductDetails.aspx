@@ -19,6 +19,8 @@
                 .color-varient.active {
                     @apply outline outline-black outline-1;
                 }
+
+
             /*Table style*/
             #review-table tr:first-child {
                 @apply sticky top-14 bg-gray-950 text-white;
@@ -33,47 +35,36 @@
             }
 
             .review-time {
-                @apply text-sm italic mb-2;
+                @apply text-sm italic mb-2 [&>*]:text-sm [&>*]:italic;
             }
 
             .reply-time {
-                @apply text-sm italic mb-2;
+                @apply text-sm italic mb-2 [&>*]:text-sm [&>*]:italic;
             }
 
             .review-reply-btn {
                 @apply p-1 border border-black rounded bg-gray-500 text-white cursor-pointer hover:opacity-50;
             }
 
+            .reply-container {
+                @apply mt-8;
+            }
+
             .reply {
-                @apply ml-10 border-t border-black mt-7 p-1;
+                @apply ml-10 border-t border-black pb-7 p-2;
             }
 
-                .reply .reply-given {
-                    @apply ml-5;
-                }
-
-
-
-            /*Pagination style*/
-            .pagination {
-                @apply flex justify-center my-2;
+            .reply-container .reply:nth-child(2n+1) {
+                @apply bg-gray-100;
             }
 
-                .pagination span {
-                    @apply border border-black cursor-pointer hover:bg-[#E6F5F2] size-8 text-center leading-8;
-                }
+            .reply-container .reply:nth-child(2n) {
+                @apply bg-gray-50;
+            }
 
-                    .pagination span.active {
-                        @apply bg-[#94D4CA];
-                    }
-
-                    .pagination span:first-child {
-                        @apply mr-2;
-                    }
-
-                    .pagination span:last-child {
-                        @apply ml-2;
-                    }
+            .reply .reply-given {
+                @apply ml-5;
+            }
         }
 
         .auto-style1 {
@@ -86,44 +77,52 @@
     </style>
 
 </asp:Content>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="mt-2">
+
         <!--Edit product btn-->
         <div>
-            <asp:HyperLink CssClass="text-white p-2 rounded bg-amber-500 hover:opacity-50" ID="HyperLink1" runat="server" NavigateUrl='<%#urls[ProductEdit] %>'>
+            <asp:HyperLink CssClass="inline-block text-white p-2 rounded bg-amber-500 hover:opacity-50" ID="HyperLink1" runat="server" NavigateUrl='<%#urls[ProductEdit] %>'>
             <i class="fa-regular fa-pen-to-square"></i>
             Edit Product
             </asp:HyperLink>
         </div>
-        <!-- Products Desc -->
-        <div class="flex mt-5">
-            <!-- General Desc -->
+
+        <!-- Product Details -->
+        <div class="flex mt-8">
             <div>
-                <div class="text-[1.5rem] font-bold">General Description</div>
+                <div class="text-[1.5rem] font-bold">Product Details</div>
                 <div class="mt-2 ml-2 text-xl">
                     <div>
                         <span class="desc-title">Product ID</span>
-                        <span>: P1001</span>
+                        <span>:
+                            <asp:Label ID="lblProductId" runat="server" Text="P1001"></asp:Label></span>
                     </div>
                     <div>
                         <span class="desc-title">Product Name</span>
-                        <span>: Premium Hoodie</span>
+                        <span>:
+                            <asp:Label ID="lblProductName" runat="server" Text="Premium Hoodie"></asp:Label></span>
                     </div>
                     <div>
                         <span class="desc-title">Category</span>
-                        <span>: Hoodie</span>
+                        <span>:
+                            <asp:Label ID="lblCategory" runat="server" Text="Hoodie"></asp:Label></span>
                     </div>
                     <div>
                         <span class="desc-title">Price (RM)</span>
-                        <span>: 99.99</span>
+                        <span>:
+                            <asp:Label ID="lblPrice" runat="server" Text="99.99"></asp:Label></span>
                     </div>
                     <div>
                         <span class="desc-title">Quantity</span>
-                        <span>: 123</span>
+                        <span>:
+                            <asp:Label ID="lblQuantity" runat="server" Text="123"></asp:Label></span>
                     </div>
                     <div>
                         <span class="desc-title">Current Status</span>
-                        <span>: In stock</span>
+                        <span>:
+                            <asp:Label ID="lblStatus" runat="server" Text="In Stock"></asp:Label></span>
                     </div>
                 </div>
             </div>
@@ -132,105 +131,126 @@
             <div class="flex-1 ml-36">
                 <div class="text-[1.5rem] font-bold">Variation</div>
 
+                <!-- Size -->
+                <div class="mt-2">
+                    Size : 
+                    <asp:DropDownList ID="ddlSize" runat="server">
+                        <asp:ListItem>S</asp:ListItem>
+                        <asp:ListItem>M</asp:ListItem>
+                        <asp:ListItem>L</asp:ListItem>
+                        <asp:ListItem>XL</asp:ListItem>
+                    </asp:DropDownList>
+                </div>
+
+
                 <!--Colors-->
                 <div class="flex gap-2 mt-2">
-                    <div>colors :</div>
-                    <div data-color="white" class="color-varient bg-white"></div>
-                    <div data-color="black" class="color-varient bg-black"></div>
-                    <div data-color="beige" class="color-varient active bg-[#E0CCBC]"></div>
+                    <div>Colors :</div>
+                    <asp:Repeater ID="repeaterColors" OnItemDataBound="repeaterColors_ItemDataBound" OnItemCommand="repeaterColors_ItemCommand" runat="server">
+                        <ItemTemplate>
+                            <asp:Button ID="btnColor" runat="server" UseSubmitBehavior="false"
+                                CommandName="ChangeColor" CommandArgument='<%# Eval("Color") %>'
+                                Style='<%# "background:" + Eval("Color") +";" %>' CssClass='<%# "color-varient" + (Container.ItemIndex == 0 ? " active" : "") %>' />
+                        </ItemTemplate>
+                    </asp:Repeater>
                 </div>
 
                 <!-- Images -->
                 <div class="flex gap-2 mt-2">
-                    <asp:Image ID="imgProd1" runat="server" Width="10em"
-                        CssClass="product-img"
-                        ImageUrl="~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de6441b1.png" />
-                    <asp:Image ID="imgProd2" runat="server" Width="10em"
-                        CssClass="product-img"
-                        ImageUrl="~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de644282.png" />
-                    <asp:Image ID="imgProd3" runat="server" Width="10em"
-                        CssClass="product-img"
-                        ImageUrl="~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-zoomed-in-61167de6440a2.png" />
+                    <asp:Repeater ID="repeaterImg" runat="server">
+                        <ItemTemplate>
+                            <asp:Image ID="imgProd" runat="server" Width="10em"
+                                CssClass="product-img"
+                                ImageUrl='<%# Eval("path") %>' />
+                        </ItemTemplate>
+                    </asp:Repeater>
+                    <%-- 
+                        ~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de6441b1.png 
+                        ~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de644282.png
+                        ~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-zoomed-in-61167de6440a2.png
+                    --%>
                 </div>
             </div>
         </div>
 
         <!-- Review and Rating -->
         <div class="mt-10">
-            <div>
-                <div class="text-[1.5em] font-bold">
-                    Reviews and Ratings (<span class="text-[1em] font-bold ">4.0</span>/5.0)
-                </div>
+            <div class="text-[1.5em] font-bold [&>*]:text-[1.5em] [&>*]:font-bold">
+                Reviews (<asp:Label ID="lblOverallRating" runat="server" Text="4.0"></asp:Label>/5.0)
             </div>
 
-            <table id="review-table" style="margin-top: 1em; padding: 1em; border: 1px solid black; width: 100%; border-spacing: 1px; text-align: center; border-collapse: collapse;">
-                <tr>
-                    <td style="border: 1px solid black" class="auto-style1">Customer Info</td>
-                    <td style="border: 1px solid black">Review Given</td>
-                    <td style="border: 1px solid black" class="auto-style2">Response?</td>
-                </tr>
-                <tr>
-                    <td style="padding: 1em; border: 1px solid black; text-align: left" aria-multiline="True" class="auto-style1">
-                        <div class="text-lg">Customer A</div>
-                        <div class="review-time"><%= DateTime.Now %></div>
-                        <div class="review-item">rate : 4.0</div>
-                        <div class="review-item">color : black</div>
-                        <div class="review-item">quantity : 30</div>
-                    </td>
-                    <td style="padding: 1em; border: 1px solid black; text-align: left" aria-multiline="True">
-                        <div class="review-gien">
-                            This is amazing !
-                        </div>
-                    </td>
-                    <td style="border: 1px solid black" class="auto-style2">
-                        <asp:Button CssClass="review-reply-btn" ID="btnReply" runat="server" Text="Reply" />
-                    </td>
-                </tr>
+            <!--Top Pagination-->
+            <asp:DataPager PagedControlID="lvReviews" class="pagination" ID="dpTopReviews" runat="server" PageSize="2">
+                <Fields>
+                    <asp:NextPreviousPagerField ButtonType="Button" ShowFirstPageButton="False" ShowNextPageButton="False" ShowPreviousPageButton="True" PreviousPageText="<" />
+                    <asp:NumericPagerField NumericButtonCssClass="datapagerStyle" CurrentPageLabelCssClass="active" ButtonCount="10" />
+                    <asp:NextPreviousPagerField ButtonCssClass="test" ButtonType="Button" ShowLastPageButton="False" ShowNextPageButton="True" ShowPreviousPageButton="False" NextPageText=">" />
+                </Fields>
+            </asp:DataPager>
 
-                <tr>
-                    <td style="padding: 1em; border: 1px solid black; text-align: left" aria-multiline="True" class="auto-style1">
-                        <div class="text-lg">Customer B</div>
-                        <div class="review-time mb-2"><%= DateTime.Now %></div>
-                        <div class="review-item">rate : 2.0</div>
-                        <div class="review-item">color : white</div>
-                        <div class="review-item">quantity : 2</div>
-                    </td>
-                    <td style="padding: 1em; border: 1px solid black; text-align: left" aria-multiline="True">
-                        <div class="review-given">
-                            ? WTH is this
-                        </div>
-                        <div class="reply">
-                            <div class="mb-2 text-sm opacity-60">reply</div>
-                            <div class="reply-name">Gan, Admin </div>
-                            <div class="reply-time"><%= DateTime.Now %></div>
-                            <div class="reply-given">
-                                Hi, please edit your question to specify the probelm you faced
+            <asp:ListView ID="lvReviews" OnPagePropertiesChanged="lvReviews_PagePropertiesChanged" runat="server" DataKeyNames="CustomerName">
+                <LayoutTemplate>
+                    <div>
+                        <table id="review-table" style="margin-top: 1em; padding: 1em; border: 1px solid black; width: 100%; border-spacing: 1px; text-align: center; border-collapse: collapse;">
+                            <tr>
+                                <th style="border: 1px solid black" class="auto-style1">Customer Info</th>
+                                <th style="border: 1px solid black">Review Given</th>
+                                <th style="border: 1px solid black" class="auto-style2">Response?</th>
+                            </tr>
+                            <asp:PlaceHolder ID="itemPlaceHolder" runat="server"></asp:PlaceHolder>
+                        </table>
+                    </div>
+
+                </LayoutTemplate>
+                <ItemTemplate>
+                    <tr>
+                        <td style="padding: 1em; border: 1px solid black; text-align: left" aria-multiline="True" class="auto-style1">
+                            <div class="text-lg">
+                                <%# Eval("CustomerName") %>
                             </div>
-                        </div>
-                        <div class="reply">
-                            <div class="mb-2 text-sm opacity-60">reply</div>
-                            <div class="reply-name">Su, Associate</div>
-                            <div class="reply-time"><%= DateTime.Now %></div>
-                            <div class="reply-given">
-                                This should not be a problem
+                            <div class="review-time"><%# Eval("ReviewTime") %></div>
+                            <div class="review-item">rate : <%# Eval("ReviewRating","{0:0.0}") %></div>
+                            <div class="review-item">color : <%# Eval("ReviewColor") %></div>
+                            <div class="review-item">quantity : <%#Eval("ReviewQuantity") %></div>
+                        </td>
+                        <td style="padding: 1em; border: 1px solid black; text-align: left" aria-multiline="True">
+                            <div class="review-gien">
+                                <%# Eval("ReviewText") %>
                             </div>
-                        </div>
-                    </td>
-                    <td style="border: 1px solid black" class="auto-style2">
-                        <asp:Button CssClass="review-reply-btn" ID="Button1" runat="server" Text="Edit Reply" />
-                    </td>
-                </tr>
-            </table>
 
-            <!--Pagination-->
-            <div class="pagination">
-                <span>&lt;</span>
-                <span class="active">1</span>
-                <span>2</span>
-                <span>3</span>
-                <span>&gt;</span>
-            </div>
+                            <!-- Reply for review -->
+                            <div class="reply-container">
+                                <asp:Repeater ID="replyRepeater" runat="server" DataSource='<%# Eval("Replies") %>'>
+                                    <ItemTemplate>
+                                        <div class="reply">
+                                            <div class="mb-2 text-sm opacity-60">reply</div>
+                                            <div class="reply-name"><%# Eval("AdminName") %>, <%# Eval("AdminRole") %></div>
+                                            <div class="reply-time"><%# Eval("ReplyTime") %></div>
+                                            <div class="reply-given"><%# Eval("ReplyText") %></div>
+                                        </div>
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                            </div>
 
+                        </td>
+                        <td style="border: 1px solid black" class="auto-style2">
+                            <asp:HyperLink ID="hlReply" CssClass="review-reply-btn" runat="server" NavigateUrl='<%#urls[ProductReviewReply] +"?id=" + Eval("CustomerName") %>'>Reply</asp:HyperLink>
+                        </td>
+                    </tr>
+                </ItemTemplate>
+                <EmptyDataTemplate>
+                    <p>No review yet...</p>
+                </EmptyDataTemplate>
+            </asp:ListView>
+
+            <!--Pagination Bottom-->
+            <asp:DataPager PagedControlID="lvReviews" class="pagination" ID="dpBottomReviews" runat="server" PageSize="2">
+                <Fields>
+                    <asp:NextPreviousPagerField ButtonType="Button" ShowFirstPageButton="False" ShowNextPageButton="False" ShowPreviousPageButton="True" PreviousPageText="<" />
+                    <asp:NumericPagerField NumericButtonCssClass="datapagerStyle" CurrentPageLabelCssClass="active" ButtonCount="10" />
+                    <asp:NextPreviousPagerField ButtonCssClass="test" ButtonType="Button" ShowLastPageButton="False" ShowNextPageButton="True" ShowPreviousPageButton="False" NextPageText=">" />
+                </Fields>
+            </asp:DataPager>
         </div>
     </div>
 </asp:Content>

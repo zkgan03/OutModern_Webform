@@ -34,10 +34,6 @@
                 @apply text-xl text-black font-bold;
             }
 
-            i {
-                @apply hover:text-black;
-            }
-
             input {
                 @apply border border-black rounded pl-2;
             }
@@ -85,6 +81,28 @@
             .drop-down-item {
                 @apply block text-sm py-2 cursor-pointer m-1 hover:bg-[#DBF0ED] box-border;
             }
+
+
+            /*Pagination style in data pager for all tables*/
+            .pagination {
+                @apply flex justify-center my-2;
+            }
+
+                .pagination * {
+                    @apply p-0 border border-black cursor-pointer hover:bg-[#E6F5F2] size-8 text-center leading-8;
+                }
+
+                .pagination .active {
+                    @apply bg-[#94D4CA];
+                }
+
+                .pagination :first-child {
+                    @apply mr-2;
+                }
+
+                .pagination :last-child {
+                    @apply ml-2;
+                }
         }
     </style>
 
@@ -176,7 +194,7 @@
 
             <!-- Main content -->
             <div class="flex-1">
-                <!-- top -->
+                <!-- top nav-->
                 <div id="top" class="drop-shadow sticky z-10 top-0 h-14 box-border bg-[#f8f8fa] flex content-center items-center justify-between">
                     <!-- Left -->
                     <div class="flex items-center h-full">
@@ -237,7 +255,7 @@
                     </div>
 
                     <!-- Main content -->
-                    <div>
+                    <div class="p-12 pt-2">
                         <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
                     </div>
                 </div>
@@ -251,9 +269,6 @@
     </form>
 
     <script src="<%= Page.ResolveClientUrl("~/src/Admin/AdminMaster/js/AdminMaster.js") %>"></script>
-
-    <script>
-</script>
 
 </body>
 </html>

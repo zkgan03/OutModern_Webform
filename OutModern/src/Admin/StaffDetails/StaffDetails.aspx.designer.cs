@@ -7,11 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OutModern.src.Admin.ProductAdd
+namespace OutModern.src.Admin.StaffDetails
 {
 
 
-    public partial class ProductAdd
+    public partial class StaffDetails
     {
 
         /// <summary>
@@ -24,102 +24,75 @@ namespace OutModern.src.Admin.ProductAdd
         protected global::System.Web.UI.WebControls.HyperLink HyperLink1;
 
         /// <summary>
-        /// HyperLink2 control.
+        /// lblStaffId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLink2;
+        protected global::System.Web.UI.WebControls.Label lblStaffId;
 
         /// <summary>
-        /// txtProdId control.
+        /// lblStaffUsername control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtProdId;
+        protected global::System.Web.UI.WebControls.Label lblStaffUsername;
 
         /// <summary>
-        /// txtProdName control.
+        /// lblRole control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtProdName;
+        protected global::System.Web.UI.WebControls.Label lblRole;
 
         /// <summary>
-        /// ddlProdCat control.
+        /// lblStaffName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlProdCat;
+        protected global::System.Web.UI.WebControls.Label lblStaffName;
 
         /// <summary>
-        /// txtProdPrice control.
+        /// lblEmail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtProdPrice;
+        protected global::System.Web.UI.WebControls.Label lblEmail;
 
         /// <summary>
-        /// txtProdQuantity control.
+        /// lblTel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtProdQuantity;
+        protected global::System.Web.UI.WebControls.Label lblTel;
 
         /// <summary>
-        /// ddlProdStatus control.
+        /// lblAddress control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlProdStatus;
+        protected global::System.Web.UI.WebControls.Label lblAddress;
 
         /// <summary>
-        /// ddlSize control.
+        /// lblStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlSize;
-
-        /// <summary>
-        /// btnAddSize control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAddSize;
-
-        /// <summary>
-        /// ddlColor control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlColor;
-
-        /// <summary>
-        /// fileImgUpload control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload fileImgUpload;
+        protected global::System.Web.UI.WebControls.Label lblStatus;
     }
 }

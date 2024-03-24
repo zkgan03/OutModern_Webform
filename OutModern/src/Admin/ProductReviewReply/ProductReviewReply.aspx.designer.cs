@@ -7,119 +7,101 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OutModern.src.Admin.ProductAdd
+namespace OutModern.src.Admin.ProductReviewReply
 {
 
 
-    public partial class ProductAdd
+    public partial class ProductReviewReply
     {
 
         /// <summary>
-        /// HyperLink1 control.
+        /// lblCustomerName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLink1;
+        protected global::System.Web.UI.WebControls.Label lblCustomerName;
 
         /// <summary>
-        /// HyperLink2 control.
+        /// lblCustomerReviewDateTime control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLink2;
+        protected global::System.Web.UI.WebControls.Label lblCustomerReviewDateTime;
 
         /// <summary>
-        /// txtProdId control.
+        /// lblRating control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtProdId;
+        protected global::System.Web.UI.WebControls.Label lblRating;
 
         /// <summary>
-        /// txtProdName control.
+        /// lblColor control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtProdName;
+        protected global::System.Web.UI.WebControls.Label lblColor;
 
         /// <summary>
-        /// ddlProdCat control.
+        /// lblQuantity control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlProdCat;
+        protected global::System.Web.UI.WebControls.Label lblQuantity;
 
         /// <summary>
-        /// txtProdPrice control.
+        /// lblCustomerReview control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtProdPrice;
+        protected global::System.Web.UI.WebControls.Label lblCustomerReview;
 
         /// <summary>
-        /// txtProdQuantity control.
+        /// lblReplyNum control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtProdQuantity;
+        protected global::System.Web.UI.WebControls.Label lblReplyNum;
 
         /// <summary>
-        /// ddlProdStatus control.
+        /// txtReply control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlProdStatus;
+        protected global::System.Web.UI.WebControls.TextBox txtReply;
 
         /// <summary>
-        /// ddlSize control.
+        /// btnReplySend control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlSize;
+        protected global::System.Web.UI.WebControls.Button btnReplySend;
 
         /// <summary>
-        /// btnAddSize control.
+        /// repeaterReviewReplies control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAddSize;
-
-        /// <summary>
-        /// ddlColor control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlColor;
-
-        /// <summary>
-        /// fileImgUpload control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload fileImgUpload;
+        protected global::System.Web.UI.WebControls.Repeater repeaterReviewReplies;
     }
 }

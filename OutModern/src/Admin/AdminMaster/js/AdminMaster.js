@@ -148,8 +148,12 @@
     scrollTopBtn = document.querySelector("#scrollTopBtn");
 
     scrollTopBtn.addEventListener("click", () => {
+        document.documentElement.style.scrollBehavior = "smooth";
         document.documentElement.scrollTop = 0;
         document.body.scrollTop = 0;
+
+        document.documentElement.style.scrollBehavior = "auto";
+
     })
 
     window.onscroll = () => {

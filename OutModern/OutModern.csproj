@@ -87,6 +87,20 @@
     <Compile Include="src\Admin\ProductEdit\ProductEdit.aspx.designer.cs">
       <DependentUpon>ProductEdit.aspx</DependentUpon>
     </Compile>
+    <Compile Include="src\Admin\ProductReviewReply\ProductReviewReply.aspx.cs">
+      <DependentUpon>ProductReviewReply.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Admin\ProductReviewReply\ProductReviewReply.aspx.designer.cs">
+      <DependentUpon>ProductReviewReply.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Admin\StaffDetails\StaffDetails.aspx.cs">
+      <DependentUpon>StaffDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Admin\StaffDetails\StaffDetails.aspx.designer.cs">
+      <DependentUpon>StaffDetails.aspx</DependentUpon>
+    </Compile>
     <Compile Include="src\ErrorPages\403.aspx.cs">
       <DependentUpon>403.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -490,9 +504,11 @@
     <Content Include="src\Admin\ProductAdd\ProductAdd.aspx" />
     <Content Include="src\Admin\ProductDetails\ProductDetails.aspx" />
     <Content Include="src\Admin\ProductEdit\ProductEdit.aspx" />
+    <Content Include="src\Admin\ProductReviewReply\ProductReviewReply.aspx" />
     <Content Include="src\Admin\Products\Products.aspx" />
     <Content Include="src\Admin\PromoCode\PromoCode.aspx" />
     <Content Include="src\Admin\Setting\Setting.aspx" />
+    <Content Include="src\Admin\StaffDetails\StaffDetails.aspx" />
     <Content Include="src\Admin\Staffs\Staffs.aspx" />
     <Content Include="src\Client\ClientMaster\css\ClientMaster.css" />
     <Content Include="src\Client\ClientMaster\js\ClientMaster.js" />
@@ -630,6 +646,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="src\Admin\StaffAdd\" />
+    <Folder Include="src\Admin\StaffEdit\" />
     <Folder Include="src\Admin\Staffs\js\" />
     <Folder Include="src\Client\Home\css\" />
     <Folder Include="src\Client\Home\js\" />

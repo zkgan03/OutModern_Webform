@@ -24,57 +24,30 @@ namespace OutModern.src.Admin.Products
         protected global::System.Web.UI.WebControls.HyperLink hyperlinkAddProduct;
 
         /// <summary>
-        /// Image1 control.
+        /// dpTopProducts control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image Image1;
+        protected global::System.Web.UI.WebControls.DataPager dpTopProducts;
 
         /// <summary>
-        /// Image2 control.
+        /// lvProducts control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image Image2;
+        protected global::System.Web.UI.WebControls.ListView lvProducts;
 
         /// <summary>
-        /// Image3 control.
+        /// dpBottomProducts control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image Image3;
-
-        /// <summary>
-        /// Image4 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image Image4;
-
-        /// <summary>
-        /// Image5 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image Image5;
-
-        /// <summary>
-        /// Image6 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image Image6;
+        protected global::System.Web.UI.WebControls.DataPager dpBottomProducts;
     }
 }

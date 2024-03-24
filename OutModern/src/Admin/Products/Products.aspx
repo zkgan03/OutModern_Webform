@@ -3,6 +3,10 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style type="text/tailwindcss">
         @layer components {
+            .button {
+                @apply text-white px-2 py-1 cursor-pointer bg-amber-500 hover:opacity-50 rounded;
+            }
+
             .filter-item .item {
                 @apply cursor-pointer mr-2 border p-2 box-border;
             }
@@ -32,33 +36,37 @@
                     @apply border-b border-black;
                 }
 
-                    #data-table tr.data-table-head {
-                        @apply sticky top-14 bg-gray-950 text-white;
+                #data-table thead {
+                    @apply sticky top-14 bg-gray-950 text-white;
+                }
+
+                    #data-table thead th {
+                        @apply p-1;
                     }
 
-                        #data-table tr.data-table-head th {
-                            @apply p-1;
+                        #data-table thead th > * {
+                            @apply text-opacity-50 cursor-pointer hover:bg-gray-100 hover:text-gray-950 p-1 rounded;
                         }
 
-                            #data-table tr.data-table-head th span {
-                                @apply text-opacity-50 cursor-pointer hover:bg-gray-100 hover:text-gray-950 p-1 rounded;
+                        #data-table thead th.active {
+                            @apply text-opacity-100;
+                        }
+
+                            #data-table thead th.active i {
+                                @apply visible;
                             }
 
-                            #data-table tr.data-table-head th.active {
-                                @apply text-opacity-100;
-                            }
+                        #data-table thead th i {
+                            @apply invisible;
+                        }
 
-                                #data-table tr.data-table-head th.active i {
-                                    @apply visible;
-                                }
+                #data-table tbody tr {
+                    @apply hover:bg-[#DBF0ED] cursor-pointer;
+                }
 
-                            #data-table tr.data-table-head th span i {
-                                @apply invisible;
-                            }
-
-                    #data-table tr.data-table-item {
-                        @apply hover:bg-[#DBF0ED] cursor-pointer;
-                    }
+                #data-table tbody td {
+                    @apply p-2;
+                }
             /*Pagination style*/
             .pagination {
                 @apply flex justify-center my-2;
@@ -84,18 +92,19 @@
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div>
-        <h2>Products</h2>
-    </div>
-    <div>
-        <!-- Filter and add item -->
-        <div class="flex justify-between mt-5">
 
-            <!--Add item-->
-            <asp:HyperLink NavigateUrl="<%#urls[ProductAdd] %>" CssClass="hover:opacity-60 p-2 box-border border bg-green-600 text-white" ID="hyperlinkAddProduct" runat="server">
-                <i class="fa-regular fa-plus"></i>
-                New Product
-            </asp:HyperLink>
+    <div class="mt-2">
+        <!--Add item-->
+        <asp:HyperLink NavigateUrl="<%#urls[ProductAdd] %>" CssClass="inline-block rounded hover:opacity-60 p-2 box-border bg-green-600 text-white" ID="hyperlinkAddProduct" runat="server">
+            <i class="fa-regular fa-plus"></i>
+            New Product
+        </asp:HyperLink>
+
+        <!-- Filter and add item -->
+        <div class="flex justify-between items-center mt-8">
+            <div>
+                <h2>Product List</h2>
+            </div>
 
             <!-- Filter -->
             <div class="filter-item flex">
@@ -111,146 +120,111 @@
         </div>
 
         <!-- Display Product -->
-        <div class="mt-5">
-            <table id="data-table" style="width: 100%; text-align: center;">
-                <tbody>
-                    <tr class="data-table-head">
-                        <th class="active">
-                            <span data-header="id">id
-                        <i class="fa-solid fa-arrow-up"></i>
-                            </span>
+        <div class="mt-2">
+            <!--Pagination-->
+            <asp:DataPager PagedControlID="lvProducts" ID="dpTopProducts" class="pagination" runat="server" PageSize="2">
+                <Fields>
+                    <asp:NextPreviousPagerField ButtonType="Button" ShowFirstPageButton="False" ShowNextPageButton="False" ShowPreviousPageButton="True" PreviousPageText="<" />
+                    <asp:NumericPagerField CurrentPageLabelCssClass="active" ButtonCount="10" />
+                    <asp:NextPreviousPagerField ButtonType="Button" ShowLastPageButton="False" ShowNextPageButton="True" ShowPreviousPageButton="False" NextPageText=">" />
+                </Fields>
+            </asp:DataPager>
 
-                        </th>
-                        <th>
-                            <span data-header="id">Name
-                        <i class="fa-solid fa-arrow-up"></i>
-                            </span>
-                        </th>
-                        <th>
-                            <span data-header="category">Category
-                        <i class="fa-solid fa-arrow-up"></i>
-                            </span>
-                        </th>
-                        <th>
-                            <span data-header="colors">Colors
-                        <i class="fa-solid fa-arrow-up"></i>
-                            </span>
-                        </th>
-                        <th>
-                            <span data-header="price">Price (RM)
-                        <i class="fa-solid fa-arrow-up"></i>
-                            </span>
-                        </th>
-                        <th>
-                            <span data-header="quantity">Quantity
-                        <i class="fa-solid fa-arrow-up"></i>
-                            </span>
-                        </th>
-                        <th>
-                            <span data-header="status">Status
-                        <i class="fa-solid fa-arrow-up"></i>
-                            </span>
-                        </th>
-                        <th>
-                            <span data-header="reviews">Reviews
-                                <i class="fa-solid fa-arrow-up"></i>
-                            </span>
+            <asp:ListView OnItemCommand="lvProducts_ItemCommand" OnPagePropertiesChanged="lvProducts_PagePropertiesChanged" ID="lvProducts" runat="server" DataKeyNames="Id" OnItemDataBound="lvProducts_ItemDataBound">
+                <LayoutTemplate>
 
-                        </th>
+                    <table id="data-table" style="width: 100%; text-align: center;">
+                        <thead>
+                            <tr class="data-table-head">
+                                <th class="active">
+                                    <asp:LinkButton ID="lbId" runat="server">
+                                        ID
+                                        <i class="fa-solid fa-arrow-up"></i>
+                                    </asp:LinkButton>
+                                </th>
+                                <th>
+                                    <asp:LinkButton ID="lbName" runat="server">
+                                        Name
+                                        <i class="fa-solid fa-arrow-up"></i>
+                                    </asp:LinkButton>
+
+                                </th>
+                                <th>
+                                    <asp:LinkButton ID="lbCategory" runat="server">
+                                        Category
+                                        <i class="fa-solid fa-arrow-up"></i>
+                                    </asp:LinkButton>
+                                </th>
+                                <th>
+                                    <asp:LinkButton ID="lbColors" runat="server">
+                                        Colors
+                                        <i class="fa-solid fa-arrow-up"></i>
+                                    </asp:LinkButton>
+                                </th>
+                                <th>
+                                    <asp:LinkButton ID="lbPrice" runat="server">
+                                        Price (RM)
+                                        <i class="fa-solid fa-arrow-up"></i>
+                                    </asp:LinkButton>
+                                </th>
+                                <th>
+                                    <asp:LinkButton ID="lbQuantity" runat="server">
+                                        Quantity
+                                        <i class="fa-solid fa-arrow-up"></i>
+                                    </asp:LinkButton>
+                                </th>
+                                <th>
+                                    <asp:LinkButton ID="LinkButton1" runat="server">
+                                        Status
+                                        <i class="fa-solid fa-arrow-up"></i>
+                                    </asp:LinkButton>
+                                </th>
+                                <th>
+                                    <asp:LinkButton ID="LinkButton2" runat="server">
+                                        Reviews
+                                        <i class="fa-solid fa-arrow-up"></i>
+                                    </asp:LinkButton>
+                                </th>
+                                <th>Edit?</th>
+                            </tr>
+                        </thead>
+                        <tr runat="server" id="itemPlaceholder" class="data-table-item"></tr>
+                    </table>
+
+                </LayoutTemplate>
+                <ItemTemplate>
+                    <tr onclick="window.location='<%# Page.ResolveClientUrl(urls[ProductDetails] + "?id=" +  Eval("Id") )%>'">
+                        <td><%# Eval("Id") %></td>
+                        <td>
+                            <asp:Image ID="imgPath" CssClass="mx-auto" runat="server" Width="5em" ImageUrl='<%# Eval("Path") %>' />
+                            <%# Eval("Name") %>
+                        </td>
+                        <td><%# Eval("Category") %></td>
+                        <td>...</td>
+                        <td><%# Eval("Price", "{0:0.00}") %></td>
+                        <td><%# Eval("Quantity") %></td>
+                        <td>
+                            <span runat="server" id="productStatus" class="product-status"><%# Eval("Status") %></span>
+                        </td>
+                        <td><%# Eval("Reviews") %></td>
+                        <td>
+                            <asp:HyperLink NavigateUrl='<%#urls[ProductEdit] + "?id=" + Eval("Id") %>' runat="server" CssClass="button">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                            </asp:HyperLink>
+                        </td>
                     </tr>
-                    <tr class="data-table-item" onclick="window.location='<%# Page.ResolveClientUrl(urls[ProductDetails] + "?params=123")%>'">
-                        <td>1</td>
-                        <td>
-                            <asp:Image ID="Image1" CssClass="mx-auto" runat="server" Width="5em" ImageUrl="~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de6441b1.png" />
-                            Premium Hoodie
-                        </td>
-                        <td>Hoodies</td>
-                        <td>... ...</td>
-                        <td>99.99</td>
-                        <td>12</td>
-                        <td>
-                            <span class="product-status temp-unavailable">Unavailable</span>
-                        </td>
-                        <td>4</td>
-                    </tr>
-                    <tr class="data-table-item">
-                        <td>2</td>
-                        <td>
-                            <asp:Image ID="Image2" CssClass="mx-auto" runat="server" Width="5em" ImageUrl="~/images/product-img/hoodies/black-Hoodie/unisex-champion-tie-dye-hoodie-black-front-2-6116819deddd3.png" />
-                            Champion Hoodies
-                        </td>
-                        <td>Hoodies</td>
-                        <td>... ...</td>
-                        <td>99.99</td>
-                        <td>12</td>
-                        <td><span class="product-status in-stock">In Stock</span></td>
-                        <td>1</td>
-                    </tr>
-                    <tr class="data-table-item">
-                        <td>3</td>
-                        <td>
-                            <asp:Image ID="Image3" CssClass="mx-auto" runat="server" Width="5em" ImageUrl="~/images/product-img/hoodies/black-Hoodie/all-over-print-unisex-hoodie-white-left-611679bab84f3.png" />
-                            Special Hoodie
-                        </td>
-                        <td>Hoodies</td>
-                        <td>... ...</td>
-                        <td>99.99</td>
-                        <td>0</td>
-                        <td><span class="product-status out-of-stock">Out of Stock</span></td>
-                        <td>3</td>
-                    </tr>
-                    <tr class="data-table-item">
-                        <td>4</td>
-                        <td>
-                            <asp:Image ID="Image4" CssClass="mx-auto" runat="server" Width="5em" ImageUrl="~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de6441b1.png" />
-                            Premium Hoodie
-                        </td>
-                        <td>Hoodies</td>
-                        <td>... ...</td>
-                        <td>99.99</td>
-                        <td>12</td>
-                        <td>
-                            <span class="product-status temp-unavailable">Unavailable</span>
-                        </td>
-                        <td>7</td>
-                    </tr>
-                    <tr class="data-table-item">
-                        <td>5</td>
-                        <td>
-                            <asp:Image ID="Image5" CssClass="mx-auto" runat="server" Width="5em" ImageUrl="~/images/product-img/hoodies/black-Hoodie/unisex-champion-tie-dye-hoodie-black-front-2-6116819deddd3.png" />
-                            Champion Hoodies
-                        </td>
-                        <td>Hoodies</td>
-                        <td>... ...</td>
-                        <td>99.99</td>
-                        <td>12</td>
-                        <td><span class="product-status in-stock">In Stock</span></td>
-                        <td>2</td>
-                    </tr>
-                    <tr class="data-table-item">
-                        <td>6</td>
-                        <td>
-                            <asp:Image ID="Image6" CssClass="mx-auto" runat="server" Width="5em" ImageUrl="~/images/product-img/hoodies/black-Hoodie/all-over-print-unisex-hoodie-white-left-611679bab84f3.png" />
-                            Special Hoodie
-                        </td>
-                        <td>Hoodies</td>
-                        <td>... ...</td>
-                        <td>99.99</td>
-                        <td>0</td>
-                        <td><span class="product-status out-of-stock">Out of Stock</span></td>
-                        <td>3</td>
-                    </tr>
-                </tbody>
-            </table>
+                </ItemTemplate>
+            </asp:ListView>
+
 
             <!--Pagination-->
-            <div class="pagination">
-                <span>&lt;</span>
-                <span class="active">1</span>
-                <span>2</span>
-                <span>3</span>
-                <span>&gt;</span>
-            </div>
+            <asp:DataPager PagedControlID="lvProducts" ID="dpBottomProducts" class="pagination" runat="server" PageSize="2">
+                <Fields>
+                    <asp:NextPreviousPagerField ButtonType="Button" ShowFirstPageButton="False" ShowNextPageButton="False" ShowPreviousPageButton="True" PreviousPageText="<" />
+                    <asp:NumericPagerField CurrentPageLabelCssClass="active" ButtonCount="10" />
+                    <asp:NextPreviousPagerField ButtonType="Button" ShowLastPageButton="False" ShowNextPageButton="True" ShowPreviousPageButton="False" NextPageText=">" />
+                </Fields>
+            </asp:DataPager>
         </div>
     </div>
 

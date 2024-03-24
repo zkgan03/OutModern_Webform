@@ -87,6 +87,24 @@ namespace OutModern.src.Admin.ProductEdit
         protected global::System.Web.UI.WebControls.DropDownList ddlProdStatus;
 
         /// <summary>
+        /// ddlSize control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlSize;
+
+        /// <summary>
+        /// btnAddSize control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAddSize;
+
+        /// <summary>
         /// ddlColor control.
         /// </summary>
         /// <remarks>
@@ -94,6 +112,15 @@ namespace OutModern.src.Admin.ProductEdit
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlColor;
+
+        /// <summary>
+        /// btnAddColor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAddColor;
 
         /// <summary>
         /// imgProd1 control.
