@@ -36,7 +36,7 @@
 
         @layer components {
             .header {
-                @apply bg-[#f5f5f5] h-[100px] hover:bg-[#f7efd5] mb-10 text-center sticky top-0 shadow flex justify-between;
+                @apply bg-[#f5f5f5] h-[75px] mb-10 text-center sticky top-0 shadow flex justify-between;
             }
 
             .header-scroll {
@@ -52,7 +52,7 @@
             }
 
             #top-nav .drop-down {
-                @apply h-0 overflow-hidden absolute left-0 top-[100%] mx-auto bg-[#f7efd5] text-left drop-shadow rounded-2xl w-[150px] cursor-default;
+                @apply h-0 overflow-hidden absolute left-0 top-[100%] mx-auto bg-[#ffffff] text-left drop-shadow rounded-2xl w-[150px] cursor-default;
             }
 
             #top-nav .nav-dropdown-list {
@@ -77,8 +77,8 @@
             </div>
 
             <!-- Header -->
-            <header class="bg-white shadow">
-                <nav class="container mx-auto flex justify-between py-4">
+            <header class="header bg-white shadow ">
+                <nav id="top-nav" class="container mx-auto flex justify-between py-4">
 
                     <!-- LEFT PART -->
                     <div class="flex items-center">
@@ -89,22 +89,28 @@
 
 
                     <!-- CENTER PART -->
-                    <div class="absolute left-1/2 transform -translate-x-1/2 mt-2 flex items-center space-x-6">
+                    <div class="absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-6">
                         <asp:HyperLink ID="hyperlinkHome" CssClass="text-black-600 hover:text-gray-800" runat="server" NavigateUrl="~/src/Client/Home/Home.aspx">Home</asp:HyperLink>
                         <asp:HyperLink ID="hyperlinkAbout" CssClass="text-black-600 hover:text-gray-800" runat="server" NavigateUrl="#">About Us</asp:HyperLink>
-                        <div class="relative group">
+
+                        <!-- Categories-nav-->
+                        <div class="nav-dropdown text-xl  group relative py-1.5 hover:text-black cursor-pointer">
                             <span class="text-gray-600 hover:text-gray-800 cursor-pointer">Categories</span>
-                            <i class="fa-solid fa-angle-down align-middle group-hover:text-gray-800"></i>
-                            <div class="absolute z-10 bg-white shadow-lg p-4 rounded-lg mt-2 hidden group-hover:block">
+                            <i class="fa-solid fa-angle-down align-middle group-hover:text-black"></i>
+                            <div class="drop-down">
                                 <ul>
                                     <li>
-                                        <asp:HyperLink CssClass="block py-2 hover:text-gray-800" ID="HyperLink2" NavigateUrl="#" runat="server">item 1</asp:HyperLink></li>
+                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink2" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
+                                    </li>
                                     <li>
-                                        <asp:HyperLink CssClass="block py-2 hover:text-gray-800" ID="HyperLink" NavigateUrl="#" runat="server">item 1</asp:HyperLink></li>
+                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
+                                    </li>
                                     <li>
-                                        <asp:HyperLink CssClass="block py-2 hover:text-gray-800" ID="HyperLink3" NavigateUrl="#" runat="server">item 1</asp:HyperLink></li>
+                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink3" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
+                                    </li>
                                     <li>
-                                        <asp:HyperLink CssClass="block py-2 hover:text-gray-800" ID="HyperLink4" NavigateUrl="#" runat="server">item 1</asp:HyperLink></li>
+                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink4" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -121,28 +127,37 @@
                     <i class="fa-solid fa-magnifying-glass cursor pt-1.5"></i>
                             </asp:LinkButton>
                         </div>
+
+                        <!--CART-->
                         <asp:HyperLink ID="hyperlinkCart" runat="server" NavigateUrl="#" class="text-gray-600 hover:text-gray-800">
                             <i class="fa-duotone fa-cart-shopping text-xl align-middle"></i>
                             <asp:Label ID="numberLabel" runat="server" CssClass="inline-block text-center pl-2 pr-2 bg-[#131118] rounded-xl text-white" Text="13"></asp:Label>
                         </asp:HyperLink>
-                        <div class="relative group">
-                            <div class="text-gray-600 hover:text-gray-800 cursor-pointer flex items-center">
-                                <i class="fa-regular fa-user align-middle group-hover:text-gray-800 text-xl"></i>
-                                <!-- <i class="fa-solid fa-angle-down align-middle group-hover:text-gray-800"></i> -->
+
+                        <!--USER-->
+                        <div class="nav-dropdown text-xl relative group py-1.5 hover:text-black cursor-pointer">
+                            <div>
+                                <i class="fa-regular fa-user align-middle group-hover:text-black text-xl"></i>
                             </div>
-                            <div class="absolute z-10 bg-white shadow-lg p-4 rounded-lg mt-2 hidden group-hover:block">
+                            <div class="drop-down">
                                 <ul>
                                     <li>
-                                        <asp:HyperLink CssClass="block py-2 hover:text-gray-800" ID="HyperLink1" NavigateUrl="#" runat="server">item 1</asp:HyperLink></li>
+                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink5" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
+                                    </li>
                                     <li>
-                                        <asp:HyperLink CssClass="block py-2 hover:text-gray-800" ID="HyperLink9" NavigateUrl="#" runat="server">item 1</asp:HyperLink></li>
+                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink6" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
+                                    </li>
                                     <li>
-                                        <asp:HyperLink CssClass="block py-2 hover:text-gray-800" ID="HyperLink10" NavigateUrl="#" runat="server">item 1</asp:HyperLink></li>
+                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink7" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
+                                    </li>
                                     <li>
-                                        <asp:HyperLink CssClass="block py-2 hover:text-gray-800" ID="HyperLink11" NavigateUrl="#" runat="server">item 1</asp:HyperLink></li>
+                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink8" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
+
+
                     </div>
                 </nav>
             </header>
@@ -259,7 +274,14 @@
 
                 </div>
             </footer>
+
+            <asp:ImageButton ID="scrollToTopBtn" runat="server" ImageUrl="~/images/arrow_up.png" CssClass="fixed bottom-6 right-6 bg-black text-white rounded-full w-10 h-10 flex justify-center items-center hidden" />
+
+
+
         </div>
+
+
 
         <!-- Imports scripts-->
         <script src="<%= Page.ResolveClientUrl("~/src/Client/ClientMaster/js/ClientMaster.js") %>"></script>
