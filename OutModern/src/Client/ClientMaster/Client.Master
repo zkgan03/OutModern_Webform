@@ -36,7 +36,7 @@
 
         @layer components {
             .header {
-                @apply bg-[#f5f5f5] h-[75px] mb-10 text-center sticky top-0 shadow flex justify-between;
+                @apply bg-[#f5f5f5] h-[75px] text-center sticky top-0 shadow flex justify-between;
             }
 
             .header-scroll {
@@ -117,18 +117,17 @@
 
             <!-- Header -->
             <header class="header bg-white shadow-md ">
-                <nav id="top-nav" class="container mx-auto flex justify-between py-4">
+                <nav id="top-nav" class="container mx-auto flex justify-between p-4">
 
                     <!-- LEFT PART -->
                     <div class="flex items-center">
                         <asp:HyperLink ID="hyperlinkLogo" runat="server" NavigateUrl="~/src/Client/Home/Home.aspx">
-                <h1 class="text-2xl font-bold text-gray-800">OUTMODERN</h1>
+                            <h1 class="text-2xl font-bold text-gray-800">OUTMODERN</h1>
                         </asp:HyperLink>
                     </div>
 
-
                     <!-- CENTER PART -->
-                    <div class="md:flex hidden absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-10">
+                    <div class="md:flex absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-10">
                         <asp:HyperLink ID="hyperlinkHome" CssClass="text-black-600 hover:text-gray-800" runat="server" NavigateUrl="~/src/Client/Home/Home.aspx">Home</asp:HyperLink>
                         <asp:HyperLink ID="hyperlinkAbout" CssClass="text-black-600 hover:text-gray-800" runat="server" NavigateUrl="#">About Us</asp:HyperLink>
 
@@ -154,9 +153,6 @@
                             </div>
                         </div>
                     </div>
-
-
-
 
                     <!-- RIGHT PART -->
                     <div class="flex items-center space-x-7">
@@ -203,7 +199,7 @@
 
 
             <!--  Your Content -->
-            <div>
+            <div class="container mx-auto px-4 pt-10">
                 <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
                 </asp:ContentPlaceHolder>
             </div>
@@ -216,10 +212,14 @@
                             <asp:HyperLink ID="outModern" runat="server" NavigateUrl="~/src/Client/Home/Home.aspx">
                           <h1 class="text-3xl font-semibold mb-4 text-white">OutModern</h1>
                             </asp:HyperLink>
-                            <p class="text-white pb-2"><i class="fa-solid fa-phone text-white pr-2"></i>
-                                <asp:HyperLink ID="phoneLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="tel:+17045550127">(704) 555-0127</asp:HyperLink></p>
-                            <p class="text-white pb-2"><i class="fa-regular fa-envelope text-white pr-2"></i>
-                                <asp:HyperLink ID="emailLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="mailto:krist@example.com">krist@example.com</asp:HyperLink></p>
+                            <p class="text-white pb-2">
+                                <i class="fa-solid fa-phone text-white pr-2"></i>
+                                <asp:HyperLink ID="phoneLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="tel:+17045550127">(704) 555-0127</asp:HyperLink>
+                            </p>
+                            <p class="text-white pb-2">
+                                <i class="fa-regular fa-envelope text-white pr-2"></i>
+                                <asp:HyperLink ID="emailLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="mailto:krist@example.com">krist@example.com</asp:HyperLink>
+                            </p>
                             <p class="text-white pb-2"><i class="fa-solid fa-location-dot text-white pr-2"></i>Pavilion, Kuala Lumpur</p>
 
                         </div>
