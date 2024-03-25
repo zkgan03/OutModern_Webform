@@ -186,6 +186,24 @@ namespace OutModern.src.Client.ClientMaster
         protected global::System.Web.UI.WebControls.HyperLink outModern;
 
         /// <summary>
+        /// phoneLink control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink phoneLink;
+
+        /// <summary>
+        /// emailLink control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink emailLink;
+
+        /// <summary>
         /// myAccountLink control.
         /// </summary>
         /// <remarks>
@@ -346,14 +364,5 @@ namespace OutModern.src.Client.ClientMaster
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HyperLink twitterLink;
-
-        /// <summary>
-        /// scrollToTopBtn control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton scrollToTopBtn;
     }
 }

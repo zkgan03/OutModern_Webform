@@ -52,11 +52,50 @@
             }
 
             #top-nav .drop-down {
-                @apply h-0 overflow-hidden absolute left-0 top-[100%] mx-auto bg-[#ffffff] text-left drop-shadow rounded-2xl w-[150px] cursor-default;
+                @apply h-0 overflow-hidden absolute right-0 top-[100%] mx-auto bg-[#ffffff] text-left drop-shadow-2xl rounded-2xl w-[150px] cursor-default;
             }
 
             #top-nav .nav-dropdown-list {
                 @apply block transition-all my-2 py-2 cursor-pointer box-border pl-2 rounded-3xl hover:bg-black hover:text-white;
+            }
+        }
+
+        /* Default width for the textbox */
+        .textbox-default-width {
+            width: 208px; /* Adjust as needed */
+        }
+
+        /* Media query for smaller screen sizes */
+        @media screen and (max-width: 1000px) {
+            .textbox-default-width {
+                width: 96px; /* Adjust as needed for smaller screens */
+            }
+        }
+
+        /* Media query for even smaller screen sizes */
+        @media screen and (max-width: 766px) {
+            .textbox-default-width {
+                width: 208px; /* Adjust as needed for even smaller screens */
+            }
+        }
+
+
+        /* Default width for the textbox */
+        .textbox-email-width {
+            width: 280px; /* Adjust as needed */
+        }
+
+        /* Media query for smaller screen sizes */
+        @media screen and (max-width: 1200px) {
+            .textbox-email-width {
+                width: 200px; /* Adjust as needed for smaller screens */
+            }
+        }
+
+        /* Media query for even smaller screen sizes */
+        @media screen and (max-width: 900px) {
+            .textbox-email-width {
+                width: 130px; /* Adjust as needed for even smaller screens */
             }
         }
     </style>
@@ -67,7 +106,7 @@
 <body>
     <form id="form1" runat="server">
         <!-- container -->
-        <div class="w-[100%] m-auto bg-[#fcfcfc]">
+        <div class="w-[100%] m-auto bg-white">
 
             <!-- Ads -->
             <div class="nav-ads flex relative text-center bg-[#626262] h-10 text-white justify-center items-center">
@@ -77,7 +116,7 @@
             </div>
 
             <!-- Header -->
-            <header class="header bg-white shadow ">
+            <header class="header bg-white shadow-xl ">
                 <nav id="top-nav" class="container mx-auto flex justify-between py-4">
 
                     <!-- LEFT PART -->
@@ -89,7 +128,7 @@
 
 
                     <!-- CENTER PART -->
-                    <div class="absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-10">
+                    <div class="md:flex hidden absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-10">
                         <asp:HyperLink ID="hyperlinkHome" CssClass="text-black-600 hover:text-gray-800" runat="server" NavigateUrl="~/src/Client/Home/Home.aspx">Home</asp:HyperLink>
                         <asp:HyperLink ID="hyperlinkAbout" CssClass="text-black-600 hover:text-gray-800" runat="server" NavigateUrl="#">About Us</asp:HyperLink>
 
@@ -122,7 +161,7 @@
                     <!-- RIGHT PART -->
                     <div class="flex items-center space-x-7">
                         <div class="relative flex">
-                            <asp:TextBox CssClass="rounded-2xl border-black border-2 h-10 w-52 pl-4 pr-10 text-gray-600" ID="txtSearch" runat="server"></asp:TextBox>
+                            <asp:TextBox CssClass="rounded-2xl border-black border-2 h-10 pl-4 pr-10 text-gray-600 textbox-default-width" ID="txtSearch" runat="server"></asp:TextBox>
                             <asp:LinkButton CssClass="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600" ID="lBtnSearch" runat="server" OnClick="lBtnSearch_Click">
                     <i class="fa-solid fa-magnifying-glass cursor pt-1.5"></i>
                             </asp:LinkButton>
@@ -139,7 +178,7 @@
                             <div>
                                 <i class="fa-regular fa-user align-middle group-hover:text-black text-xl"></i>
                             </div>
-                            <div class="drop-down">
+                            <div class="drop-down max-w-xs">
                                 <ul>
                                     <li>
                                         <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink5" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
@@ -177,9 +216,12 @@
                             <asp:HyperLink ID="outModern" runat="server" NavigateUrl="~/src/Client/Home/Home.aspx">
                           <h1 class="text-3xl font-semibold mb-4 text-white">OutModern</h1>
                             </asp:HyperLink>
-                            <p class="text-white pb-2"><i class="fa-solid fa-phone text-white pr-2"></i>(704) 555-0127</p>
-                            <p class="text-white pb-2"><i class="fa-regular fa-envelope text-white pr-2"></i>krist@example.com</p>
+                            <p class="text-white pb-2"><i class="fa-solid fa-phone text-white pr-2"></i>
+                                <asp:HyperLink ID="phoneLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="tel:+17045550127">(704) 555-0127</asp:HyperLink></p>
+                            <p class="text-white pb-2"><i class="fa-regular fa-envelope text-white pr-2"></i>
+                                <asp:HyperLink ID="emailLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="mailto:krist@example.com">krist@example.com</asp:HyperLink></p>
                             <p class="text-white pb-2"><i class="fa-solid fa-location-dot text-white pr-2"></i>Pavilion, Kuala Lumpur</p>
+
                         </div>
 
                         <!--2nd Column-->
@@ -187,19 +229,19 @@
                             <h3 class="text-lg font-semibold mb-4 text-white">Information</h3>
                             <ul>
                                 <li class="pb-2">
-                                    <asp:HyperLink ID="myAccountLink" runat="server" CssClass="text-white" NavigateUrl="#">My Account</asp:HyperLink>
+                                    <asp:HyperLink ID="myAccountLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="#">My Account</asp:HyperLink>
                                 </li>
                                 <li class="pb-2">
-                                    <asp:HyperLink ID="loginLink" runat="server" CssClass="text-white" NavigateUrl="#">Login</asp:HyperLink>
+                                    <asp:HyperLink ID="loginLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="#">Login</asp:HyperLink>
                                 </li>
                                 <li class="pb-2">
-                                    <asp:HyperLink ID="myCartLink" runat="server" CssClass="text-white" NavigateUrl="#">My Cart</asp:HyperLink>
+                                    <asp:HyperLink ID="myCartLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="#">My Cart</asp:HyperLink>
                                 </li>
                                 <li class="pb-2">
-                                    <asp:HyperLink ID="myWishlistLink" runat="server" CssClass="text-white" NavigateUrl="#">My Wishlist</asp:HyperLink>
+                                    <asp:HyperLink ID="myWishlistLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="#">My Wishlist</asp:HyperLink>
                                 </li>
                                 <li class="pb-2">
-                                    <asp:HyperLink ID="checkoutLink" runat="server" CssClass="text-white" NavigateUrl="#">Checkout</asp:HyperLink>
+                                    <asp:HyperLink ID="checkoutLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="#">Checkout</asp:HyperLink>
                                 </li>
                             </ul>
                         </div>
@@ -210,19 +252,19 @@
                             <h3 class="text-lg font-semibold mb-4 text-white">Service</h3>
                             <ul>
                                 <li class="pb-2">
-                                    <asp:HyperLink ID="aboutUsLink" runat="server" CssClass="text-white" NavigateUrl="#">About Us</asp:HyperLink>
+                                    <asp:HyperLink ID="aboutUsLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="#">About Us</asp:HyperLink>
                                 </li>
                                 <li class="pb-2">
-                                    <asp:HyperLink ID="careersLink" runat="server" CssClass="text-white" NavigateUrl="#">Careers</asp:HyperLink>
+                                    <asp:HyperLink ID="careersLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="#">Careers</asp:HyperLink>
                                 </li>
                                 <li class="pb-2">
-                                    <asp:HyperLink ID="deliveryInfoLink" runat="server" CssClass="text-white" NavigateUrl="#">Delivery Information</asp:HyperLink>
+                                    <asp:HyperLink ID="deliveryInfoLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="#">Delivery Information</asp:HyperLink>
                                 </li>
                                 <li class="pb-2">
-                                    <asp:HyperLink ID="privacyPolicyLink" runat="server" CssClass="text-white" NavigateUrl="#">Privacy Policy</asp:HyperLink>
+                                    <asp:HyperLink ID="privacyPolicyLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="#">Privacy Policy</asp:HyperLink>
                                 </li>
                                 <li class="pb-2">
-                                    <asp:HyperLink ID="termsConditionsLink" runat="server" CssClass="text-white" NavigateUrl="#">Terms & Conditions</asp:HyperLink>
+                                    <asp:HyperLink ID="termsConditionsLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="#">Terms & Conditions</asp:HyperLink>
                                 </li>
                             </ul>
                         </div>
@@ -232,7 +274,7 @@
                         <div>
                             <h3 class="text-lg font-semibold mb-4 text-white">Subscribe</h3>
                             <p class="text-white">Enter your email below to be the first to know about new collections and product launches.</p>
-                            <div class="flex mt-4 relative" style="width:280px;">
+                            <div class="flex mt-4 relative textbox-email-width">
                                 <asp:TextBox ID="emailTextBox" runat="server" CssClass="w-full bg-gray-700 text-gray-300 pl-4 pr-16 py-2 rounded-l" placeholder="Your Email"></asp:TextBox>
                                 <asp:Button ID="subscribeButton" runat="server" CssClass="absolute right-0 p-2 bg-gray-600 text-gray-300 px-4 py-2 rounded-r" Text="→" />
                             </div>
@@ -274,8 +316,6 @@
 
                 </div>
             </footer>
-
-            <asp:ImageButton ID="scrollToTopBtn" runat="server" ImageUrl="~/images/arrow_up.png" CssClass="fixed bottom-6 right-6 bg-black text-white rounded-full w-10 h-10 flex justify-center items-center hidden" />
 
 
 
