@@ -106,7 +106,7 @@
 <body>
     <form id="form1" runat="server">
         <!-- container -->
-        <div class="w-[100%] m-auto bg-white">
+        <div class="w-[100%] m-auto bg-gray-50">
 
             <!-- Ads -->
             <div class="nav-ads flex relative text-center bg-[#626262] h-10 text-white justify-center items-center">
@@ -116,7 +116,7 @@
             </div>
 
             <!-- Header -->
-            <header class="header bg-white shadow-xl ">
+            <header class="header bg-white shadow-md ">
                 <nav id="top-nav" class="container mx-auto flex justify-between py-4">
 
                     <!-- LEFT PART -->
