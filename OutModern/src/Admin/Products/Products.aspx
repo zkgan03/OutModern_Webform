@@ -185,7 +185,7 @@
                                         <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
-                                <th>Edit?</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tr runat="server" id="itemPlaceholder" class="data-table-item"></tr>

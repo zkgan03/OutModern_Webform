@@ -4,7 +4,7 @@
     <style type="text/tailwindcss">
         @layer components {
             #staffDetails > div {
-                @apply odd:bg-gray-100 even:bg-gray-200 px-2;
+                @apply odd:bg-gray-50 even:bg-gray-100 p-2 rounded;
             }
 
             .desc-title {
@@ -28,7 +28,7 @@
         <!-- staff details-->
         <div>
             <div class="text-[1.5rem] font-bold">Staff Details</div>
-            <div id="staffDetails" class="mt-2 ml-2 text-xl">
+            <div id="staffDetails" class="mt-2 ml-2 text-xl rounded border">
                 <div>
                     <span class="desc-title">Staff ID</span>
                     <span>:

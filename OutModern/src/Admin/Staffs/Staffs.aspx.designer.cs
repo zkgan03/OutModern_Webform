@@ -15,13 +15,13 @@ namespace OutModern.src.Admin.Staffs
     {
 
         /// <summary>
-        /// hyperlinkAddProduct control.
+        /// lbAddStaff control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hyperlinkAddProduct;
+        protected global::System.Web.UI.WebControls.LinkButton lbAddStaff;
 
         /// <summary>
         /// dpTopStaffs control.

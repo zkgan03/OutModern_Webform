@@ -54,13 +54,13 @@
     <div class="mt-2">
         <div class="flex justify-between">
             <!--Discard btn-->
-            <asp:HyperLink CssClass="inline-block text-white p-2 rounded bg-red-500 hover:opacity-50" ID="HyperLink1" runat="server" NavigateUrl='#'>
+            <asp:HyperLink CssClass="inline-block text-white p-2 rounded bg-red-500 hover:opacity-50" ID="hlDiscard" runat="server" NavigateUrl='#'>
                 <i class="fa-regular fa-trash"></i>  
                 Discard
             </asp:HyperLink>
 
             <!--Add btn-->
-            <asp:HyperLink CssClass="text-white p-2 rounded bg-green-500 hover:opacity-50" ID="HyperLink2" runat="server" NavigateUrl='#'>
+            <asp:HyperLink CssClass="text-white p-2 rounded bg-green-500 hover:opacity-50" ID="hlAdd" runat="server" NavigateUrl='#'>
                 <i class="fa-regular fa-plus"></i>
                  Add
             </asp:HyperLink>

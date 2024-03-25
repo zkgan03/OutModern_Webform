@@ -83,7 +83,7 @@
 
         <!--Edit product btn-->
         <div>
-            <asp:HyperLink CssClass="inline-block text-white p-2 rounded bg-amber-500 hover:opacity-50" ID="HyperLink1" runat="server" NavigateUrl='<%#urls[ProductEdit] %>'>
+            <asp:HyperLink CssClass="inline-block text-white p-2 rounded bg-amber-500 hover:opacity-50" ID="hlEditProduct" runat="server" NavigateUrl='<%#urls[ProductEdit] %>'>
             <i class="fa-regular fa-pen-to-square"></i>
             Edit Product
             </asp:HyperLink>
