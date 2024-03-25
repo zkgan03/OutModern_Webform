@@ -89,7 +89,7 @@
 
 
                     <!-- CENTER PART -->
-                    <div class="absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-6">
+                    <div class="absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-10">
                         <asp:HyperLink ID="hyperlinkHome" CssClass="text-black-600 hover:text-gray-800" runat="server" NavigateUrl="~/src/Client/Home/Home.aspx">Home</asp:HyperLink>
                         <asp:HyperLink ID="hyperlinkAbout" CssClass="text-black-600 hover:text-gray-800" runat="server" NavigateUrl="#">About Us</asp:HyperLink>
 
@@ -120,7 +120,7 @@
 
 
                     <!-- RIGHT PART -->
-                    <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-7">
                         <div class="relative flex">
                             <asp:TextBox CssClass="rounded-2xl border-black border-2 h-10 w-52 pl-4 pr-10 text-gray-600" ID="txtSearch" runat="server"></asp:TextBox>
                             <asp:LinkButton CssClass="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600" ID="lBtnSearch" runat="server" OnClick="lBtnSearch_Click">
@@ -232,9 +232,9 @@
                         <div>
                             <h3 class="text-lg font-semibold mb-4 text-white">Subscribe</h3>
                             <p class="text-white">Enter your email below to be the first to know about new collections and product launches.</p>
-                            <div class="flex mt-4">
-                                <asp:TextBox ID="emailTextBox" runat="server" CssClass="bg-gray-700 text-gray-300 px-4 py-2 rounded-l" placeholder="Your Email"></asp:TextBox>
-                                <asp:Button ID="subscribeButton" runat="server" CssClass="bg-gray-600 text-gray-300 px-4 py-2 rounded-r" Text="→" />
+                            <div class="flex mt-4 relative" style="width:280px;">
+                                <asp:TextBox ID="emailTextBox" runat="server" CssClass="w-full bg-gray-700 text-gray-300 pl-4 pr-16 py-2 rounded-l" placeholder="Your Email"></asp:TextBox>
+                                <asp:Button ID="subscribeButton" runat="server" CssClass="absolute right-0 p-2 bg-gray-600 text-gray-300 px-4 py-2 rounded-r" Text="→" />
                             </div>
                         </div>
 
