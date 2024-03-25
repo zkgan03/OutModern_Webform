@@ -1,23 +1,4 @@
 ﻿var slideIndex = 1;
-// Image Modal (some have 3 images, some 2 images)
-var modal = document.getElementById("myModal");
-var imgs = document.querySelectorAll("#productImg");
-
-var modalImg = document.getElementById("modal-img");
-imgs.forEach(
-    (img) =>
-    (img.onclick = function () {
-        modal.style.display = "block";
-        modalImg.src = this.src;
-    })
-);
-
-// Close Image Modal
-var span = document.getElementsByClassName("close-modal")[0];
-span.onclick = function () {
-    modal.style.display = "none";
-};
-
 showSlides(slideIndex);
 
 function plusSlides(n) {
@@ -41,6 +22,7 @@ function showSlides(n) {
         dots[i].className = dots[i].className.replace(" opacity-off", "");
         dots[i].style.border = "2px solid rgb(138, 138, 138)";
     }
+    alert(modalImg)
     dots[slideIndex - 1].style.border = "2px solid #000";
     dots[slideIndex - 1].className += " opacity-off";
     slides[slideIndex - 1].style.display = "flex";

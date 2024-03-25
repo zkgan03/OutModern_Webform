@@ -15,6 +15,15 @@ namespace OutModern.src.Client.Products
     {
 
         /// <summary>
+        /// lblTotalProducts control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTotalProducts;
+
+        /// <summary>
         /// minPrice control.
         /// </summary>
         /// <remarks>
@@ -87,21 +96,12 @@ namespace OutModern.src.Client.Products
         protected global::System.Web.UI.WebControls.RadioButtonList rbRatings;
 
         /// <summary>
-        /// lblName control.
+        /// ProductRepeater control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblName;
-
-        /// <summary>
-        /// lblPrice control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPrice;
+        protected global::System.Web.UI.WebControls.Repeater ProductRepeater;
     }
 }

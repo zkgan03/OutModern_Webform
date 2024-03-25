@@ -1,12 +1,7 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/src/Client/ClientMaster/Client.Master" AutoEventWireup="true" CodeBehind="ProductDetails.aspx.cs" Inherits="OutModern.src.Client.NewFolder1.ProductDetails" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <style>/**/
-    
-        .colorChosen {
-             box-shadow: 0 0 0 2px whitesmoke, 0 0 0 4px black;
-        }
-            
+    <style>
         .size-chart tbody > :nth-child(odd) {
             background-color: rgb(255, 255, 255);
         }
@@ -93,89 +88,146 @@
             border: 2px solid #000;
             border-radius: 5px;
         }
-        .color_grp input[type="radio"]:checked + label {
-              box-shadow: 0 0 0 2px whitesmoke, 0 0 0 4px black;
+
+        .colorGrp input[type="radio"],
+        .sizeGrp input[type="radio"]{
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
         }
-    </style>
-    <script src="<%= Page.ResolveClientUrl("product-details.js") %>"></script>
+
+        .colorGrp input[type="radio"]:checked + span,
+         .sizeGrp input[type="radio"]:checked + span {
+             box-shadow: 0 0 0 2px whitesmoke, 0 0 0 4px black;
+         }
+    </style>    
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <div class="flex flex-col mx-auto w-full p-30 md:p-15 mt-14">
+    <div class="flex flex-col mx-auto w-full p-30 md:p-15 mt-14 mb-10" style="min-width:1200px;">
         <div class="flex">
             <div class="w-2/5 flex justify-center flex-wrap items-center ml-10">
                 <div class="w-4/5 min-w-[320px]">
                     <div id="myModal" class="image-modal">
                         <span class="close-modal">&times;</span>
-                        <img class="image-modal-content" id="modal-img">
+                        <img src="" class="image-modal-content" id="modal-img">
                     </div>
                     <div class="max-w-7xl relative bg-opacity-50 bg-gray-300" style="max-width: 1200px">
-                        <img id="productImg" class="slides"
-                            src="../../../images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de6441b1.png"
-                            style="width: 100%; cursor: pointer">
-                        <img id="productImg" class="slides"
-                            src="../../../images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-zoomed-in-61167de6440a2.png"
-                            style="width: 100%; display: none; cursor: pointer">
-                        <img id="productImg" class="slides"
-                            src="../../../images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de644282.png"
-                            style="width: 100%; display: none; cursor: pointer">
-                        <img class="absolute top-2 right-2 pointer-events-none" src="../../../images/product-img/zoom-in.png" alt="Zoom In">
+                        <asp:Image ID="productImg1" CssClass="slides productImg" runat="server"
+                            ImageUrl="~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de6441b1.png"
+                            Style="width: 100%; cursor: pointer"/>
+                        <asp:Image ID="productImg2" CssClass="slides productImg" runat="server"
+                            ImageUrl="~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-zoomed-in-61167de6440a2.png"
+                            Style="width: 100%; display: none; cursor: pointer"/>
+                        <asp:Image ID="productImg3" CssClass="slides productImg" runat="server"
+                            ImageUrl="~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de644282.png"
+                            Style="width: 100%; display: none; cursor: pointer"/>
+                        <asp:Image ID="ZoomInImage" runat="server" CssClass="absolute top-2 right-2 pointer-events-none" ImageUrl="~/images/product-img/zoom-in.png" AlternateText="Zoom In" />
                         <a class="cursor-pointer absolute top-1/2 px-4 py-2 mt-[-22px] text-white font-bold text-lg transition duration-300 select-none bg-black left-0 rounded-r-lg" onclick="plusSlides(-1)">&#10094;</a>
                         <a class="cursor-pointer absolute top-1/2 px-4 py-2 mt-[-22px] text-white font-bold text-lg transition duration-300 select-none bg-black right-0 rounded-r-lg" onclick="plusSlides(1)">&#10095;</a>
-
+                        
                         <div class="px-2 mt-4 mb-4">
                             <div class="px-2 float-left w-1/3">
-                                <img class="demo opacity hover-opacity-off"
-                                    src="../../../images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de6441b1.png"
-                                    style="width: 100%; cursor: pointer" onclick="currentDiv(1)">
+                                <asp:Image ID="Image1" runat="server" CssClass="demo opacity hover-opacity-off" ImageUrl="~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de6441b1.png" Style="width: 100%; cursor: pointer" onClick="currentDiv(1)" />
                             </div>
                             <div class="px-2 float-left w-1/3">
-                                <img class="demo opacity hover-opacity-off"
-                                    src="../../../images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-zoomed-in-61167de6440a2.png"
-                                    style="width: 100%; cursor: pointer" onclick="currentDiv(2)">
+                                <asp:Image ID="Image2" runat="server" CssClass="demo opacity hover-opacity-off" ImageUrl="~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-zoomed-in-61167de6440a2.png" Style="width: 100%; cursor: pointer" onClick="currentDiv(2)" />
                             </div>
-
                             <div class="px-2 float-left w-1/3">
-                                <img class="demo opacity hover-opacity-off"
-                                    src="../../../images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de644282.png"
-                                    style="width: 100%; cursor: pointer" onclick="currentDiv(3)">
+                                <asp:Image ID="Image3" runat="server" CssClass="demo opacity hover-opacity-off" ImageUrl="~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de644282.png" Style="width: 100%; cursor: pointer" onClick="currentDiv(3)" />
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
-            <div class="w-3/5">
-                <div>
-                    <h3 class="text-lg font-semibold mb-2">Color: <asp:Label ID="lblColor" runat="server" Text="Beige"></asp:Label></h3>
-                    <div class="flex space-x-2">
-                        
-                            <asp:RadioButton ID="radColor" value="" runat="server" name="color-choice" class="sr-only"  />
-                            <span style="background-color:beige" class="h-8 w-8 rounded-full border border-black border-opacity-10"></span>                      
-                        
-                            
-                       
+            <div class="w-3/5 mx-auto flex flex-col mr-10 py-2">
+                <div class="w-4/5">
+                    <h1 class="text-4xl font-bold mb-4">OutModern 【Premium Hoodie】</h1>
+                    <div class="flex items-center mb-5">
+                        <i class="fas fa-star text-yellow-400" style="font-weight: bold !important;"></i>
+                        <i class="fas fa-star text-yellow-400" style="font-weight: bold !important;"></i>
+                        <i class="fas fa-star text-yellow-400" style="font-weight: bold !important;"></i>
+                        <i class="fas fa-star text-yellow-400" style="font-weight: bold !important;"></i>
+                        <i class="fas fa-star text-yellow-400" style="font-weight: bold !important;"></i>
+                        <a href="#review" class="hover:underline">
+                            <span class="ml-2 text-gray-600">(238 Reviews)</span>
+                        </a>
+                    </div>
+                    <p class="text-gray-700 mb-5">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.</p>
+                    <div class="flex items-center mb-5">
+                        <span class="text-3xl font-bold mr-4 text-black">RM19.99</span>
+                    </div>
+
+                    <div class="mb-5">
+                        <h3 class="text-lg font-semibold mb-4">Color:
+                        <asp:Label ID="lblColor" runat="server" Text="" Visible="false"></asp:Label></h3>
+                        <div class="flex space-x-2 gap-3">
+                            <label class="inline-flex items-center cursor-pointer colorGrp">
+                                <asp:RadioButton ID="radioBeige" value="Beige" runat="server" GroupName="colorSelection" OnCheckedChanged="radioColor_CheckedChanged" AutoPostBack="True" />
+                                <span class="w-9 h-9 border border-gray-600 rounded-full border-opacity-10" style="background-color: beige"></span>
+                            </label>
+                            <label class="inline-flex items-center cursor-pointer colorGrp">
+                                <asp:RadioButton ID="radioLightGray" value="LightGray" runat="server" GroupName="colorSelection"  OnCheckedChanged="radioColor_CheckedChanged" AutoPostBack="True" />
+                                <span class="w-9 h-9 border border-gray-600 rounded-full border-opacity-10" style="background-color: lightgray"></span>
+                            </label>
+                            <label class="inline-flex items-center cursor-pointer colorGrp">
+                                <asp:RadioButton ID="radioBlack" value="Black" runat="server" GroupName="colorSelection"  OnCheckedChanged="radioColor_CheckedChanged" AutoPostBack="True"/>
+                                <span class="w-9 h-9 border border-gray-600 rounded-full border-opacity-10" style="background-color: black"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="mb-7">
+                        <h3 class="text-lg font-semibold mb-4">Size:
+                            <asp:Label ID="lblSize" runat="server" Text="" Visible="false"></asp:Label></h3>
+                        <div class="flex space-x-2 gap-3">
+                            <label class="inline-flex items-center cursor-pointer sizeGrp">
+                                <asp:RadioButton ID="sizeXS" value="XS" runat="server" GroupName="sizeSelection" OnCheckedChanged="radioSize_CheckedChanged" AutoPostBack="True"/>
+                                <span aria-hidden="true" class="px-4 py-3 rounded-md hover:bg-gray-300 flex items-center justify-center" style="min-height: 2.5rem;min-width:5rem;border:1px solid rgba(0, 0, 0, .20);">XS</span>
+                            </label>
+                            <label class="inline-flex items-center cursor-pointer sizeGrp">
+                                <asp:RadioButton ID="sizeS" value="S" runat="server" GroupName="sizeSelection" OnCheckedChanged="radioSize_CheckedChanged" AutoPostBack="True"/>
+                                <span aria-hidden="true" class="px-4 py-3 rounded-md hover:bg-gray-300 flex items-center justify-center" style="min-height: 2.5rem;min-width:5rem;border:1px solid rgba(0, 0, 0, .20);">S</span>
+                            </label>
+                            <label class="inline-flex items-center cursor-pointer sizeGrp">
+                                <asp:RadioButton ID="sizeM" value="M" runat="server" GroupName="sizeSelection" OnCheckedChanged="radioSize_CheckedChanged" AutoPostBack="True"/>
+                                <span aria-hidden="true" class="px-4 py-3 rounded-md hover:bg-gray-300 flex items-center justify-center" style="min-height: 2.5rem;min-width:5rem;border:1px solid rgba(0, 0, 0, .20);">M</span>
+                            </label>
+                            <label class="inline-flex items-center cursor-pointer sizeGrp">
+                                <asp:RadioButton ID="sizeL" value="L" runat="server" GroupName="sizeSelection" OnCheckedChanged="radioSize_CheckedChanged" AutoPostBack="True"/>
+                                <span aria-hidden="true" class="px-4 py-3 rounded-md hover:bg-gray-300 flex items-center justify-center" style="min-height: 2.5rem;min-width:5rem;border:1px solid rgba(0, 0, 0, .20);">L</span>
+                            </label>
+                            <label class="inline-flex items-center cursor-pointer sizeGrp">
+                                <asp:RadioButton ID="sizeXL" value="XL" runat="server" GroupName="sizeSelection" OnCheckedChanged="radioSize_CheckedChanged" AutoPostBack="True"/>
+                                <span aria-hidden="true" class="px-4 py-3 rounded-md hover:bg-gray-300 flex items-center justify-center" style="min-height: 2.5rem;min-width:5rem;border:1px solid rgba(0, 0, 0, .20);">XL</span>
+                            </label>
+                            <label class="inline-flex items-center cursor-pointer sizeGrp">
+                                <asp:RadioButton ID="size2XL" value="2XL" runat="server" GroupName="sizeSelection" OnCheckedChanged="radioSize_CheckedChanged" AutoPostBack="True" />
+                                <span aria-hidden="true" class="px-4 py-3 rounded-md hover:bg-gray-300 flex items-center justify-center" style="min-height: 2.5rem;min-width:5rem;border:1px solid rgba(0, 0, 0, .20);">2XL</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="mb-8">
+                        <div class="flex items-center">
+                            <div class="mr-5">
+                                <h3 class="text-lg font-semibold">Quantity: </h3>
+                            </div>
+                            <div class="flex items-center border rounded">
+                                <button class="px-3 py-2 bg-gray-200 rounded-l hover:bg-gray-300">-</button>
+                                <input type="text" class="w-12 py-2 text-center" value="1">
+                                <button class="px-3 py-2 bg-gray-200 rounded-r hover:bg-gray-300">+</button>
+                            </div>
+                            <span class="ml-4 text-gray-600">20489 pieces available</span>
+                        </div>       
                     </div>
                 </div>
-
-                <div class="mt-4">
-                    <h3 class="text-lg font-semibold mb-2">Size:</h3>
-                    <div class="flex space-x-2">
-                        <span class="px-6 py-2.5 rounded-md bg-gray-800 text-white cursor-pointer border-2 border-white hover:border-gray-500">XS</span>
-                        <span class="px-4 py-2 rounded-md bg-gray-200 cursor-not-allowed opacity-50">S</span>
-                        <span class="px-4 py-2 rounded-md bg-gray-200 cursor-pointer border-2 border-transparent hover:border-gray-500">M</span>
-                    </div>
-                </div>
-
-                <div class="mt-4">
-                    <label for="quantity" class="text-gray-700 font-semibold">Quantity:</label>
-                    <div class="inline-flex items-center">
-                        <select id="quantity" class="form-select rounded-md py-1 px-2">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <!-- Add more options as needed -->
-                        </select>
+                <div class="mb-5" style="border-top:1.5px solid lightgray">
+                    <div class="flex items-center mt-7">
+                        <div class="mr-5">
+                            <asp:Button ID="btnAddToCart" runat="server" Text="Add To Cart" class="cursor-pointer min-w-20 flex-1 bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500 sm:w-full"/>
+                        </div>
+                        <div>
+                            <asp:Button ID="btnBuyNow" runat="server" Text="Buy Now" class="cursor-pointer min-w-20 flex-1 bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500 sm:w-full" />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -305,8 +357,8 @@
                 <div class="text-xs flex items-center gap-4">
                     <i class="fas fa-user text-black" style="font-weight: bold !important;"></i>
                     <span class="text-black text-lg">
-                    <asp:Label ID="lblTotalReview" runat="server" Text="238" class="text-black text-lg"></asp:Label>
-                    Total Reviews</span>
+                        <asp:Label ID="lblTotalReview" runat="server" Text="238" class="text-black text-lg"></asp:Label>
+                        Total Reviews</span>
                 </div>
             </div>
             <div class="flex justify-center flex-col text-lg shadow-lg rounded-lg p-6 flex-1 min-w-[300px]">
@@ -317,7 +369,8 @@
                         <span class="absolute w-4/5 bg-green-500 h-full rounded-full"></span>
                     </span>
                     <p class="text-left">
-                        <asp:Label ID="lbl5star" runat="server" Text="80"></asp:Label>%</p>
+                        <asp:Label ID="lbl5star" runat="server" Text="80"></asp:Label>%
+                    </p>
                 </div>
                 <div class="flex items-center gap-4 text-base mb-3">
                     <p style="width: 10px" class="text-center">4</p>
@@ -326,7 +379,8 @@
                         <span class="absolute w-3/5 bg-blue-500 h-full rounded-full"></span>
                     </span>
                     <p class="text-left">
-                        <asp:Label ID="lbl4star" runat="server" Text="60"></asp:Label>%</p>
+                        <asp:Label ID="lbl4star" runat="server" Text="60"></asp:Label>%
+                    </p>
                 </div>
                 <div class="flex items-center gap-4 text-base mb-3">
                     <p style="width: 10px" class="text-center">3</p>
@@ -335,7 +389,8 @@
                         <span class="absolute w-2/5 bg-blue-300 h-full rounded-full"></span>
                     </span>
                     <p class="text-left">
-                        <asp:Label ID="lbl3star" runat="server" Text="40"></asp:Label>%</p>
+                        <asp:Label ID="lbl3star" runat="server" Text="40"></asp:Label>%
+                    </p>
                 </div>
                 <div class="flex items-center gap-4 text-base mb-3">
                     <p style="width: 10px" class="text-center">2</p>
@@ -360,9 +415,10 @@
             </div>
         </div>
 
-        <div class="mx-auto shadow-lg mt-5 p-4 rounded-lg">
+        <div class="mx-auto shadow-lg mt-5 p-4 rounded-lg" id="review">
             <div class="flex items-center flex-wrap p-4 font-bold text-lg">
-                <p>All Ratings and Reviews</p>
+                <p class="underline">All Ratings and Reviews</p>
+
                 <div style="margin-left: auto">
                     <button class="bg-black text-white border border-black px-4 py-2 select-none cursor-pointer transition duration-200 text-base" id="latestBtn" onclick="
                     sortFromLatest()">
@@ -384,7 +440,7 @@
                     <div class="p-4 w-full flex flex-col gap-4">
                         <div class="flex items-center flex-wrap">
                             <div class="flex flex-col">
-                                    <asp:Label ID="lblName" runat="server" Text="MantouYYDS" class="text-black font-bold"></asp:Label>
+                                <asp:Label ID="lblName" runat="server" Text="MantouYYDS" class="text-black font-bold"></asp:Label>
                                 <p class="text-sm italic text-gray-500">
                                     <asp:Label ID="lblTime" runat="server" Text="Sun, 12 Sept 2021"></asp:Label>
                                 </p>
@@ -423,8 +479,25 @@ product is the best one on the market."></asp:Label>
             </div>
         </div>
     </div>
-        
-    <script src="<%= Page.ResolveClientUrl("product-details.js") %>"></script>
- 
+    <script>
+        var modal = document.getElementById("myModal");
+        var imgs = document.querySelectorAll(".slides");
+        var modalImg = document.querySelector("#modal-img");
+        imgs.forEach(
+            (img) =>
+            (img.onclick = function () {
+                modal.style.display = "block";
+                modalImg.src = this.src;
+            })
+        );
+
+        // Close Image Modal
+        var span = document.getElementsByClassName("close-modal")[0];
+        span.onclick = function () {
+            modal.style.display = "none";
+        };
+    </script>
+    
+     <script src="product-details.js" type="text/javascript"></script>
 </asp:Content>
 
