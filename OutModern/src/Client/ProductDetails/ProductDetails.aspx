@@ -479,6 +479,7 @@ product is the best one on the market."></asp:Label>
             </div>
         </div>
     </div>
+    <script src="product-details.js" type="text/javascript"></script>
     <script>
         var modal = document.getElementById("myModal");
         var imgs = document.querySelectorAll(".slides");
@@ -497,7 +498,5 @@ product is the best one on the market."></asp:Label>
             modal.style.display = "none";
         };
     </script>
-    
-     <script src="product-details.js" type="text/javascript"></script>
 </asp:Content>
 
