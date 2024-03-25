@@ -127,7 +127,7 @@
                     </div>
 
                     <!-- CENTER PART -->
-                    <div class="md:flex absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-10">
+                    <div class="md:flex hidden absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-10">
                         <asp:HyperLink ID="hyperlinkHome" CssClass="text-black-600 hover:text-gray-800" runat="server" NavigateUrl="~/src/Client/Home/Home.aspx">Home</asp:HyperLink>
                         <asp:HyperLink ID="hyperlinkAbout" CssClass="text-black-600 hover:text-gray-800" runat="server" NavigateUrl="#">About Us</asp:HyperLink>
 
@@ -155,7 +155,7 @@
                     </div>
 
                     <!-- RIGHT PART -->
-                    <div class="flex items-center space-x-7">
+                    <div class="flex items-center space-x-6">
                         <div class="relative flex">
                             <asp:TextBox CssClass="rounded-2xl border-black border-2 h-10 pl-4 pr-10 text-gray-600 textbox-default-width" ID="txtSearch" runat="server"></asp:TextBox>
                             <asp:LinkButton CssClass="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600" ID="lBtnSearch" runat="server" OnClick="lBtnSearch_Click">
@@ -173,6 +173,7 @@
                         <div class="nav-dropdown text-xl relative group py-1.5 hover:text-black cursor-pointer">
                             <div>
                                 <i class="fa-regular fa-user align-middle group-hover:text-black text-xl"></i>
+                                <i class="fa-solid fa-angle-down align-middle group-hover:text-black"></i>
                             </div>
                             <div class="drop-down max-w-xs">
                                 <ul>
