@@ -52,11 +52,19 @@
             }
 
             #top-nav .drop-down {
-                @apply h-0 overflow-hidden absolute right-0 top-[100%] mx-auto bg-[#ffffff] text-left drop-shadow-2xl rounded-2xl w-[150px] cursor-default;
+                @apply h-0 overflow-hidden absolute py-2 right-0 top-[100%] mx-auto bg-[#ffffff] text-left drop-shadow-2xl rounded-2xl w-[150px] cursor-default;
             }
 
+                #top-nav .drop-down ul {
+                    @apply p-3;
+                }
+
+                #top-nav .drop-down li {
+                    @apply overflow-hidden my-2;
+                }
+
             #top-nav .nav-dropdown-list {
-                @apply block transition-all my-2 py-2 cursor-pointer box-border pl-2 rounded-3xl hover:bg-black hover:text-white;
+                @apply block transition-all py-2 cursor-pointer box-border pl-2 rounded-3xl hover:bg-black hover:text-white;
             }
         }
 
@@ -159,7 +167,7 @@
                         <div class="relative flex">
                             <asp:TextBox CssClass="rounded-2xl border-black border-2 h-10 pl-4 pr-10 text-gray-600 textbox-default-width" ID="txtSearch" runat="server"></asp:TextBox>
                             <asp:LinkButton CssClass="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600" ID="lBtnSearch" runat="server" OnClick="lBtnSearch_Click">
-                    <i class="fa-solid fa-magnifying-glass cursor pt-1.5"></i>
+                                <i class="fa-solid fa-magnifying-glass cursor pt-1.5"></i>
                             </asp:LinkButton>
                         </div>
 
@@ -170,7 +178,7 @@
                         </asp:HyperLink>
 
                         <!--USER-->
-                        <div class="nav-dropdown text-xl relative group py-1.5 hover:text-black cursor-pointer">
+                        <div class="nav-dropdown w-10 text-xl relative group hover:text-black cursor-pointer">
                             <div>
                                 <i class="fa-regular fa-user align-middle group-hover:text-black text-xl"></i>
                             </div>
@@ -191,8 +199,6 @@
                                 </ul>
                             </div>
                         </div>
-
-
                     </div>
                 </nav>
             </header>

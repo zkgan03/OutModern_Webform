@@ -14,10 +14,12 @@
     navDropDown.forEach(item => {
         item.addEventListener("mouseenter", function () {
             icon = this.querySelector(".fa-angle-down");
+            if (!icon) return;
             icon.classList.add("fa-rotate-180");
         })
         item.addEventListener("mouseleave", function () {
             icon = this.querySelector(".fa-angle-down");
+            if (!icon) return;
             icon.classList.remove("fa-rotate-180");
         })
     })
@@ -34,7 +36,6 @@
             dropDownList.style.height = "auto";
             const { height } = dropDownList.getBoundingClientRect();
             dropDownList.style.height = "0";
-            dropDownList.style.padding = "10px"
 
             dropDownList.offsetHeight; // force render
 
@@ -42,9 +43,7 @@
         })
 
         dropDown.addEventListener("mouseleave", (e) => {
-            console.log(e.target)
             dropDownList.style.height = "0px";
-            dropDownList.style.padding = "0px"
         })
     });
 
