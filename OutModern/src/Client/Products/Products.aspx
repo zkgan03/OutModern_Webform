@@ -150,8 +150,8 @@
                         <div class="p-5 hover:bg-[#f8efd6] hover:cursor-pointer hover:[transition:0.3s]" onclick="openSortList();invertIcon(this)">
                             Colors<i class="fa fa-caret-down !font-black float-right"></i>
                         </div>
-                        <ul class="pl-5">
-                            <li class="list-none pb-5 pl-5 pt-2 pr-28 radio-no-bullet flex flex-wrap gap-3.5">
+                        <ul class="pl-5 w-4/5">
+                            <li class="list-none pb-5 pl-5 pt-2 radio-no-bullet flex flex-wrap gap-3.5">
                                 <label class="inline-flex items-center cursor-pointer colorGrp">
                                     <asp:RadioButton ID="radioBeige" value="Beige" runat="server" GroupName="colorSelection" />
                                     <span class="w-6 h-6 border border-gray-600 rounded-full border-opacity-10" style="background-color: beige"></span>
@@ -218,7 +218,7 @@
                 </ul>
             </div>
             <div class="w-4/5 ml-5 mr-8 py-4">
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-6 gap-y-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 3xl:grid-cols-5 gap-x-6 gap-y-6">
                     <!-- Product 1 -->
                     <asp:Repeater ID="ProductRepeater" runat="server">
                         <ItemTemplate>
@@ -226,7 +226,7 @@
                                 <asp:Image ImageUrl='<%# Eval("productImageUrl1", "{0}") %>' ID="Image1" runat="server" class="w-full h-100 object-cover bg-gray-200 hover:cursor-pointer" style="transition: transform 0.5s ease-in-out;"
                                      onmouseover='<%# "changeImage(this, \"" + ResolveClientUrl(Eval("productImageUrl2").ToString()) + "\")" %>'
     onmouseout='<%# "changeImage(this, \"" + ResolveClientUrl(Eval("productImageUrl1").ToString()) + "\")" %>'/>
-                                <div class="p-4">
+                                <div class="p-4 pr-0">
                                     <h2 class="mb-2">
                                         <asp:Label class="text-gray-800 font-bold text-xl hover:cursor-pointer hover:underline" ID="lblName" runat="server">
                                             <%# Eval("productName") %>
