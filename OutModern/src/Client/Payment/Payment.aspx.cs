@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace OutModern.Client.Payment
+namespace OutModern.src.Client.Payment
 {
     public partial class Payment : System.Web.UI.Page
     {

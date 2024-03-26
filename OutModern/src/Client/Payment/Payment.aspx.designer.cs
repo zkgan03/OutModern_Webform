@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OutModern.Client.Payment
+namespace OutModern.src.Client.Payment
 {
 
 
