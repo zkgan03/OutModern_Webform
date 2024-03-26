@@ -114,14 +114,14 @@
                         <img src="" class="image-modal-content" id="modal-img">
                     </div>
                     <div class="max-w-7xl relative bg-opacity-50 bg-gray-300" style="max-width: 1200px">
-                        <asp:Image ID="productImg1" CssClass="slides productImg" runat="server"
-                            ImageUrl="~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de6441b1.png"
+                        <asp:Image ID="mainImage1" CssClass="slides" runat="server"
+                            ImageUrl=""
                             Style="width: 100%; cursor: pointer" />
-                        <asp:Image ID="productImg2" CssClass="slides productImg" runat="server"
-                            ImageUrl="~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-zoomed-in-61167de6440a2.png"
+                        <asp:Image ID="mainImage2" CssClass="slides" runat="server"
+                            ImageUrl=""
                             Style="width: 100%; display: none; cursor: pointer" />
-                        <asp:Image ID="productImg3" CssClass="slides productImg" runat="server"
-                            ImageUrl="~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de644282.png"
+                        <asp:Image ID="mainImage3" CssClass="slides" runat="server"
+                            ImageUrl=""
                             Style="width: 100%; display: none; cursor: pointer" />
                         <img class="absolute top-2 right-2 pointer-events-none" src="../../../images/product-img/zoom-in.png" alt="Zoom In">
                        
@@ -130,20 +130,16 @@
 
                         <div class="px-2 mt-4 mb-4">
                             <div class="px-2 float-left w-1/3">
-                                <img class="demo opacity hover-opacity-off"
-                                    src="../../../images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de6441b1.png"
-                                    style="width: 100%; cursor: pointer" onclick="currentDiv(1)">
+                                <asp:Image ID="Image1" runat="server" CssClass="demo opacity hover-opacity-off"
+                                    Style="width: 100%; cursor: pointer" onclick="currentDiv(1)" />
                             </div>
                             <div class="px-2 float-left w-1/3">
-                                <img class="demo opacity hover-opacity-off"
-                                    src="../../../images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-zoomed-in-61167de6440a2.png"
-                                    style="width: 100%; cursor: pointer" onclick="currentDiv(2)">
+                                <asp:Image ID="Image2" runat="server" CssClass="demo opacity hover-opacity-off"
+                                    Style="width: 100%; cursor: pointer" onclick="currentDiv(2)" />
                             </div>
-
                             <div class="px-2 float-left w-1/3">
-                                <img class="demo opacity hover-opacity-off"
-                                    src="../../../images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de644282.png"
-                                    style="width: 100%; cursor: pointer" onclick="currentDiv(3)">
+                                <asp:Image ID="Image3" runat="server" CssClass="demo opacity hover-opacity-off"
+                                    Style="width: 100%; cursor: pointer" onclick="currentDiv(3)" />
                             </div>
                         </div>
                     </div>

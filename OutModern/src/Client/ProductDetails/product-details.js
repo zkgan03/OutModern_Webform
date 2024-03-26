@@ -1,6 +1,7 @@
 ﻿var modal = document.getElementById("myModal");
 var imgs = document.querySelectorAll(".slides");
 var modalImg = document.getElementById("modal-img");
+
 imgs.forEach(
     (img) =>
     (img.onclick = function () {
@@ -14,6 +15,7 @@ var span = document.getElementsByClassName("close-modal")[0];
 span.onclick = function () {
     modal.style.display = "none";
 };
+
 var slideIndex = 1;
 showSlides(slideIndex);
 function plusSlides(n) {
