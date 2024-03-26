@@ -5,9 +5,8 @@
 }
 
 .header {
-    position: fixed; /* Make the header fixed at the top */
-    top: 0; /* Ensure it stays at the top of the viewport */
-    z-index: 2; /* Ensure the header stays above other content */
-    /* Add other styling properties as needed */
+    position: fixed;
+    top: 0; 
+    z-index: 2; 
 }
 
