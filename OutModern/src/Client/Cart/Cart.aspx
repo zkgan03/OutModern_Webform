@@ -1,72 +1,72 @@
-﻿<%@ Page Title="Cart" Language="C#" MasterPageFile="~/src/Client/ClientMaster/Client.Master" AutoEventWireup="true" CodeBehind="Cart.aspx.cs" Inherits="OutModern.Client.Cart.Cart" %>
+﻿<%@ Page Title="Cart" Language="C#" MasterPageFile="~/src/Client/ClientMaster/Client.Master" AutoEventWireup="true" CodeBehind="Cart.aspx.cs" Inherits="OutModern.src.Client.Cart.Cart" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="mx-auto py-10 w-11/12" style="min-height: 100vh">
-        <h1 class="text-3xl font-bold mb-6">Checkout</h1>
-        <div class="bg-white shadow-md rounded-md p-6">
-            <div class="grid grid-cols-3 gap-12">
-                <div class="col-span-2">
-                    <div class="container mx-auto mb-4">
-                        <table class="table-auto container">
-                            <thead>
-                                <tr>
-                                    <th class="w-3/6 text-left py-2 px-4 font-semibold uppercase text-gray-800">Products</th>
-                                    <th class="w-1/6 px-4 py-2 font-semibold uppercase text-gray-800">Price</th>
-                                    <th class="w-1/6 px-4 py-2 font-semibold uppercase text-gray-800">Quantity</th>
-                                    <th class="w-1/6 px-4 py-2 font-semibold uppercase text-gray-800">Subtotal</th>
-                                    <th class="w-1/6 px-4 py-2 font-semibold uppercase text-gray-800">empty</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <asp:ListView ID="ProductListView" runat="server">
-                                    <LayoutTemplate>
-                                        <tr runat="server" id="itemPlaceholder"></tr>
-                                    </LayoutTemplate>
-                                    <ItemTemplate>
+    <div class="mx-auto py-10 w-10/12" style="min-height: 100vh">
+        <h1 class="text-3xl font-bold mb-4">Checkout</h1>
+        <div class="flex max-w-full justify-between">
 
-                                        <!--Product-->
-                                        <tr class="border-b border-gray-200">
-                                            <td class="py-2 px-4">
-                                                <div class="flex items-center">
-                                                    <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# Eval("ProductImageUrl") %>' CssClass="w-16 h-16 mr-4" />
-                                                    <div>
-                                                        <div class="font-bold"><%# Eval("ProductName") %></div>
-                                                        <div class="text-sm text-gray-500">Color: <%# Eval("Color") %></div>
-                                                        <div class="text-sm text-gray-500">Size: <%# Eval("Size") %></div>
-                                                    </div>
+            <!--Cart Item-->
+            <div class="bg-white shadow-md rounded-md p-6 w-4/6">
+                <div class="container mx-auto">
+                    <table class="table-auto container">
+                        <thead class="border-b">
+                            <tr>
+                                <th class="w-3/6 text-left py-4 px-4 font-semibold capitalize text-gray-800">Products</th>
+                                <th class="w-1/6 px-4 py-4 font-semibold capitalize text-gray-800">Price</th>
+                                <th class="w-1/6 px-4 py-4 font-semibold capitalize text-gray-800">Quantity</th>
+                                <th class="w-1/6 px-4 py-4 font-semibold capitalize text-gray-800">Subtotal</th>
+                                <th class="w-1/6 px-4 py-4 font-semibold capitalize text-gray-800">empty</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <asp:ListView ID="ProductListView" runat="server">
+                                <LayoutTemplate>
+                                    <tr runat="server" id="itemPlaceholder"></tr>
+                                </LayoutTemplate>
+                                <ItemTemplate>
+
+                                    <!--Product-->
+                                    <tr class="border-b border-gray-200">
+                                        <td class="py-6 px-4">
+                                            <div class="flex items-center">
+                                                <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# Eval("ProductImageUrl") %>' CssClass="w-12 h-10 mr-4" />
+                                                <div>
+                                                    <div class="font-bold capitalize text-black text-lg"><%# Eval("ProductName") %></div>
+                                                    <div class="text-sm text-gray-500">Color: <%# Eval("Color") %></div>
+                                                    <div class="text-sm text-gray-500">Size: <%# Eval("Size") %></div>
                                                 </div>
-                                            </td>
+                                            </div>
+                                        </td>
 
-                                            <!--Price-->
-                                            <td class="py-2 px-4 font-bold text-center">RM<%# Eval("Price", "{0:N2}") %></td>
+                                        <!--Price-->
+                                        <td class="py-2 px-4 font-bold text-center">RM<%# Eval("Price", "{0:N2}") %></td>
 
-                                            <!--Quantity Button-->
-                                            <td class="py-2 px-4">
-                                                <div class="flex items-center justify-center border border-gray-300 rounded-md">
-                                                    <asp:Button runat="server" ID="btnDecrement" CssClass="px-2 py-1 text-gray-600 hover:text-gray-800" Text="-" OnClick="btnDecrement_Click" />
-                                                    <asp:TextBox runat="server" ID="txtQuantity" CssClass="w-12 text-center border-none focus:outline-none" Text='<%# Eval("Quantity") %>' ReadOnly="true" />
-                                                    <asp:Button runat="server" ID="btnIncrement" CssClass="px-2 py-1 text-gray-600 hover:text-gray-800" Text="+" OnClick="btnIncrement_Click" />
-                                                </div>
+                                        <!--Quantity Button-->
+                                        <td class="py-2 px-6">
+                                            <div class="flex items-center justify-center border border-gray-300 rounded-md">
+                                                <asp:Button runat="server" ID="btnDecrement" CssClass="px-2 py-1 text-gray-600 hover:text-gray-800 text-2xl" Text="-" OnClick="btnDecrement_Click" />
+                                                <asp:TextBox runat="server" ID="txtQuantity" CssClass="w-12 text-center border-none focus:outline-none" Text='<%# Eval("Quantity") %>' ReadOnly="true" />
+                                                <asp:Button runat="server" ID="btnIncrement" CssClass="px-2 py-1 text-gray-600 hover:text-gray-800 text-2xl" Text="+" OnClick="btnIncrement_Click" />
+                                            </div>
 
-                                            </td>
-                                            <td class="py-2 px-4 font-bold text-center">RM<%# Eval("Subtotal", "{0:N2}") %></td>
-                                            <td class="py-2 px-4">
-                                                <asp:Button runat="server" ID="btnDelete" CssClass="text-red-600 hover:text-red-800" Text="Delete" OnClick="btnDelete_Click" aria-label="Delete" />
-                                            </td>
+                                        </td>
+                                        <td class="py-2 px-4 font-bold text-center">RM<%# Eval("Subtotal", "{0:N2}") %></td>
+                                        <td class="py-2 px-4">
+                                            <asp:Button runat="server" ID="btnDelete" CssClass="text-red-600 hover:text-red-800" Text="Delete" OnClick="btnDelete_Click" aria-label="Delete" />
+                                        </td>
 
-                                        </tr>
-                                    </ItemTemplate>
-                                </asp:ListView>
-                            </tbody>
-                        </table>
-                    </div>
+                                    </tr>
+                                </ItemTemplate>
+                            </asp:ListView>
+                        </tbody>
+                    </table>
                 </div>
+            </div>
 
-                <!--OrderSummary-->
-                <div class="bg-white shadow-md rounded-md p-6">
-
+            <!--OrderSummary-->
+                <div class="bg-white shadow-md rounded-md p-6 w-1/4">
                     <div class="mb-4">
                         <div class="flex justify-between mb-2">
                             <h2 class="text-xl font-bold mb-4">Subtotal</h2>
@@ -87,7 +87,6 @@
                     </div>
                     <button type="button" class="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800">Proceed to Checkout</button>
                 </div>
-            </div>
         </div>
     </div>
 

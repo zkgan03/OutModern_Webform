@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OutModern.Client.Cart
+namespace OutModern.src.Client.Cart
 {
 
 

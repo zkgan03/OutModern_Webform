@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace OutModern.Client.Cart
+namespace OutModern.src.Client.Cart
 {
     public partial class Cart : System.Web.UI.Page
     {
