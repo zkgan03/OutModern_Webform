@@ -68,6 +68,118 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\Client\Home\Home.aspx.cs">
+      <DependentUpon>Home.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\Home\Home.aspx.designer.cs">
+      <DependentUpon>Home.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\LoginOld\ForgetPassword.aspx.cs">
+      <DependentUpon>ForgetPassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\LoginOld\ForgetPassword.aspx.designer.cs">
+      <DependentUpon>ForgetPassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\LoginOld\Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\LoginOld\Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\LoginOld\ResetPassword.aspx.cs">
+      <DependentUpon>ResetPassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\LoginOld\ResetPassword.aspx.designer.cs">
+      <DependentUpon>ResetPassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\LoginOld\SignUp.aspx.cs">
+      <DependentUpon>SignUp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\LoginOld\SignUp.aspx.designer.cs">
+      <DependentUpon>SignUp.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\Login\FirstPage.aspx.cs">
+      <DependentUpon>FirstPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\Login\FirstPage.aspx.designer.cs">
+      <DependentUpon>FirstPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\Login\ForgetPassword.aspx.cs">
+      <DependentUpon>ForgetPassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\Login\ForgetPassword.aspx.designer.cs">
+      <DependentUpon>ForgetPassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\Login\Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\Login\Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\Login\ResetPassword.aspx.cs">
+      <DependentUpon>ResetPassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\Login\ResetPassword.aspx.designer.cs">
+      <DependentUpon>ResetPassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\Login\SignUp.aspx.cs">
+      <DependentUpon>SignUp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\Login\SignUp.aspx.designer.cs">
+      <DependentUpon>SignUp.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\Cancelled.aspx.cs">
+      <DependentUpon>Cancelled.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\Cancelled.aspx.designer.cs">
+      <DependentUpon>Cancelled.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\Completed.aspx.cs">
+      <DependentUpon>Completed.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\Completed.aspx.designer.cs">
+      <DependentUpon>Completed.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\EditUserProfile.aspx.cs">
+      <DependentUpon>EditUserProfile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\EditUserProfile.aspx.designer.cs">
+      <DependentUpon>EditUserProfile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\ToReceive.aspx.cs">
+      <DependentUpon>ToReceive.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\ToReceive.aspx.designer.cs">
+      <DependentUpon>ToReceive.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\ToShip.aspx.cs">
+      <DependentUpon>ToShip.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\ToShip.aspx.designer.cs">
+      <DependentUpon>ToShip.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\UserProfile.aspx.cs">
+      <DependentUpon>UserProfile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\UserProfile.aspx.designer.cs">
+      <DependentUpon>UserProfile.aspx</DependentUpon>
+    </Compile>
     <Content Include="App_Data\OutModern.mdf" />
     <Content Include="App_Data\OutModern_log.ldf">
       <DependentUpon>OutModern.mdf</DependentUpon>
@@ -99,7 +211,18 @@
     <Content Include="images\formbackground.jpg" />
     <Content Include="images\grab_pay_logo.png" />
     <Content Include="images\half-star.svg" />
+    <Content Include="images\home-img\home1.jpeg" />
+    <Content Include="images\home-img\home2.jpg" />
     <Content Include="images\loading.gif" />
+    <Content Include="images\login-img\login-background11.jpg" />
+    <Content Include="images\login-img\login-background13.jpg" />
+    <Content Include="images\login-img\login-background14.jpg" />
+    <Content Include="images\login-img\login-background15.jpg" />
+    <Content Include="images\login-img\login-background7.jpg" />
+    <Content Include="images\login-img\login-background.jpg" />
+    <Content Include="images\login-img\login-background3.jpg" />
+    <Content Include="images\login-img\login-background6.jpg" />
+    <Content Include="images\login-img\login-background8.jpg" />
     <Content Include="images\logo2.png" />
     <Content Include="images\manage_pic1.jpg" />
     <Content Include="images\marble.jpg" />
@@ -204,6 +327,7 @@
     <Content Include="images\product-img\hoodies\white-Hoodie\unisex-essential-eco-hoodie-white-front-60e7150a8381a.png" />
     <Content Include="images\product-img\hoodies\white-Hoodie\unisex-premium-hoodie-white-front-61167fab1b96e.png" />
     <Content Include="images\product-img\hoodies\white-Hoodie\unisex-premium-hoodie-white-front-61167fab1babf.png" />
+    <Content Include="images\product-img\login-background.jpg" />
     <Content Include="images\product-img\short-size-guide.png" />
     <Content Include="images\product-img\shorts\black-Short\mens-fleece-shorts-black-front-611920673f190.png" />
     <Content Include="images\product-img\shorts\black-Short\mens-fleece-shorts-black-front-611920673f39b.png" />
@@ -444,7 +568,7 @@
     <Content Include="src\Admin\Dashboard\Dashboard.aspx" />
     <Content Include="src\Client\ClientMaster\css\ClientMaster.css" />
     <Content Include="src\Client\ClientMaster\js\ClientMaster.js" />
-    <Content Include="src\Client\Home\Home.aspx" />
+    <Content Include="src\Client\HomeOld\Home.aspx" />
     <Compile Include="src\Admin\AdminMaster\Admin.Master.cs">
       <DependentUpon>Admin.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -466,11 +590,11 @@
     <Compile Include="src\Client\ClientMaster\Client.Master.designer.cs">
       <DependentUpon>Client.Master</DependentUpon>
     </Compile>
-    <Compile Include="src\Client\Home\Home.aspx.cs">
+    <Compile Include="src\Client\HomeOld\Home.aspx.cs">
       <DependentUpon>Home.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="src\Client\Home\Home.aspx.designer.cs">
+    <Compile Include="src\Client\HomeOld\Home.aspx.designer.cs">
       <DependentUpon>Home.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -513,6 +637,34 @@
     <Content Include="lib\fonts\ChakraPetch\ChakraPetch-SemiBold.ttf" />
     <Content Include="lib\fonts\ChakraPetch\ChakraPetch-SemiBoldItalic.ttf" />
     <None Include="packages.config" />
+    <Content Include="src\Client\Home\css\Home.css" />
+    <Content Include="src\Client\Home\Home.aspx" />
+    <Content Include="src\Client\LoginOld\css\ForgetPassword.css" />
+    <Content Include="src\Client\LoginOld\css\Login.css" />
+    <Content Include="src\Client\LoginOld\css\ResetPassword.css" />
+    <Content Include="src\Client\LoginOld\css\SignUp.css" />
+    <Content Include="src\Client\LoginOld\ForgetPassword.aspx" />
+    <Content Include="src\Client\LoginOld\Login.aspx" />
+    <Content Include="src\Client\LoginOld\ResetPassword.aspx" />
+    <Content Include="src\Client\LoginOld\SignUp.aspx" />
+    <Content Include="src\Client\Login\css\FirstPage.css" />
+    <Content Include="src\Client\Login\css\ForgetPassword.css" />
+    <Content Include="src\Client\Login\css\Login.css" />
+    <Content Include="src\Client\Login\css\ResetPassword.css" />
+    <Content Include="src\Client\Login\css\SignUp.css" />
+    <Content Include="src\Client\Login\FirstPage.aspx" />
+    <Content Include="src\Client\Login\ForgetPassword.aspx" />
+    <Content Include="src\Client\Login\Login.aspx" />
+    <Content Include="src\Client\Login\ResetPassword.aspx" />
+    <Content Include="src\Client\Login\SignUp.aspx" />
+    <Content Include="src\Client\UserProfile\Cancelled.aspx" />
+    <Content Include="src\Client\UserProfile\Completed.aspx" />
+    <Content Include="src\Client\UserProfile\css\MyOrder.css" />
+    <Content Include="src\Client\UserProfile\css\UserProfile.css" />
+    <Content Include="src\Client\UserProfile\EditUserProfile.aspx" />
+    <Content Include="src\Client\UserProfile\ToReceive.aspx" />
+    <Content Include="src\Client\UserProfile\ToShip.aspx" />
+    <Content Include="src\Client\UserProfile\UserProfile.aspx" />
     <Content Include="Web.config" />
     <Content Include="src\Admin\AdminMaster\Admin.Master" />
     <Content Include="src\Client\ClientMaster\Client.Master" />
@@ -526,8 +678,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="src\Client\Home\css\" />
-    <Folder Include="src\Client\Home\js\" />
+    <Folder Include="src\Client\HomeOld\css\" />
+    <Folder Include="src\Client\HomeOld\js\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
