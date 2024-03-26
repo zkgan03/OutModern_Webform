@@ -206,7 +206,7 @@
 
 
             <!--  Your Content -->
-            <div class="container mx-auto px-4 pt-10">
+            <div class="container max-w-full">
                 <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
                 </asp:ContentPlaceHolder>
             </div>

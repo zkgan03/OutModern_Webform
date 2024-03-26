@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OutModern.src.Client.Home
+namespace OutModern.Client.Home
 {
 
 
@@ -15,219 +15,210 @@ namespace OutModern.src.Client.Home
     {
 
         /// <summary>
-        /// form1 control.
+        /// Image1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.WebControls.Image Image1;
 
         /// <summary>
-        /// home_img1 control.
+        /// HyperLink1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image home_img1;
+        protected global::System.Web.UI.WebControls.HyperLink HyperLink1;
 
         /// <summary>
-        /// hl_level1_shopnow control.
+        /// HyperLink2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hl_level1_shopnow;
+        protected global::System.Web.UI.WebControls.HyperLink HyperLink2;
 
         /// <summary>
-        /// hl_hoodies control.
+        /// Image2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hl_hoodies;
+        protected global::System.Web.UI.WebControls.Image Image2;
 
         /// <summary>
-        /// img_hoodies control.
+        /// HyperLink3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image img_hoodies;
+        protected global::System.Web.UI.WebControls.HyperLink HyperLink3;
 
         /// <summary>
-        /// hl_sweaters control.
+        /// Image3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hl_sweaters;
+        protected global::System.Web.UI.WebControls.Image Image3;
 
         /// <summary>
-        /// img_sweaters control.
+        /// HyperLink4 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image img_sweaters;
+        protected global::System.Web.UI.WebControls.HyperLink HyperLink4;
 
         /// <summary>
-        /// hl_teeshirts control.
+        /// Image4 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hl_teeshirts;
+        protected global::System.Web.UI.WebControls.Image Image4;
 
         /// <summary>
-        /// img_teeshirts control.
+        /// HyperLink5 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image img_teeshirts;
+        protected global::System.Web.UI.WebControls.HyperLink HyperLink5;
 
         /// <summary>
-        /// hl_accessories control.
+        /// Image5 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hl_accessories;
+        protected global::System.Web.UI.WebControls.Image Image5;
 
         /// <summary>
-        /// img_accessories control.
+        /// HyperLink6 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image img_accessories;
+        protected global::System.Web.UI.WebControls.HyperLink HyperLink6;
 
         /// <summary>
-        /// hl_shortsandpant control.
+        /// Image6 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hl_shortsandpant;
+        protected global::System.Web.UI.WebControls.Image Image6;
 
         /// <summary>
-        /// img_shortsandpants control.
+        /// HyperLink7 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image img_shortsandpants;
+        protected global::System.Web.UI.WebControls.HyperLink HyperLink7;
 
         /// <summary>
-        /// hl_trousers control.
+        /// Image7 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hl_trousers;
+        protected global::System.Web.UI.WebControls.Image Image7;
 
         /// <summary>
-        /// img_trousers control.
+        /// HyperLink8 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image img_trousers;
+        protected global::System.Web.UI.WebControls.HyperLink HyperLink8;
 
         /// <summary>
-        /// hl_explore_more control.
+        /// HyperLink9 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hl_explore_more;
+        protected global::System.Web.UI.WebControls.HyperLink HyperLink9;
 
         /// <summary>
-        /// hl_content2_img control.
+        /// Image8 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hl_content2_img;
+        protected global::System.Web.UI.WebControls.Image Image8;
 
         /// <summary>
-        /// img_content2 control.
+        /// HyperLink10 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image img_content2;
+        protected global::System.Web.UI.WebControls.HyperLink HyperLink10;
 
         /// <summary>
-        /// hl_new_arrival_1 control.
+        /// Image9 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hl_new_arrival_1;
+        protected global::System.Web.UI.WebControls.Image Image9;
 
         /// <summary>
-        /// img_new_arrival_1 control.
+        /// HyperLink11 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image img_new_arrival_1;
+        protected global::System.Web.UI.WebControls.HyperLink HyperLink11;
 
         /// <summary>
-        /// hl_new_arrival_2 control.
+        /// Image10 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hl_new_arrival_2;
+        protected global::System.Web.UI.WebControls.Image Image10;
 
         /// <summary>
-        /// img_new_arrival_2 control.
+        /// HyperLink12 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image img_new_arrival_2;
+        protected global::System.Web.UI.WebControls.HyperLink HyperLink12;
 
         /// <summary>
-        /// hl_new_arrival_3 control.
+        /// Image11 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hl_new_arrival_3;
-
-        /// <summary>
-        /// img_new_arrival_3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image img_new_arrival_3;
+        protected global::System.Web.UI.WebControls.Image Image11;
     }
 }
