@@ -43,13 +43,15 @@ namespace OutModern.Client.Cart
             // Add columns to match your GridView's DataFields
             dummyData.Columns.Add("ProductImageUrl", typeof(string));
             dummyData.Columns.Add("ProductName", typeof(string));
+            dummyData.Columns.Add("Color", typeof(string));
+            dummyData.Columns.Add("Size", typeof(string));
             dummyData.Columns.Add("Price", typeof(decimal));
             dummyData.Columns.Add("Quantity", typeof(int));
             dummyData.Columns.Add("Subtotal", typeof(decimal));
 
             // Add rows with dummy data
-            dummyData.Rows.Add("~/images/mastercard_logo.png", "Iphone 11", 1500.00m, 2, 3000.00m);
-            dummyData.Rows.Add("~/images/product-img/trouser-size-guide.png", "DTX 4090", 10.00m, 1, 10.00m);
+            dummyData.Rows.Add("~/images/mastercard_logo.png", "Iphone 11", "White", "XL", 1500.00m, 1,3000.00m);
+            dummyData.Rows.Add("~/images/product-img/trouser-size-guide.png", "DTX 4090", "Black", "XL", 10.00m, 2, 10.00m);
             // Add more rows as needed for testing
 
             return dummyData;
@@ -123,6 +125,15 @@ namespace OutModern.Client.Cart
             lblGrandTotal.Text = (grandTotal + 5.00m).ToString("C"); // Adding $5.00 for delivery charge
         }
 
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+
+            //code
+
+
+
+        }
     }
 
 
