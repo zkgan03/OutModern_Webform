@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace OutModern.src.Client.NewFolder1
+namespace OutModern.src.Client.ProductDetails
 {
     public partial class ProductDetails : System.Web.UI.Page
     {
@@ -15,13 +15,44 @@ namespace OutModern.src.Client.NewFolder1
         {
             if (!IsPostBack)
             {
-                // Retrieve product ID from query string
-                if (Request.QueryString["productId"] != null)
+                string productId = Request.QueryString["productID"];
+                if (!string.IsNullOrEmpty(productId))
                 {
-                    int productId = Convert.ToInt32(Request.QueryString["productId"]);
+                    // Use productId to fetch and display product details
+                    var product = GetProducts(productId);
 
-                    
+                    if (product != null)
+                    {
+                        lblProdName.Text = product["productName"].ToString();
+                        lblPrice.Text = "RM" + product["price"].ToString();
+                        lblReviews.Text = " (" + product["totalReview"].ToString() + " Reviews)";
+                    }
+                    else
+                    {
+                        lblName.Text = "Product not found.";
+                    }
                 }
+
+            }
+        }
+
+        private dynamic GetProducts(string productId)
+        {
+            var dummyData = GetDummyData();
+            DataRow[] rows = dummyData.Select($"productID = '{productId}'");
+
+            // Check if rows are found
+            if (rows.Length > 0)
+            {
+                lblName.Text = "ASdasd";
+                // Return the first matching row
+                return rows[0];
+            }
+            else
+            {
+                
+                // Return null if product with provided productId is not found
+                return null;
             }
         }
 
@@ -41,7 +72,7 @@ namespace OutModern.src.Client.NewFolder1
             // Add rows with dummy data
             dummyData.Rows.Add("P001", "Premium Hoodie", "~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de6441b1.png",
                 "~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-zoomed-in-61167de6440a2.png", "~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de644282.png",
-                50.00, 100, 170);
+                49.99, 100, 170);
             dummyData.Rows.Add("P002", "Logo Hoodie", "~/images/product-img/hoodies/white-Hoodie/unisex-essential-eco-hoodie-white-front-60e7150a8381a.png",
                 "~/images/product-img/hoodies/white-Hoodie/unisex-essential-eco-hoodie-white-front-60e7150a8364f.png", "~/images/product-img/hoodies/white-Hoodie/unisex-essential-eco-hoodie-white-front-2-60e7150a8377c.png",
                 99.99, 120, 66);

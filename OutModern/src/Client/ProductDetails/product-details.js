@@ -1,14 +1,27 @@
-﻿var slideIndex = 1;
-showSlides(slideIndex);
+﻿var modal = document.getElementById("myModal");
+var imgs = document.querySelectorAll(".slides");
+var modalImg = document.getElementById("modal-img");
+imgs.forEach(
+    (img) =>
+    (img.onclick = function () {
+        modal.style.display = "block";
+        modalImg.src = this.src;
+    })
+);
 
+// Close Image Modal
+var span = document.getElementsByClassName("close-modal")[0];
+span.onclick = function () {
+    modal.style.display = "none";
+};
+var slideIndex = 1;
+showSlides(slideIndex);
 function plusSlides(n) {
     showSlides((slideIndex += n));
 }
-
 function showSlides(n) {
-    var i;
-    var dots = document.getElementsByClassName("demo");
-    var slides = document.getElementsByClassName("slides");
+    var dots = document.querySelectorAll(".demo");
+    var slides = document.querySelectorAll(".slides");
     if (n > slides.length) {
         slideIndex = 1;
     }
@@ -22,7 +35,6 @@ function showSlides(n) {
         dots[i].className = dots[i].className.replace(" opacity-off", "");
         dots[i].style.border = "2px solid rgb(138, 138, 138)";
     }
-    alert(modalImg)
     dots[slideIndex - 1].style.border = "2px solid #000";
     dots[slideIndex - 1].className += " opacity-off";
     slides[slideIndex - 1].style.display = "flex";

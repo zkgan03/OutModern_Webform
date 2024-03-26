@@ -146,7 +146,7 @@
                     <!-- Product 1 -->
                     <asp:Repeater ID="ProductRepeater" runat="server">
                         <ItemTemplate>
-                            <div onclick='<%# Eval("productID", "window.location.href = \"ProductDetails.aspx?productID={0}\";") %>' class="bg-white rounded-lg shadow-md overflow-hidden hover:bg-yellow-200 hover:shadow-md hover:-translate-x-2 hover:-translate-y-2 transition duration-100 z-0">
+                            <div onclick='<%# Eval("productID", "window.location.href = \"/src/Client/ProductDetails/ProductDetails.aspx?productID={0}\";") %>'  class="bg-white rounded-lg shadow-md overflow-hidden hover:bg-yellow-200 hover:shadow-md hover:-translate-x-2 hover:-translate-y-2 transition duration-100 z-0">
                                 <asp:Image ImageUrl='<%# Eval("productImageUrl1", "{0}") %>' ID="Image1" runat="server" class="w-full h-100 object-cover bg-gray-200 hover:cursor-pointer"/>
                                 <div class="p-4">
                                     <h2 class="mb-2">
@@ -166,7 +166,7 @@
                                         <span>
                                             <i class="fas fa-star-half-alt"></i>
                                         </span>
-                                        <span class="text-gray-600 ml-2">(<%# Eval("TotalReview") %> Sold)</span>
+                                        <span class="text-gray-600 ml-2">(<%# Eval("TotalReview") %> Reviews)</span>
                                     </div>
                                 </div>
                             </div>

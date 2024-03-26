@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OutModern.src.Client.NewFolder1
+namespace OutModern.src.Client.ProductDetails
 {
 
 
@@ -42,40 +42,31 @@ namespace OutModern.src.Client.NewFolder1
         protected global::System.Web.UI.WebControls.Image productImg3;
 
         /// <summary>
-        /// ZoomInImage control.
+        /// lblProdName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image ZoomInImage;
+        protected global::System.Web.UI.WebControls.Label lblProdName;
 
         /// <summary>
-        /// Image1 control.
+        /// lblReviews control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image Image1;
+        protected global::System.Web.UI.WebControls.Label lblReviews;
 
         /// <summary>
-        /// Image2 control.
+        /// lblPrice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image Image2;
-
-        /// <summary>
-        /// Image3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image Image3;
+        protected global::System.Web.UI.WebControls.Label lblPrice;
 
         /// <summary>
         /// lblColor control.
