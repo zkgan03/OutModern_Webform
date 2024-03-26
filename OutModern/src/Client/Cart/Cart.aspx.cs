@@ -50,7 +50,10 @@ namespace OutModern.src.Client.Cart
             dummyData.Columns.Add("Subtotal", typeof(decimal));
 
             // Add rows with dummy data
-            dummyData.Rows.Add("~/images/mastercard_logo.png", "Iphone 11", "White", "XL", 1500.00m, 1,3000.00m);
+            dummyData.Rows.Add("~/images/mastercard_logo.png", "Premium Hoodie", "White", "XL", 1500.00m, 1,3000.00m);
+            dummyData.Rows.Add("~/images/mastercard_logo.png", "Premium Hoodie", "White", "XL", 1500.00m, 1,3000.00m);
+            dummyData.Rows.Add("~/images/mastercard_logo.png", "Premium Hoodie", "White", "XL", 1500.00m, 1, 3000.00m);
+            dummyData.Rows.Add("~/images/mastercard_logo.png", "Premium Hoodie", "White", "XL", 1500.00m, 1, 3000.00m);
             dummyData.Rows.Add("~/images/product-img/trouser-size-guide.png", "DTX 4090", "Black", "XL", 10.00m, 2, 10.00m);
             // Add more rows as needed for testing
 
@@ -132,6 +135,11 @@ namespace OutModern.src.Client.Cart
             //code
 
 
+
+        }
+
+        protected void btnApply_Click(object sender, EventArgs e)
+        {
 
         }
     }

@@ -3,21 +3,21 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="mx-auto py-10 w-10/12" style="min-height: 100vh">
+    <div class="mx-auto pt-10 pb-20 w-[75%] min-h-[60vh]">
         <h1 class="text-3xl font-bold mb-4">Checkout</h1>
-        <div class="flex max-w-full justify-between">
+        <div class="flex justify-between">
 
             <!--Cart Item-->
-            <div class="bg-white shadow-md rounded-md p-6 w-4/6">
+            <div class="bg-white shadow-md rounded-md p-6" style="width: 70%">
                 <div class="container mx-auto">
                     <table class="table-auto container">
                         <thead class="border-b">
                             <tr>
-                                <th class="w-3/6 text-left py-4 px-4 font-semibold capitalize text-gray-800">Products</th>
-                                <th class="w-1/6 px-4 py-4 font-semibold capitalize text-gray-800">Price</th>
-                                <th class="w-1/6 px-4 py-4 font-semibold capitalize text-gray-800">Quantity</th>
-                                <th class="w-1/6 px-4 py-4 font-semibold capitalize text-gray-800">Subtotal</th>
-                                <th class="w-1/6 px-4 py-4 font-semibold capitalize text-gray-800">empty</th>
+                                <th class="w-3/6 text-left py-4 px-4 font-semibold capitalize text-gray-800 text-base">Products</th>
+                                <th class="w-1/6 px-4 py-4 font-semibold capitalize text-gray-800 text-base">Price</th>
+                                <th class="w-1/6 px-4 py-4 font-semibold capitalize text-gray-800 text-base">Quantity</th>
+                                <th class="w-1/6 px-4 py-4 font-semibold capitalize text-gray-800 text-base">Subtotal</th>
+                                <th class="w-1/6 px-4 py-4 font-semibold capitalize text-gray-800 text-base">empty</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -66,27 +66,35 @@
             </div>
 
             <!--OrderSummary-->
-                <div class="bg-white shadow-md rounded-md p-6 w-1/4">
-                    <div class="mb-4">
-                        <div class="flex justify-between mb-2">
-                            <h2 class="text-xl font-bold mb-4">Subtotal</h2>
-                            <asp:Label ID="lblSubtotal" runat="server" CssClass="font-bold" Text="RM200.00"></asp:Label>
-                        </div>
-                        <div class="flex items-center mb-2">
-                            <input type="text" placeholder="Enter Discount Code" class="border border-gray-300 rounded-l-md px-2 py-1 focus:outline-none">
-                            <button type="button" class="bg-gray-200 px-2 py-1 rounded-r-md hover:bg-gray-300">Apply</button>
-                        </div>
-                        <div class="flex justify-between mb-2">
-                            <span>Delivery Charge</span>
-                            <span class="font-bold">RM5.00</span>
-                        </div>
-                        <div class="flex justify-between font-bold text-lg">
-                            <h2 class="text-xl font-bold mb-4">Grand Total</h2>
-                            <asp:Label ID="lblGrandTotal" runat="server" CssClass="font-bold" Text="RM200.00"></asp:Label>
-                        </div>
+            <div class="bg-white shadow-md rounded-md p-6 w-1/4 h-96 overflow-y-auto">
+                <div class="mb-4">
+                    <div class="flex justify-between border-b border-gray-300 pb-4">
+                        <h2 class="text-xl font-bold">Subtotal</h2>
+                        <asp:Label ID="lblSubtotal" runat="server" CssClass="font-bold" Text="RM200.00"></asp:Label>
                     </div>
-                    <button type="button" class="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800">Proceed to Checkout</button>
+
+                    <div class="mt-4">
+                        <span class="text-sm">Enter Discount Code</span>
+                    </div>
+
+                    <div class="flex relative items-center mb-2 rounded-lg border border-black">
+                        <asp:TextBox runat="server" ID="txtDiscountCode" CssClass="w-full px-4 py-4 flex-grow text-sm rounded-lg" />
+                        <asp:Button runat="server" ID="btnApply" CssClass="absolute right-0 bg-black text-white px-6 py-4 hover:bg-gray-800 text-sm rounded-md" Text="Apply" />
+                    </div>
+
+                    <div class="flex justify-between border-b border-gray-300 pb-4">
+                        <span>Delivery Charge</span>
+                        <span class="font-bold">RM5.00</span>
+                    </div>
+                    <div class="flex justify-between font-bold text-lg mt-4">
+                        <h2 class="text-xl font-bold mb-4">Grand Total</h2>
+                        <asp:Label ID="lblGrandTotal" runat="server" CssClass="font-bold" Text="RM200.00"></asp:Label>
+                    </div>
                 </div>
+
+                <asp:Button runat="server" ID="btnCheckout" CssClass="w-full bg-black text-white py-3 rounded-md hover:bg-gray-800" Text="Proceed to Checkout" />
+
+            </div>
         </div>
     </div>
 
