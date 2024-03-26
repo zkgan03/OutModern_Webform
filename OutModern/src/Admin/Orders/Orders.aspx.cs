@@ -6,11 +6,23 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using OutModern.src.Admin.Interfaces;
 
 namespace OutModern.src.Admin.Orders
 {
-    public partial class Orders : System.Web.UI.Page
+    public partial class Orders : System.Web.UI.Page, IFilter
     {
+
+        protected static readonly string OrderDetails = "OrderDetails";
+        protected static readonly string OrderEdit = "OrderEdit";
+
+        // Side menu urls
+        protected Dictionary<string, string> urls = new Dictionary<string, string>()
+        {
+            { OrderDetails , "~/src/Admin/OrderDetails/OrderDetails.aspx" },
+            { OrderEdit , "~/src/Admin/OrderEdit/OrderEdit.aspx" }
+        };
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -42,7 +54,6 @@ namespace OutModern.src.Admin.Orders
 
             // Generate 5 dummy orders with random statuses
             string[] orderStatuses = { "Order Placed", "Shipped", "Cancelled", "Received" };
-            Random random = new Random();
             for (int i = 0; i < 5; i++)
             {
                 DataRow drOrder = dtOrders.NewRow();
@@ -67,11 +78,6 @@ namespace OutModern.src.Admin.Orders
             }
 
             return dtOrders;
-        }
-
-        protected void lbAddOrder_Click(object sender, EventArgs e)
-        {
-
         }
 
         protected void lvOrders_ItemDataBound(object sender, ListViewItemEventArgs e)
@@ -104,6 +110,42 @@ namespace OutModern.src.Admin.Orders
 
 
 
+        }
+
+        //search logic
+        public void FilterListView(string searchTerm)
+        {
+            lvOrders.DataSource = FilterDataTable(GetOrders(), searchTerm);
+            lvOrders.DataBind();
+        }
+
+        private DataTable FilterDataTable(DataTable dataTable, string searchTerm)
+        {
+            // Escape single quotes for safety
+            string safeSearchTerm = searchTerm.Replace("'", "''");
+
+            // Build the filter expression with relevant fields
+            string expression = string.Format(
+                "Convert(OrderId, 'System.String') LIKE '%{0}%' OR " +
+                "CustomerName LIKE '%{0}%' OR " +
+                "Convert(OrderDateTime, 'System.String') LIKE '%{0}%' OR " +
+                "Convert(SubTotal, 'System.String') LIKE '%{0}%' OR " +
+                "OrderStatus LIKE '%{0}%'",
+                safeSearchTerm);
+
+            // Filter the rows
+            DataRow[] filteredRows = dataTable.Select(expression);
+
+            // Create a new DataTable for the filtered results
+            DataTable filteredDataTable = dataTable.Clone();
+
+            // Import the filtered rows
+            foreach (DataRow row in filteredRows)
+            {
+                filteredDataTable.ImportRow(row);
+            }
+
+            return filteredDataTable;
         }
 
     }

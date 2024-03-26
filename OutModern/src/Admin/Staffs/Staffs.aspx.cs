@@ -5,11 +5,14 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using OutModern.src.Admin.Interfaces;
+
 
 namespace OutModern.src.Admin.Staffs
 {
-    public partial class Staffs : System.Web.UI.Page
+    public partial class Staffs : System.Web.UI.Page, IFilter
     {
 
         protected static readonly string StaffEdit = "StaffEdit";
@@ -28,7 +31,6 @@ namespace OutModern.src.Admin.Staffs
 
             if (!IsPostBack)
             {
-
                 lvStaffs.DataSource = GetStaffs();
                 lvStaffs.DataBind();
 
@@ -55,7 +57,7 @@ namespace OutModern.src.Admin.Staffs
                 "Manager",
                 "trest@mail.com",
                 "0123456789",
-                "Active"
+                "Activated"
             );
             data.Rows.Add(
                 2,
@@ -64,7 +66,7 @@ namespace OutModern.src.Admin.Staffs
                 "ano",
                 "trest@mail.com",
                 "0123456789",
-                "Active"
+                "Activated"
             );
             data.Rows.Add(
                3,
@@ -104,7 +106,6 @@ namespace OutModern.src.Admin.Staffs
 
         protected void lvStaffs_ItemCanceling(object sender, ListViewCancelEventArgs e)
         {
-            Response.Write("Cancelled");
             lvStaffs.InsertItemPosition = InsertItemPosition.None;
             lvStaffs.EditIndex = -1;
             lvStaffs.DataSource = GetStaffs();
@@ -125,6 +126,70 @@ namespace OutModern.src.Admin.Staffs
         {
 
             Response.Write("Clicked");
+        }
+
+        protected void lvStaffs_ItemDataBound(object sender, ListViewItemEventArgs e)
+        {
+            if (e.Item.ItemType != ListViewItemType.DataItem) return;
+
+
+            DataRowView rowView = (DataRowView)e.Item.DataItem;
+            HtmlGenericControl statusSpan = (HtmlGenericControl)e.Item.FindControl("userStatus");
+            string status = rowView["AdminStatus"].ToString();
+
+            switch (status)
+            {
+                case "Activated":
+                    statusSpan.Attributes["class"] += " activated";
+                    break;
+                case "Locked":
+                    statusSpan.Attributes["class"] += " locked";
+                    break;
+                case "Deleted":
+                    statusSpan.Attributes["class"] += " deleted";
+                    break;
+                default:
+                    // Handle cases where status doesn't match any of the above
+                    break;
+            }
+
+        }
+
+        public void FilterListView(string searchTerm)
+        {
+            lvStaffs.DataSource = FilterDataTable(GetStaffs(), searchTerm);
+            lvStaffs.DataBind();
+        }
+
+        private DataTable FilterDataTable(DataTable dataTable, string searchTerm)
+        {
+            // Escape single quotes for safety
+            string safeSearchTerm = searchTerm.Replace("'", "''");
+
+            // Build the filter expression with all relevant fields
+            string expression = string.Format(
+                "Convert(AdminId, 'System.String') LIKE '%{0}%' OR " +
+                "AdminName LIKE '%{0}%' OR " +
+                "AdminUsername LIKE '%{0}%' OR " +
+                "AdminRole LIKE '%{0}%' OR " +
+                "AdminEmail LIKE '%{0}%' OR " +
+                "AdminPhoneNo LIKE '%{0}%' OR " +
+                "AdminStatus LIKE '%{0}%'",
+                safeSearchTerm);
+
+            // Filter the rows
+            DataRow[] filteredRows = dataTable.Select(expression);
+
+            // Create a new DataTable for the filtered results
+            DataTable filteredDataTable = dataTable.Clone();
+
+            // Import the filtered rows
+            foreach (DataRow row in filteredRows)
+            {
+                filteredDataTable.ImportRow(row);
+            }
+
+            return filteredDataTable;
         }
     }
 }

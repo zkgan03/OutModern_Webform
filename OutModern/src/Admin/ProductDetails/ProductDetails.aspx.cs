@@ -15,8 +15,7 @@ namespace OutModern.src.Admin.ProductDetails
         protected Dictionary<string, string> urls = new Dictionary<string, string>()
         {
             { ProductEdit , "~/src/Admin/ProductEdit/ProductEdit.aspx" },
-            { ProductReviewReply , "~/src/Admin/ProductReviewReply/ProductReviewReply.aspx" },
-
+            { ProductReviewReply , "~/src/Admin/ProductReviewReply/ProductReviewReply.aspx" }
 
         };
         protected void Page_Load(object sender, EventArgs e)

@@ -82,6 +82,59 @@
                 @apply block text-sm py-2 cursor-pointer m-1 hover:bg-[#DBF0ED] box-border;
             }
 
+            /*Child page common style*/
+            .button {
+                @apply text-white px-2 py-1 cursor-pointer bg-amber-500 hover:opacity-50 rounded;
+            }
+
+            .filter-item .item {
+                @apply cursor-pointer mr-2 border p-2 box-border;
+            }
+
+            /*Table style*/
+            #data-table {
+                @apply border-spacing-5 border-collapse text-center;
+            }
+
+                #data-table .button {
+                    @apply px-2 cursor-pointer hover:opacity-50 text-white;
+                }
+
+                #data-table tr {
+                    @apply border-b border-black;
+                }
+
+                #data-table thead {
+                    @apply sticky top-14 bg-gray-950 text-white;
+                }
+
+                    #data-table thead th {
+                        @apply p-1;
+                    }
+
+                        #data-table thead th > * {
+                            @apply text-opacity-50 cursor-pointer hover:bg-gray-100 hover:text-gray-950 p-1 rounded;
+                        }
+
+                        #data-table thead th.active {
+                            @apply text-opacity-100;
+                        }
+
+                            #data-table thead th.active i {
+                                @apply visible;
+                            }
+
+                        #data-table thead th i {
+                            @apply invisible;
+                        }
+
+                #data-table tbody tr {
+                    @apply hover:bg-[#DBF0ED] cursor-pointer;
+                }
+
+                #data-table tbody td {
+                    @apply p-2;
+                }
 
             /*Pagination style in data pager for all tables*/
             .pagination {
@@ -195,7 +248,7 @@
             <!-- Main content -->
             <div class="flex-1">
                 <!-- top nav-->
-                <div id="top" class="drop-shadow sticky z-10 top-0 h-14 box-border bg-[#f8f8fa] flex content-center items-center justify-between">
+                <div id="top" class="drop-shadow sticky z-10 top-0 h-14 box-border bg-[#f8f8fa] flex content-center items-center justify-between pr-5">
                     <!-- Left -->
                     <div class="flex items-center h-full">
 
@@ -217,7 +270,7 @@
                         <!-- Search Bar -->
                         <div class="relative group ml-auto pl-5">
                             <asp:TextBox placeholder="Search in current page" CssClass="rounded-2xl self-center w-56 pl-[10px] pr-[30px] border border-zinc-950 group-focus-within:w-96" ID="txtSearch" runat="server"></asp:TextBox>
-                            <asp:LinkButton CssClass="absolute right-[8px] top-[1px]" ID="lBtnSearch" runat="server">
+                            <asp:LinkButton OnClick="lBtnSearch_Click" CssClass="absolute right-[8px] top-[1px]" ID="lBtnSearch" runat="server">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                             </asp:LinkButton>
                         </div>
@@ -247,7 +300,7 @@
                 </div>
 
                 <!-- Page Content -->
-                <div class="p-2">
+                <div class="p-2 max-w-screen-2xl">
 
                     <!-- Server Time-->
                     <div class="text-center">

@@ -52,16 +52,23 @@
     <div class="mt-2">
         <div class="flex justify-between">
             <!--Discard change btn-->
-            <asp:HyperLink CssClass="text-white p-2 rounded bg-red-500 hover:opacity-50" ID="HyperLink1" runat="server" NavigateUrl='#'>
+            <asp:LinkButton
+                OnClientClick="return confirm('Are you sure you want to discard? The changes will be lost');"
+                CssClass="text-white p-2 rounded bg-red-500 hover:opacity-50"
+                ID="lbDiscard" runat="server" OnClick="lbDiscard_Click">
                 <i class="fa-regular fa-trash"></i>  
                 Discard Change
-            </asp:HyperLink>
+            </asp:LinkButton>
 
             <!--Update btn-->
-            <asp:HyperLink CssClass="text-white p-2 rounded bg-green-500 hover:opacity-50" ID="HyperLink2" runat="server" NavigateUrl='#'>
+            <asp:LinkButton
+                OnClientClick="return confirm('Are you sure you want to update?')"
+                OnClick="lbUpdate_Click"
+                CssClass="text-white p-2 rounded bg-green-500 hover:opacity-50"
+                ID="lbUpdate" runat="server" NavigateUrl='#'>
                  <i class="fa-regular fa-pen-to-square"></i>
                  Update
-            </asp:HyperLink>
+            </asp:LinkButton>
         </div>
 
         <!-- General Desc -->
@@ -183,10 +190,10 @@
             </div>
         </div>
     </div>
-
     <script>
+
         //img upload
-        (() => {
+        (function () {
             const imgUpload = document.querySelector("#<%= fileImgUpload.ClientID %>");
             const imgUploadContainer = document.querySelector("#variation-form .add-image");
 
@@ -205,7 +212,8 @@
                 //To check if user upload any file 
                 if (FileUploadPath == '') {
                     alert("Please upload an image");
-                } else {
+                }
+                else {
                     const Extension = FileUploadPath.substring(
                         FileUploadPath.lastIndexOf('.') + 1).toLowerCase();
 

@@ -3,94 +3,26 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style type="text/tailwindcss">
         @layer components {
-            .button {
-                @apply text-white px-2 py-1 cursor-pointer bg-amber-500 hover:opacity-50 rounded;
+
+            #data-table tbody tr {
+                @apply cursor-default;
             }
 
-            .filter-item .item {
-                @apply cursor-pointer mr-2 border p-2 box-border;
-            }
-
-            .product-status {
+            .user-status {
                 @apply rounded p-1;
             }
 
-                .product-status.out-of-stock {
-                    @apply bg-red-300;
-                }
-
-                .product-status.in-stock {
+                .user-status.activated {
                     @apply bg-green-300;
                 }
 
-                .product-status.temp-unavailable {
+                .user-status.locked {
                     @apply bg-amber-300;
                 }
 
-            /*Table style*/
-            #data-table {
-                @apply border-spacing-5 border-collapse text-center;
-            }
-
-                #data-table .button {
-                    @apply px-2 cursor-pointer hover:opacity-50 text-white;
+                .user-status.deleted {
+                    @apply bg-red-300;
                 }
-
-                #data-table tr {
-                    @apply border-b border-black;
-                }
-
-                #data-table thead {
-                    @apply sticky top-14 bg-gray-950 text-white;
-                }
-
-                    #data-table thead th {
-                        @apply p-1;
-                    }
-
-                        #data-table thead th > * {
-                            @apply text-opacity-50 cursor-pointer hover:bg-gray-100 hover:text-gray-950 p-1 rounded;
-                        }
-
-                        #data-table thead th.active {
-                            @apply text-opacity-100;
-                        }
-
-                            #data-table thead th.active i {
-                                @apply visible;
-                            }
-
-                        #data-table thead th i {
-                            @apply invisible;
-                        }
-
-                #data-table tbody tr {
-                    @apply hover:bg-[#DBF0ED];
-                }
-
-                #data-table tbody td {
-                    @apply p-2;
-                }
-            /*Pagination style*/
-            .pagination {
-                @apply flex justify-center my-2;
-            }
-
-                .pagination span {
-                    @apply border border-black cursor-pointer hover:bg-[#E6F5F2] size-8 text-center leading-8;
-                }
-
-                    .pagination span.active {
-                        @apply bg-[#94D4CA];
-                    }
-
-                    .pagination span:first-child {
-                        @apply mr-2;
-                    }
-
-                    .pagination span:last-child {
-                        @apply ml-2;
-                    }
         }
     </style>
 </asp:Content>
@@ -140,6 +72,7 @@
                 OnItemCanceling="lvStaffs_ItemCanceling"
                 OnItemEditing="lvStaffs_ItemEditing"
                 OnItemCommand="lvStaffs_ItemCommand"
+                OnItemDataBound="lvStaffs_ItemDataBound"
                 OnPagePropertiesChanged="lvStaffs_PagePropertiesChanged"
                 DataKeyNames="AdminId"
                 ID="lvStaffs" runat="server">
@@ -206,7 +139,7 @@
                         <td><%# Eval("AdminRole") %></td>
                         <td><%# Eval("AdminEmail") %></td>
                         <td><%# Eval("AdminPhoneNo") %></td>
-                        <td><%# Eval("AdminStatus") %></td>
+                        <td><span runat="server" id="userStatus" class="user-status"><%# Eval("AdminStatus") %></span></td>
                         <td>
                             <asp:LinkButton ID="lbEdit" runat="server" CssClass="button" CommandName="Edit">
                                 <i class="fa-regular fa-pen-to-square"></i>

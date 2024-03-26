@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using OutModern.src.Admin.Interfaces;
 
 namespace OutModern.src.Admin.AdminMaster
 {
@@ -63,5 +64,15 @@ namespace OutModern.src.Admin.AdminMaster
             }
         }
 
+        protected void lBtnSearch_Click(object sender, EventArgs e)
+        {
+            var searchTerm = txtSearch.Text;
+            var currentContent = Page as IFilter;
+
+            if (currentContent != null)
+            {
+                currentContent.FilterListView(searchTerm);
+            }
+        }
     }
 }

@@ -15,31 +15,31 @@ namespace OutModern.src.Admin.ProductAdd
     {
 
         /// <summary>
-        /// hlDiscard control.
+        /// lbDiscard control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hlDiscard;
+        protected global::System.Web.UI.WebControls.LinkButton lbDiscard;
 
         /// <summary>
-        /// hlAdd control.
+        /// lbAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hlAdd;
+        protected global::System.Web.UI.WebControls.LinkButton lbAdd;
 
         /// <summary>
-        /// txtProdId control.
+        /// lblProdId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtProdId;
+        protected global::System.Web.UI.WebControls.Label lblProdId;
 
         /// <summary>
         /// txtProdName control.

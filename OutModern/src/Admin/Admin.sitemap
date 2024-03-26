@@ -12,7 +12,9 @@
 			<siteMapNode url="~/src/Admin/ProductAdd/ProductAdd.aspx" title="Add New Product" />
 		</siteMapNode>
 
-		<siteMapNode url="~/src/Admin/Orders/Orders.aspx" title="Orders"  description="" />
+		<siteMapNode url="~/src/Admin/Orders/Orders.aspx" title="Orders"  description="" >
+			<siteMapNode url="~/src/Admin/OrderDetails/OrderDetails.aspx" title="Order Details" />
+		</siteMapNode>
 		<siteMapNode url="~/src/Admin/Customers/Customers.aspx" title="Customers"  description="" />
 		<siteMapNode url="~/src/Admin/PromoCode/PromoCode.aspx" title="PromoCode"  description="" />
 		<siteMapNode url="~/src/Admin/Feedback/Feedback.aspx" title="Feedback"  description="" />

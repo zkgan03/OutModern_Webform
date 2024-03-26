@@ -4,9 +4,17 @@
 
     <style type="text/tailwindcss">
         @layer components {
-            .desc-title {
-                @apply inline-block w-28 float-left;
+            .desc-grp {
+                @apply mb-2 leading-5;
             }
+
+                .desc-grp .desc-title {
+                    @apply font-[600];
+                }
+
+                .desc-grp div:nth-child(n+2) {
+                    @apply pl-4 py-2 border border-gray-500 rounded;
+                }
 
             .product-img {
                 @apply border border-black;
@@ -66,14 +74,6 @@
                 @apply ml-5;
             }
         }
-
-        .auto-style1 {
-            width: 200px;
-        }
-
-        .auto-style2 {
-            width: 150px;
-        }
     </style>
 
 </asp:Content>
@@ -83,52 +83,61 @@
 
         <!--Edit product btn-->
         <div>
-            <asp:HyperLink CssClass="inline-block text-white p-2 rounded bg-amber-500 hover:opacity-50" ID="hlEditProduct" runat="server" NavigateUrl='<%#urls[ProductEdit] %>'>
+            <asp:HyperLink
+                CssClass="inline-block text-white p-2 rounded bg-amber-500 hover:opacity-50" ID="hlEditProduct" runat="server"
+                NavigateUrl='<%#urls[ProductEdit] + "?id=" + Request.QueryString["id"] %>'>
             <i class="fa-regular fa-pen-to-square"></i>
             Edit Product
             </asp:HyperLink>
         </div>
 
-        <!-- Product Details -->
-        <div class="flex mt-8">
-            <div>
+        <!-- Product Container-->
+        <div class="flex mt-8 gap-40">
+            <!-- Product Details -->
+            <div class="w-56">
                 <div class="text-[1.5rem] font-bold">Product Details</div>
                 <div class="mt-2 ml-2 text-xl">
-                    <div>
-                        <span class="desc-title">Product ID</span>
-                        <span>:
-                            <asp:Label ID="lblProductId" runat="server" Text="P1001"></asp:Label></span>
+                    <div class="desc-grp">
+                        <div class="desc-title">Product ID</div>
+                        <div>
+                            <asp:Label ID="lblProductId" runat="server" Text="P1001"></asp:Label>
+                        </div>
                     </div>
-                    <div>
-                        <span class="desc-title">Product Name</span>
-                        <span>:
-                            <asp:Label ID="lblProductName" runat="server" Text="Premium Hoodie"></asp:Label></span>
+                    <div class="desc-grp">
+                        <div class="desc-title">Product Name</div>
+                        <div>
+                            <asp:Label ID="lblProductName" runat="server" Text="Premium Hoodie"></asp:Label>
+                        </div>
                     </div>
-                    <div>
-                        <span class="desc-title">Category</span>
-                        <span>:
-                            <asp:Label ID="lblCategory" runat="server" Text="Hoodie"></asp:Label></span>
+                    <div class="desc-grp">
+                        <div class="desc-title">Category</div>
+                        <div>
+                            <asp:Label ID="lblCategory" runat="server" Text="Hoodie"></asp:Label>
+                        </div>
                     </div>
-                    <div>
-                        <span class="desc-title">Price (RM)</span>
-                        <span>:
-                            <asp:Label ID="lblPrice" runat="server" Text="99.99"></asp:Label></span>
+                    <div class="desc-grp">
+                        <div class="desc-title">Price (RM)</div>
+                        <div>
+                            <asp:Label ID="lblPrice" runat="server" Text="99.99"></asp:Label>
+                        </div>
                     </div>
-                    <div>
-                        <span class="desc-title">Quantity</span>
-                        <span>:
-                            <asp:Label ID="lblQuantity" runat="server" Text="123"></asp:Label></span>
+                    <div class="desc-grp">
+                        <div class="desc-title">Quantity</div>
+                        <div>
+                            <asp:Label ID="lblQuantity" runat="server" Text="123"></asp:Label>
+                        </div>
                     </div>
-                    <div>
-                        <span class="desc-title">Current Status</span>
-                        <span>:
-                            <asp:Label ID="lblStatus" runat="server" Text="In Stock"></asp:Label></span>
+                    <div class="desc-grp">
+                        <div class="desc-title">Status</div>
+                        <div>
+                            <asp:Label ID="lblStatus" runat="server" Text="In Stock"></asp:Label>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Variation -->
-            <div class="flex-1 ml-36">
+            <div class="flex-1">
                 <div class="text-[1.5rem] font-bold">Variation</div>
 
                 <!-- Size -->
@@ -164,11 +173,6 @@
                                 ImageUrl='<%# Eval("path") %>' />
                         </ItemTemplate>
                     </asp:Repeater>
-                    <%-- 
-                        ~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de6441b1.png 
-                        ~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de644282.png
-                        ~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-zoomed-in-61167de6440a2.png
-                    --%>
                 </div>
             </div>
         </div>
@@ -205,7 +209,7 @@
                 <ItemTemplate>
                     <tr>
                         <td style="padding: 1em; border: 1px solid black; text-align: left" aria-multiline="True" class="auto-style1">
-                            <div class="text-lg">
+                            <div class="text-lg font-[600]">
                                 <%# Eval("CustomerName") %>
                             </div>
                             <div class="review-time"><%# Eval("ReviewTime") %></div>

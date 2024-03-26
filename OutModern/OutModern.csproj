@@ -66,6 +66,28 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\Admin\CustomerDetails\CustomerDetails.aspx.cs">
+      <DependentUpon>CustomerDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Admin\CustomerDetails\CustomerDetails.aspx.designer.cs">
+      <DependentUpon>CustomerDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Admin\Interfaces\IFilter.cs" />
+    <Compile Include="src\Admin\OrderDetails\OrderDetails.aspx.cs">
+      <DependentUpon>OrderDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Admin\OrderDetails\OrderDetails.aspx.designer.cs">
+      <DependentUpon>OrderDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Admin\OrderEdit\OrderEdit.aspx.cs">
+      <DependentUpon>OrderEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Admin\OrderEdit\OrderEdit.aspx.designer.cs">
+      <DependentUpon>OrderEdit.aspx</DependentUpon>
+    </Compile>
     <Compile Include="src\Admin\ProductAdd\ProductAdd.aspx.cs">
       <DependentUpon>ProductAdd.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -144,6 +166,7 @@
     <Content Include="images\about_us_img\our_purpose.jpg" />
     <Content Include="images\about_us_img\Simple.jpg" />
     <Content Include="images\about_us_img\Together.jpg" />
+    <Content Include="images\arrow_up.png" />
     <Content Include="images\charles-etoroma-95UF6LXe-Lo-unsplash.jpg" />
     <Content Include="images\contact_us_pic.jpg" />
     <Content Include="images\customerService.jpeg" />
@@ -497,9 +520,12 @@
     <Content Include="lib\tailwind\tailwind.js" />
     <Content Include="src\Admin\AdminMaster\css\AdminMaster.css" />
     <Content Include="src\Admin\AdminMaster\js\AdminMaster.js" />
+    <Content Include="src\Admin\CustomerDetails\CustomerDetails.aspx" />
     <Content Include="src\Admin\Customers\Customers.aspx" />
     <Content Include="src\Admin\Dashboard\Dashboard.aspx" />
     <Content Include="src\Admin\Feedback\Feedback.aspx" />
+    <Content Include="src\Admin\OrderDetails\OrderDetails.aspx" />
+    <Content Include="src\Admin\OrderEdit\OrderEdit.aspx" />
     <Content Include="src\Admin\Orders\Orders.aspx" />
     <Content Include="src\Admin\ProductAdd\ProductAdd.aspx" />
     <Content Include="src\Admin\ProductDetails\ProductDetails.aspx" />

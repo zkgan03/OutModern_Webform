@@ -6,10 +6,12 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using OutModern.src.Admin.Interfaces;
+
 
 namespace OutModern.src.Admin.Products
 {
-    public partial class Products : System.Web.UI.Page
+    public partial class Products : System.Web.UI.Page, IFilter
     {
         protected static readonly string ProductEdit = "ProductEdit";
         protected static readonly string ProductAdd = "ProductAdd";
@@ -25,7 +27,6 @@ namespace OutModern.src.Admin.Products
         {
             if (!IsPostBack)
             {
-
                 lvProducts.DataSource = GetProducts1();
                 lvProducts.DataBind();
                 Page.DataBind();
@@ -45,60 +46,6 @@ namespace OutModern.src.Admin.Products
             public int Quantity { get; set; }
             public string Status { get; set; }
             public int Reviews { get; set; }
-        }
-
-        private List<Product> GetProducts()
-        {
-            List<Product> products = new List<Product>()
-                                        {
-                                          new Product {
-                                              Id = 1,
-                                              Path = "~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de6441b1.png",
-                                              Name = "Premium Hoodie",
-                                              Category = "Hoodies",
-                                              Price = 99.99m,
-                                              Quantity = 12,
-                                              Status = "Unavailable",
-                                              Reviews = 4 },
-                                          new Product {
-                                              Id = 2,
-                                              Path = "~/images/product-img/hoodies/black-Hoodie/unisex-champion-tie-dye-hoodie-black-front-2-6116819deddd3.png",
-                                              Name = "Champion Hoodies",
-                                              Category = "Hoodies",
-                                              Price = 99.99m,
-                                              Quantity = 12,
-                                              Status = "In Stock",
-                                              Reviews = 1 },
-                                           new Product {
-                                              Id = 3,
-                                              Path = "~/images/product-img/hoodies/black-Hoodie/unisex-champion-tie-dye-hoodie-black-front-2-6116819deddd3.png",
-                                              Name = "Champion Hoodies",
-                                              Category = "Hoodies",
-                                              Price = 99.99m,
-                                              Quantity = 12,
-                                              Status = "In Stock",
-                                              Reviews = 1 },
-                                           new Product {
-                                              Id = 4,
-                                              Path = "~/images/product-img/hoodies/black-Hoodie/unisex-champion-tie-dye-hoodie-black-front-2-6116819deddd3.png",
-                                              Name = "Champion Hoodies",
-                                              Category = "Hoodies",
-                                              Price = 99.99m,
-                                              Quantity = 12,
-                                              Status = "In Stock",
-                                              Reviews = 1 },
-                                           new Product {
-                                              Id = 5,
-                                              Path = "~/images/product-img/hoodies/black-Hoodie/unisex-champion-tie-dye-hoodie-black-front-2-6116819deddd3.png",
-                                              Name = "Champion Hoodies",
-                                              Category = "Hoodies",
-                                              Price = 99.99m,
-                                              Quantity = 12,
-                                              Status = "In Stock",
-                                              Reviews = 1 },
-                                          // Add more products as needed
-                                        };
-            return products;
         }
 
         private DataTable GetProducts1()
@@ -147,7 +94,6 @@ namespace OutModern.src.Admin.Products
             return products;
         }
         //TEST
-
         protected void lvProducts_ItemDataBound(object sender, ListViewItemEventArgs e)
         {
             if (e.Item.ItemType == ListViewItemType.DataItem)
@@ -173,20 +119,6 @@ namespace OutModern.src.Admin.Products
                 {
                     statusSpan.Attributes["class"] += " temp-unavailable";
                 }
-
-                // Add CSS class based on status
-                //if (rowView.Status == "In Stock")
-                //{
-                //    statusSpan.Attributes["class"] += " in-stock";
-                //}
-                //else if (rowView.Status == "Out of Stock")
-                //{
-                //    statusSpan.Attributes["class"] += " out-of-stock";
-                //}
-                //else if (rowView.Status == "Unavailable")
-                //{
-                //    statusSpan.Attributes["class"] += " temp-unavailable";
-                //}
             }
 
         }
@@ -202,5 +134,40 @@ namespace OutModern.src.Admin.Products
         {
         }
 
+        public void FilterListView(string searchTerm)
+        {
+            lvProducts.DataSource = FilterDataTable(GetProducts1(), searchTerm);
+            lvProducts.DataBind();
+        }
+        private DataTable FilterDataTable(DataTable dataTable, string searchTerm)
+        {
+            string safeSearchTerm = searchTerm.Replace("'", "''");
+
+            // Build filter expression with product fields
+            string expression = string.Format(
+                "Convert(Id, 'System.String') LIKE '%{0}%' OR " +
+                "Name LIKE '%{0}%' OR " +
+                "Category LIKE '%{0}%' OR " +
+                "Convert(Price, 'System.String') LIKE '%{0}%' OR " +
+                "Convert(Quantity, 'System.String') LIKE '%{0}%' OR " +
+                "Status LIKE '%{0}%' OR " +
+                "Convert(Reviews, 'System.String') LIKE '%{0}%'",
+                safeSearchTerm);
+
+            // Filter the rows
+            DataRow[] filteredRows = dataTable.Select(expression);
+
+            // Create a new DataTable for the filtered results
+            DataTable filteredDataTable = dataTable.Clone();
+
+            // Import the filtered rows
+            foreach (DataRow row in filteredRows)
+            {
+                filteredDataTable.ImportRow(row);
+            }
+
+            return filteredDataTable;
+        }
+       
     }
 }

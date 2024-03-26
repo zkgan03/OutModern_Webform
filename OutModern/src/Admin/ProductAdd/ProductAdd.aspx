@@ -53,17 +53,24 @@
 
     <div class="mt-2">
         <div class="flex justify-between">
-            <!--Discard btn-->
-            <asp:HyperLink CssClass="inline-block text-white p-2 rounded bg-red-500 hover:opacity-50" ID="hlDiscard" runat="server" NavigateUrl='#'>
+            <!--Discard change btn-->
+            <asp:LinkButton
+                OnClientClick="return confirm('Are you sure you want to discard? The changes will be lost');"
+                CssClass="text-white p-2 rounded bg-red-500 hover:opacity-50"
+                ID="lbDiscard" runat="server"
+                OnClick="lbDiscard_Click">
                 <i class="fa-regular fa-trash"></i>  
-                Discard
-            </asp:HyperLink>
+                Discard Change
+            </asp:LinkButton>
 
-            <!--Add btn-->
-            <asp:HyperLink CssClass="text-white p-2 rounded bg-green-500 hover:opacity-50" ID="hlAdd" runat="server" NavigateUrl='#'>
-                <i class="fa-regular fa-plus"></i>
-                 Add
-            </asp:HyperLink>
+            <!--Update btn-->
+            <asp:LinkButton
+                OnClientClick="return confirm('Are you sure you want to Add?')"
+                OnClick="lbAdd_Click"
+                CssClass="text-white p-2 rounded bg-green-500 hover:opacity-50"
+                ID="lbAdd" runat="server">
+                <i class="fa-regular fa-plus"></i>     Add
+            </asp:LinkButton>
         </div>
 
         <!-- General Desc -->
@@ -74,7 +81,7 @@
                 <div>
                     <span class="desc-title">Product ID</span>
                     <span>:
-                        <asp:TextBox ID="txtProdId" runat="server" Text=""></asp:TextBox>
+                        <asp:Label ID="lblProdId" runat="server" Text="123"></asp:Label>
                     </span>
                 </div>
                 <div>
