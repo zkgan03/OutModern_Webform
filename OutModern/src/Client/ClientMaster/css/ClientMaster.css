@@ -3,3 +3,11 @@
     color: rgba(0,0,0,0.65);
     transition: 0.25s;
 }
+
+.header {
+    position: fixed; /* Make the header fixed at the top */
+    top: 0; /* Ensure it stays at the top of the viewport */
+    z-index: 2; /* Ensure the header stays above other content */
+    /* Add other styling properties as needed */
+}
+
