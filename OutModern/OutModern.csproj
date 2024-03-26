@@ -75,34 +75,6 @@
     <Compile Include="src\Client\Home\Home.aspx.designer.cs">
       <DependentUpon>Home.aspx</DependentUpon>
     </Compile>
-    <Compile Include="src\Client\LoginOld\ForgetPassword.aspx.cs">
-      <DependentUpon>ForgetPassword.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="src\Client\LoginOld\ForgetPassword.aspx.designer.cs">
-      <DependentUpon>ForgetPassword.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="src\Client\LoginOld\Login.aspx.cs">
-      <DependentUpon>Login.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="src\Client\LoginOld\Login.aspx.designer.cs">
-      <DependentUpon>Login.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="src\Client\LoginOld\ResetPassword.aspx.cs">
-      <DependentUpon>ResetPassword.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="src\Client\LoginOld\ResetPassword.aspx.designer.cs">
-      <DependentUpon>ResetPassword.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="src\Client\LoginOld\SignUp.aspx.cs">
-      <DependentUpon>SignUp.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="src\Client\LoginOld\SignUp.aspx.designer.cs">
-      <DependentUpon>SignUp.aspx</DependentUpon>
-    </Compile>
     <Compile Include="src\Client\Login\FirstPage.aspx.cs">
       <DependentUpon>FirstPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -568,7 +540,6 @@
     <Content Include="src\Admin\Dashboard\Dashboard.aspx" />
     <Content Include="src\Client\ClientMaster\css\ClientMaster.css" />
     <Content Include="src\Client\ClientMaster\js\ClientMaster.js" />
-    <Content Include="src\Client\HomeOld\Home.aspx" />
     <Compile Include="src\Admin\AdminMaster\Admin.Master.cs">
       <DependentUpon>Admin.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -589,13 +560,6 @@
     </Compile>
     <Compile Include="src\Client\ClientMaster\Client.Master.designer.cs">
       <DependentUpon>Client.Master</DependentUpon>
-    </Compile>
-    <Compile Include="src\Client\HomeOld\Home.aspx.cs">
-      <DependentUpon>Home.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="src\Client\HomeOld\Home.aspx.designer.cs">
-      <DependentUpon>Home.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -639,14 +603,6 @@
     <None Include="packages.config" />
     <Content Include="src\Client\Home\css\Home.css" />
     <Content Include="src\Client\Home\Home.aspx" />
-    <Content Include="src\Client\LoginOld\css\ForgetPassword.css" />
-    <Content Include="src\Client\LoginOld\css\Login.css" />
-    <Content Include="src\Client\LoginOld\css\ResetPassword.css" />
-    <Content Include="src\Client\LoginOld\css\SignUp.css" />
-    <Content Include="src\Client\LoginOld\ForgetPassword.aspx" />
-    <Content Include="src\Client\LoginOld\Login.aspx" />
-    <Content Include="src\Client\LoginOld\ResetPassword.aspx" />
-    <Content Include="src\Client\LoginOld\SignUp.aspx" />
     <Content Include="src\Client\Login\css\FirstPage.css" />
     <Content Include="src\Client\Login\css\ForgetPassword.css" />
     <Content Include="src\Client\Login\css\Login.css" />
@@ -677,10 +633,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="src\Client\HomeOld\css\" />
-    <Folder Include="src\Client\HomeOld\js\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
