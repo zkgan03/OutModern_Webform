@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace OutModern.Client.Home
+namespace OutModern.src.Client.Home
 {
     public partial class Home : System.Web.UI.Page
     {
