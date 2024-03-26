@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OutModern.Client.Home
+namespace OutModern.src.Client.Home
 {
 
 

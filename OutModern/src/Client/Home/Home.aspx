@@ -1,25 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/src/Client/ClientMaster/Client.Master" AutoEventWireup="true" CodeBehind="Home.aspx.cs" Inherits="OutModern.Client.Home.Home" %>
-
+﻿<%@ Page Language="C#" MasterPageFile="~/src/Client/ClientMaster/Client.Master" AutoEventWireup="true" CodeBehind="Home.aspx.cs" Inherits="OutModern.src.Client.Home.Home" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="css/Home.css" rel="stylesheet" />
-
-    <style>
-        .level1 {
-            padding-top: 0; /* Remove top padding */
-        }
-
-        .level2 {
-            padding-left: 0; /* Add left padding */
-            padding-right: 0; /* Add right padding */
-        }
-
-        /* Optionally, to center .level2 horizontally: */
-        .level2 {
-            margin-left: 0;
-            margin-right: 0;
-        }
-    </style>
-
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
