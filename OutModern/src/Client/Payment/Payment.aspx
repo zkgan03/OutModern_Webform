@@ -4,12 +4,12 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <div class="rounded-md p-2 mb-2 flex">
+    <div class="rounded-md p-2 mb-14 flex justify-between mx-44">
         <!--Left Container-->
-        <div class="w-3/5 p-4 ml-12">
-            <div id="paymentMethod" runat="server" class="p-4 bg-white shadow-md rounded-md mb-4">
+        <div class="w-[65%] p-4 ml-12">
+            <div id="paymentMethod" runat="server" class="p-4 bg-white shadow-md rounded-md mb-12">
                 <!--UPPER PANEL-->
-                <p class="m-6 font-bold text-xl">Payment Method</p>
+                <p class="m-4 font-bold text-xl text-black">Payment Method</p>
                 <div class="flex items-center space-x-8">
                     <asp:Label ID="lblCreditCardContainer" runat="server" CssClass="flex items-center border border-gray-300 rounded-md p-4 bg-white shadow-md ml-4 mb-4 w-56 h-14 cursor-pointer" AssociatedControlID="creditCard">
                         <asp:Image ID="imgCreditCard" ImageUrl="~/images/mastercard_logo.png" CssClass="ml-6 h-6 w-auto" runat="server" />
@@ -52,9 +52,8 @@
             <!--LOWER PANEL-->
             <div id="billingAddress" runat="server" class="p-4 bg-white shadow-md rounded-md mt-4">
 
-                <asp:Panel ID="pnlBillingAddress" runat="server" Visible="true" CssClass="mt-8 mr-6 ml-6">
-                    <div>
-                        <h2 class="text-xl font-bold mb-2">Billing Address</h2>
+                <asp:Panel ID="pnlBillingAddress" runat="server" Visible="true" CssClass="mt-4 mr-6 ml-6">
+                        <h2 class="text-xl font-bold my-4">Billing Address</h2>
                         <div class="grid grid-cols-2 gap-4">
                             <div class="mb-4">
                                 <asp:Label for="txtFirstName" runat="server" class="text-gray-700 font-semibold">First Name</asp:Label>
@@ -96,7 +95,6 @@
                                 <asp:TextBox ID="txtPhoneNumber" runat="server" CssClass="w-full border border-gray-300 rounded-md px-3 py-2 mt-1" Text="+1 (415) 123-1234"></asp:TextBox>
                             </div>
                         </div>
-                    </div>
                 </asp:Panel>
 
 
@@ -104,7 +102,7 @@
         </div>
 
         <!--Right Container-->
-        <div class="w-2/5 p-4 mr-12">
+        <div class="w-1/3 p-4 mr-12">
 
             <!-- Order Summary -->
             <div id="orderSummary" runat="server" class="p-4 bg-white shadow-md rounded-md">
