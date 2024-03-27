@@ -12,11 +12,13 @@ namespace OutModern.src.Admin.Customers
     public partial class Customers : System.Web.UI.Page
     {
         protected static readonly string CustomerDetails = "CustomerDetails";
+        protected static readonly string CustomerEdit = "CustomerEdit";
 
         // Side menu urls
         protected Dictionary<string, string> urls = new Dictionary<string, string>()
         {
-            { CustomerDetails , "~/src/Admin/CustomerDetails/CustomerDetails.aspx" }
+            { CustomerDetails , "~/src/Admin/CustomerDetails/CustomerDetails.aspx" },
+            { CustomerEdit, "~/src/Admin/CustomerEdit/CustomerEdit.aspx"}
         };
         protected void Page_Load(object sender, EventArgs e)
         {

@@ -136,7 +136,9 @@ namespace OutModern.src.Admin.Products
 
         public void FilterListView(string searchTerm)
         {
+
             lvProducts.DataSource = FilterDataTable(GetProducts1(), searchTerm);
+            dpBottomProducts.SetPageProperties(0, dpBottomProducts.MaximumRows, false);
             lvProducts.DataBind();
         }
         private DataTable FilterDataTable(DataTable dataTable, string searchTerm)
@@ -168,6 +170,6 @@ namespace OutModern.src.Admin.Products
 
             return filteredDataTable;
         }
-       
+
     }
 }

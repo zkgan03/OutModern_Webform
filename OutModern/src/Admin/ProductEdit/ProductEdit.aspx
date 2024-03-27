@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style type="text/tailwindcss">
         .button {
-            @apply text-center px-1 cursor-pointer hover:opacity-50 bg-gray-200 border border-black;
+            @apply text-black text-center px-1 py-0 cursor-pointer hover:opacity-50 bg-gray-200 border border-gray-400;
         }
 
         #prod-edit-form #edit-from-item > div {
@@ -74,12 +74,12 @@
         <!-- General Desc -->
         <div id="prod-edit-form" class="mt-8">
 
-            <div class="text-[1.5rem] font-bold">Edit Current Product</div>
+            <div class="text-[1.5rem] font-[600]">Edit Product</div>
             <div id="edit-from-item" class="mt-2 ml-2 text-xl">
                 <div>
                     <span class="desc-title">Product ID</span>
                     <span>:
-                        <asp:TextBox ID="txtProdId" runat="server" Text="P1001"></asp:TextBox>
+                        <asp:Label ID="lblProdId" runat="server" Text="P1001"></asp:Label>
                     </span>
                 </div>
                 <div>
@@ -111,7 +111,7 @@
                     </span>
                 </div>
                 <div>
-                    <span class="desc-title">Current Status</span>
+                    <span class="desc-title">Status</span>
                     <span>:
                         <asp:DropDownList ID="ddlProdStatus" AppendDataBoundItems="true" runat="server">
                             <asp:ListItem>In Stock</asp:ListItem>
@@ -125,7 +125,7 @@
 
         <!-- Variation -->
         <div id="variation-form">
-            <div class="text-[1.5rem] font-bold">Variation</div>
+            <div class="text-[1.5rem] font-[600]">Variation</div>
 
             <div class="flex mt-2 items-center">
                 <div>Size Added: <span class="size-added">S</span></div>

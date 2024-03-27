@@ -116,7 +116,7 @@
                         <td><%# Eval("CustomerPhoneNumber") %></td>
                         <td><span runat="server" id="userStatus" class="user-status"><%# Eval("UserStatusName") %></span></td>
                         <td>
-                            <asp:HyperLink ID="hlEdit" runat="server" CssClass="button" NavigateUrl='<%# "#" +"?id=" +Eval("CustomerId") %>'>
+                            <asp:HyperLink ID="hlEdit" runat="server" CssClass="button" NavigateUrl='<%#urls[CustomerEdit] +"?id=" +Eval("CustomerId") %>'>
                         <i class="fa-regular fa-pen-to-square"></i>
                             </asp:HyperLink>
                         </td>

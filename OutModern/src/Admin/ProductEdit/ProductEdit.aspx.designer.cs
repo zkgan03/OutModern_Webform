@@ -33,13 +33,13 @@ namespace OutModern.src.Admin.ProductEdit
         protected global::System.Web.UI.WebControls.LinkButton lbUpdate;
 
         /// <summary>
-        /// txtProdId control.
+        /// lblProdId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtProdId;
+        protected global::System.Web.UI.WebControls.Label lblProdId;
 
         /// <summary>
         /// txtProdName control.

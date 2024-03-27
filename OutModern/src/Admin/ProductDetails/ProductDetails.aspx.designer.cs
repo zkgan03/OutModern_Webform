@@ -15,6 +15,15 @@ namespace OutModern.src.Admin.ProductDetails
     {
 
         /// <summary>
+        /// lblTitleProductName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTitleProductName;
+
+        /// <summary>
         /// hlEditProduct control.
         /// </summary>
         /// <remarks>
@@ -31,15 +40,6 @@ namespace OutModern.src.Admin.ProductDetails
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblProductId;
-
-        /// <summary>
-        /// lblProductName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblProductName;
 
         /// <summary>
         /// lblCategory control.
@@ -60,15 +60,6 @@ namespace OutModern.src.Admin.ProductDetails
         protected global::System.Web.UI.WebControls.Label lblPrice;
 
         /// <summary>
-        /// lblQuantity control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblQuantity;
-
-        /// <summary>
         /// lblStatus control.
         /// </summary>
         /// <remarks>
@@ -85,6 +76,15 @@ namespace OutModern.src.Admin.ProductDetails
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlSize;
+
+        /// <summary>
+        /// lblQuantity control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblQuantity;
 
         /// <summary>
         /// repeaterColors control.

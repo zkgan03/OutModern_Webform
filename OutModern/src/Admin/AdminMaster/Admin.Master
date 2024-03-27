@@ -268,12 +268,14 @@
                     <div class="flex flex-1 flex-row items-center h-full">
 
                         <!-- Search Bar -->
-                        <div class="relative group ml-auto pl-5">
+                        <asp:Panel ID="panelSearch" runat="server"
+                            CssClass="relative group ml-auto pl-5"  DefaultButton="lBtnSearch">
                             <asp:TextBox placeholder="Search in current page" CssClass="rounded-2xl self-center w-56 pl-[10px] pr-[30px] border border-zinc-950 group-focus-within:w-96" ID="txtSearch" runat="server"></asp:TextBox>
-                            <asp:LinkButton OnClick="lBtnSearch_Click" CssClass="absolute right-[8px] top-[1px]" ID="lBtnSearch" runat="server">
+                            <asp:LinkButton OnClick="lBtnSearch_Click" CssClass="absolute right-[8px] top-[1px]"
+                                ID="lBtnSearch" runat="server">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                             </asp:LinkButton>
-                        </div>
+                        </asp:Panel>
 
                         <!-- Profile Setting -->
                         <asp:HyperLink ID="hyperlinkSetting" runat="server" CssClass="icon-button-bg ml-1" NavigateUrl='<%# urls[Setting] %>'>

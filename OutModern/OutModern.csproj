@@ -73,6 +73,13 @@
     <Compile Include="src\Admin\CustomerDetails\CustomerDetails.aspx.designer.cs">
       <DependentUpon>CustomerDetails.aspx</DependentUpon>
     </Compile>
+    <Compile Include="src\Admin\CustomerEdit\CustomerEdit.aspx.cs">
+      <DependentUpon>CustomerEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Admin\CustomerEdit\CustomerEdit.aspx.designer.cs">
+      <DependentUpon>CustomerEdit.aspx</DependentUpon>
+    </Compile>
     <Compile Include="src\Admin\Interfaces\IFilter.cs" />
     <Compile Include="src\Admin\OrderDetails\OrderDetails.aspx.cs">
       <DependentUpon>OrderDetails.aspx</DependentUpon>
@@ -521,6 +528,7 @@
     <Content Include="src\Admin\AdminMaster\css\AdminMaster.css" />
     <Content Include="src\Admin\AdminMaster\js\AdminMaster.js" />
     <Content Include="src\Admin\CustomerDetails\CustomerDetails.aspx" />
+    <Content Include="src\Admin\CustomerEdit\CustomerEdit.aspx" />
     <Content Include="src\Admin\Customers\Customers.aspx" />
     <Content Include="src\Admin\Dashboard\Dashboard.aspx" />
     <Content Include="src\Admin\Feedback\Feedback.aspx" />

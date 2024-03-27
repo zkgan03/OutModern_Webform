@@ -9,11 +9,11 @@
             }
 
                 .desc-grp .desc-title {
-                    @apply font-[600];
+
                 }
 
                 .desc-grp div:nth-child(n+2) {
-                    @apply pl-4 py-2 border border-gray-500 rounded;
+                    @apply px-4 py-2 border border-gray-300 rounded;
                 }
 
             .product-img {
@@ -21,11 +21,11 @@
             }
 
             .color-varient {
-                @apply cursor-pointer size-5 rounded-full border drop-shadow border-white box-border;
+                @apply cursor-pointer size-5 rounded-full border drop-shadow border-gray-300 box-border hover:opacity-50;
             }
 
                 .color-varient.active {
-                    @apply outline outline-black outline-1;
+                    @apply outline outline-black outline-1 hover:opacity-100;
                 }
 
 
@@ -82,31 +82,25 @@
     <div class="mt-2">
 
         <!--Edit product btn-->
-        <div>
+        <div class="flex items-center gap-2">
+            <asp:Label CssClass="text-2xl font-extrabold" ID="lblTitleProductName" runat="server" Text="Premium Hoodie"></asp:Label>
             <asp:HyperLink
-                CssClass="inline-block text-white p-2 rounded bg-amber-500 hover:opacity-50" ID="hlEditProduct" runat="server"
+                CssClass="inline-block text-white px-2 py-1 rounded bg-amber-500 hover:opacity-50" ID="hlEditProduct" runat="server"
                 NavigateUrl='<%#urls[ProductEdit] + "?id=" + Request.QueryString["id"] %>'>
             <i class="fa-regular fa-pen-to-square"></i>
-            Edit Product
             </asp:HyperLink>
         </div>
 
         <!-- Product Container-->
-        <div class="flex mt-8 gap-40">
+        <div class="flex mt-8 gap-20">
             <!-- Product Details -->
             <div class="w-56">
-                <div class="text-[1.5rem] font-bold">Product Details</div>
+                <div class="text-xl font-[600]">Product Info</div>
                 <div class="mt-2 ml-2 text-xl">
                     <div class="desc-grp">
                         <div class="desc-title">Product ID</div>
                         <div>
                             <asp:Label ID="lblProductId" runat="server" Text="P1001"></asp:Label>
-                        </div>
-                    </div>
-                    <div class="desc-grp">
-                        <div class="desc-title">Product Name</div>
-                        <div>
-                            <asp:Label ID="lblProductName" runat="server" Text="Premium Hoodie"></asp:Label>
                         </div>
                     </div>
                     <div class="desc-grp">
@@ -122,12 +116,6 @@
                         </div>
                     </div>
                     <div class="desc-grp">
-                        <div class="desc-title">Quantity</div>
-                        <div>
-                            <asp:Label ID="lblQuantity" runat="server" Text="123"></asp:Label>
-                        </div>
-                    </div>
-                    <div class="desc-grp">
                         <div class="desc-title">Status</div>
                         <div>
                             <asp:Label ID="lblStatus" runat="server" Text="In Stock"></asp:Label>
@@ -138,30 +126,44 @@
 
             <!-- Variation -->
             <div class="flex-1">
-                <div class="text-[1.5rem] font-bold">Variation</div>
+                <div class="text-xl font-[600]">Variation</div>
 
                 <!-- Size -->
-                <div class="mt-2">
-                    Size : 
-                    <asp:DropDownList ID="ddlSize" runat="server">
-                        <asp:ListItem>S</asp:ListItem>
-                        <asp:ListItem>M</asp:ListItem>
-                        <asp:ListItem>L</asp:ListItem>
-                        <asp:ListItem>XL</asp:ListItem>
-                    </asp:DropDownList>
+                <div class="my-2">
+                    <div class="">Size</div>
+                    
+                    <div>
+                        <asp:DropDownList ID="ddlSize" runat="server">
+                            <asp:ListItem>S</asp:ListItem>
+                            <asp:ListItem>M</asp:ListItem>
+                            <asp:ListItem>L</asp:ListItem>
+                            <asp:ListItem>XL</asp:ListItem>
+                        </asp:DropDownList>
+                    </div>
+
+                </div>
+
+                <!--Quantity-->
+                <div class="mb-2">
+                    <div class="">Quantity</div>
+                    <div class="w-fit px-2 border border-gray-300 rounded">
+                        <asp:Label ID="lblQuantity" runat="server" Text="123"></asp:Label>
+                    </div>
                 </div>
 
 
                 <!--Colors-->
-                <div class="flex gap-2 mt-2">
-                    <div>Colors :</div>
-                    <asp:Repeater ID="repeaterColors" OnItemDataBound="repeaterColors_ItemDataBound" OnItemCommand="repeaterColors_ItemCommand" runat="server">
-                        <ItemTemplate>
-                            <asp:Button ID="btnColor" runat="server" UseSubmitBehavior="false"
-                                CommandName="ChangeColor" CommandArgument='<%# Eval("Color") %>'
-                                Style='<%# "background:" + Eval("Color") +";" %>' CssClass='<%# "color-varient" + (Container.ItemIndex == 0 ? " active" : "") %>' />
-                        </ItemTemplate>
-                    </asp:Repeater>
+                <div class="mb-2">
+                    <div>Color</div>
+                    <div class="flex items-center gap-2">
+                        <asp:Repeater ID="repeaterColors" OnItemDataBound="repeaterColors_ItemDataBound" OnItemCommand="repeaterColors_ItemCommand" runat="server">
+                            <ItemTemplate>
+                                <asp:Button ID="btnColor" runat="server" UseSubmitBehavior="false"
+                                    CommandName="ChangeColor" CommandArgument='<%# Eval("Color") %>'
+                                    Style='<%# "background:" + Eval("Color") +";" %>' CssClass='<%# "color-varient" + (Container.ItemIndex == 0 ? " active" : "") %>' />
+                            </ItemTemplate>
+                        </asp:Repeater>
+                    </div>
                 </div>
 
                 <!-- Images -->
@@ -179,8 +181,8 @@
 
         <!-- Review and Rating -->
         <div class="mt-10">
-            <div class="text-[1.5em] font-bold [&>*]:text-[1.5em] [&>*]:font-bold">
-                Reviews (<asp:Label ID="lblOverallRating" runat="server" Text="4.0"></asp:Label>/5.0)
+            <div class="text-xl font-[600]">
+                Reviews (<asp:Label CssClass="text-3xl font-bold text-amber-500" ID="lblOverallRating" runat="server" Text="4.0"></asp:Label>/5.0)
             </div>
 
             <!--Top Pagination-->
@@ -199,7 +201,7 @@
                             <tr>
                                 <th style="border: 1px solid black" class="auto-style1">Customer Info</th>
                                 <th style="border: 1px solid black">Review Given</th>
-                                <th style="border: 1px solid black" class="auto-style2">Response?</th>
+                                <th style="border: 1px solid black" class="auto-style2">Action</th>
                             </tr>
                             <asp:PlaceHolder ID="itemPlaceHolder" runat="server"></asp:PlaceHolder>
                         </table>

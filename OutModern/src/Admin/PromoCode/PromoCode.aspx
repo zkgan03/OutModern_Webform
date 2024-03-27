@@ -3,7 +3,9 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style type="text/tailwindcss">
         @layer components {
-
+            #data-table tbody tr {
+                @apply cursor-default;
+            }
         }
     </style>
 </asp:Content>
@@ -131,10 +133,10 @@
                             <asp:TextBox CssClass="w-14 px-2" ID="txtAddDiscountRate" runat="server"></asp:TextBox>
                         </td>
                         <td>
-                            <asp:TextBox CssClass="w-fit px-2" ID="txtStartDate"  runat="server" TextMode="DateTimeLocal"></asp:TextBox>
+                            <asp:TextBox CssClass="w-fit px-2" ID="txtStartDate" runat="server" TextMode="DateTimeLocal"></asp:TextBox>
                         </td>
                         <td>
-                            <asp:TextBox CssClass="w-fit px-2" ID="txtEndDate"  runat="server" TextMode="DateTimeLocal"></asp:TextBox>
+                            <asp:TextBox CssClass="w-fit px-2" ID="txtEndDate" runat="server" TextMode="DateTimeLocal"></asp:TextBox>
                         </td>
                         <td>
                             <asp:TextBox CssClass="w-14 px-2" ID="txtAddQuantity" runat="server"></asp:TextBox>
