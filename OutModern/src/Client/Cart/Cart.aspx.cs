@@ -34,6 +34,15 @@ namespace OutModern.src.Client.Cart
             UpdateSubtotalAndGrandTotal(dummyData);
         }
 
+        private void BindData(DataTable dataSource)
+        {
+            // Set the data source for the ProductListView
+            ProductListView.DataSource = dataSource;
+
+            // Bind the data to the ProductListView
+            ProductListView.DataBind();
+        }
+
         public static DataTable GetDummyData()
         {
             DataTable dummyData = new DataTable();
@@ -48,12 +57,18 @@ namespace OutModern.src.Client.Cart
             dummyData.Columns.Add("Subtotal", typeof(decimal));
 
             // Add rows with dummy data
-            dummyData.Rows.Add("~/images/mastercard_logo.png", "Premium Hoodie", "White", "XL", 1500.00m, 1, 3000.00m);
-            dummyData.Rows.Add("~/images/mastercard_logo.png", "Premium Hoodie", "White", "XL", 1500.00m, 1, 3000.00m);
-            dummyData.Rows.Add("~/images/mastercard_logo.png", "Premium Hoodie", "White", "XL", 1500.00m, 1, 3000.00m);
-            dummyData.Rows.Add("~/images/mastercard_logo.png", "Premium Hoodie", "White", "XL", 1500.00m, 1, 3000.00m);
+            dummyData.Rows.Add("~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-zoomed-in-61167de6440a2.png", "Premium Hoodie", "White", "XL", 1500.00m, 1, 3000.00m);
+            dummyData.Rows.Add("~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-zoomed-in-61167de6440a2.png", "Premium Hoodie", "White", "XL", 1500.00m, 1, 3000.00m);
+            dummyData.Rows.Add("~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-zoomed-in-61167de6440a2.png", "Premium Hoodie", "White", "XL", 1500.00m, 1, 3000.00m);
             dummyData.Rows.Add("~/images/product-img/trouser-size-guide.png", "DTX 4090", "Black", "XL", 10.00m, 2, 10.00m);
             // Add more rows as needed for testing
+
+            foreach (DataRow row in dummyData.Rows)
+            {
+                decimal price = (decimal)row["Price"];
+                int quantity = (int)row["Quantity"];
+                row["Subtotal"] = price * quantity;
+            }
 
             return dummyData;
         }
@@ -75,9 +90,15 @@ namespace OutModern.src.Client.Cart
 
                 // Retrieve the data source from the session variable
                 DataTable dummyData = (DataTable)Session["DummyData"];
+
+                // Update the quantity in the DataTable
                 dummyData.Rows[itemIndex]["Quantity"] = quantity;
 
-                // Recalculate subtotal and update UI
+                // Update the subtotal for the corresponding row
+                decimal price = (decimal)dummyData.Rows[itemIndex]["Price"];
+                dummyData.Rows[itemIndex]["Subtotal"] = price * quantity;
+
+                // Recalculate subtotal and grand total
                 UpdateSubtotalAndGrandTotal(dummyData);
 
                 // Rebind the ListView with the updated data source for the specific item
@@ -100,9 +121,15 @@ namespace OutModern.src.Client.Cart
 
             // Retrieve the data source from the session variable
             DataTable dummyData = (DataTable)Session["DummyData"];
+
+            // Update the quantity in the DataTable
             dummyData.Rows[itemIndex]["Quantity"] = quantity;
 
-            // Recalculate subtotal and update UI
+            // Update the subtotal for the corresponding row
+            decimal price = (decimal)dummyData.Rows[itemIndex]["Price"];
+            dummyData.Rows[itemIndex]["Subtotal"] = price * quantity;
+
+            // Recalculate subtotal and grand total
             UpdateSubtotalAndGrandTotal(dummyData);
 
             // Rebind the ListView with the updated data source for the specific item
@@ -110,23 +137,26 @@ namespace OutModern.src.Client.Cart
         }
 
 
+
         private void UpdateSubtotalAndGrandTotal(DataTable dummyData)
         {
+
             // Recalculate subtotal and grand total
             decimal subtotal = dummyData.AsEnumerable().Sum(row => row.Field<decimal>("Price") * row.Field<int>("Quantity"));
-            lblSubtotal.Text = subtotal.ToString("C");
-            lblGrandTotal.Text = (subtotal + 5.00m).ToString("C"); // Adding $5.00 for delivery charge
+
+            decimal delivery = 5;
+            if (subtotal > 100)
+            {
+                delivery = 0;
+                lblDeliveryCost.Text = "RM0.00";
+            }
+
+            lblSubtotal.Text = "RM" + subtotal.ToString("N2");
+            lblGrandTotal.Text = "RM" + (subtotal + delivery).ToString("N2"); // Adding $5.00 for delivery charge
+
+            // Store the subtotal value in a session variable
+            Session["Subtotal"] = subtotal;
         }
-
-        private void BindData(DataTable dataSource)
-        {
-            // Set the data source for the ProductListView
-            ProductListView.DataSource = dataSource;
-
-            // Bind the data to the ProductListView
-            ProductListView.DataBind();
-        }
-
 
         protected void btnDelete_Click(object sender, EventArgs e)
         {
@@ -170,6 +200,9 @@ namespace OutModern.src.Client.Cart
             {
                 // Store the dummy data in a session variable
                 Session["DummyData"] = dummyData;
+
+                // Store subtotal in session
+                UpdateSubtotalAndGrandTotal(dummyData);
 
                 // Redirect to the Payment page
                 Response.Redirect("~/src/Client/Payment/Payment.aspx");

@@ -17,6 +17,23 @@ namespace OutModern.src.Client.Payment
                 // Retrieve the dummy data from the session variable
                 DataTable dummyData = (DataTable)Session["DummyData"];
 
+                // Retrieve the subtotal value from session
+                decimal subtotal = (decimal)Session["Subtotal"];
+                decimal delivery = 5;
+                if (subtotal > 100)
+                {
+                    delivery = 0;
+                    lblDeliveryCost.Text = "RM0.00";
+                }
+                decimal tax = (subtotal * 6 / 100);
+                decimal total = subtotal + tax + delivery;
+
+
+
+                lblItemPrice.Text = "RM" + subtotal.ToString("N2");
+                lblTax.Text = "RM" + (subtotal * 6 / 100).ToString("N2");
+                lblTotal.Text = "RM" + total.ToString("N2");
+
                 // Bind the dummy data to the ListView control
                 ProductListView.DataSource = dummyData;
                 ProductListView.DataBind();
@@ -26,7 +43,9 @@ namespace OutModern.src.Client.Payment
         protected void TogglePaymentMethod(object sender, EventArgs e)
         {
             pnlPaymentDetails.Visible = !pnlPaymentDetails.Visible;
+
         }
+
 
         protected void ToggleBillingAddress(object sender, EventArgs e)
         {

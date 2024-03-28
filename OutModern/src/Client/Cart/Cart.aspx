@@ -36,7 +36,7 @@
                                     <tr class="border-b border-gray-200">
                                         <td class="py-6 px-4">
                                             <div class="flex items-center">
-                                                <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# Eval("ProductImageUrl") %>' CssClass="w-12 h-10 mr-4" />
+                                                <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# Eval("ProductImageUrl") %>' CssClass="w-14 h-16 mr-4" />
                                                 <div>
                                                     <div class="font-bold capitalize text-black text-lg"><%# Eval("ProductName") %></div>
                                                     <div class="text-sm text-gray-500">Color: <%# Eval("Color") %></div>
@@ -82,14 +82,14 @@
                         <span class="text-sm">Enter Discount Code</span>
                     </div>
 
-                    <div class="flex relative items-center mb-2 rounded-lg border border-black">
-                        <asp:TextBox runat="server" ID="txtDiscountCode" CssClass="w-full px-4 py-4 flex-grow text-sm rounded-lg" />
-                        <asp:Button runat="server" ID="btnApply" CssClass="absolute right-0 bg-black text-white px-6 py-4 hover:bg-gray-800 text-sm rounded-md" Text="Apply" />
+                    <div class="flex items-center mb-2 rounded-lg border-2 border-black">
+                        <asp:TextBox runat="server" ID="txtDiscountCode" CssClass="w-full px-4 py-4 flex-grow text-sm rounded-lg outline-none" />
+                        <asp:Button runat="server" ID="btnApply" CssClass="right-0 bg-black text-white px-6 py-4 hover:bg-gray-800 text-sm rounded-md" Text="Apply" />
                     </div>
 
-                    <div class="flex justify-between border-b border-gray-300 pb-4">
+                    <div class="flex justify-between border-b border-gray-300 pb-4 ">
                         <span>Delivery Charge</span>
-                        <span class="font-bold">RM5.00</span>
+                        <asp:Label ID="lblDeliveryCost" runat="server" CssClass="text-gray-700" Text="RM5.00"></asp:Label>
                     </div>
                     <div class="flex justify-between font-bold text-lg mt-4">
                         <h2 class="text-xl font-bold mb-4">Grand Total</h2>

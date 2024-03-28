@@ -13,7 +13,7 @@
                     <div id="paymentMethod" runat="server" class="p-4 bg-white shadow-md rounded-md mb-12">
                         <!-- Upper Panel Accordion -->
                         <asp:LinkButton ID="lnkTogglePaymentMethod" runat="server" CssClass="p-0 bg-white mb-8 cursor-pointer" OnClick="TogglePaymentMethod">
-    <p class="m-4 font-bold text-xl text-black">Payment Method</p>
+                                <p class="m-4 font-bold text-xl text-black">Payment Method</p>
                         </asp:LinkButton>
 
                         <!-- Upper Panel Content -->
@@ -148,6 +148,7 @@
                                             <div class="font-bold capitalize text-black text-lg"><%# Eval("ProductName") %></div>
                                             <div class="text-sm text-gray-500">Color: <%# Eval("Color") %></div>
                                             <div class="text-sm text-gray-500">Size: <%# Eval("Size") %></div>
+                                            <div class="text-sm text-gray-500">Quantity: <%# Eval("Quantity") %></div>
                                         </div>
                                     </div>
                                 </div>
@@ -163,11 +164,11 @@
                 </div>
                 <div class="flex justify-between mb-2 ml-6 mr-6">
                     <span class="text-gray-700">Delivery Cost</span>
-                    <asp:Label ID="lvlDeliveryCost" runat="server" CssClass="text-gray-700" Text="deliveryvost"></asp:Label>
+                    <asp:Label ID="lblDeliveryCost" runat="server" CssClass="text-gray-700" Text="RM5.00"></asp:Label>
                 </div>
                 <div class="flex justify-between border-b border-gray-300 mb-4 ml-6 mr-6  pb-4">
                     <span class="text-gray-700">Estimated Tax</span>
-                    <asp:Label ID="lblText" runat="server" CssClass="text-gray-700" Text="tax"></asp:Label>
+                    <asp:Label ID="lblTax" runat="server" CssClass="text-gray-700" Text="tax"></asp:Label>
                 </div>
                 <div class="flex justify-between font-semibold ml-6 mr-6">
                     <span class="text-gray-700">Total</span>

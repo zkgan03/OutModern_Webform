@@ -285,22 +285,22 @@ namespace OutModern.src.Client.Payment
         protected global::System.Web.UI.WebControls.Label lblItemPrice;
 
         /// <summary>
-        /// lvlDeliveryCost control.
+        /// lblDeliveryCost control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lvlDeliveryCost;
+        protected global::System.Web.UI.WebControls.Label lblDeliveryCost;
 
         /// <summary>
-        /// lblText control.
+        /// lblTax control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblText;
+        protected global::System.Web.UI.WebControls.Label lblTax;
 
         /// <summary>
         /// lblTotal control.
