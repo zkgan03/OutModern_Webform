@@ -13,11 +13,11 @@
                     <div id="paymentMethod" runat="server" class="p-4 bg-white shadow-md rounded-md mb-12">
                         <!-- Upper Panel Accordion -->
                         <asp:LinkButton ID="lnkTogglePaymentMethod" runat="server" CssClass="p-0 bg-white mb-8 cursor-pointer" OnClick="TogglePaymentMethod">
-                                <p class="m-4 font-bold text-xl text-black">Payment Method</p>
+                                <p class="mx-8 my-4 font-bold text-xl text-black">Payment Method</p>
                         </asp:LinkButton>
 
                         <!-- Upper Panel Content -->
-                        <asp:Panel ID="pnlPaymentDetails" runat="server" CssClass="accordion-content mx-4 mt-6" Visible="false" ClientIDMode="Static">
+                        <asp:Panel ID="pnlPaymentDetails" runat="server" CssClass="mx-8 mt-6" Visible="false" ClientIDMode="Static">
                             <!-- Content of Upper Panel -->
                             <div class="flex items-center space-x-8">
                                 <asp:Label ID="lblCreditCardContainer" runat="server" CssClass="flex items-center border border-gray-300 rounded-md p-4 bg-white shadow-md mb-4 w-56 h-14 cursor-pointer" AssociatedControlID="creditCard">
@@ -63,11 +63,11 @@
                     <div id="billingAddress" runat="server" class="p-4 bg-white shadow-md rounded-md mt-4">
                         <!-- Lower Panel Accordion -->
                         <asp:LinkButton ID="lnkToggleBillingAddress" runat="server" CssClass="p-0 bg-white mb-12 cursor-pointer" OnClick="ToggleBillingAddress">
-    <p class="m-4 font-bold text-xl text-black">Billing Address</p>
+    <p class="my-4 mx-8 font-bold text-xl text-black">Billing Address</p>
                         </asp:LinkButton>
 
 
-                        <asp:Panel ID="pnlBillingDetails" runat="server" CssClass="accordion-content mx-4" Visible="false" ClientIDMode="Static">
+                        <asp:Panel ID="pnlBillingDetails" runat="server" CssClass="mx-8" Visible="false" ClientIDMode="Static">
                             <div class="grid grid-cols-2 gap-4">
                                 <div class="mb-4">
                                     <asp:Label for="txtFirstName" runat="server" class="text-gray-700 font-semibold">First Name</asp:Label>
@@ -99,16 +99,6 @@
                                     <asp:TextBox ID="txtPostalCode" runat="server" CssClass="w-full border border-gray-300 rounded-md px-3 py-2 mt-1" Text="94102-4331"></asp:TextBox>
                                 </div>
                             </div>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div class="mb-4">
-                                    <asp:Label for="txtEmail" runat="server" class="text-gray-700 font-semibold">Email</asp:Label>
-                                    <asp:TextBox ID="txtEmail" runat="server" CssClass="w-full border border-gray-300 rounded-md px-3 py-2 mt-1" Text="patricia.eyni@gmail.com"></asp:TextBox>
-                                </div>
-                                <div class="mb-4">
-                                    <asp:Label for="txtPhoneNumber" runat="server" class="text-gray-700 font-semibold">Phone Number</asp:Label>
-                                    <asp:TextBox ID="txtPhoneNumber" runat="server" CssClass="w-full border border-gray-300 rounded-md px-3 py-2 mt-1" Text="+1 (415) 123-1234"></asp:TextBox>
-                                </div>
-                            </div>
                         </asp:Panel>
 
 
@@ -123,7 +113,7 @@
         </div>
 
         <!--Right Container-->
-        <div class="w-1/4 p-4 mr-12">
+        <div class="w-[30%] p-4 mr-12">
 
             <!-- Order Summary -->
             <div id="orderSummary" runat="server" class="p-4 bg-white shadow-md rounded-md">
