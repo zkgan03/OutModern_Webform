@@ -21,6 +21,8 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <asp:Label ID="lblEmptyCart" runat="server" CssClass="text-red-500 font-bold justify-items-center" Visible="false">Cart is empty</asp:Label>
+
                             <asp:ListView ID="ProductListView" runat="server">
                                 <LayoutTemplate>
                                     <tr runat="server" id="itemPlaceholder"></tr>
@@ -28,6 +30,9 @@
                                 <ItemTemplate>
 
                                     <!--Product-->
+
+
+
                                     <tr class="border-b border-gray-200">
                                         <td class="py-6 px-4">
                                             <div class="flex items-center">
@@ -91,28 +96,10 @@
                         <asp:Label ID="lblGrandTotal" runat="server" CssClass="font-bold" Text="RM200.00"></asp:Label>
                     </div>
                 </div>
-                
-                <asp:Button runat="server" ID="btnCheckout" PostBackUrl="~/src/Client/Payment/Payment.aspx" CssClass="w-full bg-black text-white py-3 rounded-md hover:bg-gray-800" Text="Proceed to Checkout" />
+
+                <asp:Button runat="server" ID="btnCheckout" CssClass="w-full bg-black text-white py-3 rounded-md hover:bg-gray-800" Text="Proceed to Checkout" OnClick="btnCheckout_Click" />
 
             </div>
         </div>
     </div>
-
-    <script>
-        function decrementQuantity(button) {
-            const input = button.nextElementSibling;
-            let value = parseInt(input.value);
-            if (value > 1) {
-                value--;
-                input.value = value;
-            }
-        }
-
-        function incrementQuantity(button) {
-            const input = button.previousElementSibling;
-            let value = parseInt(input.value);
-            value++;
-            input.value = value;
-        }
-    </script>
 </asp:Content>

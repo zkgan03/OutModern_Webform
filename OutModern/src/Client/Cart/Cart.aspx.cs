@@ -16,25 +16,23 @@ namespace OutModern.src.Client.Cart
             {
                 BindData();
             }
+
         }
 
         private void BindData()
         {
             DataTable dummyData = GetDummyData();
 
-            // Set the data source for the ProductListView
-            ProductListView.DataSource = dummyData;
+            // Store the data source in a session variable
+            Session["DummyData"] = dummyData;
 
             // Bind the data to the ProductListView
+            ProductListView.DataSource = dummyData;
             ProductListView.DataBind();
 
             // Calculate subtotal and grand total
-            decimal subtotal = dummyData.AsEnumerable().Sum(row => row.Field<decimal>("Subtotal"));
-            lblSubtotal.Text = subtotal.ToString("C");
-            lblGrandTotal.Text = (subtotal + 5.00m).ToString("C"); // Adding $5.00 for delivery charge
+            UpdateSubtotalAndGrandTotal(dummyData);
         }
-
-
 
         public static DataTable GetDummyData()
         {
@@ -50,8 +48,8 @@ namespace OutModern.src.Client.Cart
             dummyData.Columns.Add("Subtotal", typeof(decimal));
 
             // Add rows with dummy data
-            dummyData.Rows.Add("~/images/mastercard_logo.png", "Premium Hoodie", "White", "XL", 1500.00m, 1,3000.00m);
-            dummyData.Rows.Add("~/images/mastercard_logo.png", "Premium Hoodie", "White", "XL", 1500.00m, 1,3000.00m);
+            dummyData.Rows.Add("~/images/mastercard_logo.png", "Premium Hoodie", "White", "XL", 1500.00m, 1, 3000.00m);
+            dummyData.Rows.Add("~/images/mastercard_logo.png", "Premium Hoodie", "White", "XL", 1500.00m, 1, 3000.00m);
             dummyData.Rows.Add("~/images/mastercard_logo.png", "Premium Hoodie", "White", "XL", 1500.00m, 1, 3000.00m);
             dummyData.Rows.Add("~/images/mastercard_logo.png", "Premium Hoodie", "White", "XL", 1500.00m, 1, 3000.00m);
             dummyData.Rows.Add("~/images/product-img/trouser-size-guide.png", "DTX 4090", "Black", "XL", 10.00m, 2, 10.00m);
@@ -62,7 +60,6 @@ namespace OutModern.src.Client.Cart
 
         protected void btnDecrement_Click(object sender, EventArgs e)
         {
-            // Find the corresponding text box and decrement its value
             Button btnDecrement = (Button)sender;
             ListViewItem item = (ListViewItem)btnDecrement.NamingContainer;
             TextBox txtQuantity = (TextBox)item.FindControl("txtQuantity");
@@ -72,13 +69,24 @@ namespace OutModern.src.Client.Cart
             {
                 quantity--;
                 txtQuantity.Text = quantity.ToString();
-                UpdateSubtotal(item, quantity);
+
+                // Get the index of the item in the ListView
+                int itemIndex = item.DataItemIndex;
+
+                // Retrieve the data source from the session variable
+                DataTable dummyData = (DataTable)Session["DummyData"];
+                dummyData.Rows[itemIndex]["Quantity"] = quantity;
+
+                // Recalculate subtotal and update UI
+                UpdateSubtotalAndGrandTotal(dummyData);
+
+                // Rebind the ListView with the updated data source for the specific item
+                BindData(dummyData);
             }
         }
 
         protected void btnIncrement_Click(object sender, EventArgs e)
         {
-            // Find the corresponding text box and increment its value
             Button btnIncrement = (Button)sender;
             ListViewItem item = (ListViewItem)btnIncrement.NamingContainer;
             TextBox txtQuantity = (TextBox)item.FindControl("txtQuantity");
@@ -86,62 +94,96 @@ namespace OutModern.src.Client.Cart
             int quantity = int.Parse(txtQuantity.Text);
             quantity++;
             txtQuantity.Text = quantity.ToString();
-            UpdateSubtotal(item, quantity);
-        }
 
-        private void UpdateSubtotal(ListViewItem item, int quantity)
-        {
-            Label lblPrice = (Label)item.FindControl("lblPrice");
-            Label lblSubtotal = (Label)item.FindControl("lblSubtotal");
+            // Get the index of the item in the ListView
+            int itemIndex = item.DataItemIndex;
 
-            if (lblPrice != null && lblSubtotal != null)
-            {
-                decimal price = 0;
-                if (decimal.TryParse(lblPrice.Text.Replace("$", "").Replace(",", ""), out price))
-                {
-                    decimal subtotal = price * quantity;
-                    lblSubtotal.Text = subtotal.ToString("C");
-                    UpdateGrandTotal();
-                }
-                else
-                {
-                    // Handle the case where lblPrice.Text is not a valid decimal
-                }
-            }
-            else
-            {
-                // Handle the case where lblPrice or lblSubtotal is not found
-            }
+            // Retrieve the data source from the session variable
+            DataTable dummyData = (DataTable)Session["DummyData"];
+            dummyData.Rows[itemIndex]["Quantity"] = quantity;
+
+            // Recalculate subtotal and update UI
+            UpdateSubtotalAndGrandTotal(dummyData);
+
+            // Rebind the ListView with the updated data source for the specific item
+            BindData(dummyData);
         }
 
 
-        private void UpdateGrandTotal()
+        private void UpdateSubtotalAndGrandTotal(DataTable dummyData)
         {
-            // Recalculate the grand total
-            decimal grandTotal = 0;
-            foreach (ListViewItem item in ProductListView.Items)
-            {
-                Label lblSubtotal = (Label)item.FindControl("lblSubtotal");
-                grandTotal += decimal.Parse(lblSubtotal.Text.Replace("$", "").Replace(",", ""));
-            }
-            lblSubtotal.Text = grandTotal.ToString("C");
-            lblGrandTotal.Text = (grandTotal + 5.00m).ToString("C"); // Adding $5.00 for delivery charge
+            // Recalculate subtotal and grand total
+            decimal subtotal = dummyData.AsEnumerable().Sum(row => row.Field<decimal>("Price") * row.Field<int>("Quantity"));
+            lblSubtotal.Text = subtotal.ToString("C");
+            lblGrandTotal.Text = (subtotal + 5.00m).ToString("C"); // Adding $5.00 for delivery charge
+        }
+
+        private void BindData(DataTable dataSource)
+        {
+            // Set the data source for the ProductListView
+            ProductListView.DataSource = dataSource;
+
+            // Bind the data to the ProductListView
+            ProductListView.DataBind();
         }
 
 
         protected void btnDelete_Click(object sender, EventArgs e)
         {
+            Button btnDelete = (Button)sender;
+            ListViewItem item = (ListViewItem)btnDelete.NamingContainer;
 
-            //code
+            // Retrieve the data source from the session variable
+            DataTable dummyData = (DataTable)Session["DummyData"];
 
+            // Check if the DataTable is not empty
+            if (dummyData.Rows.Count > 0)
+            {
+                // Get the index of the item in the ListView
+                int itemIndex = item.DataItemIndex;
 
+                // Remove the row corresponding to the item to be deleted
+                dummyData.Rows.RemoveAt(itemIndex);
 
+                // Recalculate subtotal and update UI
+                UpdateSubtotalAndGrandTotal(dummyData);
+
+                // Rebind the ListView with the updated data source
+                BindData(dummyData);
+            }
         }
+
+
 
         protected void btnApply_Click(object sender, EventArgs e)
         {
 
         }
+
+        protected void btnCheckout_Click(object sender, EventArgs e)
+        {
+            // Retrieve the data source from the session variable
+            DataTable dummyData = (DataTable)Session["DummyData"];
+
+            // Check if the DataTable is not null and contains at least one row
+            if (dummyData != null && dummyData.Rows.Count > 0)
+            {
+                // Store the dummy data in a session variable
+                Session["DummyData"] = dummyData;
+
+                // Redirect to the Payment page
+                Response.Redirect("~/src/Client/Payment/Payment.aspx");
+            }
+            else
+            {
+                // Cart is empty, disable the button
+                btnCheckout.Enabled = false;
+
+                // Optionally, you can also display a message to the user
+                // lblEmptyCart.Visible = true;
+            }
+        }
+
     }
 
 
