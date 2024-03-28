@@ -6,7 +6,7 @@
 
     <div class="rounded-md p-2 mb-14 flex justify-between mx-44">
         <!--Left Container-->
-        <div class="w-[65%] p-4 ml-12">
+        <div class="w-[65%] p-4 ml-12 min-h-[60vh]">
             <div id="paymentMethod" runat="server" class="p-4 bg-white shadow-md rounded-md mb-12">
                 <!--UPPER PANEL-->
                 <p class="m-4 font-bold text-xl text-black">Payment Method</p>
