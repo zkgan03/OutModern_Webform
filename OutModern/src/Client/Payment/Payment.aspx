@@ -123,12 +123,41 @@
         </div>
 
         <!--Right Container-->
-        <div class="w-1/3 p-4 mr-12">
+        <div class="w-1/4 p-4 mr-12">
 
             <!-- Order Summary -->
             <div id="orderSummary" runat="server" class="p-4 bg-white shadow-md rounded-md">
                 <h2 class="text-lg font-semibold mt-2 mb-2 ml-6 mr-6">Order Summary</h2>
-                <div class="flex justify-between  mb-2 ml-6 mr-6">
+
+                <div>
+                    <asp:ListView ID="ProductListView" runat="server">
+                        <LayoutTemplate>
+                            <div>
+                                <table>
+                                    <tr runat="server" id="itemPlaceholder"></tr>
+                                </table>
+                            </div>
+                        </LayoutTemplate>
+                        <ItemTemplate>
+                            <!-- Product item template -->
+                            <div class="border-b border-gray-200">
+                                <div class="py-6 px-4">
+                                    <div class="flex items-center">
+                                        <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# Eval("ProductImageUrl") %>' CssClass="w-12 h-10 mr-4" />
+                                        <div>
+                                            <div class="font-bold capitalize text-black text-lg"><%# Eval("ProductName") %></div>
+                                            <div class="text-sm text-gray-500">Color: <%# Eval("Color") %></div>
+                                            <div class="text-sm text-gray-500">Size: <%# Eval("Size") %></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ItemTemplate>
+                    </asp:ListView>
+
+                </div>
+
+                <div class="flex justify-between pt-4 mb-2 ml-6 mr-6">
                     <span class="text-gray-700">Items</span>
                     <asp:Label ID="lblItemPrice" runat="server" CssClass="text-gray-700" Text="itemprice"></asp:Label>
                 </div>
@@ -136,7 +165,7 @@
                     <span class="text-gray-700">Delivery Cost</span>
                     <asp:Label ID="lvlDeliveryCost" runat="server" CssClass="text-gray-700" Text="deliveryvost"></asp:Label>
                 </div>
-                <div class="flex justify-between border-b border-gray-300 mb-4 ml-6 mr-6">
+                <div class="flex justify-between border-b border-gray-300 mb-4 ml-6 mr-6  pb-4">
                     <span class="text-gray-700">Estimated Tax</span>
                     <asp:Label ID="lblText" runat="server" CssClass="text-gray-700" Text="tax"></asp:Label>
                 </div>
@@ -144,8 +173,11 @@
                     <span class="text-gray-700">Total</span>
                     <asp:Label ID="lblTotal" runat="server" CssClass="text-gray-700" Text="total"></asp:Label>
                 </div>
-                <asp:Button ID="btnSubmitOrder" runat="server" Text="Submit Order" CssClass="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded mt-4" />
+            </div>
 
+            <!--Submit button-->
+            <div class="mt-8">
+                <asp:Button ID="btnSubmitOrder" runat="server" Text="Submit Order" CssClass="bg-black hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded w-full h-12" />
             </div>
 
         </div>

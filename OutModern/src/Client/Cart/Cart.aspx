@@ -91,8 +91,8 @@
                         <asp:Label ID="lblGrandTotal" runat="server" CssClass="font-bold" Text="RM200.00"></asp:Label>
                     </div>
                 </div>
-
-                <asp:Button runat="server" ID="btnCheckout" CssClass="w-full bg-black text-white py-3 rounded-md hover:bg-gray-800" Text="Proceed to Checkout" />
+                
+                <asp:Button runat="server" ID="btnCheckout" PostBackUrl="~/src/Client/Payment/Payment.aspx" CssClass="w-full bg-black text-white py-3 rounded-md hover:bg-gray-800" Text="Proceed to Checkout" />
 
             </div>
         </div>

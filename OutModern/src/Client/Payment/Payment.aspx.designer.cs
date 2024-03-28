@@ -267,6 +267,15 @@ namespace OutModern.src.Client.Payment
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl orderSummary;
 
         /// <summary>
+        /// ProductListView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ListView ProductListView;
+
+        /// <summary>
         /// lblItemPrice control.
         /// </summary>
         /// <remarks>
