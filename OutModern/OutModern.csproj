@@ -68,6 +68,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\Client\Payment\Payment.aspx.cs">
+      <DependentUpon>Payment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\Payment\Payment.aspx.designer.cs">
+      <DependentUpon>Payment.aspx</DependentUpon>
+    </Compile>
     <Content Include="App_Data\OutModern.mdf" />
     <Content Include="App_Data\OutModern_log.ldf">
       <DependentUpon>OutModern.mdf</DependentUpon>
@@ -78,6 +85,7 @@
     <Content Include="favicon\favicon-16x16.png" />
     <Content Include="favicon\favicon-32x32.png" />
     <Content Include="favicon\favicon.ico" />
+    <Content Include="images\paypal.png" />
     <Content Include="images\about_us_img\aboutUs%281%29.jpg" />
     <Content Include="images\about_us_img\happy.jpg" />
     <Content Include="images\about_us_img\img%28a%29.jpg" />
@@ -90,7 +98,6 @@
     <Content Include="images\about_us_img\our_purpose.jpg" />
     <Content Include="images\about_us_img\Simple.jpg" />
     <Content Include="images\about_us_img\Together.jpg" />
-    <Content Include="images\arrow_up.png" />
     <Content Include="images\charles-etoroma-95UF6LXe-Lo-unsplash.jpg" />
     <Content Include="images\contact_us_pic.jpg" />
     <Content Include="images\customerService.jpeg" />
@@ -521,6 +528,7 @@
     <Content Include="lib\fonts\ChakraPetch\ChakraPetch-SemiBold.ttf" />
     <Content Include="lib\fonts\ChakraPetch\ChakraPetch-SemiBoldItalic.ttf" />
     <None Include="packages.config" />
+    <Content Include="src\Client\Payment\Payment.aspx" />
     <Content Include="Web.config" />
     <Content Include="src\Admin\AdminMaster\Admin.Master" />
     <Content Include="src\Client\ClientMaster\Client.Master" />
@@ -534,8 +542,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="src\Client\Cart\" />
     <Folder Include="src\Client\Home\css\" />
     <Folder Include="src\Client\Home\js\" />
+    <Folder Include="src\Client\Payment\css\" />
+    <Folder Include="src\Client\Payment\js\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
