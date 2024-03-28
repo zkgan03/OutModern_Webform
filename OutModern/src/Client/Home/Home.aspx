@@ -104,7 +104,7 @@
     <div class="section-container">
         <div class="button-bar">
             <span class="content2Text">New Arrivals</span>
-            <span class="content2Text2">From casual to formal, we have something for everyone.</span>
+            <span class="content2Text2" style="color: black">From casual to formal, we have something for everyone.</span>
         </div>
 
         <div id="New Arrivals" class="fading sections">
