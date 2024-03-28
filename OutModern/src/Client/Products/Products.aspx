@@ -33,14 +33,28 @@
             <h1 class="">Products
             </h1>
         </div>
-        <div class="flex">
-            <div class="w-1/5 mb-3">
+        <div class="flex items-center">
+            <div class="w-1/5 mb-2">
                 <h3 class="text-center font-light">Search Filter <i class="fa fa-filter"></i></h3>
             </div>
-            <div class="w-4/5 border-b-2 border-gray-200 mr-4">
-                <asp:Label ID="lblTotalProducts" runat="server">
+            <div class="w-4/5 border-b-2 border-gray-200 flex items-center justify-between py-0.5 px-2 mr-3">
+                <asp:Label ID="lblTotalProducts" runat="server" class="flex items-center">
                     
                 </asp:Label>
+                <div class="flex items-center space-x-4 mb-1">
+                    <div class="relative" style="">
+                        <select id="sortSelect" class="appearance-none bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 w-full">
+                            <option value="Featured">Sort By:&nbsp;Featured</option>
+                             <option value="Customer Ratings"> Customer Ratings</option>
+                             <option value="Best Seller"> Best Seller</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="flex">
@@ -53,9 +67,9 @@
                         </div>
                         <ul class="pb-5 pl-5">
                             <li class="list-none">
-                                <asp:TextBox class="text-center" Type="Number" ID="minPrice" runat="server" Style="width: 45%" placeholder="minPrice"></asp:TextBox>
+                                <asp:TextBox class="text-center" Type="Number" ID="minPrice" runat="server" Style="width: 45%" placeholder="Min Price"></asp:TextBox>
                                 -
-                                <asp:TextBox class="text-center" Type="Number" placeholder="maxPrice" ID="maxPrice" runat="server" Style="width: 45%"></asp:TextBox>
+                                <asp:TextBox class="text-center" Type="Number" placeholder="Max Price" ID="maxPrice" runat="server" Style="width: 45%"></asp:TextBox>
                             </li>
                         </ul>
                     </li>
@@ -278,5 +292,17 @@
              image.src = imageUrl;
          }, 200); 
      }
+     const sortSelect = document.getElementById("sortSelect");
+
+     sortSelect.addEventListener("change", function () {
+         const selectedOption = sortSelect.options[sortSelect.selectedIndex];
+
+         selectedOption.textContent = "Sort By: " + selectedOption.textContent;
+         for (var i = 0; i < sortSelect.options.length; i++) {
+             if (sortSelect.selectedIndex !== i) {
+                 sortSelect.options[i].textContent = sortSelect.options[i].value;
+             }
+         }
+     });
  </script>
 </asp:Content>

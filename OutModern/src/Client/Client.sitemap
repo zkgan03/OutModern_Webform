@@ -3,5 +3,9 @@
   <siteMapNode url="" title=""  description="">
     <siteMapNode url="" title=""  description="" />
     <siteMapNode url="" title=""  description="" />
+	  <siteMapNode url="~/src/Client/Products/Products.aspx" title="Products"  description="" >
+		  <siteMapNode url="~/src/Client/ProductDetails/ProductDetails.aspx" title="Product Details" >			 
+		  </siteMapNode>
+	  </siteMapNode>
   </siteMapNode>
 </siteMap>

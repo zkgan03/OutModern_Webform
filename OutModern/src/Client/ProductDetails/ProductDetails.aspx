@@ -351,7 +351,7 @@
             <p style="text-align: center;">*Difference of 1-2cm may occur</p>
             <p style="text-align: center; margin-top: 1em; font-size: 1.1rem;"><b>Size Chart</b></p>
         </div>
-        <div class="mt-5 mx-auto flex justify-center flex-wrap gap-8 w-4/5 max-w-1200">
+        <div class="mt-5 mx-auto flex justify-center flex-wrap gap-3 w-4/5 max-w-1200">
             <div class="items-center flex justify-center flex-col gap-5 text-lg shadow-lg rounded-lg p-6">
                 <p class="text-black text-2xl">Average User Rating</p>
                 <p class="text-gray-500">
@@ -442,8 +442,7 @@
                             Rated</button>
                 </div>
             </div>
-
-            <div class="flex p-4 relative">
+                        <div class="flex p-2 relative">
                 <div class="border-b-gray-300 border-b-2 flex">
                     <div class="py-4">
                         <img src="../../../images/person1.jpg" alt="user-pic" width="55px" class="rounded-full">
@@ -451,7 +450,56 @@
                     <div class="p-4 w-full flex flex-col gap-4">
                         <div class="flex items-center flex-wrap">
                             <div class="flex flex-col">
-                                <asp:Label ID="lblName" runat="server" Text="" class="text-black font-bold">MantouYYDS</asp:Label>
+                                <asp:Label ID="Label9" runat="server" Text="" class="text-black font-bold">MantouYYDS</asp:Label>
+                                <p class="text-sm italic text-gray-500">
+                                    <asp:Label ID="Label10" runat="server" Text="Sun, 12 Sept 2021"></asp:Label>
+                                </p>
+                                <p class="text-sm italic text-gray-500">
+                                    <asp:Label ID="Label11" runat="server" Text="Variation: Black, XL size"></asp:Label>
+                                </p>
+                            </div>
+                            <div class="ml-auto">
+                                <i class="fas fa-star text-black" style="font-weight: bold !important;"></i>
+                                <i class="fas fa-star text-black" style="font-weight: bold !important;"></i>
+                                <i class="fas fa-star text-black" style="font-weight: bold !important;"></i>
+                                <i class="fas fa-star text-black" style="font-weight: bold !important;"></i>
+                                <i class="far fa-star text-black"></i>
+                            </div>
+
+                        </div>
+                        <div class="flex flex-col gap-4">
+                            <p class="pr-5">
+                                <asp:Label ID="Label12" runat="server">
+                                    I love this product so much! It's the perfect thickness and I really like
+the drawstring. I can't say enough about how great it is! I am convinced that this
+product is the best one on the market.
+                                </asp:Label>
+                            </p>
+                        </div>
+                        <div class="flex gap-4">
+                            <button class="p-2 px-4 border border-black rounded-lg cursor-pointer bg-white hover:bg-gray-600 hover:text-white transition duration-200">
+                                <i class="fas fa-thumbs-up"></i>
+                                <span id="like-count">124</span>
+                            </button>
+                            <button class="p-2 px-4 border border-black rounded-lg cursor-pointer bg-white hover:bg-gray-600">
+                                <i class="fas fa-thumbs-down"></i>
+                                <span id="dislike-count">3</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="flex p-2 relative">
+                <div class="border-b-gray-300 border-b-2 flex">
+                    <div class="py-4">
+                        <img src="../../../images/person2.jpg" alt="user-pic" width="55px" class="rounded-full">
+                    </div>
+                    <div class="p-4 w-full flex flex-col gap-4">
+                        <div class="flex items-center flex-wrap">
+                            <div class="flex flex-col">
+                                <asp:Label ID="lblName" runat="server" Text="" class="text-black font-bold">Siu!!!!</asp:Label>
                                 <p class="text-sm italic text-gray-500">
                                     <asp:Label ID="lblTime" runat="server" Text="Sun, 12 Sept 2021"></asp:Label>
                                 </p>
@@ -488,7 +536,59 @@ product is the best one on the market.
                             </button>
                         </div>
                     </div>
+
                 </div>
+
+            </div>
+             <div class="flex p-2 relative">
+                <div class="border-b-gray-300 border-b-2 flex">
+                    <div class="py-4">
+                        <img src="../../../images/person3.jpg" alt="user-pic" width="55px" class="rounded-full">
+                    </div>
+                    <div class="p-4 w-full flex flex-col gap-4">
+                        <div class="flex items-center flex-wrap">
+                            <div class="flex flex-col">
+                                <asp:Label ID="Label1" runat="server" Text="" class="text-black font-bold">Rando</asp:Label>
+                                <p class="text-sm italic text-gray-500">
+                                    <asp:Label ID="Label2" runat="server" Text="Sun, 12 Sept 2021"></asp:Label>
+                                </p>
+                                <p class="text-sm italic text-gray-500">
+                                    <asp:Label ID="Label3" runat="server" Text="Variation: Black, XL size"></asp:Label>
+                                </p>
+                            </div>
+                            <div class="ml-auto">
+                                <i class="fas fa-star text-black" style="font-weight: bold !important;"></i>
+                                <i class="fas fa-star text-black" style="font-weight: bold !important;"></i>
+                                <i class="fas fa-star text-black" style="font-weight: bold !important;"></i>
+                                <i class="fas fa-star text-black" style="font-weight: bold !important;"></i>
+                                <i class="far fa-star text-black"></i>
+                            </div>
+
+                        </div>
+                        <div class="flex flex-col gap-4">
+                            <p class="pr-5">
+                                <asp:Label ID="Label4" runat="server">
+                                    I love this product so much! It's the perfect thickness and I really like
+the drawstring. I can't say enough about how great it is! I am convinced that this
+product is the best one on the market.
+                                </asp:Label>
+                            </p>
+                        </div>
+                        <div class="flex gap-4">
+                            <button class="p-2 px-4 border border-black rounded-lg cursor-pointer bg-white hover:bg-gray-600 hover:text-white transition duration-200">
+                                <i class="fas fa-thumbs-up"></i>
+                                <span id="like-count">124</span>
+                            </button>
+                            <button class="p-2 px-4 border border-black rounded-lg cursor-pointer bg-white hover:bg-gray-600">
+                                <i class="fas fa-thumbs-down"></i>
+                                <span id="dislike-count">3</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+             <div class="mt-1 grid place-content-center">
+                    <button class="text-lg text-black bg-transparent border-none cursor-pointer select-none outline-none hover:underline" id="expand-review-btn" onclick="expandReview()">See All Reviews</button>
             </div>
         </div>
     </div>
