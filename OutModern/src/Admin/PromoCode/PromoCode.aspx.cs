@@ -45,7 +45,9 @@ namespace OutModern.src.Admin.PromoCode
 
         protected void lvPromoCodes_ItemCanceling(object sender, ListViewCancelEventArgs e)
         {
-
+            lvPromoCodes.DataSource = GetPromoCodes();
+            lvPromoCodes.InsertItemPosition = InsertItemPosition.None;
+            lvPromoCodes.DataBind();
         }
 
         protected void lvPromoCodes_ItemInserting(object sender, ListViewInsertEventArgs e)

@@ -16,7 +16,7 @@
 
         /*Variation*/
         #variation-form {
-            @apply mb-10 ml-2 mt-5;
+            @apply mb-10 ml-2 mt-10;
         }
 
             #variation-form .size-added {
@@ -74,7 +74,7 @@
         <!-- General Desc -->
         <div id="prod-edit-form" class="mt-8">
 
-            <div class="text-[1.5rem] font-[600]">Edit Product</div>
+            <div class="text-2xl font-bold">Edit Product</div>
             <div id="edit-from-item" class="mt-2 ml-2 text-xl">
                 <div>
                     <span class="desc-title">Product ID</span>
@@ -105,12 +105,6 @@
                     </span>
                 </div>
                 <div>
-                    <span class="desc-title">Quantity</span>
-                    <span>:                        
-                        <asp:TextBox ID="txtProdQuantity" runat="server" Text="123"></asp:TextBox>
-                    </span>
-                </div>
-                <div>
                     <span class="desc-title">Status</span>
                     <span>:
                         <asp:DropDownList ID="ddlProdStatus" AppendDataBoundItems="true" runat="server">
@@ -125,10 +119,11 @@
 
         <!-- Variation -->
         <div id="variation-form">
-            <div class="text-[1.5rem] font-[600]">Variation</div>
+            <div class="text-2xl font-[600]">Variation</div>
 
             <div class="flex mt-2 items-center">
-                <div>Size Added: <span class="size-added">S</span></div>
+                <!--Size selection-->
+                <div>Size : <span class="size-added">S</span></div>
                 <div class="ml-20">
                     Add Size : 
                     <asp:DropDownList ID="ddlSize" runat="server">
@@ -137,10 +132,16 @@
                         <asp:ListItem>L</asp:ListItem>
                         <asp:ListItem>XL</asp:ListItem>
                     </asp:DropDownList>
-                    <asp:Button ID="btnAddSize" CssClass="button" runat="server" Text="Add" />
+                    <asp:Button ID="btnAddSize" CssClass="button text-black py-0" runat="server" Text="Add" />
                 </div>
             </div>
 
+            <div class="mt-2">
+                <span>Quantity : </span>
+                <span>
+                    <asp:TextBox CssClass="w-20" TextMode="Number" ID="txtProdQuantity" runat="server" Text="123"></asp:TextBox>
+                </span>
+            </div>
             <!--Colors-->
             <%-- 
                 Beige, black, white, 
@@ -151,7 +152,7 @@
             --%>
             <div class="flex mt-2 items-center">
                 <div class="flex gap-2 justify-center items-center">
-                    <div>Colors Added:</div>
+                    <div>Colors :</div>
                     <div data-color="white" class="color-varient bg-white"></div>
                     <div data-color="black" class="color-varient bg-black"></div>
                     <div data-color="beige" class="color-varient active bg-[#E0CCBC]"></div>
@@ -173,7 +174,7 @@
 
             <!-- Images -->
             <div class="flex flex-wrap gap-2 mt-5 items-center">
-                <div>Image Added : </div>
+                <div>Image : </div>
                 <asp:Image ID="imgProd1" runat="server" Width="10em"
                     CssClass="product-img"
                     ImageUrl="~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de6441b1.png" />

@@ -56,11 +56,11 @@
                 <div class="text-xl font-[600] flex items-center gap-2">
                     Customer Info            
                     <asp:HyperLink CssClass="inline-block text-white px-2 rounded bg-amber-500 hover:opacity-50" ID="hlEditOrder" runat="server" 
-                        NavigateUrl='<%#urls[CustomerEdit] %>'>
+                        NavigateUrl='<%#urls[CustomerEdit] + "?id=" + "123" %>'>
                     <i class="fa-regular fa-pen-to-square"></i>
                     </asp:HyperLink>
                 </div>
-                <div class="mt-2 text-xl border rounded p-4 border-gray-700">
+                <div class="mt-2 text-xl border drop-shadow-lg bg-white rounded p-4 border-gray-700">
                     <div class="desc-grp">
                         <div class="desc-title">Customer ID</div>
                         <div class="desc-desc">
@@ -105,7 +105,7 @@
             <!--Customer's Order details-->
             <div class="flex-1">
                 <div class="text-xl font-[600]">Orders Made (123)</div>
-                <div class="mt-2 status-list flex justify-between">
+                <div class="mt-2 status-list flex justify-between ">
                     <asp:LinkButton ID="LinkButton1" runat="server">
                         All
                     </asp:LinkButton>
@@ -126,6 +126,7 @@
                             <asp:Label ID="lblCancelledTotal" runat="server" Text="10"></asp:Label>
                     </asp:LinkButton>
                 </div>
+
                 <!-- Display Orders -->
                 <div class="mt-2">
                     <!--Pagination-->
@@ -176,7 +177,6 @@
                                              <i class="fa-solid fa-arrow-up"></i>
                                             </asp:LinkButton>
                                         </th>
-                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -198,11 +198,6 @@
                                 </td>
                                 <td><%# Eval("SubTotal") %></td>
                                 <td><span runat="server" id="orderStatus" class="order-status"><%# Eval("OrderStatus") %></span></td>
-                                <td>
-                                    <asp:HyperLink ID="hlEdit" runat="server" CssClass="button" NavigateUrl='<%# urls[OrderEdit] +"?id=" +Eval("OrderId") %>'>
-                        <i class="fa-regular fa-pen-to-square"></i>
-                                    </asp:HyperLink>
-                                </td>
                             </tr>
                         </ItemTemplate>
                     </asp:ListView>

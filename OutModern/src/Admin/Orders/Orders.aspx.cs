@@ -15,12 +15,14 @@ namespace OutModern.src.Admin.Orders
 
         protected static readonly string OrderDetails = "OrderDetails";
         protected static readonly string OrderEdit = "OrderEdit";
+        protected static readonly string OrderAdd = "OrderAdd";
 
         // Side menu urls
         protected Dictionary<string, string> urls = new Dictionary<string, string>()
         {
             { OrderDetails , "~/src/Admin/OrderDetails/OrderDetails.aspx" },
-            { OrderEdit , "~/src/Admin/OrderEdit/OrderEdit.aspx" }
+            { OrderEdit , "~/src/Admin/OrderEdit/OrderEdit.aspx" },
+            {OrderAdd, "~/src/Admin/OrderAdd/OrderAdd.aspx" }
         };
 
         protected void Page_Load(object sender, EventArgs e)

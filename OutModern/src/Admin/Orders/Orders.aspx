@@ -22,20 +22,16 @@
                 .order-status.received {
                     @apply bg-green-300;
                 }
+
+            .shipped-button {
+                @apply inline-block bg-gray-100 text-black mt-2 rounded p-1 border border-black hover:opacity-50;
+            }
         }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
     <div class="mt-2">
-        <!--Add New Order-->
-        <asp:HyperLink
-            CssClass="inline-block rounded hover:opacity-60 p-2 box-border bg-green-600 text-white"
-            ID="lbAddOrder" runat="server" NavigateUrl="#">
-            <i class="fa-regular fa-plus"></i>       
-            New Order
-        </asp:HyperLink>
-
         <!-- Filter and add item -->
         <div class="flex justify-between items-center mt-8">
             <div>
@@ -107,7 +103,7 @@
                                      <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
-                                <th>Action</th>
+                                <th>Update Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -131,9 +127,32 @@
                         <td><%# Eval("SubTotal") %></td>
                         <td><span runat="server" id="orderStatus" class="order-status"><%# Eval("OrderStatus") %></span></td>
                         <td>
-                            <asp:HyperLink ID="hlEdit" runat="server" CssClass="button" NavigateUrl='<%# urls[OrderEdit] +"?id=" +Eval("OrderId") %>'>
-                                <i class="fa-regular fa-pen-to-square"></i>
-                            </asp:HyperLink>
+
+                            <asp:LinkButton
+                                Visible='<%# Eval("OrderStatus").ToString() == "Order Placed" %>'
+                                CssClass="shipped-button bg-green-500 text-white"
+                                ID="lbStatusToShipped" runat="server">
+                                <div>
+                                    Shipped
+                                </div>
+                                        
+                            </asp:LinkButton>
+
+                            <asp:LinkButton
+                                Visible='<%# Eval("OrderStatus").ToString() == "Order Placed" %>'
+                                CssClass="shipped-button bg-red-500 text-white"
+                                ID="lbStatusCancel" runat="server">
+                                    Cancel
+                            </asp:LinkButton>
+
+                            <asp:LinkButton
+                                Visible='<%# Eval("OrderStatus").ToString() == "Shipped" ||  Eval("OrderStatus").ToString() == "Cancelled"%>'
+                                CssClass="shipped-button"
+                                ID="lbReturnToPlaced" runat="server">
+                                    Return to Placed
+                            </asp:LinkButton>
+
+
                         </td>
                     </tr>
                 </ItemTemplate>

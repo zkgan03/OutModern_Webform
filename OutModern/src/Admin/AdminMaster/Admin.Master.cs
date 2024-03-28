@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -39,8 +41,8 @@ namespace OutModern.src.Admin.AdminMaster
             if (!IsPostBack)
             {
                 setMenuActive();
+                Page.DataBind(); // data bind
             }
-            Page.DataBind(); // data bind
         }
 
         private void setMenuActive()

@@ -48,6 +48,7 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DataVisualization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -87,13 +88,6 @@
     </Compile>
     <Compile Include="src\Admin\OrderDetails\OrderDetails.aspx.designer.cs">
       <DependentUpon>OrderDetails.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="src\Admin\OrderEdit\OrderEdit.aspx.cs">
-      <DependentUpon>OrderEdit.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="src\Admin\OrderEdit\OrderEdit.aspx.designer.cs">
-      <DependentUpon>OrderEdit.aspx</DependentUpon>
     </Compile>
     <Compile Include="src\Admin\ProductAdd\ProductAdd.aspx.cs">
       <DependentUpon>ProductAdd.aspx</DependentUpon>
@@ -524,6 +518,7 @@
     <Content Include="lib\fontawesome\css\all.min.css" />
     <Content Include="lib\fonts\ChakraPetch\ChakraPetch.css" />
     <Content Include="lib\fonts\ChakraPetch\OFL.txt" />
+    <Content Include="lib\highcharts\highcharts.js" />
     <Content Include="lib\tailwind\tailwind.js" />
     <Content Include="src\Admin\AdminMaster\css\AdminMaster.css" />
     <Content Include="src\Admin\AdminMaster\js\AdminMaster.js" />
@@ -533,7 +528,6 @@
     <Content Include="src\Admin\Dashboard\Dashboard.aspx" />
     <Content Include="src\Admin\Feedback\Feedback.aspx" />
     <Content Include="src\Admin\OrderDetails\OrderDetails.aspx" />
-    <Content Include="src\Admin\OrderEdit\OrderEdit.aspx" />
     <Content Include="src\Admin\Orders\Orders.aspx" />
     <Content Include="src\Admin\ProductAdd\ProductAdd.aspx" />
     <Content Include="src\Admin\ProductDetails\ProductDetails.aspx" />

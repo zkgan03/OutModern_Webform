@@ -30,12 +30,10 @@
     })
 
     changeMenuTransition("none");
-    if (menuCollapse === 1) {
-        toggleMenu();
-    } else {
+    if (menuCollapse === 0) { //if not collapse
         menuToggler.classList.add("collapsed")
-        toggleMenu();
     }
+    toggleMenu(); //to add transition
     logo.children[0].clientWidth; // force render
     changeMenuTransition("0.25s")
 

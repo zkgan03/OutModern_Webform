@@ -107,12 +107,6 @@
                     </span>
                 </div>
                 <div>
-                    <span class="desc-title">Quantity</span>
-                    <span>:                        
-                        <asp:TextBox ID="txtProdQuantity" runat="server" Text=""></asp:TextBox>
-                    </span>
-                </div>
-                <div>
                     <span class="desc-title">Current Status</span>
                     <span>:
                         <asp:DropDownList ID="ddlProdStatus" AppendDataBoundItems="true" runat="server">
@@ -128,7 +122,7 @@
         <div id="variation-form">
             <div class="text-[1.5rem] font-bold">Variation</div>
             <div class="flex mt-2 items-center">
-                <div>Size Added: none <%--<span class="size-added">S</span>--%></div>
+                <div>Size : none <%--<span class="size-added">S</span>--%></div>
                 <div class="ml-20">
                     Add Size : 
          <asp:DropDownList ID="ddlSize" runat="server">
@@ -137,20 +131,18 @@
              <asp:ListItem>L</asp:ListItem>
              <asp:ListItem>XL</asp:ListItem>
          </asp:DropDownList>
-                    <asp:Button ID="btnAddSize" CssClass="button" runat="server" Text="Add" />
+                    <asp:Button ID="btnAddSize" CssClass="button text-black py-0" runat="server" Text="Add" />
                 </div>
             </div>
-            <!--Colors-->
-            <%-- 
-                Beige, black, white, 
-                blue, lightblue, darkblue, navy
-                lightgray,  
-                militaryGreen ==> darkolivegreen
-                red
-            --%>
+            <div class="mt-2">
+                <span>Quantity : </span>
+                <span>
+                    <asp:TextBox CssClass="w-20" TextMode="Number" ID="TextBox1" runat="server" Text="0"></asp:TextBox>
+                </span>
+            </div>
             <div class="flex mt-2 items-center">
                 <div class="flex gap-2 justify-center items-center">
-                    <div>Colors Added:</div>
+                    <div>Colors : </div>
                     <div>none</div>
                 </div>
                 <!--Choose color-->
@@ -163,13 +155,13 @@
                     </asp:DropDownList>
                     <div class="color-varient add-color">
                     </div>
-                    <button id="add-color-btn" type="button" class="button">Add</button>
+                    <button id="add-color-btn" type="button" class="button text-black py-0">Add</button>
                 </div>
             </div>
 
             <!-- Images -->
             <div class="flex flex-wrap gap-2 mt-5 items-center">
-                <div>Image Added : </div>
+                <div>Image : </div>
                 <div>none</div>
                 <div class="add-image">
                     <asp:FileUpload ID="fileImgUpload" CssClass="hidden" runat="server" accept=".png,.jpg,.jpeg,.webp" />

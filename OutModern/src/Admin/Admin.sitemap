@@ -13,12 +13,15 @@
 		</siteMapNode>
 
 		<siteMapNode url="~/src/Admin/Orders/Orders.aspx" title="Orders"  description="" >
-			<siteMapNode url="~/src/Admin/OrderDetails/OrderDetails.aspx" title="Order Details" />
+			<siteMapNode url="~/src/Admin/OrderDetails/OrderDetails.aspx" title="Order Details" >
+				<siteMapNode url="~/src/Admin/OrderEdit/OrderEdit.aspx" title="Edit Order"  description="" />
+			</siteMapNode>
+			<siteMapNode url="~/src/Admin/OrderAdd/OrderAdd.aspx" title="Add Order"  description="" />
 		</siteMapNode>
 
 		<siteMapNode url="~/src/Admin/Customers/Customers.aspx" title="Customers"  description="" >
 			<siteMapNode url="~/src/Admin/CustomerDetails/CustomerDetails.aspx" title="Customer Details"  description="" >
-				<siteMapNode url="~/src/Admin/CustomerEdit/CustomerEdit.aspx" title="Customer Edit"  description="" />
+				<siteMapNode url="~/src/Admin/CustomerEdit/CustomerEdit.aspx" title="Edit Customer"  description="" />
 			</siteMapNode>
 		</siteMapNode>
 
