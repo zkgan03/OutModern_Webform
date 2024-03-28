@@ -11,7 +11,16 @@ namespace OutModern.src.Client.Payment
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+        }
 
+        protected void TogglePaymentMethod(object sender, EventArgs e)
+        {
+            pnlPaymentDetails.Visible = !pnlPaymentDetails.Visible;
+        }
+
+        protected void ToggleBillingAddress(object sender, EventArgs e)
+        {
+            pnlBillingDetails.Visible = !pnlBillingDetails.Visible;
         }
     }
 }

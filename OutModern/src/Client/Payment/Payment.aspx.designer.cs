@@ -15,6 +15,24 @@ namespace OutModern.src.Client.Payment
     {
 
         /// <summary>
+        /// ScriptManager1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.ScriptManager ScriptManager1;
+
+        /// <summary>
+        /// UpdatePanel1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
+
+        /// <summary>
         /// paymentMethod control.
         /// </summary>
         /// <remarks>
@@ -22,6 +40,24 @@ namespace OutModern.src.Client.Payment
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl paymentMethod;
+
+        /// <summary>
+        /// lnkTogglePaymentMethod control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkTogglePaymentMethod;
+
+        /// <summary>
+        /// pnlPaymentDetails control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlPaymentDetails;
 
         /// <summary>
         /// lblCreditCardContainer control.
@@ -78,15 +114,6 @@ namespace OutModern.src.Client.Payment
         protected global::System.Web.UI.WebControls.RadioButton paypal;
 
         /// <summary>
-        /// pnlCreditCardDetails control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlCreditCardDetails;
-
-        /// <summary>
         /// lblCcInfo control.
         /// </summary>
         /// <remarks>
@@ -141,13 +168,22 @@ namespace OutModern.src.Client.Payment
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl billingAddress;
 
         /// <summary>
-        /// pnlBillingAddress control.
+        /// lnkToggleBillingAddress control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlBillingAddress;
+        protected global::System.Web.UI.WebControls.LinkButton lnkToggleBillingAddress;
+
+        /// <summary>
+        /// pnlBillingDetails control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlBillingDetails;
 
         /// <summary>
         /// txtFirstName control.
