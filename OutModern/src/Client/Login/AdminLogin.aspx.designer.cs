@@ -24,6 +24,15 @@ namespace OutModern.src.Client.Login
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
+        /// hl_cust_login control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink hl_cust_login;
+
+        /// <summary>
         /// txt_email control.
         /// </summary>
         /// <remarks>

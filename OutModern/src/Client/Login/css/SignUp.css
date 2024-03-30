@@ -1,35 +1,31 @@
-﻿body {
+﻿.signup-container {
+    display: flex;
 }
 
 .column1 {
     float: left;
-    width: 39.66%;
+    width: 45%;
     padding: 10px;
-    min-height: 100vh;
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-image: url('../../../../images/login-img/login-background8.jpg');
+    flex: 1;
 }
 
 .column2 {
     float: left;
-    width: 60.33%;
+    width: 55%;
     padding: 10px;
     background-color: #f5f5f5;
 }
 
-.column1,
-.column2 {
-    height: 100vh;
-}
-
 .rightBox {
     float: left;
-    margin: 30px;
+    margin: 30px 98px;
     margin-top: 10px;
     margin-bottom: 0px;
-    padding:40px;
+    padding: 40px;
     padding-bottom: 30px;
     padding-top: 20px;
 }
@@ -55,19 +51,14 @@
     margin-top: 20px;
 }
 
-.SUBoxItem {
-    padding-bottom: 30px;
-    width: 50%;
-    margin-right: 27px;
-}
-
 .SUTextBox {
     width: 100%;
     background-color: #f5f5f5;
     border: 1px solid black;
-    border-radius: 15px;
-    padding: 0.50rem 3.5rem;
+    border-radius: 10px;
+    padding: 0.7rem 3.0rem;
     font-family: sans-serif;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     display: flex;
     justify-content: space-between;
     &:hover
@@ -76,44 +67,66 @@
     background-color: #e6e6e6;
     border: 1px solid #b3b3b3;
 }
+
 }
 
-.SUTextBox2 {
-    width: 92%;
-    background-color: #f5f5f5;
-    border: 1px solid black;
-    border-radius: 15px;
-    padding: 0.50rem 3.5rem;
+.rightBoxBottom {
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.boxItem {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.boxItem1 {
+    margin-top: 20px;
+    margin-bottom: 0px;
+}
+
+.boxItem3{
+    margin-top: 50px;
+}
+
+.policyText label {
     font-family: sans-serif;
-    display: flex;
-    justify-content: space-between;
+    color: black;
+}
+
+.policyText1 {
+    font-family: sans-serif;
+    color: black;
+    cursor: pointer;
     &:hover
-
 {
-    background-color: #e6e6e6;
-    border: 1px solid #b3b3b3;
-}
+    color: #94d4ca;
 }
 
-.SUBoxButton {
-    padding-bottom: 2px;
+}
+
+.policyText input {
+    cursor: pointer;
+}
+
+.boxItem2 {
+    margin-top: 0px;
+    margin-bottom: 30px;
 }
 
 .SUButton {
-    width: 46%;
-    border-radius: 30px;
-    padding: 0.50rem 1rem;
+    width: 100%;
+    border-radius: 10px;
+    padding: 0.7rem 3.0rem;
     font-family: sans-serif;
     color: whitesmoke;
     font-weight: bold;
     border: 1px solid #f5f5f5;
-    margin-top: 20px;
-    margin-left: 170px;
     cursor: pointer;
     /* Styles for hover state */
     &:hover
-
 {
     color: #94d4ca;
     border: 1px solid #bfbfbf;
+}
 }

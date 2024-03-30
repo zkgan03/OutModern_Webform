@@ -27,6 +27,7 @@
     float: left;
     width: 90%;
     margin: 80px;
+    margin-top: 30px;
     margin-left: 20px;
     padding: 10px;
     border-radius: 10px;
@@ -39,6 +40,16 @@
     float: left;
 }
 
+.leftBox1 {
+    float: left;
+    margin-left: 65px;
+    margin-top:10px;
+}
+
+.leftBox1 input{
+    font-family: sans-serif;
+}
+
 .imgProfile {
     border-radius: 50%;
     width: 135px;
@@ -47,7 +58,6 @@
 
 .rightBox {
     float: left;
-    margin-left: 15px;
     margin-top: 20px;
 }
 
@@ -82,11 +92,13 @@
 }
 }
 
-.section {
+/*user profile section*/
+.section1 {
     background-color: #f5f5f5;
     float: left;
     width: 70%;
     margin: 80px;
+    margin-bottom: 10px;
     margin-top: 50px;
     padding: 30px;
     border-radius: 10px
@@ -191,6 +203,25 @@
     cursor: pointer;
     color: whitesmoke;
     &:hover
+{
+    color: #94d4ca;
+}
+}
+
+.EPButton1 {
+    float:right;
+    width: 20%;
+    margin-top: 0px;
+    margin-bottom: 40px;
+    margin-right: 210px;
+    padding: 0.50rem 1rem;
+    font-family: sans-serif;
+    font-weight: bold;
+    border: 1px solid #f5f5f5;
+    cursor: pointer;
+    color: whitesmoke;
+    &:hover
+
 {
     color: #94d4ca;
 }

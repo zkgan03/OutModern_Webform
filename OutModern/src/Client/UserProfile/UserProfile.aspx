@@ -34,7 +34,7 @@
             <div class="column2">
 
                 <!--Profile-->
-                <div class="section" id="profile-section">
+                <div class="section1" id="profile-section">
 
                     <div class="topBox">
                         <div class="titleBox">
@@ -48,31 +48,49 @@
                     <div class="bigBox">
                         <div class="boxItem">
                             <span class="labelData">Username</span>
-                            <span class="data">Prochoros</span>
+                            <asp:Label ID="lbl_up_username" runat="server" Text="Prochoros" class="data"></asp:Label>
                         </div>
 
                         <div class="boxItem">
                             <span class="labelData">Fullname</span>
-                            <span class="data">Prochoros Robert</span>
+                            <asp:Label ID="lbl_up_fullname" runat="server" Text="Prochoros Robert" class="data"></asp:Label>
                         </div>
 
                         <div class="boxItem">
                             <span class="labelData">Email</span>
-                            <span class="data">Prochoros@gmail.com</span>
+                            <asp:Label ID="lbl_up_email" runat="server" Text="Prochoros@gmail.com" class="data"></asp:Label>
                         </div>
 
                         <div class="boxItem">
                             <span class="labelData">Phone Number</span>
-                            <span class="data">0123456789</span>
+                            <asp:Label ID="lbl_up_phoneNumber" runat="server" Text="0123456789" class="data"></asp:Label>
+                        </div>
+
+                        <div class="boxItem">
+                            <span class="labelData">Address Name</span>
+                            <asp:Label ID="lbl_addressName" runat="server" Text="Home" class="data"></asp:Label>
                         </div>
 
                         <div class="boxItem">
                             <span class="labelData">Address</span>
-                            <span class="data">Address: 67, Jln Madrasah, Gombak Setia, 53100 Kuala Lumpur, Selangor</span>
+                            <asp:Label ID="lbl_addressLine" runat="server" Text="67, Jln Madrasah, Gombak Setia, 53100 Kuala Lumpur, Selangor" class="data"></asp:Label>
                         </div>
 
-                    </div>
+                        <div class="boxItem">
+                            <span class="labelData">Country</span>
+                            <asp:Label ID="lbl_country" runat="server" Text="Malaysia" class="data"></asp:Label>
+                        </div>
 
+                        <div class="boxItem">
+                            <span class="labelData">State</span>
+                            <asp:Label ID="lbl_state" runat="server" Text="Kuala Lumpur" class="data"></asp:Label>
+                        </div>
+
+                        <div class="boxItem">
+                            <span class="labelData">Postal Code</span>
+                            <asp:Label ID="lbl_postaCode" runat="server" Text="53100" class="data"></asp:Label>
+                        </div>
+                    </div>
 
                     <div class="EPBoxButton">
                         <asp:Button ID="btn_edit_profile" runat="server" class="EPButton" Text="Edit Profile" Style="background-color: black; border-radius: 30px;" OnClick="btn_edit_profile_Click" />
@@ -80,6 +98,11 @@
 
 
                 </div>
+
+                <div class="delectAccount">
+                    <asp:Button ID="btn_dlt_acc" runat="server" class="EPButton1" Text="Delete Account" Style="background-color: black; border-radius: 10px;"/>
+                </div>
+
             </div>
         </div>
     </div>

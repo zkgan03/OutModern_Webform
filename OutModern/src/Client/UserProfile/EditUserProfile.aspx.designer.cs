@@ -24,6 +24,15 @@ namespace OutModern.src.Client.UserProfile
         protected global::System.Web.UI.WebControls.Image img_profile;
 
         /// <summary>
+        /// imgUpload control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload imgUpload;
+
+        /// <summary>
         /// lbl_username control.
         /// </summary>
         /// <remarks>
@@ -96,6 +105,15 @@ namespace OutModern.src.Client.UserProfile
         protected global::System.Web.UI.WebControls.TextBox txt_edit_phone_number;
 
         /// <summary>
+        /// txt_edit_address_name control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txt_edit_address_name;
+
+        /// <summary>
         /// txt_edit_address control.
         /// </summary>
         /// <remarks>
@@ -103,6 +121,33 @@ namespace OutModern.src.Client.UserProfile
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txt_edit_address;
+
+        /// <summary>
+        /// txt_edit_country control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txt_edit_country;
+
+        /// <summary>
+        /// txt_edit_state control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txt_edit_state;
+
+        /// <summary>
+        /// txt_edit_postal_code control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txt_edit_postal_code;
 
         /// <summary>
         /// txt_edit_password control.

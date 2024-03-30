@@ -103,6 +103,13 @@
     <Compile Include="src\Client\Login\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="src\Client\Login\Policy.aspx.cs">
+      <DependentUpon>Policy.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\Login\Policy.aspx.designer.cs">
+      <DependentUpon>Policy.aspx</DependentUpon>
+    </Compile>
     <Compile Include="src\Client\Login\ResetPassword.aspx.cs">
       <DependentUpon>ResetPassword.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -617,9 +624,11 @@
     <Content Include="src\Client\Login\css\Login.css" />
     <Content Include="src\Client\Login\css\ResetPassword.css" />
     <Content Include="src\Client\Login\css\SignUp.css" />
+    <Content Include="src\Client\Login\css\Policy.css" />
     <Content Include="src\Client\Login\FirstPage.aspx" />
     <Content Include="src\Client\Login\ForgetPassword.aspx" />
     <Content Include="src\Client\Login\Login.aspx" />
+    <Content Include="src\Client\Login\Policy.aspx" />
     <Content Include="src\Client\Login\ResetPassword.aspx" />
     <Content Include="src\Client\Login\SignUp.aspx" />
     <Content Include="src\Client\UserProfile\Cancelled.aspx" />

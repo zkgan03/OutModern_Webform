@@ -21,40 +21,51 @@
 </head>
 <body>
     <form id="form1" runat="server">
+        <div class="login-container">
+            <div class="column1"></div>
+            <div class="column2">
 
-        <div class="column1"></div>
-
-        <div class="column2">
-            <div class="rightBox">
-                <span class="title">Log In</span>
-
-                <div class="loginBoxItem">
-                    <asp:TextBox ID="txt_email" runat="server" class="loginTextBox" placeholder="Email" TextMode="Email"></asp:TextBox>
-                </div>
-                <div class="loginBoxItem">
-                    <asp:TextBox ID="txt_password" runat="server" class="loginTextBox" TextMode="Password" placeholder="Password"></asp:TextBox>
+                <div class="topRightBox">
+                    <asp:HyperLink ID="hl_admin_login" runat="server" NavigateUrl="~/src/Client/Login/AdminLogin.aspx">
+                    <span class="hl_admin_login_text"><u>Login as Admin</u></span>
+                    </asp:HyperLink>
                 </div>
 
-                <div class="loginBoxButton">
-                    <asp:Button ID="btn_login" runat="server" class="loginButton" Text="Log In" Style="background-color: black;" OnClick="btn_login_Click" />
+                <div class="rightBox">
+                    <span class="title">Log In</span>
+
+                    <div class="loginBoxItem">
+                        <asp:TextBox ID="txt_email" runat="server" class="loginTextBox" placeholder="Email" TextMode="Email"></asp:TextBox>
+                    </div>
+
+                    <div class="loginBoxItem">
+                        <asp:TextBox ID="txt_password" runat="server" class="loginTextBox" TextMode="Password" placeholder="Password"></asp:TextBox>
+                    </div>
+
+                    <div class="loginBoxItem1">
+                        <asp:CheckBox ID="chkbox_login" runat="server" Text="&nbsp;Keep me logged in" class="chkLogin"/>
+                    </div>
+
+                    <div class="loginBoxButton">
+                        <asp:Button ID="btn_login" runat="server" class="loginButton" Text="Log In" Style="background-color: black;" OnClick="btn_login_Click" />
+                    </div>
+
+                    <div style="padding-top: 3px; padding-bottom: 30px;">
+                        <asp:HyperLink ID="hl_forget_password" runat="server" Style="font-family: sans-serif; font-size: 17px; color: #94d4ca; cursor: pointer;" NavigateUrl="~/src/Client/Login/ForgetPassword.aspx">Forget Password</asp:HyperLink>
+                    </div>
+
+                    <div style="padding: 10px; color: darkgrey;">
+                        <hr />
+                    </div>
+
+
+                    <div style="padding-top: 10px; padding-bottom: 25px;" class="loginBoxBottom">
+                        <span style="margin-top: 20px; padding-left: 85px; font-family: sans-serif; font-size: 15px; color: #b3b3b3;">New to Out Modern?</span>
+                        <asp:HyperLink ID="hl_signup" runat="server" Style="margin-top: 20px; font-family: sans-serif; font-size: 1rem; font-weight: bold; color: #94d4ca; cursor: pointer;" NavigateUrl="~/src/Client/Login/SignUp.aspx">Sign Up</asp:HyperLink>
+                    </div>
+
                 </div>
-
-                <div style="padding-top: 3px; padding-bottom: 30px;">
-                    <asp:HyperLink ID="hl_forget_password" runat="server" Style="font-family: sans-serif; font-size: 17px; color: #94d4ca; cursor: pointer;" NavigateUrl="~/src/Client/Login/ForgetPassword.aspx">Forget Password</asp:HyperLink>
-                </div>
-
-                <div style="padding: 10px; color: darkgrey;">
-                    <hr />
-                </div>
-
-
-                <div style="padding-top: 10px; padding-bottom: 25px;" class="loginBoxBottom">
-                    <span style="margin-top: 20px; padding-left: 85px; font-family: sans-serif; font-size: 15px; color: #b3b3b3;">New to Out Modern?</span>
-                    <asp:HyperLink ID="hl_signup" runat="server" style="margin-top: 20px; font-family: sans-serif; font-size: 1rem; font-weight: bold; color: #94d4ca; cursor: pointer;" NavigateUrl="~/src/Client/Login/SignUp.aspx">Sign Up</asp:HyperLink>
-                </div>
-
             </div>
-
         </div>
     </form>
 </body>

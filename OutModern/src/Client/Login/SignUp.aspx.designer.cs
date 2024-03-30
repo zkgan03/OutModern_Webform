@@ -42,24 +42,6 @@ namespace OutModern.src.Client.Login
         protected global::System.Web.UI.WebControls.TextBox txt_su_username;
 
         /// <summary>
-        /// txt_su_phone_number control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txt_su_phone_number;
-
-        /// <summary>
-        /// txt_su_address control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txt_su_address;
-
-        /// <summary>
         /// txt_su_email control.
         /// </summary>
         /// <remarks>
@@ -85,6 +67,24 @@ namespace OutModern.src.Client.Login
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txt_su_reenter_password;
+
+        /// <summary>
+        /// chkbox_policy control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkbox_policy;
+
+        /// <summary>
+        /// hl_policy control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink hl_policy;
 
         /// <summary>
         /// btn_sign_up control.

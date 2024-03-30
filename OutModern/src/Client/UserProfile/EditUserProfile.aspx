@@ -13,6 +13,10 @@
                         <asp:Image ID="img_profile" runat="server" class="imgProfile" ImageUrl="~/images/login-img/login-background13.jpg" />
                     </div>
 
+                    <div class="leftBox1">
+                        <asp:FileUpload ID="imgUpload" runat="server" />
+                    </div>
+
                     <div class="rightBox">
                         <asp:Label ID="lbl_username" runat="server" class="username" Text="Prochorus"></asp:Label>
                     </div>
@@ -70,8 +74,28 @@
                         </div>
 
                         <div class="boxItem">
+                            <span class="labelData">Address Name</span>
+                            <asp:TextBox ID="txt_edit_address_name" runat="server" value="Home" class="edit_data"></asp:TextBox>
+                        </div>
+
+                        <div class="boxItem">
                             <span class="labelData">Address</span>
-                            <asp:TextBox ID="txt_edit_address" runat="server" value="Address: 67, Jln Madrasah, Gombak Setia, 53100 Kuala Lumpur, Selangor" class="edit_data"></asp:TextBox>
+                            <asp:TextBox ID="txt_edit_address" runat="server" value="67, Jln Madrasah, Gombak Setia, 53100 Kuala Lumpur, Selangor" class="edit_data"></asp:TextBox>
+                        </div>
+
+                        <div class="boxItem">
+                            <span class="labelData">Country</span>
+                            <asp:TextBox ID="txt_edit_country" runat="server" value="Malaysia" class="edit_data"></asp:TextBox>
+                        </div>
+
+                        <div class="boxItem">
+                            <span class="labelData">State</span>
+                            <asp:TextBox ID="txt_edit_state" runat="server" value="Kuala Lumpur" class="edit_data"></asp:TextBox>
+                        </div>
+
+                        <div class="boxItem">
+                            <span class="labelData">Postal Code</span>
+                            <asp:TextBox ID="txt_edit_postal_code" runat="server" value="53100" class="edit_data"></asp:TextBox>
                         </div>
 
                         <div class="boxItem">

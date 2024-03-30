@@ -22,42 +22,50 @@
 <body>
     <form id="form1" runat="server">
 
+        <div class="login-container">
+            <div class="column1">
 
-        <div class="column1">
-            <div class="rightBox">
-                <span class="title">Log In&nbsp</span>
-                <span class="title2">ADMIN</span>
-
-                <div class="loginBoxItem">
-                    <asp:TextBox ID="txt_email" runat="server" class="loginTextBox" placeholder="Email" TextMode="Email"></asp:TextBox>
-                </div>
-                <div class="loginBoxItem">
-                    <asp:TextBox ID="txt_password" runat="server" class="loginTextBox" TextMode="Password" placeholder="Password"></asp:TextBox>
+                <div class="topRightBox">
+                    <asp:HyperLink ID="hl_cust_login" runat="server" NavigateUrl="~/src/Client/Login/Login.aspx">
+        <span class="hl_admin_login_text"><u>Login as Customer</u></span>
+                    </asp:HyperLink>
                 </div>
 
-                <div class="loginBoxButton">
-                    <asp:Button ID="btn_login" runat="server" class="loginButton" Text="Log In" Style="background-color: black;"/>
-                </div>
+                <div class="rightBox">
+                    <span class="title">Log In&nbsp</span>
+                    <span class="title2">ADMIN</span>
 
-                <div style="padding-top: 3px; padding-bottom: 30px;">
-                    <asp:HyperLink ID="hl_forget_password" runat="server" Style="font-family: sans-serif; font-size: 17px; color: #94d4ca; cursor: pointer;" NavigateUrl="~/src/Client/Login/ForgetPassword.aspx">Forget Password</asp:HyperLink>
-                </div>
+                    <div class="loginBoxItem">
+                        <asp:TextBox ID="txt_email" runat="server" class="loginTextBox" placeholder="Email" TextMode="Email"></asp:TextBox>
+                    </div>
+                    <div class="loginBoxItem">
+                        <asp:TextBox ID="txt_password" runat="server" class="loginTextBox" TextMode="Password" placeholder="Password"></asp:TextBox>
+                    </div>
 
-                <div style="padding: 10px; color: darkgrey;">
-                    <hr />
-                </div>
+                    <div class="loginBoxButton">
+                        <asp:Button ID="btn_login" runat="server" class="loginButton" Text="Log In" Style="background-color: black;" />
+                    </div>
+
+                    <div style="padding-top: 3px; padding-bottom: 30px;">
+                        <asp:HyperLink ID="hl_forget_password" runat="server" Style="font-family: sans-serif; font-size: 17px; color: #94d4ca; cursor: pointer;" NavigateUrl="~/src/Client/Login/ForgetPassword.aspx">Forget Password</asp:HyperLink>
+                    </div>
+
+                    <div style="padding: 10px; color: darkgrey;">
+                        <hr />
+                    </div>
 
 
-                <div style="padding-top: 10px; padding-bottom: 25px;" class="loginBoxBottom">
-                    <span style="margin-top: 20px; padding-left: 85px; font-family: sans-serif; font-size: 15px; color: #b3b3b3;">New to Out Modern?</span>
-                    <asp:HyperLink ID="hl_signup" runat="server" Style="margin-top: 20px; font-family: sans-serif; font-size: 1rem; font-weight: bold; color: #94d4ca; cursor: pointer;" NavigateUrl="~/src/Client/Login/SignUp.aspx">Sign Up</asp:HyperLink>
-                </div>
+                    <div style="padding-top: 10px; padding-bottom: 25px;" class="loginBoxBottom">
+                        <span style="margin-top: 20px; padding-left: 85px; font-family: sans-serif; font-size: 15px; color: #b3b3b3;">New to Out Modern?</span>
+                        <asp:HyperLink ID="hl_signup" runat="server" Style="margin-top: 20px; font-family: sans-serif; font-size: 1rem; font-weight: bold; color: #94d4ca; cursor: pointer;" NavigateUrl="~/src/Client/Login/SignUp.aspx">Sign Up</asp:HyperLink>
+                    </div>
 
+                
             </div>
-
         </div>
 
         <div class="column2"></div>
+        </div>
     </form>
 </body>
 </html>
