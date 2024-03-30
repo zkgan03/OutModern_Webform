@@ -4,4 +4,7 @@
     transition: 0.25s;
 }
 
+.header {
+    z-index: 2; 
+}
 
