@@ -312,33 +312,6 @@ namespace OutModern.src.Client.ClientMaster
         protected global::System.Web.UI.WebControls.Button subscribeButton;
 
         /// <summary>
-        /// visaLink control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink visaLink;
-
-        /// <summary>
-        /// mastercardLink control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink mastercardLink;
-
-        /// <summary>
-        /// paypalLink control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink paypalLink;
-
-        /// <summary>
         /// facebookLink control.
         /// </summary>
         /// <remarks>

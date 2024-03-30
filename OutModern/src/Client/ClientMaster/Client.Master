@@ -36,7 +36,7 @@
 
         @layer components {
             .header {
-                @apply bg-[#f5f5f5] h-[75px] text-center sticky top-0 shadow flex justify-between;
+                @apply bg-[#f5f5f5] h-[75px] text-center sticky top-0  shadow flex justify-between;
             }
 
             .header-scroll {
@@ -52,7 +52,7 @@
             }
 
             #top-nav .drop-down {
-                @apply h-0 overflow-hidden absolute py-2 right-0 top-[100%] mx-auto bg-[#ffffff] text-left drop-shadow-2xl rounded-2xl w-[150px] cursor-default;
+                @apply h-0 overflow-hidden absolute right-0 top-[100%] mx-auto bg-[#ffffff] text-left drop-shadow-2xl rounded-2xl w-[150px] cursor-default;
             }
 
                 #top-nav .drop-down ul {
@@ -283,7 +283,7 @@
                             <p class="text-white">Enter your email below to be the first to know about new collections and product launches.</p>
                             <div class="flex mt-4 relative textbox-email-width">
                                 <asp:TextBox ID="emailTextBox" runat="server" CssClass="w-full bg-gray-700 text-gray-300 pl-4 pr-16 py-2 rounded-l" placeholder="Your Email"></asp:TextBox>
-                                <asp:Button ID="subscribeButton" runat="server" CssClass="absolute right-0 p-2 bg-gray-600 text-gray-300 px-4 py-2 rounded-r" Text="→" />
+                                <asp:Button ID="subscribeButton" runat="server" CssClass="absolute cursor-pointer right-0 p-2 bg-gray-600 text-gray-300 px-4 py-2 rounded-r" Text="→" />
                             </div>
                         </div>
 
@@ -294,15 +294,15 @@
                     <div class="border-t border-gray-300 mt-5">
                         <div class="mt-2 flex justify-between items-center">
                             <div class="flex gap-4">
-                                <asp:HyperLink ID="visaLink" runat="server" NavigateUrl="#" CssClass="text-white text-2xl">
+                                <div id="visaLink" class="text-white text-2xl">
                 <i class="fa-brands fa-cc-visa text-white text-2xl"></i>
-                                </asp:HyperLink>
-                                <asp:HyperLink ID="mastercardLink" runat="server" NavigateUrl="#" CssClass="text-white text-2xl">
+                                </div>
+                                <div id="mastercardLink" class="text-white text-2xl">
                 <i class="fab fa-cc-mastercard text-white text-2xl"></i>
-                                </asp:HyperLink>
-                                <asp:HyperLink ID="paypalLink" runat="server" NavigateUrl="#" CssClass="text-white text-2xl">
+                                </div>
+                                <div ID="paypalLink" class="text-white text-2xl">
                 <i class="fa-brands fa-cc-paypal text-white text-2xl"></i>
-                                </asp:HyperLink>
+                                </div>
                             </div>
 
                             <p class="text-gray-400 text-sm">&copy;<%: DateTime.Now.Year %> OutModern All Rights are reserved</p>
