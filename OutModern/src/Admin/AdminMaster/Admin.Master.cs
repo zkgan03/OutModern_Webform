@@ -20,7 +20,6 @@ namespace OutModern.src.Admin.AdminMaster
         protected static readonly string Orders = "Orders";
         protected static readonly string Customers = "Customers";
         protected static readonly string PromoCode = "PromoCode";
-        protected static readonly string Feedback = "Feedback";
         protected static readonly string Setting = "Setting";
 
         // Side menu urls
@@ -32,7 +31,6 @@ namespace OutModern.src.Admin.AdminMaster
             { Orders , "~/src/Admin/Orders/Orders.aspx" },
             { Customers , "~/src/Admin/Customers/Customers.aspx" },
             { PromoCode , "~/src/Admin/PromoCode/PromoCode.aspx" },
-            { Feedback , "~/src/Admin/Feedback/Feedback.aspx" },
             { Setting , "~/src/Admin/Setting/Setting.aspx" },
         };
 

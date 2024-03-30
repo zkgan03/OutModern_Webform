@@ -24,13 +24,13 @@ namespace OutModern.src.Admin.ProductAdd
         protected global::System.Web.UI.WebControls.LinkButton lbDiscard;
 
         /// <summary>
-        /// lbAdd control.
+        /// lbUpdate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lbAdd;
+        protected global::System.Web.UI.WebControls.LinkButton lbUpdate;
 
         /// <summary>
         /// lblProdId control.
@@ -51,31 +51,31 @@ namespace OutModern.src.Admin.ProductAdd
         protected global::System.Web.UI.WebControls.TextBox txtProdName;
 
         /// <summary>
-        /// ddlProdCat control.
+        /// ddlCategory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlProdCat;
+        protected global::System.Web.UI.WebControls.DropDownList ddlCategory;
 
         /// <summary>
-        /// txtProdPrice control.
+        /// txtPrice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtProdPrice;
+        protected global::System.Web.UI.WebControls.TextBox txtPrice;
 
         /// <summary>
-        /// ddlProdStatus control.
+        /// ddlStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlProdStatus;
+        protected global::System.Web.UI.WebControls.DropDownList ddlStatus;
 
         /// <summary>
         /// ddlSize control.
@@ -87,22 +87,13 @@ namespace OutModern.src.Admin.ProductAdd
         protected global::System.Web.UI.WebControls.DropDownList ddlSize;
 
         /// <summary>
-        /// btnAddSize control.
+        /// txtProdQuantity control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAddSize;
-
-        /// <summary>
-        /// TextBox1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox1;
+        protected global::System.Web.UI.WebControls.TextBox txtProdQuantity;
 
         /// <summary>
         /// ddlColor control.
@@ -112,6 +103,15 @@ namespace OutModern.src.Admin.ProductAdd
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlColor;
+
+        /// <summary>
+        /// btnAddColor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAddColor;
 
         /// <summary>
         /// fileImgUpload control.

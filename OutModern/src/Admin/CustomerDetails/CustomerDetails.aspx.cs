@@ -26,6 +26,9 @@ namespace OutModern.src.Admin.CustomerDetails
         {
             if (!IsPostBack)
             {
+                rptAddress.DataSource = GenerateDummyAddresses();
+                rptAddress.DataBind();
+
                 lvOrders.DataSource = GetOrders();
                 lvOrders.DataBind();
                 Page.DataBind();
@@ -38,6 +41,24 @@ namespace OutModern.src.Admin.CustomerDetails
             lvOrders.DataBind();
         }
 
+        private DataTable GenerateDummyAddresses()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("AddressName", typeof(string));
+            dt.Columns.Add("AddressLine", typeof(string));
+            dt.Columns.Add("PostalCode", typeof(string));
+            dt.Columns.Add("City", typeof(string));
+            dt.Columns.Add("State", typeof(string));
+            dt.Columns.Add("Country", typeof(string));
+
+            // Add some dummy rows
+            for (int i = 0; i < 2; i++)
+            {
+                dt.Rows.Add("Address " + i, "123 Fake Street " + i, "12345", "Anytown", "CA", "USA");
+            }
+
+            return dt;
+        }
 
         //dummy data
         protected DataTable GetOrders()

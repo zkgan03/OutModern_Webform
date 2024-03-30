@@ -15,15 +15,6 @@ namespace OutModern.src.Admin.CustomerDetails
     {
 
         /// <summary>
-        /// lblTitleCustomerName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTitleCustomerName;
-
-        /// <summary>
         /// hlEditOrder control.
         /// </summary>
         /// <remarks>
@@ -33,13 +24,31 @@ namespace OutModern.src.Admin.CustomerDetails
         protected global::System.Web.UI.WebControls.HyperLink hlEditOrder;
 
         /// <summary>
-        /// lblCustomerId control.
+        /// lblStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCustomerId;
+        protected global::System.Web.UI.WebControls.Label lblStatus;
+
+        /// <summary>
+        /// imgProfile control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image imgProfile;
+
+        /// <summary>
+        /// lblFullName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblFullName;
 
         /// <summary>
         /// lblUsername control.
@@ -51,6 +60,15 @@ namespace OutModern.src.Admin.CustomerDetails
         protected global::System.Web.UI.WebControls.Label lblUsername;
 
         /// <summary>
+        /// lblId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblId;
+
+        /// <summary>
         /// lblEmail control.
         /// </summary>
         /// <remarks>
@@ -60,31 +78,22 @@ namespace OutModern.src.Admin.CustomerDetails
         protected global::System.Web.UI.WebControls.Label lblEmail;
 
         /// <summary>
-        /// lblPhoneNo control.
+        /// Label2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPhoneNo;
+        protected global::System.Web.UI.WebControls.Label Label2;
 
         /// <summary>
-        /// lblAddress control.
+        /// rptAddress control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblAddress;
-
-        /// <summary>
-        /// lblStatus control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblStatus;
+        protected global::System.Web.UI.WebControls.Repeater rptAddress;
 
         /// <summary>
         /// LinkButton1 control.

@@ -6,7 +6,7 @@
     <style type="text/tailwindcss">
         @layer components {
             .dashboard-item-container {
-                @apply w-48;
+                @apply min-w-52;
             }
 
                 .dashboard-item-container .dashboard-item {
@@ -23,7 +23,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <!-- Genaral Data -->
-    <div class="flex gap-8">
+    <div class="flex gap-8 w-full justify-around">
         <!--Customer-->
         <div class="dashboard-item-container">
             <div class="dashboard-item">

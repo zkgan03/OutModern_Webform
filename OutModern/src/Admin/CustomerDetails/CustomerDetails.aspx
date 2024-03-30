@@ -45,90 +45,118 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="mt-2">
 
-        <!--Customer Name and Edit btn-->
-        <div class="">
-            <asp:Label ID="lblTitleCustomerName" CssClass="text-2xl font-bold" runat="server" Text="Customer A"></asp:Label>
-        </div>
+        <div class="mt-8">
+            <!-- Customer Info-->
+            <div class="">
 
-        <div class="mt-8 flex gap-8">
-            <!-- Customer Details-->
-            <div class="w-72 flex-shrink-0">
+                <!--title and edit button-->
                 <div class="text-xl font-[600] flex items-center gap-2">
                     Customer Info            
-                    <asp:HyperLink CssClass="inline-block text-white px-2 rounded bg-amber-500 hover:opacity-50" ID="hlEditOrder" runat="server" 
+                    <asp:HyperLink CssClass="inline-block text-white px-2 rounded bg-amber-500 hover:opacity-50" ID="hlEditOrder" runat="server"
                         NavigateUrl='<%#urls[CustomerEdit] + "?id=" + "123" %>'>
                     <i class="fa-regular fa-pen-to-square"></i>
                     </asp:HyperLink>
                 </div>
-                <div class="mt-2 text-xl border drop-shadow-lg bg-white rounded p-4 border-gray-700">
-                    <div class="desc-grp">
-                        <div class="desc-title">Customer ID</div>
-                        <div class="desc-desc">
-                            <asp:Label ID="lblCustomerId" runat="server" Text="123"></asp:Label>
-                        </div>
+
+                <!--Infomation-->
+                <div class="mt-5 w-fit border border-black rounded p-2">
+                    <!--Status-->
+                    <div class="float-right ">
+                        <asp:Label ID="lblStatus" runat="server" CssClass="bg-green-300 p-1 rounded" Text="Activated"></asp:Label>
                     </div>
-                    <div class="desc-grp">
-                        <div class="desc-title">Username</div>
-                        <div class="desc-desc">
-                            <asp:Label ID="lblUsername" runat="server" Text="username123"></asp:Label>
+                    <!--Profile pic and name-->
+                    <div class="flex gap-5 items-center">
+                        <div>
+                            <asp:Image ID="imgProfile" runat="server"
+                                CssClass="rounded-full size-20 object-cover border"
+                                ImageUrl="~/images/about_us_img/img(a).jpg" />
                         </div>
-                    </div>
-                    <div class="desc-grp">
-                        <div class="desc-title">Email</div>
-                        <div class="desc-desc">
-                            <asp:Label ID="lblEmail" runat="server" Text="ganzk-wm21@student.tarc.edu.my"></asp:Label>
-                        </div>
-                    </div>
-                    <div class="desc-grp">
-                        <div class="desc-title">Phone No</div>
-                        <div class="desc-desc">
-                            <asp:Label ID="lblPhoneNo" runat="server" Text="012-3456781"></asp:Label>
-                        </div>
-                    </div>
-                    <div class="desc-grp">
-                        <div class="desc-title">Address</div>
-                        <div class="desc-desc">
-                            <asp:Label ID="lblAddress" runat="server" Text="Jalan mewah mewah, <br> dawawd  <br>  awd  <br>  awdawd"></asp:Label>
-                        </div>
-                    </div>
-                    <div class="desc-grp">
-                        <div class="desc-title">Status</div>
-                        <div class="desc-desc">
-                            <asp:Label ID="lblStatus" runat="server" Text="Activated"></asp:Label>
+                        <div>
+
+                            <div>
+                                <asp:Label CssClass="font-[600] text-xl" ID="lblFullName" runat="server" Text="Ali Ali"></asp:Label>
+                            </div>
+                            <div>
+                                <asp:Label ID="lblUsername" CssClass="text-gray-700" runat="server" Text="ali123"></asp:Label>
+                            </div>
                         </div>
                     </div>
 
+                    <!--Info-->
+                    <div class="mt-3 flex gap-10">
+                        <!--Left-->
+                        <div>
+                            <!--Id-->
+                            <div>
+                                <i class="fa-regular fa-id-badge fa-lg mr-2"></i>
+                                <asp:Label ID="lblId" runat="server" Text="C123"></asp:Label>
+                            </div>
+
+                            <!--Email-->
+                            <div class="mt-2">
+                                <i class="fa-regular fa-envelope mr-2"></i>
+                                <asp:Label ID="lblEmail" runat="server" Text="Ali@mail.com"></asp:Label>
+                            </div>
+
+                            <!--phone-->
+                            <div class="mt-2">
+                                <i class="fa-regular fa-phone mr-2"></i>
+                                <asp:Label ID="Label2" runat="server" Text="0121234567"></asp:Label>
+                            </div>
+                        </div>
+
+                        <!--Right-->
+                        <div class="flex gap-2">
+                            <asp:Repeater ID="rptAddress" runat="server">
+                                <ItemTemplate>
+                                    <div class="flex">
+                                        <div>
+                                            <i class="fa-regular fa-location-dot mr-2"></i>
+                                        </div>
+                                        <div>
+                                            <div class="text-gray-500"><%#Eval("AddressName") %></div>
+                                            <div><%# Eval("AddressLine") %></div>
+                                            <div><%# Eval("PostalCode") %>, <%# Eval("City") %></div>
+                                            <div><%# Eval("State") %>, <%# Eval("Country") %></div>
+                                        </div>
+                                    </div>
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </div>
+                    </div>
                 </div>
             </div>
 
 
             <!--Customer's Order details-->
-            <div class="flex-1">
-                <div class="text-xl font-[600]">Orders Made (123)</div>
-                <div class="mt-2 status-list flex justify-between ">
-                    <asp:LinkButton ID="LinkButton1" runat="server">
+            <div class="mt-10">
+                <div class="flex items-center justify-between ">
+                    <div class="text-xl font-[600]">Orders Made (123)</div>
+                    <div class="mt-2 status-list flex gap-5 mr-10">
+                        <asp:LinkButton ID="LinkButton1" runat="server">
                         All
-                    </asp:LinkButton>
-                    <asp:LinkButton ID="lbOrderPlacedTotal" runat="server">
-                        Order Placed :
+                        </asp:LinkButton>
+                        <asp:LinkButton ID="lbOrderPlacedTotal" runat="server">
+                            Order Placed :
                         <asp:Label ID="lblOrderPlacedTotal" runat="server" Text="2"></asp:Label>
-                    </asp:LinkButton>
-                    <asp:LinkButton ID="lbShippedTotal" runat="server">
-                        Shipped :
+                        </asp:LinkButton>
+                        <asp:LinkButton ID="lbShippedTotal" runat="server">
+                            Shipped :
                             <asp:Label ID="lblShippedTotal" runat="server" Text="2"></asp:Label>
-                    </asp:LinkButton>
-                    <asp:LinkButton ID="lbReceivedTotal" runat="server">
-                        Received :
+                        </asp:LinkButton>
+                        <asp:LinkButton ID="lbReceivedTotal" runat="server">
+                            Received :
                             <asp:Label ID="lblReceivedTotal" runat="server" Text="110"></asp:Label>
-                    </asp:LinkButton>
-                    <asp:LinkButton ID="lbCancelledTotal" runat="server">
-                        Cancelled :
+                        </asp:LinkButton>
+                        <asp:LinkButton ID="lbCancelledTotal" runat="server">
+                            Cancelled :
                             <asp:Label ID="lblCancelledTotal" runat="server" Text="10"></asp:Label>
-                    </asp:LinkButton>
+                        </asp:LinkButton>
+                    </div>
                 </div>
 
                 <!-- Display Orders -->
-                <div class="mt-2">
+                <div class="mt-2 px-10">
                     <!--Pagination-->
                     <asp:DataPager ID="dpTopOrders" class="pagination" runat="server" PagedControlID="lvOrders">
                         <Fields>
@@ -138,70 +166,70 @@
                         </Fields>
                     </asp:DataPager>
 
-                    <asp:ListView
-                        OnItemDataBound="lvOrders_ItemDataBound"
-                        OnPagePropertiesChanged="lvOrders_PagePropertiesChanged"
-                        ID="lvOrders" runat="server">
-                        <LayoutTemplate>
-                            <table id="data-table" style="width: 100%; text-align: center;">
-                                <thead>
-                                    <tr class="data-table-head">
-                                        <th class="active">
-                                            <asp:LinkButton ID="lbId" runat="server">
+                       <asp:ListView
+                            OnItemDataBound="lvOrders_ItemDataBound"
+                            OnPagePropertiesChanged="lvOrders_PagePropertiesChanged"
+                            ID="lvOrders" runat="server">
+                            <LayoutTemplate>
+                                <table id="data-table" style="width: 100%; text-align: center;">
+                                    <thead>
+                                        <tr class="data-table-head">
+                                            <th class="active">
+                                                <asp:LinkButton ID="lbId" runat="server">
                                              ID
                                              <i class="fa-solid fa-arrow-up"></i>
-                                            </asp:LinkButton>
-                                        </th>
-                                        <th>
-                                            <asp:LinkButton ID="lbOrderDateTime" runat="server">
+                                                </asp:LinkButton>
+                                            </th>
+                                            <th>
+                                                <asp:LinkButton ID="lbOrderDateTime" runat="server">
                                                   Order Date
                                                   <i class="fa-solid fa-arrow-up"></i>
-                                            </asp:LinkButton>
-                                        </th>
-                                        <th>
-                                            <asp:LinkButton ID="lbProductOrdered" runat="server">
+                                                </asp:LinkButton>
+                                            </th>
+                                            <th>
+                                                <asp:LinkButton ID="lbProductOrdered" runat="server">
                                               Product Ordered
                                               <i class="fa-solid fa-arrow-up"></i>
-                                            </asp:LinkButton>
-                                        </th>
+                                                </asp:LinkButton>
+                                            </th>
 
-                                        <th>
-                                            <asp:LinkButton ID="lbSubtotal" runat="server">
+                                            <th>
+                                                <asp:LinkButton ID="lbSubtotal" runat="server">
                                              Subtotal
                                              <i class="fa-solid fa-arrow-up"></i>
-                                            </asp:LinkButton>
-                                        </th>
-                                        <th>
-                                            <asp:LinkButton ID="lbOrderStatus" runat="server">
+                                                </asp:LinkButton>
+                                            </th>
+                                            <th>
+                                                <asp:LinkButton ID="lbOrderStatus" runat="server">
                                              Order Status
                                              <i class="fa-solid fa-arrow-up"></i>
-                                            </asp:LinkButton>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr runat="server" id="itemPlaceholder" class="data-table-item"></tr>
-                                </tbody>
-                            </table>
+                                                </asp:LinkButton>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr runat="server" id="itemPlaceholder" class="data-table-item"></tr>
+                                    </tbody>
+                                </table>
 
-                        </LayoutTemplate>
-                        <ItemTemplate>
-                            <tr onclick="window.location='<%# Page.ResolveClientUrl(urls[OrderDetails] + "?id=" +  Eval("OrderId") )%>'">
-                                <td><%# Eval("OrderId") %></td>
-                                <td><%# Eval("OrderDateTime", "{0:dd/MM/yyyy </br> h:mm tt}") %></td>
-                                <td>
-                                    <asp:Repeater ID="rptProducts" DataSource='<%# Eval("ProductDetails") %>' runat="server">
-                                        <ItemTemplate>
-                                            <div><%# Eval("ProductName")  %> -> <%# Eval("Quantity")  %></div>
-                                        </ItemTemplate>
-                                    </asp:Repeater>
-                                </td>
-                                <td><%# Eval("SubTotal") %></td>
-                                <td><span runat="server" id="orderStatus" class="order-status"><%# Eval("OrderStatus") %></span></td>
-                            </tr>
-                        </ItemTemplate>
-                    </asp:ListView>
-
+                            </LayoutTemplate>
+                            <ItemTemplate>
+                                <tr onclick="window.location='<%# Page.ResolveClientUrl(urls[OrderDetails] + "?id=" +  Eval("OrderId") )%>'">
+                                    <td><%# Eval("OrderId") %></td>
+                                    <td><%# Eval("OrderDateTime", "{0:dd/MM/yyyy </br> h:mm tt}") %></td>
+                                    <td>
+                                        <asp:Repeater ID="rptProducts" DataSource='<%# Eval("ProductDetails") %>' runat="server">
+                                            <ItemTemplate>
+                                                <div><%# Eval("ProductName")  %> -> <%# Eval("Quantity")  %></div>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+                                    </td>
+                                    <td><%# Eval("SubTotal") %></td>
+                                    <td><span runat="server" id="orderStatus" class="order-status"><%# Eval("OrderStatus") %></span></td>
+                                </tr>
+                            </ItemTemplate>
+                        </asp:ListView>
+            
                     <!--Pagination-->
                     <asp:DataPager ID="dpBottomOrders" class="pagination" runat="server" PageSize="10" PagedControlID="lvOrders">
                         <Fields>

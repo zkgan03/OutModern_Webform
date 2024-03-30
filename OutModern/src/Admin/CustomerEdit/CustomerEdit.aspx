@@ -2,13 +2,25 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style type="text/tailwindcss">
-        #cus-edit-form #edit-from-item > div {
-            @apply mt-1;
+        /*Edit form*/
+        #edit-form {
         }
 
-        .desc-title {
-            @apply inline-block w-28 float-left;
-        }
+            #edit-form .edit-section {
+                @apply mt-2 ml-2;
+            }
+
+            #edit-form .edit-label {
+                @apply font-[600];
+            }
+
+            #edit-form .edit-item {
+                @apply block px-4 py-1 border border-gray-600 rounded w-56;
+            }
+
+                #edit-form .edit-item.disabled {
+                    @apply text-gray-400 border-gray-300;
+                }
     </style>
 
 </asp:Content>
@@ -36,73 +48,137 @@
             </asp:LinkButton>
         </div>
 
-        <!-- General Desc -->
-        <div id="cus-edit-form" class="mt-8">
-
-            <div class="text-2xl font-bold">
-                Edit Customer
-            </div>
-            <div id="edit-from-item" class="mt-2 ml-2 text-xl">
-                <div>
-                    <span class="desc-title">Customer ID</span>
-                    <span>:
-                  <asp:Label ID="lblCustomerId" runat="server" Text="C1001"></asp:Label>
-                    </span>
-                </div>
-                <div>
-                    <span class="desc-title">FullName</span>
-                    <span>:                        
-                  <asp:TextBox ID="txtProdName" runat="server" Text="Customer A"></asp:TextBox>
-                    </span>
-                </div>
-                <div>
-                    <span class="desc-title">Username</span>
-                    <span>:                        
-                    <asp:TextBox ID="txtUsername" runat="server" Text="cus123"></asp:TextBox>
-                    </span>
+        <!-- Cus Desc -->
+        <div id="edit-form" class="flex mt-4 gap-40">
+            <!--Left-->
+            <div class="">
+                <!--Customer ID-->
+                <div class="edit-section">
+                    <div class="edit-label">Customer ID</div>
+                    <div>
+                        <asp:Label ID="lblId" CssClass="edit-item disabled" runat="server" Text="C12"></asp:Label>
+                    </div>
                 </div>
 
-                <div>
-                    <span class="desc-title">Email </span>
-                    <span>:                        
-                        <asp:TextBox ID="txtEmail" runat="server" Text="cus123@mail.com"></asp:TextBox>
-                    </span>
-                </div>
-                <div>
-                    <span class="desc-title">Phone No</span>
-                    <span>:                        
-                  <asp:TextBox ID="txtPhoneNo" runat="server" Text="1231231231"></asp:TextBox>
-                    </span>
-                </div>
-                <div>
-                    <span class="desc-title">Address </span>
-                    <span>:                     
-                  <asp:TextBox ID="txtProdQuantity"
-                      CssClass="resize-none w-72 h-32 leading-5 border border-black p-2 rounded"
-                      TextMode="MultiLine" runat="server"
-                      Text="Jalan mewah mewah, &#13;&#10; dawawd &#13;&#10;  awd  &#13;&#10; awdawd"></asp:TextBox>
-                    </span>
-                </div>
-                <div>
-                    <span class="desc-title">Status</span>
-                    <span>:
-                  <asp:DropDownList ID="ddlProdStatus" AppendDataBoundItems="true" runat="server">
-                      <asp:ListItem>Activated</asp:ListItem>
-                      <asp:ListItem>Locked</asp:ListItem>
-                      <asp:ListItem>Deleted</asp:ListItem>
-                  </asp:DropDownList>
-                    </span>
+                <!--Customer NAme-->
+                <div class="edit-section">
+                    <div class="edit-label">Customer FullName</div>
+                    <div>
+                        <asp:TextBox ID="txtFullName" CssClass="edit-item" runat="server" Text="CustomerA"></asp:TextBox>
+                    </div>
                 </div>
 
+                <!--Customer Username-->
+                <div class="edit-section">
+                    <div class="edit-label">Username</div>
+                    <div>
+                        <asp:TextBox ID="txtUsername" CssClass="edit-item" runat="server" Text="cus123"></asp:TextBox>
+
+                    </div>
+                </div>
+
+
+                <!--Customer Status-->
+                <div class="edit-section">
+                    <div class="edit-label">Status</div>
+                    <div>
+                        <asp:DropDownList ID="ddlStatus" CssClass="edit-item" runat="server">
+                            <asp:ListItem>Activated</asp:ListItem>
+                            <asp:ListItem>Locked</asp:ListItem>
+                            <asp:ListItem>Deleted</asp:ListItem>
+                        </asp:DropDownList>
+                    </div>
+                </div>
             </div>
 
-            <div class="mt-20">
-                <asp:Button ID="btnResetPassword"
-                    OnClientClick="return confirm('Are you sure you want to reset Customer Password?')"
-                    OnClick="btnResetPassword_Click"
-                    CssClass="button text-black bg-gray-200 py-1" runat="server" Text="Reset Customer's Password" />
+            <!--Right-->
+            <div>
+
+                <!-- Customer Email -->
+                <div class="edit-section">
+                    <div class="edit-label">Email</div>
+                    <div>
+                        <asp:TextBox ID="txtPrice" CssClass="edit-item" runat="server" Text="cus123@mail.com"></asp:TextBox>
+                    </div>
+                </div>
+
+                <!-- Customer Phone Num -->
+                <div class="edit-section">
+                    <div class="edit-label">Phone No</div>
+                    <div>
+                        <asp:TextBox ID="txtPhoneNo" CssClass="edit-item" runat="server" Text="012-1234567"></asp:TextBox>
+                    </div>
+                </div>
             </div>
         </div>
 
+        <!--Customer Address-->
+        <div class="mt-10 p-2">
+            <div class="font-[600]">Addresses</div>
+
+            <!--List of Addresses-->
+            <div class="flex flex-wrap ml-2 gap-4">
+                <asp:Repeater ID="rptAddresses" runat="server">
+                    <ItemTemplate>
+                        <div class="border border-gray-700 drop-shadow bg-white p-3">
+                            <div>
+                                <asp:Label CssClass="text-gray-500" ID="lblAddressName" runat="server"
+                                    Text='<%# Eval("AddressName") %>'></asp:Label>
+                            </div>
+                            <!--Address Line-->
+                            <div class="ml-2 mt-3">
+                                <div>Address Line</div>
+                                <div>
+                                    <asp:TextBox ID="txtAddressLine" runat="server"
+                                        Text='<%# Eval("AddressLine") %>'></asp:TextBox>
+                                </div>
+                            </div>
+
+                            <!--Postal code and City-->
+                            <div class="ml-2 mt-3 flex gap-4">
+                                <div>
+                                    <div>PostalCode</div>
+                                    <div>
+                                        <asp:TextBox ID="txtPostalCode" runat="server" CssClass="w-32"
+                                            Text='<%# Eval("PostalCode") %>'></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>City</div>
+                                    <div>
+                                        <asp:TextBox ID="txtCity" runat="server" CssClass="w-32"
+                                            Text='<%# Eval("City") %>'></asp:TextBox>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--State and Country-->
+                            <div class="ml-2 mt-3 flex gap-4">
+                                <div>
+                                    <div>State</div>
+                                    <div>
+                                        <asp:TextBox ID="txtState" runat="server" CssClass="w-32"
+                                            Text='<%# Eval("State") %>'></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>Country</div>
+                                    <div>
+                                        <asp:TextBox ID="txtCountry" runat="server" CssClass="w-32"
+                                            Text='<%# Eval("Country") %>'></asp:TextBox>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ItemTemplate>
+                </asp:Repeater>
+
+            </div>
+        </div>
+
+        <!--Reset Password-->
+        <div class="mt-10">
+            <asp:Button ID="btnResetPassword" CssClass="button bg-red-600" runat="server" Text="Reset Customer's Password" />
+        </div>
     </div>
 </asp:Content>

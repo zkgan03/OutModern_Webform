@@ -9,11 +9,10 @@
             }
 
                 .desc-grp .desc-title {
-
                 }
 
                 .desc-grp div:nth-child(n+2) {
-                    @apply px-4 py-2 border border-gray-300 rounded;
+                    @apply px-4 py-1 border border-gray-300 rounded;
                 }
 
             .product-img {
@@ -96,7 +95,7 @@
             <!-- Product Details -->
             <div class="w-56">
                 <div class="text-xl font-[600]">Product Info</div>
-                <div class="mt-2 ml-2 text-xl">
+                <div class="mt-4 ml-2 text-xl">
                     <div class="desc-grp">
                         <div class="desc-title">Product ID</div>
                         <div>
@@ -128,53 +127,55 @@
             <div class="flex-1">
                 <div class="text-xl font-[600]">Variation</div>
 
-                <!-- Size -->
-                <div class="my-2">
-                    <div class="">Size</div>
-                    
-                    <div>
-                        <asp:DropDownList ID="ddlSize" runat="server">
-                            <asp:ListItem>S</asp:ListItem>
-                            <asp:ListItem>M</asp:ListItem>
-                            <asp:ListItem>L</asp:ListItem>
-                            <asp:ListItem>XL</asp:ListItem>
-                        </asp:DropDownList>
+                <div class="mt-4">
+
+                    <div class="flex mt-4 items-center gap-7">
+
+                        <!--Size selection-->
+                        <div>
+                            <div>Size</div>
+                            <div>
+                                <asp:DropDownList ID="ddlSize" runat="server">
+                                    <asp:ListItem>S</asp:ListItem>
+                                    <asp:ListItem>M</asp:ListItem>
+                                    <asp:ListItem>L</asp:ListItem>
+                                    <asp:ListItem>XL</asp:ListItem>
+                                </asp:DropDownList>
+                            </div>
+
+                        </div>
+                        <div class="">
+                            <div>Quantity</div>
+                            <div>
+                                <asp:Label CssClass="w-16 border border-gray-300 px-2 rounded" TextMode="Number" ID="lblQuantity" runat="server" Text="123"></asp:Label>
+                            </div>
+                        </div>
                     </div>
 
-                </div>
-
-                <!--Quantity-->
-                <div class="mb-2">
-                    <div class="">Quantity</div>
-                    <div class="w-fit px-2 border border-gray-300 rounded">
-                        <asp:Label ID="lblQuantity" runat="server" Text="123"></asp:Label>
+                    <!--Colors-->
+                    <div class="mb-2 mt-2">
+                        <div>Color</div>
+                        <div class="flex items-center gap-2">
+                            <asp:Repeater ID="repeaterColors" OnItemDataBound="repeaterColors_ItemDataBound" OnItemCommand="repeaterColors_ItemCommand" runat="server">
+                                <ItemTemplate>
+                                    <asp:Button ID="btnColor" runat="server" UseSubmitBehavior="false"
+                                        CommandName="ChangeColor" CommandArgument='<%# Eval("Color") %>'
+                                        Style='<%# "background:" + Eval("Color") +";" %>' CssClass='<%# "color-varient" + (Container.ItemIndex == 0 ? " active" : "") %>' />
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </div>
                     </div>
-                </div>
 
-
-                <!--Colors-->
-                <div class="mb-2">
-                    <div>Color</div>
-                    <div class="flex items-center gap-2">
-                        <asp:Repeater ID="repeaterColors" OnItemDataBound="repeaterColors_ItemDataBound" OnItemCommand="repeaterColors_ItemCommand" runat="server">
+                    <!-- Images -->
+                    <div class="flex gap-2 mt-2">
+                        <asp:Repeater ID="repeaterImg" runat="server">
                             <ItemTemplate>
-                                <asp:Button ID="btnColor" runat="server" UseSubmitBehavior="false"
-                                    CommandName="ChangeColor" CommandArgument='<%# Eval("Color") %>'
-                                    Style='<%# "background:" + Eval("Color") +";" %>' CssClass='<%# "color-varient" + (Container.ItemIndex == 0 ? " active" : "") %>' />
+                                <asp:Image ID="imgProd" runat="server" Width="10em"
+                                    CssClass="product-img"
+                                    ImageUrl='<%# Eval("path") %>' />
                             </ItemTemplate>
                         </asp:Repeater>
                     </div>
-                </div>
-
-                <!-- Images -->
-                <div class="flex gap-2 mt-2">
-                    <asp:Repeater ID="repeaterImg" runat="server">
-                        <ItemTemplate>
-                            <asp:Image ID="imgProd" runat="server" Width="10em"
-                                CssClass="product-img"
-                                ImageUrl='<%# Eval("path") %>' />
-                        </ItemTemplate>
-                    </asp:Repeater>
                 </div>
             </div>
         </div>

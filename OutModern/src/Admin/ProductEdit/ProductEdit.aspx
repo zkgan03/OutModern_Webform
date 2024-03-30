@@ -6,13 +6,26 @@
             @apply text-black text-center px-1 py-0 cursor-pointer hover:opacity-50 bg-gray-200 border border-gray-400;
         }
 
-        #prod-edit-form #edit-from-item > div {
-            @apply mt-1;
+        /*Edit form*/
+        #edit-form {
+            @apply w-56;
         }
 
-        .desc-title {
-            @apply inline-block w-28 float-left;
-        }
+            #edit-form .edit-section {
+                @apply mt-2 ml-2;
+            }
+
+            #edit-form .edit-label {
+                @apply font-[600];
+            }
+
+            #edit-form .edit-item {
+                @apply block px-4 py-1 border border-gray-600 rounded;
+            }
+
+                #edit-form .edit-item.disabled {
+                    @apply text-gray-400 border-gray-300;
+                }
 
         /*Variation*/
         #variation-form {
@@ -35,17 +48,20 @@
                     @apply text-[4em];
                 }
 
-            #variation-form .color-varient {
-                @apply cursor-pointer size-5 rounded-full border drop-shadow border-white box-border;
+
+
+        .color-varient {
+            @apply cursor-pointer size-5 rounded-full border drop-shadow border-gray-300 box-border hover:opacity-50;
+        }
+
+            .color-varient.active {
+                @apply outline outline-black outline-1 hover:opacity-100;
             }
 
-                #variation-form .color-varient.active {
-                    @apply outline outline-black outline-1;
-                }
 
-                #variation-form .color-varient.add-color {
-                    @apply outline outline-black outline-1 cursor-default;
-                }
+            .color-varient.add-color {
+                @apply outline outline-black outline-1 cursor-default hover:opacity-100;
+            }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -71,122 +87,137 @@
             </asp:LinkButton>
         </div>
 
-        <!-- General Desc -->
-        <div id="prod-edit-form" class="mt-8">
+        <div class="text-2xl font-bold mt-8">Edit Product</div>
 
-            <div class="text-2xl font-bold">Edit Product</div>
-            <div id="edit-from-item" class="mt-2 ml-2 text-xl">
-                <div>
-                    <span class="desc-title">Product ID</span>
-                    <span>:
-                        <asp:Label ID="lblProdId" runat="server" Text="P1001"></asp:Label>
-                    </span>
+        <div class="">
+            <!-- Prod Desc -->
+            <div id="edit-form" class="mt-4">
+
+                <!--Prod ID-->
+                <div class="edit-section">
+                    <div class="edit-label">Prodcut ID</div>
+                    <div>
+                        <asp:Label ID="lblProdId" CssClass="edit-item disabled" runat="server" Text="P1001"></asp:Label>
+                    </div>
                 </div>
-                <div>
-                    <span class="desc-title">Product Name</span>
-                    <span>:                        
-                        <asp:TextBox ID="txtProdName" runat="server" Text="Premium Hoodie"></asp:TextBox>
-                    </span>
+
+                <!--Prod NAme-->
+                <div class="edit-section">
+                    <div class="edit-label">Prodcut Name</div>
+                    <div>
+                        <asp:TextBox ID="txtProdName" CssClass="edit-item" runat="server" Text="Premium Hoodie"></asp:TextBox>
+                    </div>
                 </div>
-                <div>
-                    <span class="desc-title">Category</span>
-                    <span>: 
-                        <asp:DropDownList ID="ddlProdCat" AppendDataBoundItems="true" runat="server">
+
+                <!--Prod Category-->
+                <div class="edit-section">
+                    <div class="edit-label">Category</div>
+                    <div>
+                        <asp:DropDownList ID="ddlCategory" CssClass="edit-item" runat="server">
                             <asp:ListItem>Hoodie</asp:ListItem>
-                            <asp:ListItem>Test</asp:ListItem>
-                            <asp:ListItem>Shirt</asp:ListItem>
+                            <asp:ListItem>Tee Shirt</asp:ListItem>
+                            <asp:ListItem>Shorts</asp:ListItem>
                         </asp:DropDownList>
-                    </span>
+                    </div>
                 </div>
-                <div>
-                    <span class="desc-title">Price (RM)</span>
-                    <span>:                        
-                        <asp:TextBox ID="txtProdPrice" runat="server" Text="99.99"></asp:TextBox>
-                    </span>
+
+                <!--Prod Price-->
+                <div class="edit-section">
+                    <div class="edit-label">Price (RM)</div>
+                    <div>
+                        <asp:TextBox ID="txtPrice" CssClass="edit-item" runat="server" Text="99.99"></asp:TextBox>
+
+                    </div>
                 </div>
-                <div>
-                    <span class="desc-title">Status</span>
-                    <span>:
-                        <asp:DropDownList ID="ddlProdStatus" AppendDataBoundItems="true" runat="server">
+
+                <!--Prod Status-->
+                <div class="edit-section">
+                    <div class="edit-label">Status</div>
+                    <div>
+                        <asp:DropDownList ID="ddlStatus" CssClass="edit-item" runat="server">
                             <asp:ListItem>In Stock</asp:ListItem>
                             <asp:ListItem>Unavailable</asp:ListItem>
-                            <asp:ListItem>Out of Stock</asp:ListItem>
+                            <asp:ListItem>Out Of Stock</asp:ListItem>
                         </asp:DropDownList>
-                    </span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Variation -->
-        <div id="variation-form">
-            <div class="text-2xl font-[600]">Variation</div>
-
-            <div class="flex mt-2 items-center">
-                <!--Size selection-->
-                <div>Size : <span class="size-added">S</span></div>
-                <div class="ml-20">
-                    Add Size : 
-                    <asp:DropDownList ID="ddlSize" runat="server">
-                        <asp:ListItem>S</asp:ListItem>
-                        <asp:ListItem>M</asp:ListItem>
-                        <asp:ListItem>L</asp:ListItem>
-                        <asp:ListItem>XL</asp:ListItem>
-                    </asp:DropDownList>
-                    <asp:Button ID="btnAddSize" CssClass="button text-black py-0" runat="server" Text="Add" />
-                </div>
-            </div>
-
-            <div class="mt-2">
-                <span>Quantity : </span>
-                <span>
-                    <asp:TextBox CssClass="w-20" TextMode="Number" ID="txtProdQuantity" runat="server" Text="123"></asp:TextBox>
-                </span>
-            </div>
-            <!--Colors-->
-            <%-- 
-                Beige, black, white, 
-                blue, lightblue, darkblue, navy
-                lightgray,  
-                militaryGreen ==> darkolivegreen
-                red
-            --%>
-            <div class="flex mt-2 items-center">
-                <div class="flex gap-2 justify-center items-center">
-                    <div>Colors :</div>
-                    <div data-color="white" class="color-varient bg-white"></div>
-                    <div data-color="black" class="color-varient bg-black"></div>
-                    <div data-color="beige" class="color-varient active bg-[#E0CCBC]"></div>
-                </div>
-                <!--Choose color-->
-                <div class="flex ml-20 gap-2 justify-center items-center">
-                    <div>
-                        Add Color : 
                     </div>
-                    <asp:DropDownList ID="ddlColor" runat="server">
-                        <asp:ListItem>navy</asp:ListItem>
-                        <asp:ListItem>green</asp:ListItem>
-                        <asp:ListItem>blue</asp:ListItem>
-                    </asp:DropDownList>
-                    <div class="color-varient add-color"></div>
-                    <asp:Button ID="btnAddColor" CssClass="button" runat="server" Text="Add" />
                 </div>
             </div>
 
-            <!-- Images -->
-            <div class="flex flex-wrap gap-2 mt-5 items-center">
-                <div>Image : </div>
-                <asp:Image ID="imgProd1" runat="server" Width="10em"
-                    CssClass="product-img"
-                    ImageUrl="~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de6441b1.png" />
-                <asp:Image ID="imgProd2" runat="server" Width="10em"
-                    CssClass="product-img"
-                    ImageUrl="~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de644282.png" />
-                <asp:Image ID="imgProd3" runat="server" Width="10em"
-                    CssClass="product-img"
-                    ImageUrl="~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-zoomed-in-61167de6440a2.png" />
-                <div class="add-image">
-                    <asp:FileUpload ID="fileImgUpload" CssClass="hidden" runat="server" accept=".png,.jpg,.jpeg,.webp" />
-                    <i class="fa-regular fa-plus"></i>
+            <!-- Variation -->
+            <div id="variation-form">
+                <div class="text-2xl font-[600]">Variation</div>
+
+                <!--Size and quantity-->
+                <div class="flex mt-4 items-center gap-7">
+
+                    <!--Size selection-->
+                    <div>
+                        <div class="font-[600]">Size</div>
+                        <div>
+                            <asp:DropDownList ID="ddlSize" runat="server">
+                                <asp:ListItem>S</asp:ListItem>
+                                <asp:ListItem>M</asp:ListItem>
+                                <asp:ListItem>L</asp:ListItem>
+                                <asp:ListItem>XL</asp:ListItem>
+                            </asp:DropDownList>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="font-[600]">Quantity</div>
+                        <div>
+                            <asp:TextBox CssClass="w-16" TextMode="Number" ID="txtProdQuantity" runat="server" Text="123"></asp:TextBox>
+                        </div>
+                    </div>
+
+                    <div class="opacity-50 mt-4">
+                        **Specify quantity for each size
+                    </div>
+                </div>
+
+                <!--Colors-->
+                <div class=" mt-4">
+                    <div class="flex gap-7 items-center">
+                        <div class="font-[600]">Colors </div>
+                        <!--Add color-->
+                        <div class="flex gap-2 items-center">
+                            <asp:DropDownList ID="ddlColor" runat="server">
+                                <asp:ListItem>navy</asp:ListItem>
+                                <asp:ListItem>green</asp:ListItem>
+                                <asp:ListItem>blue</asp:ListItem>
+                            </asp:DropDownList>
+                            <div class="color-varient add-color"></div>
+                            <asp:Button ID="btnAddColor" CssClass="button" runat="server" Text="Add" />
+                        </div>
+
+                    </div>
+                    <!--Color selection-->
+                    <div class="flex gap-2 items-center">
+                        <asp:Button ID="btnColor1" Style="background: black;" CssClass="color-varient" runat="server" Text="" />
+                        <asp:Button ID="btnColor2" Style="background: white;" CssClass="color-varient" runat="server" Text="" />
+                        <asp:Button ID="btnColor3" Style="background: beige;" CssClass="color-varient active" runat="server" Text="" />
+                    </div>
+                </div>
+
+                <!-- Images -->
+                <div class="mt-5 ">
+                    <div class="font-[600]">Image : </div>
+                    <div class="flex items-center">
+                        <div class="flex flex-wrap gap-2 items-center">
+                            <asp:Image ID="imgProd1" runat="server" Width="10em"
+                                CssClass="product-img"
+                                ImageUrl="~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de6441b1.png" />
+                            <asp:Image ID="imgProd2" runat="server" Width="10em"
+                                CssClass="product-img"
+                                ImageUrl="~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de644282.png" />
+                            <asp:Image ID="imgProd3" runat="server" Width="10em"
+                                CssClass="product-img"
+                                ImageUrl="~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-zoomed-in-61167de6440a2.png" />
+                        </div>
+                        <div class="add-image">
+                            <asp:FileUpload ID="fileImgUpload" CssClass="hidden" runat="server" accept=".png,.jpg,.jpeg,.webp" />
+                            <i class="fa-regular fa-plus"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

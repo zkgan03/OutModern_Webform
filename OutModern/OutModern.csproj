@@ -526,7 +526,6 @@
     <Content Include="src\Admin\CustomerEdit\CustomerEdit.aspx" />
     <Content Include="src\Admin\Customers\Customers.aspx" />
     <Content Include="src\Admin\Dashboard\Dashboard.aspx" />
-    <Content Include="src\Admin\Feedback\Feedback.aspx" />
     <Content Include="src\Admin\OrderDetails\OrderDetails.aspx" />
     <Content Include="src\Admin\Orders\Orders.aspx" />
     <Content Include="src\Admin\ProductAdd\ProductAdd.aspx" />
@@ -561,13 +560,6 @@
     </Compile>
     <Compile Include="src\Admin\Dashboard\Dashboard.aspx.designer.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="src\Admin\Feedback\Feedback.aspx.cs">
-      <DependentUpon>Feedback.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="src\Admin\Feedback\Feedback.aspx.designer.cs">
-      <DependentUpon>Feedback.aspx</DependentUpon>
     </Compile>
     <Compile Include="src\Admin\Orders\Orders.aspx.cs">
       <DependentUpon>Orders.aspx</DependentUpon>

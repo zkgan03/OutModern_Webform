@@ -13,5 +13,15 @@ namespace OutModern.src.Admin.Setting
         {
 
         }
+
+        protected void lbDiscard_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void lbUpdate_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
