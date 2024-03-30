@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
 namespace OutModern.src.Client.Shipping
@@ -56,15 +57,6 @@ namespace OutModern.src.Client.Shipping
 
         }
 
-        private void BindData(DataTable dataSource)
-        {
-            // Set the data source for the ProductListView
-            AddressListView.DataSource = dataSource;
-
-            // Bind the data to the ProductListView
-            AddressListView.DataBind();
-        }
-
         public static DataTable GetDummyAddData()
         {
             DataTable dummyAddData = new DataTable();
@@ -86,6 +78,20 @@ namespace OutModern.src.Client.Shipping
 
             return dummyAddData;
         }
+
+        protected void AddressListView_ItemDataBound(object sender, ListViewItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListViewItemType.DataItem)
+            {
+                // Add client-side click event handler to the data item
+                var dataItem = e.Item.FindControl("address-item") as HtmlGenericControl;
+                if (dataItem != null)
+                {
+                    dataItem.Attributes["onclick"] = "selectAddress(this)";
+                }
+            }
+        }
+
 
         protected void btnProceed_Click(object sender, EventArgs e)
         {

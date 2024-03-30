@@ -12,26 +12,25 @@
 
         <div class="rounded-md mt-4 mb-10 flex justify-between mx-56">
             <!--Left Container-->
-            <div class="w-[60%] min-h-[60vh] flex-col bg-white drop-shadow-lg p-8 rounded-xl">
+            <div class="w-[65%] min-h-[60vh] flex-col bg-white drop-shadow-lg p-8 rounded-xl">
                 <div class="flex flex-col">
                     <h3 class="mb-2 font-bold">Select a delivery address</h3>
                     <p class="mb-4">Is the address you'd like to use displayed below? If so, click the corresponding address. Or you can enter a new delivery address.</p>
                 </div>
 
                 <div class="border-b">
-                    <asp:ListView ID="AddressListView" runat="server">
+                    <asp:ListView ID="AddressListView" runat="server" OnItemDataBound="AddressListView_ItemDataBound">
                         <LayoutTemplate>
-                            <div class="grid grid-cols-2 gap-x-16">
+                            <div class="grid grid-cols-2 gap-x-28">
                                 <div runat="server" id="itemPlaceholder"></div>
                             </div>
                         </LayoutTemplate>
                         <ItemTemplate>
                             <!-- Address Existing -->
-                            <div class="border flex mb-6 max-w-sm bg-white shadow rounded-2xl w-80">
+                            <div class="border flex mb-6 max-w-sm bg-white shadow rounded-2xl w-80 address-item">
                                 <div class="p-4 w-full">
                                     <div class="flex justify-between">
                                         <div class="capitalize text-black text-xl font-bold"><%# Eval("AddressName") %></div>
-                                        <asp:RadioButton ID="RadioButton1" runat="server" />
                                     </div>
                                     <div class="flex flex-col">
                                         <div class="text-sm"><%# Eval("AddressLine") %></div>
@@ -142,6 +141,27 @@
         </div>
 
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var addressItems = document.querySelectorAll('.address-item');
+            addressItems.forEach(function (item) {
+                item.addEventListener('click', function () {
+                    addressItems.forEach(function (el) {
+                        el.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                });
+            });
+        });
+    </script>
+
+    <style>
+        .selected {
+            box-shadow: 0 0 10px #000000; /* Replace with your desired glow color */
+        }
+    </style>
+
 
 </asp:Content>
 
