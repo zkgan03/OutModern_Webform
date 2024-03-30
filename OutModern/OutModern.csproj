@@ -552,8 +552,6 @@
   <ItemGroup>
     <Folder Include="src\Client\Home\css\" />
     <Folder Include="src\Client\Home\js\" />
-    <Folder Include="src\Client\Payment\css\" />
-    <Folder Include="src\Client\Payment\js\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -3,113 +3,24 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
 
-    <div class="rounded-md p-2 my-10 flex justify-between mx-44">
+
+    <div class="mx-56 mt-10">
+        <h2 class="text-3xl font-bold flex">Shipping Address</h2>
+    </div>
+
+    <div class="rounded-md flex justify-between mx-52">
+
         <!--Left Container-->
-        <div class="w-[65%] p-4 ml-12 min-h-[60vh]">
-            <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
-                <ContentTemplate>
-                    <div id="paymentMethod" runat="server" class="p-4 bg-white shadow-md rounded-md mb-12">
-                        <!-- Upper Panel Accordion -->
-                        <asp:LinkButton ID="lnkTogglePaymentMethod" runat="server" CssClass="p-0 bg-white mb-8 cursor-pointer" OnClick="TogglePaymentMethod">
-                                <p class="mx-8 my-4 font-bold text-xl text-black">Payment Method</p>
-                        </asp:LinkButton>
+        <div class="w-[65%] p-4 min-h-[60vh]">
+            <div id="paymentMethod" runat="server" class="p-4 bg-white shadow-md rounded-md mb-12">
+                <!-- Upper Panel Accordion -->
 
-                        <!-- Upper Panel Content -->
-                        <asp:Panel ID="pnlPaymentDetails" runat="server" CssClass="mx-8 mt-6" Visible="false" ClientIDMode="Static">
-                            <!-- Content of Upper Panel -->
-                            <div class="flex items-center space-x-8">
-                                <asp:Label ID="lblCreditCardContainer" runat="server" CssClass="flex items-center border border-gray-300 rounded-md p-4 bg-white shadow-md mb-4 w-56 h-14 cursor-pointer" AssociatedControlID="creditCard">
-                                    <asp:Image ID="imgCreditCard" ImageUrl="~/images/mastercard_logo.png" CssClass="ml-6 h-6 w-auto" runat="server" />
-                                    <span class="ml-2 mr-2 text-gray-700">Credit Card</span>
-                                    <asp:RadioButton ID="creditCard" GroupName="paymentMethod" runat="server" Checked="true" CssClass="h-5 w-5 ml-auto" />
-                                </asp:Label>
-
-                                <asp:Label ID="lblPaypalContainer" runat="server" CssClass="flex items-center border border-gray-300 rounded-md p-4 bg-white shadow-md mb-4 w-56 h-14 cursor-pointer" AssociatedControlID="paypal">
-                                    <asp:Image ID="imgPaypal" ImageUrl="~/images/paypal.png" CssClass="ml-6 h-6 w-auto" runat="server" />
-                                    <span class="ml-2 mr-2 text-gray-700">Paypal</span>
-                                    <asp:RadioButton ID="paypal" GroupName="paymentMethod" CssClass="h-5 w-5 ml-auto" runat="server" />
-                                </asp:Label>
-                            </div>
+                <h3 class="mx-4 my-4 font-bold text-xl text-black">Select a payment method</h3>
 
 
-                            <div class="mb-4">
-                                <asp:Label ID="lblCcInfo" runat="server" class="text-gray-700 font-semibold ">Credit card Information</asp:Label>
-                            </div>
-                            <div class="mb-4">
-                                <asp:Label for="txtCardNumber" runat="server" class="text-gray-700">Card Number</asp:Label>
-                                <asp:TextBox ID="txtCardNumber" runat="server" CssClass="w-full border border-gray-300 rounded-md px-3 py-2 mt-1" placeholder="**** **** **** 2343" Text="**** **** **** 2343"></asp:TextBox>
-                            </div>
-                            <div class="flex space-x-4">
-                                <div class="mb-4 flex-1">
-                                    <asp:Label for="txtExpirationDate" runat="server" class="text-gray-700">Expiration Date</asp:Label>
-                                    <asp:TextBox ID="txtExpirationDate" runat="server" CssClass="w-full border border-gray-300 rounded-md px-3 py-2 mt-1" placeholder="MM/YY" Text="12/25"></asp:TextBox>
-                                </div>
-                                <div class="mb-4 flex-1">
-                                    <asp:Label for="txtCvv" runat="server" class="text-gray-700">CVV</asp:Label>
-                                    <asp:TextBox ID="txtCvv" runat="server" CssClass="w-full border border-gray-300 rounded-md px-3 py-2 mt-1" placeholder="***" Text="***"></asp:TextBox>
-                                </div>
-                            </div>
-                            <div class="flex items-center mb-4">
-                                <asp:CheckBox ID="cbSameAsShipping" runat="server" CssClass="form-checkbox h-5 w-5 text-blue-500" />
-                                <asp:Label for="cbSameAsShipping" runat="server" class="ml-2 text-gray-700">Billing address same as shipping</asp:Label>
-                            </div>
-                        </asp:Panel>
-                    </div>
-
-
-                    <!--LOWER PANEL-->
-                    <div id="billingAddress" runat="server" class="p-4 bg-white shadow-md rounded-md mt-4">
-                        <!-- Lower Panel Accordion -->
-                        <asp:LinkButton ID="lnkToggleBillingAddress" runat="server" CssClass="p-0 bg-white mb-12 cursor-pointer" OnClick="ToggleBillingAddress">
-    <p class="my-4 mx-8 font-bold text-xl text-black">Billing Address</p>
-                        </asp:LinkButton>
-
-
-                        <asp:Panel ID="pnlBillingDetails" runat="server" CssClass="mx-8" Visible="false" ClientIDMode="Static">
-                            <div class="grid grid-cols-2 gap-4">
-                                <div class="mb-4">
-                                    <asp:Label for="txtFirstName" runat="server" class="text-gray-700 font-semibold">First Name</asp:Label>
-                                    <asp:TextBox ID="txtFirstName" runat="server" CssClass="w-full border border-gray-300 rounded-md px-3 py-2 mt-1" Text="Patricia"></asp:TextBox>
-                                </div>
-                                <div class="mb-4">
-                                    <asp:Label for="txtLastName" runat="server" class="text-gray-700 font-semibold">Last Name</asp:Label>
-                                    <asp:TextBox ID="txtLastName" runat="server" CssClass="w-full border border-gray-300 rounded-md px-3 py-2 mt-1" Text="Eyni"></asp:TextBox>
-                                </div>
-                            </div>
-                            <div class="mb-4">
-                                <asp:Label for="txtAddress" runat="server" class="text-gray-700 font-semibold">Address</asp:Label>
-                                <asp:TextBox ID="txtAddress" runat="server" CssClass="w-full border border-gray-300 rounded-md px-3 py-2 mt-1" Text="Paunte Resort 56 P"></asp:TextBox>
-                            </div>
-                            <div class="grid grid-cols-3 gap-4">
-                                <div class="mb-4">
-                                    <asp:Label for="txtCity" runat="server" class="text-gray-700 font-semibold">City</asp:Label>
-                                    <asp:TextBox ID="txtCity" runat="server" CssClass="w-full border border-gray-300 rounded-md px-3 py-2 mt-1" Text="Mission District"></asp:TextBox>
-                                </div>
-                                <div class="mb-4">
-                                    <asp:Label for="ddlState" runat="server" class="text-gray-700 font-semibold">State</asp:Label>
-                                    <asp:DropDownList ID="ddlState" runat="server" CssClass="w-full border border-gray-300 rounded-md px-3 py-2 mt-1">
-                                        <asp:ListItem Value="CA" Selected="True">California</asp:ListItem>
-
-                                    </asp:DropDownList>
-                                </div>
-                                <div class="mb-4">
-                                    <asp:Label for="txtPostalCode" runat="server" class="text-gray-700 font-semibold">Postal Code</asp:Label>
-                                    <asp:TextBox ID="txtPostalCode" runat="server" CssClass="w-full border border-gray-300 rounded-md px-3 py-2 mt-1" Text="94102-4331"></asp:TextBox>
-                                </div>
-                            </div>
-                        </asp:Panel>
-
-
-                    </div>
-
-                </ContentTemplate>
-                <Triggers>
-                    <asp:AsyncPostBackTrigger ControlID="lnkTogglePaymentMethod" EventName="Click" />
-                    <asp:AsyncPostBackTrigger ControlID="lnkToggleBillingAddress" EventName="Click" />
-                </Triggers>
-            </asp:UpdatePanel>
+                
+            </div>
         </div>
 
         <!--Right Container-->
@@ -175,6 +86,22 @@
         <!-- Add more input fields as needed -->
     </div>
 
+    <style>
+        .accordion {
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
 
+        .accordion-header {
+            background-color: #f1f1f1;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .accordion-content {
+            display: none;
+            padding: 10px;
+        }
+    </style>
 </asp:Content>
 
