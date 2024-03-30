@@ -9,13 +9,16 @@ namespace OutModern.src.Client.ClientMaster
 {
     public partial class Client : System.Web.UI.MasterPage
     {
+        protected string homeUrl = "~/src/Client/Home/Home.aspx";
+        protected string aboutUrl = "#";
+        protected string feedbackUrl = "#";
+        protected string cartUrl = "#";
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 string currentUrl = Request.Url.PathAndQuery;
-                string homeUrl = ResolveUrl(hyperlinkHome.NavigateUrl);
-                string aboutUrl = ResolveUrl(hyperlinkAbout.NavigateUrl);
 
                 if (currentUrl == homeUrl)
                 {
@@ -27,6 +30,7 @@ namespace OutModern.src.Client.ClientMaster
                 }
             }
 
+            Page.DataBind();
         }
 
         protected void lBtnSearch_Click(object sender, EventArgs e)
