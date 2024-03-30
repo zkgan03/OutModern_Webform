@@ -36,14 +36,21 @@
             dropDownList.style.height = "auto";
             const { height } = dropDownList.getBoundingClientRect();
             dropDownList.style.height = "0";
+            dropDownList.style.paddingTop = "0";
+            dropDownList.style.paddingBottom = "0";
 
             dropDownList.offsetHeight; // force render
 
             dropDownList.style.height = `${height}px`;
+            dropDownList.style.paddingTop = "0.5rem";
+            dropDownList.style.paddingBottom = "0.5rem";
+
         })
 
         dropDown.addEventListener("mouseleave", (e) => {
-            dropDownList.style.height = "0px";
+            dropDownList.style.height = "0"
+            dropDownList.style.paddingTop = "0";
+            dropDownList.style.paddingBottom = "0";
         })
     });
 
