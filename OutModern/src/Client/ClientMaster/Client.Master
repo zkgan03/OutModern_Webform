@@ -36,7 +36,7 @@
 
         @layer components {
             .header {
-                @apply bg-[#f5f5f5] h-[75px] text-center sticky top-0 shadow flex justify-between;
+                @apply bg-[#f5f5f5] h-[75px] text-center sticky top-0 shadow flex justify-between z-[1];
             }
 
             .header-scroll {

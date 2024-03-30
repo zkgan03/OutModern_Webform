@@ -145,6 +145,7 @@ namespace OutModern.src.Client.Cart
             decimal subtotal = dummyData.AsEnumerable().Sum(row => row.Field<decimal>("Price") * row.Field<int>("Quantity"));
 
             decimal delivery = 5;
+            lblDeliveryCost.Text = "RM5.00";
             if (subtotal > 100)
             {
                 delivery = 0;
@@ -160,7 +161,7 @@ namespace OutModern.src.Client.Cart
 
         protected void btnDelete_Click(object sender, EventArgs e)
         {
-            Button btnDelete = (Button)sender;
+            LinkButton btnDelete = (LinkButton)sender;
             ListViewItem item = (ListViewItem)btnDelete.NamingContainer;
 
             // Retrieve the data source from the session variable
@@ -204,8 +205,8 @@ namespace OutModern.src.Client.Cart
                 // Store subtotal in session
                 UpdateSubtotalAndGrandTotal(dummyData);
 
-                // Redirect to the Payment page
-                Response.Redirect("~/src/Client/Payment/Payment.aspx");
+                // Redirect to the Shipping page
+                Response.Redirect("~/src/Client/Shipping/Shipping.aspx");
             }
             else
             {
