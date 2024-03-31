@@ -141,7 +141,7 @@
 
                         <!-- Categories-nav-->
                         <div class="nav-dropdown text-xl  group relative py-1.5 hover:text-black cursor-pointer">
-                            <span class="text-gray-600 hover:text-gray-800 cursor-pointer">Categories</span>
+                            <span class="text-black hover:text-gray-800 cursor-pointer">Categories</span>
                             <i class="fa-solid fa-angle-down align-middle group-hover:text-black"></i>
                             <div class="drop-down">
                                 <ul>
@@ -172,7 +172,7 @@
                         </div>
 
                         <!--CART-->
-                        <asp:HyperLink ID="hyperlinkCart" runat="server" NavigateUrl="#" class="text-gray-600 hover:text-gray-800">
+                        <asp:HyperLink ID="hyperlinkCart" runat="server" NavigateUrl="~/src/Client/Cart/Cart.aspx" class="text-gray-600 hover:text-gray-800">
                             <i class="fa-duotone fa-cart-shopping text-xl align-middle"></i>
                             <asp:Label ID="numberLabel" runat="server" CssClass="inline-block text-center pl-2 pr-2 bg-[#131118] rounded-xl text-white" Text="13"></asp:Label>
                         </asp:HyperLink>
