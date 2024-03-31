@@ -95,24 +95,6 @@
     margin-top: 10px;
 }
 
-.loginButton {
-    width: 100%;
-    border-radius: 10px;
-    padding: 10px;
-    font-family: sans-serif;
-    color: white;
-    font-weight: bold;
-    border: 1px solid #f5f5f5;
-    margin-top: 10px;
-    cursor: pointer;
-    /* Styles for hover state */
-    &:hover
-
-{
-    color: #94d4ca;
-    border: 1px solid #bfbfbf;
-}
-
 }
 
 .loginBoxFP {
@@ -125,3 +107,19 @@
     .loginBoxFP:hover {
         color: darkblue;
     }
+
+.hl_forget_password {
+    font-family: sans-serif;
+    font-size: 17px;
+    color: #94d4ca;
+    cursor: pointer;
+}
+
+.hl_signup {
+    margin-top: 20px;
+    font-family: sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #94d4ca;
+    cursor: pointer;
+}

@@ -43,15 +43,15 @@
                     </div>
 
                     <div class="loginBoxItem1">
-                        <asp:CheckBox ID="chkbox_login" runat="server" Text="&nbsp;Keep me logged in" class="chkLogin"/>
+                        <asp:CheckBox ID="chkbox_login" runat="server" Text="&nbsp;Keep me logged in" class="chkLogin" />
                     </div>
 
                     <div class="loginBoxButton">
-                        <asp:Button ID="btn_login" runat="server" class="loginButton" Text="Log In" Style="background-color: black;" OnClick="btn_login_Click" />
+                        <asp:Button ID="btn_login" runat="server" Text="Log In" CssClass="bg-black hover:bg-gray-700" Style="width: 100%; border-radius: 10px; padding: 10px; font-family: sans-serif; color: white; font-weight: bold; border: 1px solid #f5f5f5; margin-top: 10px; cursor: pointer;" OnClick="btn_login_Click" />
                     </div>
 
                     <div style="padding-top: 3px; padding-bottom: 30px;">
-                        <asp:HyperLink ID="hl_forget_password" runat="server" Style="font-family: sans-serif; font-size: 17px; color: #94d4ca; cursor: pointer;" NavigateUrl="~/src/Client/Login/ForgetPassword.aspx">Forget Password</asp:HyperLink>
+                        <asp:HyperLink ID="hl_forget_password" runat="server" class="hl_forget_password" NavigateUrl="~/src/Client/Login/ForgetPassword.aspx">Forget Password</asp:HyperLink>
                     </div>
 
                     <div style="padding: 10px; color: darkgrey;">
@@ -61,7 +61,7 @@
 
                     <div style="padding-top: 10px; padding-bottom: 25px;" class="loginBoxBottom">
                         <span style="margin-top: 20px; padding-left: 85px; font-family: sans-serif; font-size: 15px; color: #b3b3b3;">New to Out Modern?</span>
-                        <asp:HyperLink ID="hl_signup" runat="server" Style="margin-top: 20px; font-family: sans-serif; font-size: 1rem; font-weight: bold; color: #94d4ca; cursor: pointer;" NavigateUrl="~/src/Client/Login/SignUp.aspx">Sign Up</asp:HyperLink>
+                        <asp:HyperLink ID="hl_signup" runat="server" class="hl_signup" NavigateUrl="~/src/Client/Login/SignUp.aspx">Sign Up</asp:HyperLink>
                     </div>
 
                 </div>

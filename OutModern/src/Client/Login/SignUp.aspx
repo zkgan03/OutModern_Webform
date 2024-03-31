@@ -58,7 +58,14 @@
                         </div>
 
                         <div class="boxItem1">
-                            <asp:Button ID="btn_sign_up" runat="server" class="SUButton" Text="Register" Style="background-color: black;" OnClick="btn_sign_up_Click" />
+                            <asp:Button ID="btn_sign_up" runat="server" class="SUButton" Text="Register" CssClass="bg-black hover:bg-gray-700" Style="width: 100%;
+border-radius: 10px;
+padding: 0.7rem 3.0rem;
+font-family: sans-serif;
+color: whitesmoke;
+font-weight: bold;
+border: 1px solid #f5f5f5;
+cursor: pointer;" OnClick="btn_sign_up_Click" />
                         </div>
 
                         <div class="boxItem2">

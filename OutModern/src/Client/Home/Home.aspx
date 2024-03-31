@@ -1,8 +1,7 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/src/Client/ClientMaster/Client.Master" AutoEventWireup="true" CodeBehind="Home.aspx.cs" Inherits="OutModern.src.Client.Home.Home" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/src/Client/ClientMaster/Client.Master" AutoEventWireup="true" CodeBehind="Home.aspx.cs" Inherits="OutModern.src.Client.Home.Home" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="css/Home.css" rel="stylesheet" />
 </asp:Content>
-
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <!--main img-->
     <div class="level1">
@@ -104,7 +103,7 @@
     <div class="section-container">
         <div class="button-bar">
             <span class="content2Text">New Arrivals</span>
-            <span class="content2Text2" style="color: black">From casual to formal, we have something for everyone.</span>
+            <span class="content2Text2">From casual to formal, we have something for everyone.</span>
         </div>
 
         <div id="New Arrivals" class="fading sections">

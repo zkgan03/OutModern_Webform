@@ -112,7 +112,14 @@
 
 
                     <div class="EPBoxButton">
-                        <asp:Button ID="btn_save" runat="server" class="EPButton" Text="Save" OnClick="btn_save_Click" Style="background-color: black; border-radius: 30px;" />
+                        <asp:Button ID="btn_save" runat="server" class="EPButton" Text="Save" OnClick="btn_save_Click" CssClass="bg-black hover:bg-gray-700" Style="width: 50%;
+margin-top: 50px;
+padding: 0.50rem 1rem;
+font-family: sans-serif;
+font-weight: bold;
+border: 1px solid #f5f5f5;
+cursor: pointer;
+color: whitesmoke; border-radius: 30px;" />
                     </div>
 
 

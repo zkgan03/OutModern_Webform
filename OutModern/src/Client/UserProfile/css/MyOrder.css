@@ -225,22 +225,5 @@
     margin-bottom:25px;
 }
 
-.btn1 {
-    font-family: sans-serif;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 20px;
-    padding: 10px;
-    padding-left: 20px;
-    padding-right: 20px;
-    margin-left: 10px;
-    cursor: pointer;
-    &:hover
-
-{
-    color: #94d4ca;
-}
-}
 
 

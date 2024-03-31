@@ -43,7 +43,8 @@
             </div>
 
             <div class="FPConfirmButton">
-                <asp:Button ID="btn_login" runat="server" class="FPButton" Text="Send Verification" Style="background-color: black;" OnClick="btn_login_Click"/>
+                <asp:Button ID="btn_login" runat="server" class="FPButton" Text="Send Verification" CssClass="bg-black hover:bg-gray-700" Style="margin-top: 20px; margin-bottom: 20px; width: 100%; border-radius: 30px; padding: 0.50rem 1rem; font-family: sans-serif; color: whitesmoke; font-weight: bold; border: 1px solid #f5f5f5; cursor: pointer;"
+                    OnClick="btn_login_Click" />
             </div>
 
         </div>

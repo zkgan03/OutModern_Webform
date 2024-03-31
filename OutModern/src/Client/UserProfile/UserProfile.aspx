@@ -93,14 +93,15 @@
                     </div>
 
                     <div class="EPBoxButton">
-                        <asp:Button ID="btn_edit_profile" runat="server" class="EPButton" Text="Edit Profile" Style="background-color: black; border-radius: 30px;" OnClick="btn_edit_profile_Click" />
+                        <asp:Button ID="btn_edit_profile" runat="server" class="EPButton" Text="Edit Profile" CssClass="bg-black hover:bg-gray-700" Style="width: 50%; margin-top: 50px; padding: 0.50rem 1rem; font-family: sans-serif; font-weight: bold; border: 1px solid #f5f5f5; cursor: pointer; color: whitesmoke; border-radius: 30px;"
+                            OnClick="btn_edit_profile_Click" />
                     </div>
 
 
                 </div>
 
                 <div class="delectAccount">
-                    <asp:Button ID="btn_dlt_acc" runat="server" class="EPButton1" Text="Delete Account" Style="background-color: black; border-radius: 10px;"/>
+                    <asp:Button ID="btn_dlt_acc" runat="server" class="EPButton1" Text="Delete Account" CssClass="bg-black hover:bg-red-500" Style="float: right; width: 20%; margin-top: 0px; margin-bottom: 40px; margin-right: 210px; padding: 0.50rem 1rem; font-family: sans-serif; font-weight: bold; border: 1px solid #f5f5f5; cursor: pointer; color: whitesmoke; border-radius: 10px;" />
                 </div>
 
             </div>

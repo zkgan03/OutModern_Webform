@@ -34,7 +34,15 @@
             </div>
 
             <div class="RPBoxButton">
-                <asp:Button ID="btn_reset_password" runat="server" class="RPButton" Text="Reset" Style="background-color: black;" OnClick="btn_reset_password_Click"/>
+                <asp:Button ID="btn_reset_password" runat="server" class="RPButton" Text="Reset" CssClass="bg-black hover:bg-gray-700" Style="width: 100%;
+border-radius: 10px;
+padding: 0.50rem 1rem;
+font-family: sans-serif;
+color: whitesmoke;
+font-weight: bold;
+border: 1px solid #f5f5f5;
+margin-bottom: 30px;
+cursor: pointer;" OnClick="btn_reset_password_Click"/>
             </div>
 
         </div>

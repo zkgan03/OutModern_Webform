@@ -192,37 +192,3 @@
     padding-bottom: 2px;
     text-align: center;
 }
-
-.EPButton {
-    width: 50%;
-    margin-top: 50px;
-    padding: 0.50rem 1rem;
-    font-family: sans-serif;
-    font-weight: bold;
-    border: 1px solid #f5f5f5;
-    cursor: pointer;
-    color: whitesmoke;
-    &:hover
-{
-    color: #94d4ca;
-}
-}
-
-.EPButton1 {
-    float:right;
-    width: 20%;
-    margin-top: 0px;
-    margin-bottom: 40px;
-    margin-right: 210px;
-    padding: 0.50rem 1rem;
-    font-family: sans-serif;
-    font-weight: bold;
-    border: 1px solid #f5f5f5;
-    cursor: pointer;
-    color: whitesmoke;
-    &:hover
-
-{
-    color: #94d4ca;
-}
-}
