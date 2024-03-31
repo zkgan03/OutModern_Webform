@@ -22,7 +22,7 @@
                 <div class="border-b">
                     <asp:ListView ID="AddressListView" runat="server" OnItemDataBound="AddressListView_ItemDataBound">
                         <LayoutTemplate>
-                            <div class="grid grid-cols-2 gap-x-28">
+                            <div class="grid grid-cols-2 gap-x-16">
                                 <div runat="server" id="itemPlaceholder"></div>
                             </div>
                         </LayoutTemplate>
@@ -117,15 +117,15 @@
                         <span class="text-gray-500">Items</span>
                         <asp:Label ID="lblItemPrice" runat="server" CssClass="text-gray-500" Text="itemprice"></asp:Label>
                     </div>
-                    <div class="flex justify-between mb-2 ml-6 mr-6">
+                    <div class="flex flex-wrap justify-between mb-2 ml-6 mr-6">
                         <span class="text-gray-500">Delivery Cost</span>
                         <asp:Label ID="lblDeliveryCost" runat="server" CssClass="text-gray-500" Text="RM5.00"></asp:Label>
                     </div>
-                    <div class="flex justify-between border-b border-gray-300 mb-4 ml-6 mr-6  pb-4">
+                    <div class="flex flex-wrap justify-between border-b border-gray-300 mb-4 ml-6 mr-6  pb-4">
                         <span class="text-gray-500">Estimated Tax</span>
                         <asp:Label ID="lblTax" runat="server" CssClass="text-gray-500" Text="tax"></asp:Label>
                     </div>
-                    <div class="flex justify-between font-semibold ml-6 mr-6">
+                    <div class="flex flex-wrap justify-between font-semibold ml-6 mr-6">
                         <span class="text-gray-500">Total</span>
                         <asp:Label ID="lblTotal" runat="server" CssClass="text-gray-500" Text="total"></asp:Label>
                     </div>
@@ -133,7 +133,7 @@
 
                 <!--Submit button-->
                 <div class="mt-8">
-                    <asp:Button ID="btnProceed" runat="server" Text="Proceed to Payment" CssClass="bg-[#131118] hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-xl w-full h-12" OnClick="btnProceed_Click" />
+                    <asp:Button ID="btnProceed" runat="server" Text="Proceed to Payment" CssClass="bg-[#131118] hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-xl w-full" OnClick="btnProceed_Click" />
                 </div>
 
             </div>

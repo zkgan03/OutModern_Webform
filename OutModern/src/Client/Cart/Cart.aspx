@@ -76,7 +76,7 @@
             <!--OrderSummary-->
             <div class="bg-white shadow-md rounded-md p-6 w-1/4 h-96 overflow-y-auto">
                 <div class="mb-4">
-                    <div class="flex justify-between border-b border-gray-300 pb-4">
+                    <div class="flex flex-wrap justify-between border-b border-gray-300 pb-4">
                         <h2 class="text-xl font-bold">Subtotal</h2>
                         <asp:Label ID="lblSubtotal" runat="server" CssClass="font-bold" Text="RM200.00"></asp:Label>
                     </div>
@@ -90,11 +90,11 @@
                         <asp:Button runat="server" ID="btnApply" CssClass="right-0 bg-black text-white px-6 py-4 hover:bg-gray-800 text-sm rounded-md" Text="Apply" />
                     </div>
 
-                    <div class="flex justify-between border-b border-gray-300 pb-4 ">
+                    <div class="flex flex-wrap justify-between border-b border-gray-300 pb-4 ">
                         <span>Delivery Charge</span>
                         <asp:Label ID="lblDeliveryCost" runat="server" CssClass="text-gray-700" Text="RM5.00"></asp:Label>
                     </div>
-                    <div class="flex justify-between font-bold text-lg mt-4">
+                    <div class="flex flex-wrap justify-between font-bold text-lg mt-4">
                         <h2 class="text-xl font-bold mb-4">Grand Total</h2>
                         <asp:Label ID="lblGrandTotal" runat="server" CssClass="font-bold" Text="RM200.00"></asp:Label>
                     </div>

@@ -77,7 +77,7 @@
                             <!-- Product item template -->
                             <div class="border-b border-gray-200">
                                 <div class="py-6 px-4">
-                                    <div class="flex items-center">
+                                    <div class="flex flex-wrap items-center">
                                         <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# Eval("ProductImageUrl") %>' CssClass="w-16 h-16 mr-4" />
                                         <div>
                                             <div class="font-semibold capitalize text-black text-lg"><%# Eval("ProductName") %></div>
@@ -93,19 +93,19 @@
 
                 </div>
 
-                <div class="flex justify-between pt-4 mb-2 ml-6 mr-6">
+                <div class="flex flex-wrap justify-between pt-4 mb-2 ml-6 mr-6">
                     <span class="text-gray-500">Items</span>
                     <asp:Label ID="lblItemPrice" runat="server" CssClass="text-gray-500" Text="itemprice"></asp:Label>
                 </div>
-                <div class="flex justify-between mb-2 ml-6 mr-6">
+                <div class="flex flex-wrap justify-between mb-2 ml-6 mr-6">
                     <span class="text-gray-500">Delivery Cost</span>
                     <asp:Label ID="lblDeliveryCost" runat="server" CssClass="text-gray-500" Text="RM5.00"></asp:Label>
                 </div>
-                <div class="flex justify-between border-b border-gray-300 mb-4 ml-6 mr-6  pb-4">
+                <div class="flex flex-wrap justify-between border-b border-gray-300 mb-4 ml-6 mr-6  pb-4">
                     <span class="text-gray-500">Estimated Tax</span>
                     <asp:Label ID="lblTax" runat="server" CssClass="text-gray-500" Text="tax"></asp:Label>
                 </div>
-                <div class="flex justify-between font-semibold ml-6 mr-6">
+                <div class="flex flex-wrap justify-between font-semibold ml-6 mr-6">
                     <span class="text-gray-500">Total</span>
                     <asp:Label ID="lblTotal" runat="server" CssClass="text-gray-500" Text="total"></asp:Label>
                 </div>
