@@ -4,14 +4,14 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <div class="mx-64 mt-10">
+    <div class="mx-[264px] mt-10">
         <asp:SiteMapPath ID="SiteMapPath1" runat="server" CssClass="text-3xl font-bold"></asp:SiteMapPath>
-        <h2 class="text-3xl font-bold flex">Shipping Address</h2>
+        <h2 class="text-3xl font-bold flex">Payment Method</h2>
     </div>
 
-    <div class="rounded-md flex justify-between mx-60 mb-10">
+    <div class="rounded-md flex justify-between mx-[248px] mb-10">
         <!--Left Container-->
-        <div class="w-[65%] p-4 min-h-[60vh]">
+        <div class="w-[66%] p-4 min-h-[60vh]">
             <div id="paymentMethod" runat="server" class="p-4 bg-white drop-shadow-lg rounded-xl mb-12">
 
                 <h3 class="mx-4 my-4 font-bold text-xl text-black">Select a payment method</h3>
@@ -58,7 +58,7 @@
         </div>
 
         <!--Right Container-->
-        <div class="w-[30%] p-4 mr-12">
+        <div class="w-[32%] p-4">
 
             <!-- Order Summary -->
             <div id="orderSummary" runat="server" class="p-4 bg-white drop-shadow-lg rounded-xl">
@@ -113,7 +113,7 @@
 
             <!--Submit button-->
             <div class="mt-8">
-                <asp:Button ID="btnSubmitOrder" runat="server" Text="Submit Order" CssClass="bg-black hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded w-full h-12" />
+                <asp:Button ID="btnSubmitOrder" runat="server" Text="Submit Order" CssClass="bg-[#131118] hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-xl w-full" />
             </div>
 
 
