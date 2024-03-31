@@ -14,50 +14,14 @@
     navDropDown.forEach(item => {
         item.addEventListener("mouseenter", function () {
             icon = this.querySelector(".fa-angle-down");
+            if (!icon) return;
             icon.classList.add("fa-rotate-180");
         })
         item.addEventListener("mouseleave", function () {
             icon = this.querySelector(".fa-angle-down");
+            if (!icon) return;
             icon.classList.remove("fa-rotate-180");
         })
-    })
-})();
-
-//nav bar scroll
-(() => {
-    let header = document.getElementById("header");
-
-    window.addEventListener("scroll", () => {
-        if (document.documentElement.scrollTop <= 40) {
-
-            if (!header.classList.contains("header-scroll")) return;
-            header.classList.remove("header-scroll");
-
-            // Logo transition                     
-            header.querySelector("#nav-logo a img").style.width = "100px"
-            header.querySelector("#nav-logo").style.marginLeft = "5rem";
-
-            // Company name
-            header.querySelector("#outmodern-header").style.fontSize = "0"
-
-            // navigation bar transition
-            header.querySelector("#top-nav").style.marginRight = "5rem";
-        }
-        else if (document.documentElement.scrollTop > 40) {
-
-            header.classList.add("header-scroll")
-
-            // Logo transition 
-            header.querySelector("#nav-logo a img").style.width = "0px"
-            header.querySelector("#nav-logo").style.marginLeft = "2rem";
-
-            // Company name
-            header.querySelector("#outmodern-header").style.fontSize = "1.875rem"
-
-            // navigation bar transition
-            header.querySelector("#top-nav").style.marginRight = "1rem";
-
-        }
     })
 })();
 
@@ -72,17 +36,21 @@
             dropDownList.style.height = "auto";
             const { height } = dropDownList.getBoundingClientRect();
             dropDownList.style.height = "0";
-            dropDownList.style.padding = "10px"
+            dropDownList.style.paddingTop = "0";
+            dropDownList.style.paddingBottom = "0";
 
             dropDownList.offsetHeight; // force render
 
             dropDownList.style.height = `${height}px`;
+            dropDownList.style.paddingTop = "0.5rem";
+            dropDownList.style.paddingBottom = "0.5rem";
+
         })
 
         dropDown.addEventListener("mouseleave", (e) => {
-            console.log(e.target)
-            dropDownList.style.height = "0px";
-            dropDownList.style.padding = "0px"
+            dropDownList.style.height = "0"
+            dropDownList.style.paddingTop = "0";
+            dropDownList.style.paddingBottom = "0";
         })
     });
 

@@ -1,7 +1,7 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/src/Client/ClientMaster/Client.Master" AutoEventWireup="true" CodeBehind="Home.aspx.cs" Inherits="OutModern.Client.Home.Home" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/src/Client/ClientMaster/Client.Master" AutoEventWireup="true" CodeBehind="Home.aspx.cs" Inherits="OutModern.src.Client.Home.Home" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <div style="height:1000px"></div>
     This is content sdjsajkhdkas
 </asp:Content>
-
