@@ -3,10 +3,11 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-
+    
     <div class="mx-10">
 
         <div class="mx-56 mt-10">
+            <asp:SiteMapPath ID="SiteMapPath1" runat="server" CssClass="text-3xl font-bold flex"></asp:SiteMapPath>
             <h2 class="text-3xl font-bold flex">Shipping Address</h2>
         </div>
 
@@ -97,7 +98,7 @@
                                 <div class="border-b border-gray-200">
                                     <div class="py-6 px-4">
                                         <div class="flex items-center">
-                                            <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# Eval("ProductImageUrl") %>' CssClass="w-12 h-10 mr-4" />
+                                            <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# Eval("ProductImageUrl") %>' CssClass="w-16 h-16 mr-4" />
                                             <div>
                                                 <div class="font-semibold capitalize text-black text-lg"><%# Eval("ProductName") %></div>
                                                 <div class="text-sm">Color: <%# Eval("Color") %></div>
