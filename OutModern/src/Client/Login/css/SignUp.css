@@ -1,0 +1,115 @@
+﻿.signup-container {
+    display: flex;
+}
+
+.column1 {
+    float: left;
+    width: 45%;
+    padding: 10px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image: url('../../../../images/login-img/login-background8.jpg');
+    flex: 1;
+}
+
+.column2 {
+    float: left;
+    width: 55%;
+    padding: 10px;
+    background-color: #f5f5f5;
+}
+
+.rightBox {
+    float: left;
+    margin: 30px 98px;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    padding: 40px;
+    padding-bottom: 30px;
+    padding-top: 20px;
+}
+
+.title {
+    font-family: sans-serif;
+    color: black;
+    font-weight: bold;
+    font-size: 50px;
+    width: 100%;
+}
+
+.nextLine {
+    width: 100%;
+    margin-bottom: 40px
+}
+
+.title2 {
+    font-family: sans-serif;
+    color: black;
+    font-size: 20px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.SUTextBox {
+    width: 100%;
+    background-color: #f5f5f5;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 0.7rem 3.0rem;
+    font-family: sans-serif;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    &:hover
+
+{
+    background-color: #e6e6e6;
+    border: 1px solid #b3b3b3;
+}
+
+}
+
+.rightBoxBottom {
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.boxItem {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.boxItem1 {
+    margin-top: 20px;
+    margin-bottom: 0px;
+}
+
+.boxItem3{
+    margin-top: 50px;
+}
+
+.policyText label {
+    font-family: sans-serif;
+    color: black;
+}
+
+.policyText1 {
+    font-family: sans-serif;
+    color: black;
+    cursor: pointer;
+    &:hover
+{
+    color: #94d4ca;
+}
+
+}
+
+.policyText input {
+    cursor: pointer;
+}
+
+.boxItem2 {
+    margin-top: 0px;
+    margin-bottom: 30px;
+}
