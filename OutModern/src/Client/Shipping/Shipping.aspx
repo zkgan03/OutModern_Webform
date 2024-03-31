@@ -7,7 +7,7 @@
     <div class="mx-10">
 
         <div class="mx-56 mt-10">
-            <asp:SiteMapPath ID="SiteMapPath1" runat="server" CssClass="text-3xl font-bold flex"></asp:SiteMapPath>
+            <asp:SiteMapPath ID="SiteMapPath1" runat="server" CssClass="text-3xl font-bold"></asp:SiteMapPath>
             <h2 class="text-3xl font-bold flex">Shipping Address</h2>
         </div>
 
@@ -28,7 +28,7 @@
                         </LayoutTemplate>
                         <ItemTemplate>
                             <!-- Address Existing -->
-                            <div class="border flex mb-6 max-w-sm bg-white shadow rounded-2xl w-80 address-item">
+                            <div class="border flex mb-6 max-w-sm bg-white shadow rounded-2xl w-[100%] address-item">
                                 <div class="p-4 w-full">
                                     <div class="flex justify-between">
                                         <div class="capitalize text-black text-xl font-bold"><%# Eval("AddressName") %></div>

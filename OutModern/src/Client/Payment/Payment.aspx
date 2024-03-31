@@ -5,7 +5,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
     <div class="mx-64 mt-10">
-        <asp:SiteMapPath ID="SiteMapPath1" runat="server" CssClass="text-3xl font-bold flex"></asp:SiteMapPath>
+        <asp:SiteMapPath ID="SiteMapPath1" runat="server" CssClass="text-3xl font-bold"></asp:SiteMapPath>
         <h2 class="text-3xl font-bold flex">Shipping Address</h2>
     </div>
 
