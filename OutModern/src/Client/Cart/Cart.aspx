@@ -51,9 +51,9 @@
                                             <!--Quantity Button-->
                                             <td class="py-2 px-6">
                                                 <div class="flex items-center justify-center border border-gray-300 rounded-md">
-                                                    <asp:Button runat="server" ID="btnDecrement" CssClass="px-2 py-1 text-gray-600 hover:text-gray-800 text-2xl" Text="-" OnClick="btnDecrement_Click" />
+                                                    <asp:LinkButton runat="server" ID="btnDecrement" CssClass="px-2 py-1 text-gray-600 hover:text-gray-800 text-2xl" Text="-" OnClick="btnDecrement_Click" />
                                                     <asp:TextBox runat="server" ID="txtQuantity" CssClass="w-12 text-center border-none focus:outline-none" Text='<%# Eval("Quantity") %>' ReadOnly="true" />
-                                                    <asp:Button runat="server" ID="btnIncrement" CssClass="px-2 py-1 text-gray-600 hover:text-gray-800 text-2xl" Text="+" OnClick="btnIncrement_Click" />
+                                                    <asp:LinkButton runat="server" ID="btnIncrement" CssClass="px-2 py-1 text-gray-600 hover:text-gray-800 text-2xl" Text="+" OnClick="btnIncrement_Click" />
                                                 </div>
 
                                             </td>
