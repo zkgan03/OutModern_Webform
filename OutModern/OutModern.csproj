@@ -124,8 +124,51 @@
     <Compile Include="src\Admin\StaffDetails\StaffDetails.aspx.designer.cs">
       <DependentUpon>StaffDetails.aspx</DependentUpon>
     </Compile>
+    <Compile Include="src\Client\Login\AdminLogin.aspx.cs">
+      <DependentUpon>AdminLogin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\Login\AdminLogin.aspx.designer.cs">
+      <DependentUpon>AdminLogin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\Login\FirstPage.aspx.cs">
+      <DependentUpon>FirstPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\Login\FirstPage.aspx.designer.cs">
+      <DependentUpon>FirstPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\Login\ForgetPassword.aspx.cs">
+      <DependentUpon>ForgetPassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\Login\ForgetPassword.aspx.designer.cs">
+      <DependentUpon>ForgetPassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\Login\Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\Login\Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\Login\ResetPassword.aspx.cs">
+      <DependentUpon>ResetPassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\Login\ResetPassword.aspx.designer.cs">
+      <DependentUpon>ResetPassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\Login\SignUp.aspx.cs">
+      <DependentUpon>SignUp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\Login\SignUp.aspx.designer.cs">
+      <DependentUpon>SignUp.aspx</DependentUpon>
+    </Compile>
     <Compile Include="src\Client\ProductDetails\ProductDetails.aspx.cs">
       <DependentUpon>ProductDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="src\Client\ProductDetails\ProductDetails.aspx.designer.cs">
       <DependentUpon>ProductDetails.aspx</DependentUpon>
@@ -136,6 +179,48 @@
     </Compile>
     <Compile Include="src\Client\Products\Products.aspx.designer.cs">
       <DependentUpon>Products.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\Cancelled.aspx.cs">
+      <DependentUpon>Cancelled.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\Cancelled.aspx.designer.cs">
+      <DependentUpon>Cancelled.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\Completed.aspx.cs">
+      <DependentUpon>Completed.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\Completed.aspx.designer.cs">
+      <DependentUpon>Completed.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\EditUserProfile.aspx.cs">
+      <DependentUpon>EditUserProfile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\EditUserProfile.aspx.designer.cs">
+      <DependentUpon>EditUserProfile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\ToReceive.aspx.cs">
+      <DependentUpon>ToReceive.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\ToReceive.aspx.designer.cs">
+      <DependentUpon>ToReceive.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\ToShip.aspx.cs">
+      <DependentUpon>ToShip.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\ToShip.aspx.designer.cs">
+      <DependentUpon>ToShip.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\UserProfile.aspx.cs">
+      <DependentUpon>UserProfile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\UserProfile.aspx.designer.cs">
+      <DependentUpon>UserProfile.aspx</DependentUpon>
     </Compile>
     <Compile Include="src\ErrorPages\403.aspx.cs">
       <DependentUpon>403.aspx</DependentUpon>
@@ -552,6 +637,7 @@
     <Content Include="src\Admin\Staffs\Staffs.aspx" />
     <Content Include="src\Client\ClientMaster\css\ClientMaster.css" />
     <Content Include="src\Client\ClientMaster\js\ClientMaster.js" />
+    <Content Include="src\Client\Home\css\Home.css" />
     <Content Include="src\Client\Home\Home.aspx" />
     <Compile Include="src\Admin\AdminMaster\Admin.Master.cs">
       <DependentUpon>Admin.Master</DependentUpon>
@@ -662,9 +748,29 @@
     <Content Include="lib\fonts\ChakraPetch\ChakraPetch-Regular.ttf" />
     <Content Include="lib\fonts\ChakraPetch\ChakraPetch-SemiBold.ttf" />
     <Content Include="lib\fonts\ChakraPetch\ChakraPetch-SemiBoldItalic.ttf" />
+    <Content Include="src\Client\Login\AdminLogin.aspx" />
+    <Content Include="src\Client\Login\css\AdminLogin.css" />
+    <Content Include="src\Client\Login\css\FirstPage.css" />
+    <Content Include="src\Client\Login\css\ForgetPassword.css" />
+    <Content Include="src\Client\Login\css\Login.css" />
+    <Content Include="src\Client\Login\css\ResetPassword.css" />
+    <Content Include="src\Client\Login\css\SignUp.css" />
+    <Content Include="src\Client\Login\FirstPage.aspx" />
+    <Content Include="src\Client\Login\ForgetPassword.aspx" />
+    <Content Include="src\Client\Login\Login.aspx" />
+    <Content Include="src\Client\Login\ResetPassword.aspx" />
+    <Content Include="src\Client\Login\SignUp.aspx" />
     <Content Include="src\Client\ProductDetails\product-details.js" />
     <Content Include="src\Client\ProductDetails\ProductDetails.aspx" />
     <Content Include="src\Client\Products\Products.aspx" />
+    <Content Include="src\Client\UserProfile\Cancelled.aspx" />
+    <Content Include="src\Client\UserProfile\Completed.aspx" />
+    <Content Include="src\Client\UserProfile\css\MyOrder.css" />
+    <Content Include="src\Client\UserProfile\css\UserProfile.css" />
+    <Content Include="src\Client\UserProfile\EditUserProfile.aspx" />
+    <Content Include="src\Client\UserProfile\ToReceive.aspx" />
+    <Content Include="src\Client\UserProfile\ToShip.aspx" />
+    <Content Include="src\Client\UserProfile\UserProfile.aspx" />
     <Content Include="src\ErrorPages\403.aspx" />
     <Content Include="src\ErrorPages\404.aspx" />
     <Content Include="src\ErrorPages\500.aspx" />
@@ -682,7 +788,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="src\Client\Home\css\" />
     <Folder Include="src\Client\Home\js\" />
   </ItemGroup>
   <PropertyGroup>

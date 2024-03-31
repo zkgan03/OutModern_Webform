@@ -1,0 +1,105 @@
+﻿.login-container {
+    display: flex;
+}
+
+.column1 {
+    float: left;
+    width: 40%;
+    padding: 10px;
+    padding-bottom: 0px;
+    background-color: #f5f5f5;
+}
+
+.column2 {
+    float: left;
+    width: 60%;
+    padding: 10px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image: url('../../../../images/login-img/login-background6.jpg');
+    flex: 1;
+}
+
+.topRightBox {
+    float: left;
+}
+
+.hl_admin_login_text {
+    font-family: sans-serif;
+    font-size: 10px;
+    color: black;
+    cursor: pointer;
+    &:hover
+
+{
+    color: #94d4ca;
+}
+}
+
+.rightBox {
+    float: left;
+    margin: 30px;
+    margin-bottom: 20px;
+    margin-top: 70px;
+    margin-bottom: 0px;
+    padding: 40px;
+    padding-bottom: 30px;
+    margin-right:20px;
+    margin-left:50px;
+}
+
+.title {
+    font-family: sans-serif;
+    color: black;
+    font-weight: bold;
+    font-size: 50px;
+    width: 100%;
+}
+
+.title2 {
+    font-family: sans-serif;
+    color: grey;
+    font-weight: bold;
+    font-size: 30px;
+    width: 100%;
+}
+
+.loginBoxItem {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.loginTextBox {
+    width: 350px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 0.50rem 3.0rem;
+    border: 1px solid black;
+    font-family: sans-serif;
+    &:hover
+
+{
+    background-color: #e6e6e6;
+    border: 1px solid #b3b3b3;
+}
+
+}
+
+.loginBoxButton {
+    padding-bottom: 2px;
+    margin-top: 40px;
+}
+
+.loginBoxFP {
+    font-family: sans-serif; /* Default in Tailwind */
+    font-size: 1.5rem;
+    color: blue;
+    cursor: pointer;
+}
+
+    .loginBoxFP:hover {
+        color: darkblue;
+    }
+
