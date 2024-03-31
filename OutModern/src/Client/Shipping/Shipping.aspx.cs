@@ -71,7 +71,6 @@ namespace OutModern.src.Client.Shipping
             // Add rows with dummy data
             dummyAddData.Rows.Add("Zhiken", "Sample Address Address", "Malaysia", "Wilayah Persekutuan", "54200");
             dummyAddData.Rows.Add("Rando", "Sample Address", "Malaysia", "Wilayah Persekutuan", "54200");
-            dummyAddData.Rows.Add("Rando", "Sample Address", "Malaysia", "Wilayah Persekutuan", "54200");
 
             // Add more rows as needed for testing
 
