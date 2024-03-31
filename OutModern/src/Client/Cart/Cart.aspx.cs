@@ -57,8 +57,8 @@ namespace OutModern.src.Client.Cart
             dummyData.Columns.Add("Subtotal", typeof(decimal));
 
             // Add rows with dummy data
-            dummyData.Rows.Add("~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-zoomed-in-61167de6440a2.png", "Premium Hoodie", "White", "XL", 1500.00m, 1, 3000.00m);
-            dummyData.Rows.Add("~/images/product-img/trouser-size-guide.png", "DTX 4090", "Black", "XL", 10.00m, 2, 10.00m);
+            dummyData.Rows.Add("~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-zoomed-in-61167de6440a2.png", "Premium Hoodie", "White", "XL", 150.00m, 1, 300.00m);
+            dummyData.Rows.Add("~/images/product-img/trouser-size-guide.png", "Trouser", "Black", "XL", 100.00m, 2, 100.00m);
             // Add more rows as needed for testing
 
             foreach (DataRow row in dummyData.Rows)

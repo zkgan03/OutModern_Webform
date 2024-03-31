@@ -4,12 +4,12 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <div class="mx-56 mt-10">
+    <div class="mx-64 mt-10">
         <asp:SiteMapPath ID="SiteMapPath1" runat="server" CssClass="text-3xl font-bold flex"></asp:SiteMapPath>
         <h2 class="text-3xl font-bold flex">Shipping Address</h2>
     </div>
 
-    <div class="rounded-md flex justify-between mx-52 mb-10">
+    <div class="rounded-md flex justify-between mx-60 mb-10">
         <!--Left Container-->
         <div class="w-[65%] p-4 min-h-[60vh]">
             <div id="paymentMethod" runat="server" class="p-4 bg-white drop-shadow-lg rounded-xl mb-12">
@@ -113,7 +113,7 @@
 
             <!--Submit button-->
             <div class="mt-8">
-                <asp:Button ID="btnSubmitOrder" runat="server" Text="Submit Order" CssClass="bg-black hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded w-full h-12" OnClick="btnSubmitOrder_Click" />
+                <asp:Button ID="btnSubmitOrder" runat="server" Text="Submit Order" CssClass="bg-black hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded w-full h-12" />
             </div>
 
 

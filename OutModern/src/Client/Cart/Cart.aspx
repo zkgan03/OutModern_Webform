@@ -4,7 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     
-    <div class="mx-auto pt-10 pb-20 w-[75%] min-h-[60vh]">
+    <div class="mx-auto pt-10 pb-20 w-[72%] min-h-[60vh]">
         <asp:SiteMapPath ID="SiteMapPath1" runat="server" CssClass="text-3xl font-bold mb-4"></asp:SiteMapPath>
         <h1 class="text-3xl font-bold mb-4">Checkout</h1>
         <div class="flex justify-between">
