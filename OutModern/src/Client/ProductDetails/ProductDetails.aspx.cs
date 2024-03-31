@@ -21,6 +21,7 @@ namespace OutModern.src.Client.ProductDetails
                     var product = GetProducts(productId);
                     if (product != null)
                     {
+                        productNameUrl.Text = product["productName"].ToString();
                         lblProdName.Text = product["productName"].ToString();
                         lblPrice.Text = "RM" + product["price"].ToString();
                         lblReviews.Text = " (" + product["totalReview"].ToString() + " Reviews)";
@@ -88,9 +89,6 @@ namespace OutModern.src.Client.ProductDetails
             dummyData.Rows.Add("P006", "Logo Sweater", "~/images/product-img/sweater/white-sweater/unisex-crew-neck-sweatshirt-white-front-60e80cba6f9d1.png",
                "~/images/product-img/sweater/white-sweater/unisex-crew-neck-sweatshirt-white-front-60e80cba6fb89.png", "~/images/product-img/sweater/white-sweater/unisex-crew-neck-sweatshirt-white-front-60e80cba6ef27.png",
                288.88, 130, 29, "Sweater");
-            dummyData.Rows.Add("P007", "Special Sweater 1", "~/images/product-img/sweater/navy-Sweater/all-over-print-unisex-sweatshirt-white-left-front-6117db31d3cb6.png",
-               "~/images/product-img/sweater/navy-Sweater/all-over-print-unisex-sweatshirt-white-front-6117db31d382e.png", "~/images/product-img/sweater/navy-Sweater/all-over-print-unisex-sweatshirt-white-back-6117db31d3a79.png",
-               39.99, 100, 120, "Sweater");
             dummyData.Rows.Add("P008", "Special Sweater 2", "~/images/product-img/sweater/white-sweater/all-over-print-unisex-sweatshirt-white-right-front-6117db4cccf2d.png",
                 "~/images/product-img/sweater/white-sweater/all-over-print-unisex-sweatshirt-white-right-front-6117db4ccd002.png", "~/images/product-img/sweater/white-Sweater/all-over-print-unisex-sweatshirt-white-back-6117db4ccce12.png",
                 389.99, 120, 56, "Sweater");

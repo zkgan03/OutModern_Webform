@@ -28,10 +28,16 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <!-- Wrapper of whole webpage -->
     <div class="w-full left-0 mb-8 mt-8">
-        <!--Page Content and product-->
-        <div class="text-center w-3/4 m-[auto] mb-8">
-            <h1 class="">Products
-            </h1>
+        <div class="text-center m-[auto] p-5">
+            <div class="flex space-x-2">
+                <span class="text-black">
+                    <asp:HyperLink ID="HyperLink1" NavigateUrl="~/src/Client/Home/Home.aspx" runat="server" CssClass="hover:underline text-sm text-black">Home</asp:HyperLink>
+                    >
+                </span>
+                <span class="text-black">
+                    <asp:HyperLink ID="HyperLink2" NavigateUrl="~/src/Client/Products/Products.aspx" runat="server" CssClass="hover:underline text-sm text-black">Products</asp:HyperLink>
+                </span>
+            </div>
         </div>
         <div class="flex items-center">
             <div class="w-1/5 mb-2">
@@ -236,7 +242,7 @@
                     <!-- Product 1 -->
                     <asp:Repeater ID="ProductRepeater" runat="server">
                         <ItemTemplate>
-                            <div onclick='<%# Eval("productID", "window.location.href = \"/src/Client/ProductDetails/ProductDetails.aspx?productID={0}\";") %>'  class="bg-white rounded-lg shadow-md overflow-hidden hover:bg-yellow-200 hover:shadow-md hover:-translate-x-2 hover:-translate-y-2 transition duration-100 z-0">
+                            <div onclick='<%# Eval("productID", "window.location.href = \"/src/Client/ProductDetails/ProductDetails.aspx?productID={0}\";") %>'  class="cursor-pointer bg-white rounded-lg shadow-md overflow-hidden hover:bg-yellow-100 hover:shadow-md hover:-translate-x-2 hover:-translate-y-2 transition duration-100 z-0">
                                 <asp:Image ImageUrl='<%# Eval("productImageUrl1", "{0}") %>' ID="Image1" runat="server" class="w-full h-100 object-cover bg-gray-200 hover:cursor-pointer" style="transition: transform 0.5s ease-in-out;"
                                      onmouseover='<%# "changeImage(this, \"" + ResolveClientUrl(Eval("productImageUrl2").ToString()) + "\")" %>'
     onmouseout='<%# "changeImage(this, \"" + ResolveClientUrl(Eval("productImageUrl1").ToString()) + "\")" %>'/>

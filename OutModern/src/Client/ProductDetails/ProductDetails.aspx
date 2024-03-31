@@ -62,9 +62,9 @@
             cursor: pointer;
         }
 
-       .close-modal:hover,
-       .close-modal:active {
-              color: whitesmoke;
+            .close-modal:hover,
+            .close-modal:active {
+                color: whitesmoke;
                 text-shadow: 0px 0px 10px black;
             }
 
@@ -101,11 +101,24 @@
                 box-shadow: 0 0 0 2px whitesmoke, 0 0 0 4px black;
             }
     </style>
-     
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <div class="flex flex-col mx-auto w-full p-30 md:p-15 mt-14 mb-10" style="min-width: 1200px;">
+    <div class="flex flex-col mx-auto w-full p-30 md:p-15 mt-10 mb-10" style="min-width: 1200px;">
+        <div class="w-2/5 flex justify-center flex-wrap items-center ml-10 mb-5">
+            <div class="w-4/5 flex space-x-2">
+                <span class="text-sm  text-black">
+                    <asp:HyperLink ID="HyperLink1" NavigateUrl="~/src/Client/Home/Home.aspx" runat="server" CssClass="hover:underline text-sm text-black">Home</asp:HyperLink>
+                    >
+                </span>
+                <span class="text-sm  text-black">
+                    <asp:HyperLink ID="HyperLink2" NavigateUrl="~/src/Client/Products/Products.aspx" runat="server" CssClass="hover:underline text-sm text-black">Products</asp:HyperLink>
+                    >
+                </span>
+                <asp:Label ID="productNameUrl" runat="server" Text="Label" CssClass="text-sm text-black"></asp:Label>
+            </div>
+        </div>
         <div class="flex">
             <div class="w-2/5 flex justify-center flex-wrap items-center ml-10">
                 <div class="w-4/5 min-w-[320px]">
@@ -113,7 +126,7 @@
                         <span class="close-modal">&times;</span>
                         <img src="" class="image-modal-content" id="modal-img">
                     </div>
-                    <div class="max-w-7xl relative bg-opacity-50 bg-gray-300" style="max-width: 1200px">
+                    <div class="max-w-7xl relative bg-opacity-50 bg-gray-300" style="max-width: 1200px" id="image-container">
                         <asp:Image ID="mainImage1" CssClass="slides" runat="server"
                             ImageUrl=""
                             Style="width: 100%; cursor: pointer" />
@@ -124,7 +137,7 @@
                             ImageUrl=""
                             Style="width: 100%; display: none; cursor: pointer" />
                         <img class="absolute top-2 right-2 pointer-events-none" src="../../../images/product-img/zoom-in.png" alt="Zoom In">
-                       
+
                         <a class="cursor-pointer absolute top-1/2 px-4 py-2 mt-[-22px] text-white font-bold text-lg transition duration-300 select-none bg-black left-0 rounded-r-lg" onclick="plusSlides(-1)">&#10094;</a>
                         <a class="cursor-pointer absolute top-1/2 px-4 py-2 mt-[-22px] text-white font-bold text-lg transition duration-300 select-none bg-black right-0 rounded-r-lg" onclick="plusSlides(1)">&#10095;</a>
 
@@ -147,11 +160,12 @@
             </div>
             <div class="w-3/5 mx-auto flex flex-col mr-10 py-2">
                 <div class="w-4/5">
+
                     <h1 class="mb-4">
                         <asp:Label ID="lblProdName" runat="server" Text="Label" class="text-4xl font-bold text-black">
-                         </asp:Label>
+                        </asp:Label>
                     </h1>
-                    
+
                     <div class="flex items-center mb-4">
                         <i class="fas fa-star text-yellow-400" style="font-weight: bold !important;"></i>
                         <i class="fas fa-star text-yellow-400" style="font-weight: bold !important;"></i>
@@ -159,13 +173,13 @@
                         <i class="fas fa-star text-yellow-400" style="font-weight: bold !important;"></i>
                         <i class="fas fa-star text-yellow-400" style="font-weight: bold !important;"></i>
                         <a href="#review" class="hover:underline ml-2 mt-0.5">
-                            <asp:Label ID="lblReviews" runat="server" Text="Label" >
+                            <asp:Label ID="lblReviews" runat="server" Text="Label">
                                    
                             </asp:Label>
                         </a>
                     </div>
                     <p class="text-gray-700 mb-4">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.</p>
-                    <div class="flex items-center mb-4 text-3xl" >
+                    <div class="flex items-center mb-4 text-3xl">
                         <asp:Label ID="lblPrice" runat="server" Text="Label" class="text-3xl font-bold text-black"></asp:Label>
                     </div>
 
@@ -442,7 +456,7 @@
                             Rated</button>
                 </div>
             </div>
-                        <div class="flex p-2 relative">
+            <div class="flex p-2 relative">
                 <div class="border-b-gray-300 border-b-2 flex">
                     <div class="py-4">
                         <img src="../../../images/person1.jpg" alt="user-pic" width="55px" class="rounded-full">
@@ -475,6 +489,16 @@ the drawstring. I can't say enough about how great it is! I am convinced that th
 product is the best one on the market.
                                 </asp:Label>
                             </p>
+                        </div>
+                        <div class="bg-gray-100 py-0.5">
+                            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                                <div class="px-6 py-4">
+                                    <p class="text-black font-bold">Seller's Response:</p>
+                                    <p class="text-gray-700 mt-2">
+                                        Dear customer, I am glad that you like our products. Your praise is the greatest support for us. Have a nice day.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                         <div class="flex gap-4">
                             <button class="p-2 px-4 border border-black rounded-lg cursor-pointer bg-white hover:bg-gray-600 hover:text-white transition duration-200">
@@ -525,6 +549,14 @@ product is the best one on the market.
                                 </asp:Label>
                             </p>
                         </div>
+                        <div class="bg-gray-100 py-0.5">
+                            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                                <div class="px-6 py-4">
+                                    <p class="text-black font-bold">Seller's Response:</p>
+                                    <p class="text-gray-700 mt-2">We have received your praise. We are honored to receive your affirmation and look forward to serving you again.</p>
+                                </div>
+                            </div>
+                        </div>
                         <div class="flex gap-4">
                             <button class="p-2 px-4 border border-black rounded-lg cursor-pointer bg-white hover:bg-gray-600 hover:text-white transition duration-200">
                                 <i class="fas fa-thumbs-up"></i>
@@ -540,7 +572,7 @@ product is the best one on the market.
                 </div>
 
             </div>
-             <div class="flex p-2 relative">
+            <div class="flex p-2 relative">
                 <div class="border-b-gray-300 border-b-2 flex">
                     <div class="py-4">
                         <img src="../../../images/person3.jpg" alt="user-pic" width="55px" class="rounded-full">
@@ -574,6 +606,16 @@ product is the best one on the market.
                                 </asp:Label>
                             </p>
                         </div>
+                        <div class="bg-gray-100 py-0.5">
+                            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                                <div class="px-6 py-4">
+                                    <p class="text-black font-bold">Seller's Response:</p>
+                                    <p class="text-gray-700 mt-2">
+                                        Hello! Thank you very much for your love and recognition of us. Your satisfaction is our greatest reward. We will work harder and look forward to your next visit.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                         <div class="flex gap-4">
                             <button class="p-2 px-4 border border-black rounded-lg cursor-pointer bg-white hover:bg-gray-600 hover:text-white transition duration-200">
                                 <i class="fas fa-thumbs-up"></i>
@@ -586,9 +628,9 @@ product is the best one on the market.
                         </div>
                     </div>
                 </div>
-            </div>    
-             <div class="mt-1 grid place-content-center">
-                    <button class="text-lg text-black bg-transparent border-none cursor-pointer select-none outline-none hover:underline" id="expand-review-btn" onclick="expandReview()">See All Reviews</button>
+            </div>
+            <div class="mt-1 grid place-content-center">
+                <button class="text-lg text-black bg-transparent border-none cursor-pointer select-none outline-none hover:underline" id="expand-review-btn" onclick="expandReview()">See All Reviews</button>
             </div>
         </div>
     </div>
