@@ -222,22 +222,22 @@ namespace OutModern.src.Client.ProductDetails
         protected global::System.Web.UI.WebControls.RadioButton size2XL;
 
         /// <summary>
-        /// btnAddToCart control.
+        /// AddToCart control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAddToCart;
+        protected global::System.Web.UI.WebControls.LinkButton AddToCart;
 
         /// <summary>
-        /// btnBuyNow control.
+        /// BuyNow control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnBuyNow;
+        protected global::System.Web.UI.WebControls.LinkButton BuyNow;
 
         /// <summary>
         /// lblAvgRatings control.
