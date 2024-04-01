@@ -81,12 +81,12 @@
         </div>
 
         <!-- change password-->
-        <div class="mt-4 w-fit  border border-gray-700 rounded p-4 relative">
+        <div class="mt-4 w-fit border border-gray-700 rounded p-4 relative">
 
             <div class="absolute top-2 right-2">
                 <asp:LinkButton ID="lbUpdatePassword" CssClass="button bg-green-500" runat="server">Change</asp:LinkButton>
             </div>
-            <div class="font-[600] text-xl mt-5">
+            <div class="font-[600] text-2xl mt-5">
                 Change Password
             </div>
 

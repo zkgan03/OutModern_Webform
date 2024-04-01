@@ -139,8 +139,27 @@
                             <i class="fa-regular fa-phone"></i>
                             <asp:Label ID="lblCusPhoneNo" runat="server" Text="101123465"></asp:Label>
                         </div>
-                    </div>
+                        <div class="mt-2 flex gap-2">
+                            <i class="fa-regular fa-location-dot"></i>
+                            <div>
+                                <div class="opacity-65">
+                                    Shipping Address
+                                </div>
+                                <div>
+                                    <asp:Label ID="lblAddressLine" runat="server" Text="Jaln Mewah Mewah"></asp:Label>
+                                </div>
+                                <div>
+                                    <asp:Label ID="lblPostalCode" runat="server" Text="56600"></asp:Label>, 
+                                        <asp:Label ID="lblCity" runat="server" Text="Kuala Lumpur"></asp:Label>
+                                </div>
+                                <div>
+                                    <asp:Label ID="lblState" runat="server" Text="Kuala Lumpur"></asp:Label>, 
+                                        <asp:Label ID="lblCountry" runat="server" Text="Malaysia"></asp:Label>
+                                </div>
+                            </div>
 
+                        </div>
+                    </div>
                     <!--Payment Info-->
                     <div class="border border-gray-500 drop-shadow rounded bg-white p-2 mt-5">
                         <div class="text-xl font-bold mb-3">Payment Info</div>
@@ -154,12 +173,6 @@
                             <div class="opacity-65">Payment Method</div>
                             <div class="ml-4">
                                 <asp:Label ID="lblPaymentMethod" runat="server" Text="Visa"></asp:Label>
-                            </div>
-                        </div>
-                        <div class="mt-2">
-                            <div class="opacity-65">Billing Address</div>
-                            <div class="ml-4">
-                                <asp:Label ID="lblBillingAddress" runat="server" Text="Jalan Mewah Mewah <br> second line add <br> Third line addres"></asp:Label>
                             </div>
                         </div>
                     </div>
