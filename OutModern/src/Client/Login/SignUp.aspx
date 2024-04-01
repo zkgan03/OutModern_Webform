@@ -53,31 +53,25 @@
                         </div>
 
                         <div class="boxItem3">
-                            <asp:CheckBox ID="chkbox_policy" runat="server" Text="&nbsp;I agree to the terms and" class="policyText"/> 
+                            <asp:CheckBox ID="chkbox_policy" runat="server" Text="&nbsp;I agree to the terms and" class="policyText" />
                             <asp:HyperLink ID="hl_policy" runat="server" class="policyText1" NavigateUrl="~/src/Client/Login/Policy.aspx"><u>privacy policy</u></asp:HyperLink>
                         </div>
 
                         <div class="boxItem1">
-                            <asp:Button ID="btn_sign_up" runat="server" class="SUButton" Text="Register" CssClass="bg-black hover:bg-gray-700" Style="width: 100%;
-border-radius: 10px;
-padding: 0.7rem 3.0rem;
-font-family: sans-serif;
-color: whitesmoke;
-font-weight: bold;
-border: 1px solid #f5f5f5;
-cursor: pointer;" OnClick="btn_sign_up_Click" />
+                            <asp:Button ID="btn_sign_up" runat="server" class="SUButton" Text="Register" CssClass="bg-black hover:bg-gray-700" Style="width: 100%; border-radius: 1.042vw; padding: 0.7rem 3.0vw; font-family: sans-serif; color: whitesmoke; font-weight: bold; border: 0.052vw solid #f5f5f5; cursor: pointer;"
+                                OnClick="btn_sign_up_Click" />
                         </div>
 
                         <div class="boxItem2">
                             <div style="padding-top: 10px; text-align: center;">
                                 <span href="#" style="margin-top: 20px; font-family: sans-serif; font-size: 15px; color: #bfbfbf;">Already have account?</span>
-                                <asp:HyperLink ID="HyperLink1" runat="server" Style="margin-top: 20px; font-family: sans-serif; font-size: 15px; font-weight: bold; color: #94d4ca; padding-right: 15px; cursor: pointer;" NavigateUrl="~/src/Client/Login/Login.aspx">Login</asp:HyperLink>
+                                <asp:HyperLink ID="HyperLink1" runat="server" Style="margin-top: 1.042vw; font-family: sans-serif; font-size: 1.042rem; font-weight: bold; color: #94d4ca; padding-right: 0.781vw; cursor: pointer;" NavigateUrl="~/src/Client/Login/Login.aspx">Login</asp:HyperLink>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            </div>
+        </div>
     </form>
 </body>
 </html>

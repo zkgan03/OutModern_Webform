@@ -32,79 +32,83 @@
 
             <!-- right column-->
             <div class="column2">
+                
+                    
 
-                <!--Profile-->
-                <div class="section1" id="profile-section">
+                    <div class="column2A">
+                        <asp:SiteMapPath ID="SiteMapPath1" runat="server" class="site"></asp:SiteMapPath>
+                        <!--Profile-->
+                        <div class="section1" id="profile-section">
 
-                    <div class="topBox">
-                        <div class="titleBox">
-                            <span class="title">My Profile</span>
+                            <div class="topBox">
+                                <div class="titleBox">
+                                    <span class="title">My Profile</span>
+                                </div>
+
+                            </div>
+
+                            <div class="borderLine"></div>
+
+                            <div class="bigBox">
+                                <div class="boxItem">
+                                    <span class="labelData">Username</span>
+                                    <asp:Label ID="lbl_up_username" runat="server" Text="Prochoros" class="data"></asp:Label>
+                                </div>
+
+                                <div class="boxItem">
+                                    <span class="labelData">Fullname</span>
+                                    <asp:Label ID="lbl_up_fullname" runat="server" Text="Prochoros Robert" class="data"></asp:Label>
+                                </div>
+
+                                <div class="boxItem">
+                                    <span class="labelData">Email</span>
+                                    <asp:Label ID="lbl_up_email" runat="server" Text="Prochoros@gmail.com" class="data"></asp:Label>
+                                </div>
+
+                                <div class="boxItem">
+                                    <span class="labelData">Phone Number</span>
+                                    <asp:Label ID="lbl_up_phoneNumber" runat="server" Text="0123456789" class="data"></asp:Label>
+                                </div>
+
+                                <div class="boxItem">
+                                    <span class="labelData">Address Name</span>
+                                    <asp:Label ID="lbl_addressName" runat="server" Text="Home" class="data"></asp:Label>
+                                </div>
+
+                                <div class="boxItem">
+                                    <span class="labelData">Address</span>
+                                    <asp:Label ID="lbl_addressLine" runat="server" Text="67, Jln Madrasah, Gombak Setia, 53100 Kuala Lumpur, Malaysia" class="data"></asp:Label>
+                                </div>
+
+                                <div class="boxItem">
+                                    <span class="labelData">Country</span>
+                                    <asp:Label ID="lbl_country" runat="server" Text="Malaysia" class="data"></asp:Label>
+                                </div>
+
+                                <div class="boxItem">
+                                    <span class="labelData">State</span>
+                                    <asp:Label ID="lbl_state" runat="server" Text="Kuala Lumpur" class="data"></asp:Label>
+                                </div>
+
+                                <div class="boxItem">
+                                    <span class="labelData">Postal Code</span>
+                                    <asp:Label ID="lbl_postaCode" runat="server" Text="53100" class="data"></asp:Label>
+                                </div>
+                            </div>
+
+                            <div class="EPBoxButton">
+                                <asp:Button ID="btn_edit_profile" runat="server" class="EPButton" Text="Edit Profile" CssClass="bg-black hover:bg-gray-700" Style="border-radius: 2rem; width: 50%; margin-top: 5vh; padding: 0.5rem 1rem; font-family: sans-serif; font-weight: bold; border: 1px solid #f5f5f5; cursor: pointer; color: whitesmoke;"
+                                    OnClick="btn_edit_profile_Click" />
+                            </div>
+
                         </div>
 
+                        <div class="delectAccount">
+                            <asp:Button ID="btn_dlt_acc" runat="server" class="EPButton1" Text="Delete Account" CssClass="bg-black hover:bg-red-500" Style="float: right; width: 20%; margin-top: 1vh; margin-bottom: 4vh; padding: 0.5rem 1rem; font-family: sans-serif; font-weight: bold; border: 1px solid #f5f5f5; cursor: pointer; color: whitesmoke; border-radius: 1rem;" />
+                        </div>
                     </div>
-
-                    <div class="borderLine"></div>
-
-                    <div class="bigBox">
-                        <div class="boxItem">
-                            <span class="labelData">Username</span>
-                            <asp:Label ID="lbl_up_username" runat="server" Text="Prochoros" class="data"></asp:Label>
-                        </div>
-
-                        <div class="boxItem">
-                            <span class="labelData">Fullname</span>
-                            <asp:Label ID="lbl_up_fullname" runat="server" Text="Prochoros Robert" class="data"></asp:Label>
-                        </div>
-
-                        <div class="boxItem">
-                            <span class="labelData">Email</span>
-                            <asp:Label ID="lbl_up_email" runat="server" Text="Prochoros@gmail.com" class="data"></asp:Label>
-                        </div>
-
-                        <div class="boxItem">
-                            <span class="labelData">Phone Number</span>
-                            <asp:Label ID="lbl_up_phoneNumber" runat="server" Text="0123456789" class="data"></asp:Label>
-                        </div>
-
-                        <div class="boxItem">
-                            <span class="labelData">Address Name</span>
-                            <asp:Label ID="lbl_addressName" runat="server" Text="Home" class="data"></asp:Label>
-                        </div>
-
-                        <div class="boxItem">
-                            <span class="labelData">Address</span>
-                            <asp:Label ID="lbl_addressLine" runat="server" Text="67, Jln Madrasah, Gombak Setia, 53100 Kuala Lumpur, Selangor" class="data"></asp:Label>
-                        </div>
-
-                        <div class="boxItem">
-                            <span class="labelData">Country</span>
-                            <asp:Label ID="lbl_country" runat="server" Text="Malaysia" class="data"></asp:Label>
-                        </div>
-
-                        <div class="boxItem">
-                            <span class="labelData">State</span>
-                            <asp:Label ID="lbl_state" runat="server" Text="Kuala Lumpur" class="data"></asp:Label>
-                        </div>
-
-                        <div class="boxItem">
-                            <span class="labelData">Postal Code</span>
-                            <asp:Label ID="lbl_postaCode" runat="server" Text="53100" class="data"></asp:Label>
-                        </div>
-                    </div>
-
-                    <div class="EPBoxButton">
-                        <asp:Button ID="btn_edit_profile" runat="server" class="EPButton" Text="Edit Profile" CssClass="bg-black hover:bg-gray-700" Style="width: 50%; margin-top: 50px; padding: 0.50rem 1rem; font-family: sans-serif; font-weight: bold; border: 1px solid #f5f5f5; cursor: pointer; color: whitesmoke; border-radius: 30px;"
-                            OnClick="btn_edit_profile_Click" />
-                    </div>
-
-
                 </div>
 
-                <div class="delectAccount">
-                    <asp:Button ID="btn_dlt_acc" runat="server" class="EPButton1" Text="Delete Account" CssClass="bg-black hover:bg-red-500" Style="float: right; width: 20%; margin-top: 0px; margin-bottom: 40px; margin-right: 210px; padding: 0.50rem 1rem; font-family: sans-serif; font-weight: bold; border: 1px solid #f5f5f5; cursor: pointer; color: whitesmoke; border-radius: 10px;" />
-                </div>
-
-            </div>
         </div>
     </div>
 

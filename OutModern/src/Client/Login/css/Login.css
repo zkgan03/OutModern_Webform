@@ -1,11 +1,13 @@
 ﻿.login-container {
     display: flex;
+    height: 100vh;
+    width: 100vw;
 }
 
 .column1 {
     float: left;
-    width: 60%;
-    padding: 10px;
+    width: 60vw; /* Changed to viewport width */
+    padding: 2.5vw; /* Changed to viewport width */
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -15,9 +17,9 @@
 
 .column2 {
     float: left;
-    width: 40%;
-    padding: 10px;
-    padding-bottom: 0px;
+    width: 40vw; /* Changed to viewport width */
+    padding: 2.5vw; /* Changed to viewport width */
+    padding-bottom: 0;
     background-color: #f5f5f5;
 }
 
@@ -27,7 +29,7 @@
 
 .hl_admin_login_text {
     font-family: sans-serif;
-    font-size: 10px;
+    font-size: 0.625vw; /* Changed to viewport width */
     color: black;
     cursor: pointer;
     &:hover
@@ -35,33 +37,34 @@
 {
     color: #94d4ca;
 }
+
 }
 
 .rightBox {
     float: left;
-    margin: 30px;
-    margin-top: 40px;
-    margin-bottom: 0px;
-    padding: 40px;
-    padding-bottom: 20px;
+    margin: 3.125vw; /* Changed to viewport width */
+    margin-top: 1.166vw; /* Changed to viewport width */
+    margin-bottom: 0;
+    padding: 3.125vw; /* Changed to viewport width */
+    padding-bottom: 1.563vw; /* Changed to viewport width */
 }
 
 .title {
     font-family: sans-serif;
     color: black;
+    font-size: 3.604rem; /* Changed to viewport width */
     font-weight: bold;
-    font-size: 50px;
     width: 100%;
 }
 
 .loginBoxItem {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 1.042vw; /* Changed to viewport width */
+    margin-bottom: 1.042vw; /* Changed to viewport width */
 }
 
 .loginBoxItem1 {
-    margin-top: 40px;
-    margin-bottom: 0px;
+    margin-top: 2.083vw; /* Changed to viewport width */
+    margin-bottom: 0;
 }
 
 .chkLogin label {
@@ -74,12 +77,12 @@
 }
 
 .loginTextBox {
-    width: 350px;
+    width: 21.875vw; /* Changed to viewport width */
     background-color: #f5f5f5;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 0.7rem 3.0rem;
-    border: 1px solid black;
+    border-radius: 0.625vw; /* Changed to viewport width */
+    box-shadow: 0 0.104vw 0.260vw rgba(0, 0, 0, 0.1); /* Changed to viewport width */
+    padding: 1.5vh 3vw; /* Changed to viewport width */
+    border: 1px solid black; /* Changed to viewport width */
     font-family: sans-serif;
     &:hover
 
@@ -91,35 +94,22 @@
 }
 
 .loginBoxButton {
-    padding-bottom: 2px;
-    margin-top: 10px;
+    padding-bottom: 0.052vw; /* Changed to viewport width */
+    margin-top: 0.417vw; /* Changed to viewport width */
 }
-
-}
-
-.loginBoxFP {
-    font-family: sans-serif; /* Default in Tailwind */
-    font-size: 1.5rem;
-    color: blue;
-    cursor: pointer;
-}
-
-    .loginBoxFP:hover {
-        color: darkblue;
-    }
 
 .hl_forget_password {
     font-family: sans-serif;
-    font-size: 17px;
+    font-size: 1.129rem; /* Changed to viewport width */
     color: #94d4ca;
     cursor: pointer;
 }
 
 .hl_signup {
-    margin-top: 20px;
-    font-family: sans-serif;
+    margin-top: 1.042vw; /* Changed to viewport width */
     font-size: 1rem;
     font-weight: bold;
     color: #94d4ca;
     cursor: pointer;
+    font-family: sans-serif;
 }

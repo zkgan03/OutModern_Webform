@@ -184,20 +184,19 @@
                                 <i class="fa-solid fa-angle-down align-middle group-hover:text-black"></i>
                             </div>
 
-
                             <div class="drop-down max-w-xs">
                                 <ul>
                                     <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink5" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
+                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink5" NavigateUrl="~/src/Client/UserProfile/UserProfile.aspx" runat="server">My Profile</asp:HyperLink>
                                     </li>
                                     <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink6" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
+                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink6" NavigateUrl="~/src/Client/UserProfile/ToShip.aspx" runat="server">My Order</asp:HyperLink>
                                     </li>
                                     <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink7" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
+                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink7" NavigateUrl="~/src/Client/Login/Login.aspx" runat="server">Log In</asp:HyperLink>
                                     </li>
                                     <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink8" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
+                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink8" NavigateUrl="~/src/Client/Login/SignUp.aspx" runat="server">Sign Up</asp:HyperLink>
                                     </li>
                                 </ul>
                             </div>

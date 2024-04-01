@@ -20,7 +20,7 @@
     <script src="<%= Page.ResolveClientUrl("~/lib/tailwind/tailwind.js") %>"></script>
 </head>
 
-<body class="min-h-screen bg-cover bg-no-repeat bg-fixed" style="background-image: url('../../../../images/login-img/login-background3.jpg')">
+<body class="bg-cover bg-no-repeat bg-fixed" style="background-image: url('../../../../images/login-img/login-background3.jpg')">
     <form id="form1" runat="server">
         <div class="RPBox">
             <h1 class="RPBoxTitle">Reset Password</h1>
@@ -34,15 +34,8 @@
             </div>
 
             <div class="RPBoxButton">
-                <asp:Button ID="btn_reset_password" runat="server" class="RPButton" Text="Reset" CssClass="bg-black hover:bg-gray-700" Style="width: 100%;
-border-radius: 10px;
-padding: 0.50rem 1rem;
-font-family: sans-serif;
-color: whitesmoke;
-font-weight: bold;
-border: 1px solid #f5f5f5;
-margin-bottom: 30px;
-cursor: pointer;" OnClick="btn_reset_password_Click"/>
+                <asp:Button ID="btn_reset_password" runat="server" class="RPButton" Text="Reset" CssClass="bg-black hover:bg-gray-700" Style="width: 100%; border-radius: 10px; padding: 10px; font-family: sans-serif; color: white; font-weight: bold; border: 1px solid #f5f5f5; margin-top: 10px; cursor: pointer;"
+                    OnClick="btn_reset_password_Click" />
             </div>
 
         </div>

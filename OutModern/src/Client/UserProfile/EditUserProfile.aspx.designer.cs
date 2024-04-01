@@ -60,6 +60,15 @@ namespace OutModern.src.Client.UserProfile
         protected global::System.Web.UI.WebControls.Button btn_togo_my_order;
 
         /// <summary>
+        /// SiteMapPath1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SiteMapPath SiteMapPath1;
+
+        /// <summary>
         /// hl_back_to_user_profile control.
         /// </summary>
         /// <remarks>

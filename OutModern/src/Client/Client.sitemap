@@ -14,6 +14,14 @@
 		  <siteMapNode url="~/src/Client/ProductDetails/ProductDetails.aspx" title="Product Details" >			 
 		  </siteMapNode>
 	  </siteMapNode>
-  </siteMapNode>
 
+	  <!-- User Profile page -->
+	  <siteMapNode url="~/src/Client/UserProfile/UserProfile.aspx" title="Profile" description="User Profile">
+		  <!-- Edit User Profile page -->
+		  <siteMapNode url="~/src/Client/UserProfile/EditUserProfile.aspx" title="Edit Profile" description="Edit User Profile"> </siteMapNode>
+	  </siteMapNode>
+	  
+	  
+	  
+  </siteMapNode>
 </siteMap>

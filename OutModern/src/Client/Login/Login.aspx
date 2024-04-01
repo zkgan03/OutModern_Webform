@@ -50,17 +50,16 @@
                         <asp:Button ID="btn_login" runat="server" Text="Log In" CssClass="bg-black hover:bg-gray-700" Style="width: 100%; border-radius: 10px; padding: 10px; font-family: sans-serif; color: white; font-weight: bold; border: 1px solid #f5f5f5; margin-top: 10px; cursor: pointer;" OnClick="btn_login_Click" />
                     </div>
 
-                    <div style="padding-top: 3px; padding-bottom: 30px;">
+                    <div style="padding-top: 0.156vw; padding-bottom: 1.563vw;">
                         <asp:HyperLink ID="hl_forget_password" runat="server" class="hl_forget_password" NavigateUrl="~/src/Client/Login/ForgetPassword.aspx">Forget Password</asp:HyperLink>
                     </div>
 
-                    <div style="padding: 10px; color: darkgrey;">
+                    <div style="padding: 0.417vw; color: darkgrey;">
                         <hr />
                     </div>
 
-
-                    <div style="padding-top: 10px; padding-bottom: 25px;" class="loginBoxBottom">
-                        <span style="margin-top: 20px; padding-left: 85px; font-family: sans-serif; font-size: 15px; color: #b3b3b3;">New to Out Modern?</span>
+                    <div style="padding-top: 0.417vw; padding-bottom: 2.083vw;" class="loginBoxBottom">
+                        <span style="margin-top: 1.042vw; padding-left: 4.208vw; font-family: sans-serif; font-size: 1.042rem; color: #b3b3b3;">New to Out Modern?</span>
                         <asp:HyperLink ID="hl_signup" runat="server" class="hl_signup" NavigateUrl="~/src/Client/Login/SignUp.aspx">Sign Up</asp:HyperLink>
                     </div>
 
