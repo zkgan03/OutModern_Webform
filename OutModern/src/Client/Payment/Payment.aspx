@@ -113,7 +113,28 @@
 
             <!--Submit button-->
             <div class="mt-8">
-                <asp:Button ID="btnSubmitOrder" runat="server" Text="Submit Order" CssClass="bg-[#131118] hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-xl w-full" />
+                <asp:Button ID="btnSubmitOrder" runat="server" Text="Submit Order" CssClass="bg-[#131118] hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-xl w-full" OnClick="btnSubmitOrder_Click" />
+            </div>
+
+            <!-- Modal -->
+            <div id="orderModal" class="modal fixed z-10 inset-0 overflow-y-auto flex items-center justify-center hidden">
+                <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+                <div class="modal-container fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-6 bg-white rounded-lg shadow-lg w-1/3 w-[30%]">
+                    <div class="text-4xl mb-4 flex justify-center">
+                        <asp:Image ID="Image1" ImageUrl="~/images/tick-mark.png" CssClass="ml-4 h-[30%] w-[30%]" runat="server" />
+                    </div>
+
+                    <div class="px-8 flex flex-col items-center justify-center">
+                        <h2 class="text-2xl font-bold mb-2 text-center">Your order is confirmed</h2>
+                        <p class="text-gray-600 mb-6 text-center">Thanks for shopping! Your order hasn't shipped yet, but we will send you an email when it's done.</p>
+                    </div>
+
+
+                    <div class="modal-buttons flex flex-col justify-center">
+                        <asp:Button ID="BtnViewOrder" runat="server" Text="View Order" CssClass="bg-[#131118] hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-xl w-full mb-2" OnClick="BtnViewOrder_Click" />
+                        <asp:Button ID="ButtonHome" runat="server" Text="Back to Home" CssClass="bg-white hover:bg-gray-700 text-black font-semibold py-2 px-4 rounded-xl w-full border border-black" OnClick="ButtonHome_Click" />
+                    </div>
+                </div>
             </div>
 
 
@@ -150,15 +171,27 @@
                     paymentDetails.style.display = 'none';
                 }
             });
+
+
         });
+
+            function openModal() {
+        var modal = document.getElementById("orderModal");
+        modal.style.display = 'block';
+    }
 
     </script>
 
 
     <style>
-        .selected {
-            box-shadow: 0 0 5px #000000; /* Replace with your desired glow color */
-        }
+    .selected {
+        box-shadow: 0 0 5px #000000; /* Replace with your desired glow color */
+    }
+
+    .modal-overlay {
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
     </style>
 </asp:Content>
 

@@ -310,6 +310,7 @@
     <Content Include="images\marble.jpg" />
     <Content Include="images\mastercard_logo.png" />
     <Content Include="images\maybank_logo.png" />
+    <Content Include="images\paypal.png" />
     <Content Include="images\person1.jpg" />
     <Content Include="images\person2.jpg" />
     <Content Include="images\person3.jpg" />
@@ -638,6 +639,7 @@
     <Content Include="images\shirt2After.png" />
     <Content Include="images\signupMsg.jpg" />
     <Content Include="images\star.svg" />
+    <Content Include="images\tick-mark.png" />
     <Content Include="images\TnG_logo.png" />
     <Content Include="images\vid-poster.png" />
     <Content Include="images\visa_logo.png" />
