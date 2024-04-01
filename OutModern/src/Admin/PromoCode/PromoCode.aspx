@@ -32,10 +32,6 @@
                     Date
                     <i class="fa-regular fa-calendar"></i>
                 </div>
-                <%--                <div class="item">
-                    Status
-                    <i class="fa-regular fa-layer-group"></i>
-                </div>--%>
             </div>
         </div>
 
@@ -93,7 +89,7 @@
                                     </asp:LinkButton>
                                 </th>
                                 <th>
-                                    <asp:LinkButton ID="lbQuantity" runat="server">
+                                    <asp:LinkButton ID="lbQuantity" runat="server" CommandName="Edit">
                                      Quantity
                                      <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
@@ -147,7 +143,34 @@
                         </td>
                     </tr>
                 </InsertItemTemplate>
-
+                <EditItemTemplate>
+                    <tr class="bg-amber-100">
+                        <td>
+                            <asp:Label ID="lblNewPromoId" runat="server" Text='<%# Eval("PromoId") %>'></asp:Label>
+                        </td>
+                        <td>
+                            <asp:TextBox CssClass="w-28 px-2" ID="txtAddPromoCode" runat="server" Text='<%# Eval("PromoCode") %>'></asp:TextBox>
+                        </td>
+                        <td>
+                            <asp:TextBox CssClass="w-14 px-2" ID="txtAddDiscountRate" runat="server" Text='<%# Eval("DiscountRate", "{0:P1}") %>'></asp:TextBox>
+                        </td>
+                        <td>
+                            <asp:TextBox CssClass="w-fit px-2" ID="txtStartDate" runat="server" TextMode="DateTimeLocal"
+                                Text='<%# Eval("StartDate", "{0:yyyy-MM-ddTHH:mm}") %>'></asp:TextBox>
+                        </td>
+                        <td>
+                            <asp:TextBox CssClass="w-fit px-2" ID="txtEndDate" runat="server" TextMode="DateTimeLocal"
+                                Text='<%# Eval("EndDate", "{0:yyyy-MM-ddTHH:mm}")  %>'></asp:TextBox>
+                        </td>
+                        <td>
+                            <asp:TextBox CssClass="w-14 px-2" ID="txtAddQuantity" runat="server" Text='<%# Eval("Quantity") %>'></asp:TextBox>
+                        </td>
+                        <td>
+                            <asp:Button UseSubmitBehavior="false" CssClass="button bg-green-500" ID="btnAdd" runat="server" Text="Update" CommandName="Update" />
+                            <asp:Button UseSubmitBehavior="false" ID="btnCancel" CssClass="button bg-red-500 mt-2" runat="server" CommandName="Cancel" Text="Cancel" />
+                        </td>
+                    </tr>
+                </EditItemTemplate>
             </asp:ListView>
 
             <!--Pagination-->

@@ -16,8 +16,17 @@ namespace OutModern.src.Client.Cart
             {
                 BindData();
             }
-
+            else
+            {
+                // Rebind data only if it's a postback caused by your update/delete operations
+                if (Session["DummyData"] != null)
+                {
+                    BindData((DataTable)Session["DummyData"]);
+                    UpdateSubtotalAndGrandTotal((DataTable)Session["DummyData"]);
+                }
+            }
         }
+
 
         private void BindData()
         {
@@ -73,7 +82,7 @@ namespace OutModern.src.Client.Cart
 
         protected void btnDecrement_Click(object sender, EventArgs e)
         {
-            Button btnDecrement = (Button)sender;
+            LinkButton btnDecrement = (LinkButton)sender;
             ListViewItem item = (ListViewItem)btnDecrement.NamingContainer;
             TextBox txtQuantity = (TextBox)item.FindControl("txtQuantity");
 
@@ -106,7 +115,7 @@ namespace OutModern.src.Client.Cart
 
         protected void btnIncrement_Click(object sender, EventArgs e)
         {
-            Button btnIncrement = (Button)sender;
+            LinkButton btnIncrement = (LinkButton)sender;
             ListViewItem item = (ListViewItem)btnIncrement.NamingContainer;
             TextBox txtQuantity = (TextBox)item.FindControl("txtQuantity");
 

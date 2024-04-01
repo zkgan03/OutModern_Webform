@@ -307,7 +307,6 @@
     <Content Include="images\about_us_img\our_purpose.jpg" />
     <Content Include="images\about_us_img\Simple.jpg" />
     <Content Include="images\about_us_img\Together.jpg" />
-    <Content Include="images\arrow_up.png" />
     <Content Include="images\charles-etoroma-95UF6LXe-Lo-unsplash.jpg" />
     <Content Include="images\contact_us_pic.jpg" />
     <Content Include="images\customerService.jpeg" />
@@ -324,6 +323,7 @@
     <Content Include="images\marble.jpg" />
     <Content Include="images\mastercard_logo.png" />
     <Content Include="images\maybank_logo.png" />
+    <Content Include="images\paypal.png" />
     <Content Include="images\person1.jpg" />
     <Content Include="images\person2.jpg" />
     <Content Include="images\person3.jpg" />
@@ -652,6 +652,7 @@
     <Content Include="images\shirt2After.png" />
     <Content Include="images\signupMsg.jpg" />
     <Content Include="images\star.svg" />
+    <Content Include="images\tick-mark.png" />
     <Content Include="images\TnG_logo.png" />
     <Content Include="images\vid-poster.png" />
     <Content Include="images\visa_logo.png" />

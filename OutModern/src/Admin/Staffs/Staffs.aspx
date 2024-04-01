@@ -72,6 +72,7 @@
                 OnItemCanceling="lvStaffs_ItemCanceling"
                 OnItemEditing="lvStaffs_ItemEditing"
                 OnItemCommand="lvStaffs_ItemCommand"
+                OnItemUpdating="lvStaffs_ItemUpdating"
                 OnItemDataBound="lvStaffs_ItemDataBound"
                 OnPagePropertiesChanged="lvStaffs_PagePropertiesChanged"
                 DataKeyNames="AdminId"
@@ -141,10 +142,9 @@
                         <td><%# Eval("AdminPhoneNo") %></td>
                         <td><span runat="server" id="userStatus" class="user-status"><%# Eval("AdminStatus") %></span></td>
                         <td>
-                            <asp:LinkButton ID="lbEdit" runat="server" CssClass="button" CommandName="Edit">
+                            <asp:LinkButton ID="lbEdit" runat="server" CommandArgument='<%# Eval("AdminId") %>' CssClass="button" CommandName="Edit">
                                 <i class="fa-regular fa-pen-to-square"></i>
                             </asp:LinkButton>
-                            <%--<asp:Button ID="Button1" UseSubmitBehavior="false" CommandName="Test" CommandArgument='<%# Eval("AdminId") %>' runat="server" Text="edit" />--%>
                         </td>
                     </tr>
                 </ItemTemplate>
@@ -182,7 +182,7 @@
                     </tr>
                 </InsertItemTemplate>
                 <EditItemTemplate>
-                    <tr>
+                    <tr class="bg-amber-100">
                         <td>
                             <asp:Label ID="lblNewAdminId" runat="server" Text='<%# Eval("AdminId") %>'></asp:Label>
                         </td>
