@@ -51,15 +51,15 @@
                                             <!--Quantity Button-->
                                             <td class="py-2 px-6">
                                                 <div class="flex items-center justify-center border border-gray-300 rounded-md">
-                                                    <asp:LinkButton runat="server" ID="btnDecrement" CssClass="px-2 py-1 text-gray-600 hover:text-gray-800 text-2xl" Text="-" OnClick="btnDecrement_Click" />
+                                                    <asp:LinkButton runat="server" ID="btnDecrement" CssClass="px-2 py-1 text-gray-600 hover:text-gray-800 text-2xl cursor-pointer" Text="-" OnClick="btnDecrement_Click" />
                                                     <asp:TextBox runat="server" ID="txtQuantity" CssClass="w-12 text-center border-none focus:outline-none" Text='<%# Eval("Quantity") %>' ReadOnly="true" />
-                                                    <asp:LinkButton runat="server" ID="btnIncrement" CssClass="px-2 py-1 text-gray-600 hover:text-gray-800 text-2xl" Text="+" OnClick="btnIncrement_Click" />
+                                                    <asp:LinkButton runat="server" ID="btnIncrement" CssClass="px-2 py-1 text-gray-600 hover:text-gray-800 text-2xl cursor-pointer" Text="+" OnClick="btnIncrement_Click" />
                                                 </div>
 
                                             </td>
                                             <td class="py-2 px-4 font-bold text-center">RM<%# Eval("Subtotal", "{0:N2}") %></td>
                                             <td class="py-2 px-4">
-                                                <asp:LinkButton runat="server" ID="btnDelete" CssClass="text-red-600 hover:text-red-800" Text="Delete" OnClick="btnDelete_Click" aria-label="Delete">
+                                                <asp:LinkButton runat="server" ID="btnDelete" CssClass="text-red-600 hover:text-red-800 cursor-pointer" Text="Delete" OnClick="btnDelete_Click" aria-label="Delete">
                                                 <i class="fa-light fa-trash-can text-xl" style="color: #ff0000;"></i>
                                                 </asp:LinkButton>
                                             </td>
@@ -87,7 +87,7 @@
 
                     <div class="flex items-center mb-2 rounded-lg border-2 border-black">
                         <asp:TextBox runat="server" ID="txtDiscountCode" CssClass="w-full px-4 py-4 flex-grow text-sm rounded-lg outline-none" />
-                        <asp:Button runat="server" ID="btnApply" CssClass="right-0 bg-black text-white px-6 py-4 hover:bg-gray-800 text-sm rounded-md" Text="Apply" />
+                        <asp:Button runat="server" ID="btnApply" CssClass="right-0 bg-black text-white px-6 py-4 hover:bg-gray-800 text-sm rounded-md cursor-pointer" Text="Apply" />
                     </div>
 
                     <div class="flex flex-wrap justify-between border-b border-gray-300 pb-4 ">
@@ -100,7 +100,7 @@
                     </div>
                 </div>
 
-                <asp:Button runat="server" ID="btnCheckout" CssClass="w-full bg-black text-white py-3 rounded-md hover:bg-gray-800" Text="Proceed to Checkout" OnClick="btnCheckout_Click" />
+                <asp:Button runat="server" ID="btnCheckout" CssClass="w-full bg-black text-white py-3 rounded-md hover:bg-gray-800 cursor-pointer" Text="Proceed to Checkout" OnClick="btnCheckout_Click" />
 
             </div>
         </div>

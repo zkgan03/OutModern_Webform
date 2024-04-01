@@ -28,7 +28,7 @@
                         </LayoutTemplate>
                         <ItemTemplate>
                             <!-- Address Existing -->
-                            <div class="border flex mb-6 max-w-sm bg-white shadow rounded-2xl w-[100%] address-item">
+                            <div class="border flex mb-6 max-w-sm bg-white shadow rounded-2xl w-[100%] address-item  cursor-pointer">
                                 <div class="p-4 w-full">
                                     <div class="flex justify-between">
                                         <div class="capitalize text-black text-xl font-bold"><%# Eval("AddressName") %></div>
@@ -97,7 +97,7 @@
                                 <!-- Product item template -->
                                 <div class="border-b border-gray-200">
                                     <div class="py-6 px-4">
-                                        <div class="flex items-center">
+                                        <div class="flex flex-wrap items-center">
                                             <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# Eval("ProductImageUrl") %>' CssClass="w-16 h-16 mr-4" />
                                             <div>
                                                 <div class="font-semibold capitalize text-black text-lg"><%# Eval("ProductName") %></div>
@@ -133,7 +133,7 @@
 
                 <!--Submit button-->
                 <div class="mt-8">
-                    <asp:Button ID="btnProceed" runat="server" Text="Proceed to Payment" CssClass="bg-[#131118] hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-xl w-full" OnClick="btnProceed_Click" />
+                    <asp:Button ID="btnProceed" runat="server" Text="Proceed to Payment" CssClass="bg-[#131118] hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-xl w-full cursor-pointer" OnClick="btnProceed_Click" />
                 </div>
 
             </div>

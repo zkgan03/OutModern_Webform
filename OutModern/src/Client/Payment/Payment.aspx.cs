@@ -47,7 +47,7 @@ namespace OutModern.src.Client.Payment
 
         protected void BtnViewOrder_Click(object sender, EventArgs e)
         {
-            Response.Redirect("~/src/Client/Home/Home.aspx");
+            Response.Redirect("~/src/Client/UserProfile/ToShip.aspx");
         }
 
         protected void btnSubmitOrder_Click(object sender, EventArgs e)

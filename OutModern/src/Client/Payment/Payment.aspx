@@ -113,7 +113,7 @@
 
             <!--Submit button-->
             <div class="mt-8">
-                <asp:Button ID="btnSubmitOrder" runat="server" Text="Submit Order" CssClass="bg-[#131118] hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-xl w-full" OnClick="btnSubmitOrder_Click" />
+                <asp:Button ID="btnSubmitOrder" runat="server" Text="Submit Order" CssClass="bg-[#131118] hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-xl w-full cursor-pointer" OnClick="btnSubmitOrder_Click" />
             </div>
 
             <!-- Modal -->
@@ -131,8 +131,8 @@
 
 
                     <div class="modal-buttons flex flex-col justify-center">
-                        <asp:Button ID="BtnViewOrder" runat="server" Text="View Order" CssClass="bg-[#131118] hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-xl w-full mb-2" OnClick="BtnViewOrder_Click" />
-                        <asp:Button ID="ButtonHome" runat="server" Text="Back to Home" CssClass="bg-white hover:bg-gray-700 text-black font-semibold py-2 px-4 rounded-xl w-full border border-black" OnClick="ButtonHome_Click" />
+                        <asp:Button ID="BtnViewOrder" runat="server" Text="View Order" CssClass="bg-[#131118] hover:bg-white hover:text-black hover:border hover:border-black text-white font-semibold py-2 px-4 rounded-xl w-full mb-2 cursor-pointer" OnClick="BtnViewOrder_Click" />
+                        <asp:Button ID="ButtonHome" runat="server" Text="Back to Home" CssClass="bg-white hover:bg-black hover:text-white text-black font-semibold py-2 px-4 rounded-xl w-full border border-black cursor-pointer" OnClick="ButtonHome_Click" />
                     </div>
                 </div>
             </div>
