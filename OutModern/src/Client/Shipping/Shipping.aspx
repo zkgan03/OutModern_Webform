@@ -72,7 +72,7 @@
 
                     <!--Add address button-->
                     <div class="mt-8">
-                        <asp:Button ID="Button1" runat="server" Text="Add New Address" CssClass="bg-[#131118] hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-xl w-1/3 h-12" />
+                        <asp:Button ID="Button1" runat="server" Text="Add New Address" CssClass="bg-[#131118] hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-xl w-1/3 h-12  cursor-pointer" />
                     </div>
                 </div>
             </div>
