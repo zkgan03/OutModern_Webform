@@ -51,15 +51,6 @@ namespace OutModern.src.Client.Profile
         protected global::System.Web.UI.WebControls.Button btn_togo_my_order;
 
         /// <summary>
-        /// SiteMapPath1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SiteMapPath SiteMapPath1;
-
-        /// <summary>
         /// lbl_up_username control.
         /// </summary>
         /// <remarks>
@@ -96,13 +87,13 @@ namespace OutModern.src.Client.Profile
         protected global::System.Web.UI.WebControls.Label lbl_up_phoneNumber;
 
         /// <summary>
-        /// lbl_addressName control.
+        /// ddl_address_name control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbl_addressName;
+        protected global::System.Web.UI.WebControls.DropDownList ddl_address_name;
 
         /// <summary>
         /// lbl_addressLine control.

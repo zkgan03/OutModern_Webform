@@ -1,11 +1,11 @@
 ﻿body {
-    padding:0px;
+    padding: 0px;
 }
 
-.level1{
-    width:100%;
-    margin:0px;
-    padding:0px;
+.level1 {
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
 }
 
     .level1 img {
@@ -32,14 +32,12 @@
 }
 
 .level1_text {
-    font-family: sans-serif;
     color: whitesmoke;
     font-weight: bold;
     font-size: 70px;
 }
 
 .level1_text2 {
-    font-family: sans-serif;
     color: whitesmoke;
     font-size: 40px;
     margin-bottom: 10px;
@@ -51,7 +49,6 @@
 }
 
 .level1HL {
-    font-family: sans-serif;
     font-size: 1.45rem;
     background-color: black;
     border: 1px solid whitesmoke;
@@ -79,7 +76,6 @@
 }
 
 .level2_text {
-    font-family: sans-serif;
     font-size: 35px;
     color: black;
     font-weight: bold;
@@ -88,7 +84,6 @@
 }
 
 .level2_text2 {
-    font-family: sans-serif;
     font-size: 20px;
     width: 100%;
     color: black;
@@ -117,7 +112,6 @@
 }
 
 .content2text {
-    font-family: sans-serif;
     font-size: 40px;
     font-weight: bold;
     width: 100%;
@@ -125,7 +119,6 @@
 }
 
 .content2text2 {
-    font-family: sans-serif;
     color: black;
     font-size: 20px;
     width: 100%;
@@ -133,7 +126,6 @@
 }
 
 .btn_content2 {
-    font-family: sans-serif;
     font-size: 20px;
     font-weight: bold;
     text-align: center;
@@ -149,6 +141,7 @@
     color: black;
     background-color: whitesmoke;
 }
+
 }
 
 .content2right {
@@ -181,7 +174,6 @@
 }
 
 .cat-container span {
-    font-family: sans-serif;
     font-weight: bold;
 }
 
@@ -196,18 +188,20 @@
     margin: 0 auto;
 }
 
-.cat-box img {
-    width: 100%;
-    aspect-ratio: 2 / 1;
-    object-fit: cover;
-    transition: transform 0.5s, filter 0.5s ease-out;
-    filter: blur(2px);
-    transform: scale(1.2);
-    &:hover
+    .cat-box img {
+        width: 100%;
+        aspect-ratio: 2 / 1;
+        object-fit: cover;
+        transition: transform 0.5s, filter 0.5s ease-out;
+        filter: blur(2px);
+        transform: scale(1.2);
+        &:hover
+
 {
     filter: none;
     transform: scale(1.0)
 }
+
 }
 
 .cat-name {
@@ -227,16 +221,16 @@
     flex: 1 1 66.66%;
 }
 
-.cat-col2 > * {
-    height: 100%;
-}
+    .cat-col2 > * {
+        height: 100%;
+    }
 
-.cat-col1 > *, .cat-col2 > * {
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    background-color: rgba(211, 211, 211, 0.5);
-}
+    .cat-col1 > *, .cat-col2 > * {
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        background-color: rgba(211, 211, 211, 0.5);
+    }
 
 
 .button-bar {
@@ -245,11 +239,9 @@
     align-items: center; /* Center content horizontally */
     text-align: center; /* Optional: Center text if needed */
     margin-bottom: 40px;
-    
 }
 
 .content2Text {
-    font-family: sans-serif;
     color: black;
     font-weight: bold;
     font-size: 35px;
@@ -257,7 +249,6 @@
 }
 
 .content2Text2 {
-    font-family: sans-serif;
     font-size: 20px;
     width: 100%;
     text-align: center; /* Align text to center within the button bar */
@@ -285,12 +276,12 @@
 }
 
 .sections-inner {
-  width: calc(33.33% - 20px); /* Set width to 1/3rd of container with some margin */
-  margin: 10px; /* Add margin for spacing */
-  text-align: center; /* Center content within each section */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  padding-top: 20px;
-  cursor: pointer;
+    width: calc(33.33% - 20px); /* Set width to 1/3rd of container with some margin */
+    margin: 10px; /* Add margin for spacing */
+    text-align: center; /* Center content within each section */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding-top: 20px;
+    cursor: pointer;
 }
 
 
@@ -305,12 +296,12 @@
 {
     transform: scale(1.2);
 }
+
 }
 
 /* Style the product text */
 .productTxt {
     margin-top: 5px; /* Add some margin between image and text */
-    font-family: sans-serif;
     color: black;
     font-weight: bold;
     font-size: 20px;

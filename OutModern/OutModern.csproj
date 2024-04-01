@@ -131,12 +131,26 @@
     <Compile Include="src\Client\Cart\Cart.aspx.designer.cs">
       <DependentUpon>Cart.aspx</DependentUpon>
     </Compile>
+    <Compile Include="src\Client\Login\AdminForgetPassword.aspx.cs">
+      <DependentUpon>AdminForgetPassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\Login\AdminForgetPassword.aspx.designer.cs">
+      <DependentUpon>AdminForgetPassword.aspx</DependentUpon>
+    </Compile>
     <Compile Include="src\Client\Login\AdminLogin.aspx.cs">
       <DependentUpon>AdminLogin.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="src\Client\Login\AdminLogin.aspx.designer.cs">
       <DependentUpon>AdminLogin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\Login\AdminResetPassword.aspx.cs">
+      <DependentUpon>AdminResetPassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\Login\AdminResetPassword.aspx.designer.cs">
+      <DependentUpon>AdminResetPassword.aspx</DependentUpon>
     </Compile>
     <Compile Include="src\Client\Login\FirstPage.aspx.cs">
       <DependentUpon>FirstPage.aspx</DependentUpon>
@@ -776,7 +790,9 @@
     <Content Include="lib\fonts\ChakraPetch\ChakraPetch-Regular.ttf" />
     <Content Include="lib\fonts\ChakraPetch\ChakraPetch-SemiBold.ttf" />
     <Content Include="lib\fonts\ChakraPetch\ChakraPetch-SemiBoldItalic.ttf" />
+    <Content Include="src\Client\Login\AdminForgetPassword.aspx" />
     <Content Include="src\Client\Login\AdminLogin.aspx" />
+    <Content Include="src\Client\Login\AdminResetPassword.aspx" />
     <Content Include="src\Client\Login\css\AdminLogin.css" />
     <Content Include="src\Client\Login\css\FirstPage.css" />
     <Content Include="src\Client\Login\css\ForgetPassword.css" />

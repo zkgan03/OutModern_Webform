@@ -33,21 +33,34 @@
                 </div>
             </div>
 
-            <!-- right column-->
-            <div class="column2">
+            <div class="flex justify-center items-center flex-col w-full">
 
-                
+                <div class="self-start m-4">
+                    <span id="ContentPlaceHolder1_SiteMapPath1" class="">
+                        <a href="#ContentPlaceHolder1_SiteMapPath1_SkipLink" style="position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;">Skip Navigation Links
+                        </a>
+                        <span>
+                            <a></a>
+                        </span><span>&gt; 
+                        </span><span>
+                            <a title="User Profile" href="/src/Client/UserProfile/UserProfile.aspx">Profile
+                            </a>
+                        </span><span>&gt; 
+                        </span><span>Edit Profile
+                        </span>
+                        <a id="ContentPlaceHolder1_SiteMapPath1_SkipLink"></a></span>
+                </div>
 
                 <!--Edit Profile-->
                 <div class="section_edit">
-                    <asp:SiteMapPath ID="SiteMapPath1" runat="server" class="site"></asp:SiteMapPath>
+
                     <div class="topBox">
                         <div class="titleBox">
                             <span class="title">My Profile</span>
                         </div>
 
                         <div class="titleBox2">
-                            <asp:HyperLink ID="hl_back_to_user_profile" runat="server" style="font-family: sans-serif; font-size: 1.25rem;" NavigateUrl="~/src/Client/UserProfile/UserProfile.aspx">Back ></asp:HyperLink>
+                            <asp:HyperLink ID="hl_back_to_user_profile" runat="server" NavigateUrl="~/src/Client/UserProfile/UserProfile.aspx">Back ></asp:HyperLink>
                         </div>
 
                     </div>
@@ -82,7 +95,7 @@
 
                         <div class="boxItem">
                             <span class="labelData">Address</span>
-                            <asp:TextBox ID="txt_edit_address" runat="server" value="67, Jln Madrasah, Gombak Setia, 53100 Kuala Lumpur, Malaysia" class="edit_data"></asp:TextBox>
+                            <asp:TextBox ID="txt_edit_address" runat="server" value="67, Jln Madrasah, Gombak Setia, 53100 Kuala Lumpur, Selangor" class="edit_data"></asp:TextBox>
                         </div>
 
                         <div class="boxItem">
@@ -114,7 +127,7 @@
 
 
                     <div class="EPBoxButton">
-                        <asp:Button ID="btn_save" runat="server" class="EPButton" Text="Save" OnClick="btn_save_Click" CssClass="bg-black hover:bg-gray-700" Style="width: 50%; margin-top: 5vh; padding: 0.625rem 1rem; font-family: sans-serif; font-weight: bold; border: 0.0625rem solid #f5f5f5; cursor: pointer; color: whitesmoke; border-radius: 3rem;" />
+                        <asp:Button ID="btn_save" runat="server" class="EPButton" Text="Save" OnClick="btn_save_Click" CssClass="bg-black hover:bg-gray-700" Style="width: 50%; margin-top: 50px; padding: 0.50rem 1rem; font-weight: bold; border: 1px solid #f5f5f5; cursor: pointer; color: whitesmoke; border-radius: 30px;" />
                     </div>
 
 
@@ -123,3 +136,4 @@
         </div>
     </div>
 </asp:Content>
+

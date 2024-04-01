@@ -9,7 +9,9 @@
         <div class="columns-containColumn">
             <!-- left column-->
             <div class="column1">
+
                 <div class="sectionLeft">
+
                     <div class="leftBox">
                         <asp:Image ID="img_profile" runat="server" class="imgProfile" ImageUrl="~/images/login-img/login-background13.jpg" />
                     </div>
@@ -30,13 +32,25 @@
                 </div>
             </div>
 
+
+
             <!-- right column-->
-            <div class="column2">
-                
-                    
+            <div class="flex justify-center items-center flex-col w-full">
+
+                <div class="self-start m-4">
+                <span id="ContentPlaceHolder1_SiteMapPath1" class="">
+                    <a href="#ContentPlaceHolder1_SiteMapPath1_SkipLink" style="position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;">Skip Navigation Links
+                    </a>
+                    <span>
+                        <a></a>
+                    </span><span>&gt; 
+                    </span><span>
+                        <span title="User Profile">Profile
+                        </span></span></span>
+
+                </div>
 
                     <div class="column2A">
-                        <asp:SiteMapPath ID="SiteMapPath1" runat="server" class="site"></asp:SiteMapPath>
                         <!--Profile-->
                         <div class="section1" id="profile-section">
 
@@ -72,7 +86,10 @@
 
                                 <div class="boxItem">
                                     <span class="labelData">Address Name</span>
-                                    <asp:Label ID="lbl_addressName" runat="server" Text="Home" class="data"></asp:Label>
+                                    <asp:DropDownList ID="ddl_address_name" runat="server" class="ddl_address">
+                                        <asp:ListItem class="data">Home</asp:ListItem>
+                                        <asp:ListItem class="data">Office</asp:ListItem>
+                                    </asp:DropDownList>
                                 </div>
 
                                 <div class="boxItem">
@@ -97,17 +114,17 @@
                             </div>
 
                             <div class="EPBoxButton">
-                                <asp:Button ID="btn_edit_profile" runat="server" class="EPButton" Text="Edit Profile" CssClass="bg-black hover:bg-gray-700" Style="border-radius: 2rem; width: 50%; margin-top: 5vh; padding: 0.5rem 1rem; font-family: sans-serif; font-weight: bold; border: 1px solid #f5f5f5; cursor: pointer; color: whitesmoke;"
+                                <asp:Button ID="btn_edit_profile" runat="server" class="EPButton" Text="Edit Profile" CssClass="bg-black hover:bg-gray-700" Style="border-radius: 2rem; width: 50%; margin-top: 5vh; padding: 0.5rem 1rem; font-weight: bold; border: 1px solid #f5f5f5; cursor: pointer; color: whitesmoke;"
                                     OnClick="btn_edit_profile_Click" />
                             </div>
 
                         </div>
 
                         <div class="delectAccount">
-                            <asp:Button ID="btn_dlt_acc" runat="server" class="EPButton1" Text="Delete Account" CssClass="bg-black hover:bg-red-500" Style="float: right; width: 20%; margin-top: 1vh; margin-bottom: 4vh; padding: 0.5rem 1rem; font-family: sans-serif; font-weight: bold; border: 1px solid #f5f5f5; cursor: pointer; color: whitesmoke; border-radius: 1rem;" />
+                            <asp:Button ID="btn_dlt_acc" runat="server" class="EPButton1" Text="Delete Account" CssClass="bg-black hover:bg-red-500" Style="float: right; width: 20%; margin-top: 1vh; margin-bottom: 4vh; padding: 0.5rem 1rem; font-weight: bold; border: 1px solid #f5f5f5; cursor: pointer; color: whitesmoke; border-radius: 1rem;" />
                         </div>
                     </div>
-                </div>
+            </div>
 
         </div>
     </div>

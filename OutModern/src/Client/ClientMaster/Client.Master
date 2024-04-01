@@ -138,7 +138,7 @@
                     <div class="md:flex hidden absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-10">
                         <asp:HyperLink ID="hyperlinkHome" CssClass="text-black-600 hover:text-gray-800" runat="server" NavigateUrl="~/src/Client/Home/Home.aspx">Home</asp:HyperLink>
                         <asp:HyperLink ID="hyperlinkAbout" CssClass="text-black-600 hover:text-gray-800" runat="server" NavigateUrl="#">About Us</asp:HyperLink>
-
+                        
                         <!-- Categories-nav-->
                         <div class="nav-dropdown text-xl  group relative py-1.5 hover:text-black cursor-pointer">
                             <span class="text-black hover:text-gray-800 cursor-pointer">Categories</span>
@@ -160,6 +160,7 @@
                                 </ul>
                             </div>
                         </div>
+
                     </div>
 
                     <!-- RIGHT PART -->

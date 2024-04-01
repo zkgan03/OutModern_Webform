@@ -11,7 +11,7 @@ namespace OutModern.src.Client.Home
 {
 
 
-    public partial class Home 
+    public partial class Home
     {
 
         /// <summary>
@@ -24,22 +24,22 @@ namespace OutModern.src.Client.Home
         protected global::System.Web.UI.WebControls.Image Image1;
 
         /// <summary>
-        /// HyperLink1 control.
+        /// hl_shop_now control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLink1;
+        protected global::System.Web.UI.WebControls.HyperLink hl_shop_now;
 
         /// <summary>
-        /// HyperLink2 control.
+        /// hl_1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLink2;
+        protected global::System.Web.UI.WebControls.HyperLink hl_1;
 
         /// <summary>
         /// Image2 control.
@@ -51,13 +51,13 @@ namespace OutModern.src.Client.Home
         protected global::System.Web.UI.WebControls.Image Image2;
 
         /// <summary>
-        /// HyperLink3 control.
+        /// hl_2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLink3;
+        protected global::System.Web.UI.WebControls.HyperLink hl_2;
 
         /// <summary>
         /// Image3 control.
@@ -69,13 +69,13 @@ namespace OutModern.src.Client.Home
         protected global::System.Web.UI.WebControls.Image Image3;
 
         /// <summary>
-        /// HyperLink4 control.
+        /// hl_3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLink4;
+        protected global::System.Web.UI.WebControls.HyperLink hl_3;
 
         /// <summary>
         /// Image4 control.
@@ -87,13 +87,13 @@ namespace OutModern.src.Client.Home
         protected global::System.Web.UI.WebControls.Image Image4;
 
         /// <summary>
-        /// HyperLink5 control.
+        /// hl_4 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLink5;
+        protected global::System.Web.UI.WebControls.HyperLink hl_4;
 
         /// <summary>
         /// Image5 control.
@@ -105,13 +105,13 @@ namespace OutModern.src.Client.Home
         protected global::System.Web.UI.WebControls.Image Image5;
 
         /// <summary>
-        /// HyperLink6 control.
+        /// hl_5 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLink6;
+        protected global::System.Web.UI.WebControls.HyperLink hl_5;
 
         /// <summary>
         /// Image6 control.
@@ -123,13 +123,13 @@ namespace OutModern.src.Client.Home
         protected global::System.Web.UI.WebControls.Image Image6;
 
         /// <summary>
-        /// HyperLink7 control.
+        /// hl_6 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLink7;
+        protected global::System.Web.UI.WebControls.HyperLink hl_6;
 
         /// <summary>
         /// Image7 control.
@@ -141,22 +141,22 @@ namespace OutModern.src.Client.Home
         protected global::System.Web.UI.WebControls.Image Image7;
 
         /// <summary>
-        /// HyperLink8 control.
+        /// hl_explore control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLink8;
+        protected global::System.Web.UI.WebControls.HyperLink hl_explore;
 
         /// <summary>
-        /// HyperLink9 control.
+        /// hl_img control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLink9;
+        protected global::System.Web.UI.WebControls.HyperLink hl_img;
 
         /// <summary>
         /// Image8 control.
@@ -168,13 +168,13 @@ namespace OutModern.src.Client.Home
         protected global::System.Web.UI.WebControls.Image Image8;
 
         /// <summary>
-        /// HyperLink10 control.
+        /// hl_new1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLink10;
+        protected global::System.Web.UI.WebControls.HyperLink hl_new1;
 
         /// <summary>
         /// Image9 control.
@@ -186,13 +186,13 @@ namespace OutModern.src.Client.Home
         protected global::System.Web.UI.WebControls.Image Image9;
 
         /// <summary>
-        /// HyperLink11 control.
+        /// hl_new2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLink11;
+        protected global::System.Web.UI.WebControls.HyperLink hl_new2;
 
         /// <summary>
         /// Image10 control.
@@ -204,13 +204,13 @@ namespace OutModern.src.Client.Home
         protected global::System.Web.UI.WebControls.Image Image10;
 
         /// <summary>
-        /// HyperLink12 control.
+        /// hl_new3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLink12;
+        protected global::System.Web.UI.WebControls.HyperLink hl_new3;
 
         /// <summary>
         /// Image11 control.
