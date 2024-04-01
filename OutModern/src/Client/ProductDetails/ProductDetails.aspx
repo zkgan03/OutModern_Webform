@@ -248,10 +248,14 @@
                 <div class="mb-5" style="border-top: 1.5px solid lightgray">
                     <div class="flex items-center mt-7">
                         <div class="mr-5">
-                            <asp:Button ID="btnAddToCart" runat="server" Text="Add To Cart" class="cursor-pointer min-w-20 flex-1 bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500 sm:w-full" />
+                            <asp:LinkButton ID="AddToCart" runat="server" CssClass="cursor-pointer min-w-20 flex-1 bg-black border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500 sm:w-full">
+                <i class="fas fa-shopping-cart mr-2 text-white"></i> Add To Cart
+            </asp:LinkButton>
                         </div>
                         <div>
-                            <asp:Button ID="btnBuyNow" runat="server" Text="Buy Now" class="cursor-pointer min-w-20 flex-1 bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500 sm:w-full" />
+                            <asp:LinkButton ID="BuyNow" runat="server" CssClass="cursor-pointer min-w-20 flex-1 bg-black border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500 sm:w-full">
+                <i class="fa-regular fa-credit-card mr-2 text-white"></i> Buy Now
+            </asp:LinkButton>
                         </div>
                     </div>
                 </div>
@@ -362,8 +366,8 @@
                     </tbody>
                 </table>
             </div>
-            <p style="text-align: center;">*Difference of 1-2cm may occur</p>
-            <p style="text-align: center; margin-top: 1em; font-size: 1.1rem;"><b>Size Chart</b></p>
+            <p style="text-align: center;" class="pt-2">*Difference of 1-2cm may occur</p>
+            <p style="text-align: center; font-size: 1.1rem;" class="p-1 underline"><b>Size Chart</b></p>
         </div>
         <div class="mt-5 mx-auto flex justify-center flex-wrap gap-3 w-4/5 max-w-1200">
             <div class="items-center flex justify-center flex-col gap-5 text-lg shadow-lg rounded-lg p-6">
@@ -440,7 +444,7 @@
             </div>
         </div>
 
-        <div class="mx-auto shadow-lg mt-5 p-4 rounded-lg" id="review">
+        <div class="mx-auto w-4/5 shadow-lg mt-5 p-4 rounded-lg" id="review">
             <div class="flex items-center flex-wrap p-4 font-bold text-lg">
                 <p class="underline">All Ratings and Reviews</p>
 

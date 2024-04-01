@@ -7,7 +7,7 @@
     <div class="mx-10">
 
         <div class="mx-56 mt-10">
-            <asp:SiteMapPath ID="SiteMapPath1" runat="server" CssClass="text-3xl font-bold flex"></asp:SiteMapPath>
+            <asp:SiteMapPath ID="SiteMapPath1" runat="server" CssClass="text-3xl font-bold"></asp:SiteMapPath>
             <h2 class="text-3xl font-bold flex">Shipping Address</h2>
         </div>
 
@@ -22,13 +22,13 @@
                 <div class="border-b">
                     <asp:ListView ID="AddressListView" runat="server" OnItemDataBound="AddressListView_ItemDataBound">
                         <LayoutTemplate>
-                            <div class="grid grid-cols-2 gap-x-28">
+                            <div class="grid grid-cols-2 gap-x-16">
                                 <div runat="server" id="itemPlaceholder"></div>
                             </div>
                         </LayoutTemplate>
                         <ItemTemplate>
                             <!-- Address Existing -->
-                            <div class="border flex mb-6 max-w-sm bg-white shadow rounded-2xl w-80 address-item">
+                            <div class="border flex mb-6 max-w-sm bg-white shadow rounded-2xl w-[100%] address-item  cursor-pointer">
                                 <div class="p-4 w-full">
                                     <div class="flex justify-between">
                                         <div class="capitalize text-black text-xl font-bold"><%# Eval("AddressName") %></div>
@@ -72,7 +72,7 @@
 
                     <!--Add address button-->
                     <div class="mt-8">
-                        <asp:Button ID="Button1" runat="server" Text="Add New Address" CssClass="bg-[#131118] hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-xl w-1/3 h-12" />
+                        <asp:Button ID="Button1" runat="server" Text="Add New Address" CssClass="bg-[#131118] hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-xl w-1/3 h-12  cursor-pointer" />
                     </div>
                 </div>
             </div>
@@ -97,7 +97,7 @@
                                 <!-- Product item template -->
                                 <div class="border-b border-gray-200">
                                     <div class="py-6 px-4">
-                                        <div class="flex items-center">
+                                        <div class="flex flex-wrap items-center">
                                             <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# Eval("ProductImageUrl") %>' CssClass="w-16 h-16 mr-4" />
                                             <div>
                                                 <div class="font-semibold capitalize text-black text-lg"><%# Eval("ProductName") %></div>
@@ -117,15 +117,15 @@
                         <span class="text-gray-500">Items</span>
                         <asp:Label ID="lblItemPrice" runat="server" CssClass="text-gray-500" Text="itemprice"></asp:Label>
                     </div>
-                    <div class="flex justify-between mb-2 ml-6 mr-6">
+                    <div class="flex flex-wrap justify-between mb-2 ml-6 mr-6">
                         <span class="text-gray-500">Delivery Cost</span>
                         <asp:Label ID="lblDeliveryCost" runat="server" CssClass="text-gray-500" Text="RM5.00"></asp:Label>
                     </div>
-                    <div class="flex justify-between border-b border-gray-300 mb-4 ml-6 mr-6  pb-4">
+                    <div class="flex flex-wrap justify-between border-b border-gray-300 mb-4 ml-6 mr-6  pb-4">
                         <span class="text-gray-500">Estimated Tax</span>
                         <asp:Label ID="lblTax" runat="server" CssClass="text-gray-500" Text="tax"></asp:Label>
                     </div>
-                    <div class="flex justify-between font-semibold ml-6 mr-6">
+                    <div class="flex flex-wrap justify-between font-semibold ml-6 mr-6">
                         <span class="text-gray-500">Total</span>
                         <asp:Label ID="lblTotal" runat="server" CssClass="text-gray-500" Text="total"></asp:Label>
                     </div>
@@ -133,7 +133,7 @@
 
                 <!--Submit button-->
                 <div class="mt-8">
-                    <asp:Button ID="btnProceed" runat="server" Text="Proceed to Payment" CssClass="bg-[#131118] hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-xl w-full h-12" OnClick="btnProceed_Click" />
+                    <asp:Button ID="btnProceed" runat="server" Text="Proceed to Payment" CssClass="bg-[#131118] hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-xl w-full cursor-pointer" OnClick="btnProceed_Click" />
                 </div>
 
             </div>
