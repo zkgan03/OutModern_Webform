@@ -39,6 +39,8 @@ namespace OutModern.src.Admin.Staffs
                 Page.DataBind();
             }
         }
+
+        // Get Staffs
         private DataTable GetStaffs(string sortExpression = null, string sortDirection = "ASC")
         {
             DataTable data = new DataTable();
@@ -66,7 +68,7 @@ namespace OutModern.src.Admin.Staffs
             return data;
         }
 
-        //sorting Expression
+        //store each column sorting state into viewstate
         private Dictionary<string, string> SortDirections
         {
             get
@@ -82,6 +84,8 @@ namespace OutModern.src.Admin.Staffs
                 ViewState["SortDirections"] = value;
             }
         }
+
+        // Toggle Sorting
         private void toggleSortDirection(string columnName)
         {
             if (!SortDirections.ContainsKey(columnName))
@@ -93,6 +97,7 @@ namespace OutModern.src.Admin.Staffs
                 SortDirections[columnName] = SortDirections[columnName] == "ASC" ? "DESC" : "ASC";
             }
         }
+
 
         //update staff
         private int updateStaff(
@@ -140,6 +145,7 @@ namespace OutModern.src.Admin.Staffs
             return numberRowEffected;
         }
 
+
         //insert staff
         private int insertStaff(string adminName,
             string adminUsername,
@@ -175,6 +181,8 @@ namespace OutModern.src.Admin.Staffs
             return numberRowEffected;
         }
 
+
+        //get all admin role for ddl
         private DataTable GetAdminRoles()
         {
             DataTable data = new DataTable();
@@ -196,6 +204,8 @@ namespace OutModern.src.Admin.Staffs
             return data;
         }
 
+
+        //get all admin status (user status) for ddl
         private DataTable GetStatus()
         {
             DataTable data = new DataTable();
@@ -218,13 +228,57 @@ namespace OutModern.src.Admin.Staffs
         }
 
 
+        //Search Bar Method
+        public void FilterListView(string searchTerm)
+        {
+            lvStaffs.DataSource = FilterDataTable(GetStaffs(), searchTerm);
+            lvStaffs.DataBind();
+        }
+
+        private DataTable FilterDataTable(DataTable dataTable, string searchTerm)
+        {
+            // Escape single quotes for safety
+            string safeSearchTerm = searchTerm.Replace("'", "''");
+
+            // Build the filter expression with all relevant fields
+            string expression = string.Format(
+                "Convert(AdminId, 'System.String') LIKE '%{0}%' OR " +
+                "AdminName LIKE '%{0}%' OR " +
+                "AdminUsername LIKE '%{0}%' OR " +
+                "AdminRole LIKE '%{0}%' OR " +
+                "AdminEmail LIKE '%{0}%' OR " +
+                "AdminPhoneNo LIKE '%{0}%' OR " +
+                "AdminStatus LIKE '%{0}%'",
+                safeSearchTerm);
+
+            // Filter the rows
+            DataRow[] filteredRows = dataTable.Select(expression);
+
+            // Create a new DataTable for the filtered results
+            DataTable filteredDataTable = dataTable.Clone();
+
+            // Import the filtered rows
+            foreach (DataRow row in filteredRows)
+            {
+                filteredDataTable.ImportRow(row);
+            }
+
+            return filteredDataTable;
+        }
+
+
+        //
+        // Events in page
         protected void lvStaffs_PagePropertiesChanged(object sender, EventArgs e)
         {
             lvStaffs.InsertItemPosition = InsertItemPosition.None;
             lvStaffs.EditIndex = -1;
 
-            string sortExpression = ViewState["SortExpression"].ToString();
-            lvStaffs.DataSource = GetStaffs(sortExpression, SortDirections[sortExpression]);
+            string sortExpression = ViewState["SortExpression"]?.ToString();
+            lvStaffs.DataSource =
+                sortExpression == null ?
+                GetStaffs() :
+                GetStaffs(sortExpression, SortDirections[sortExpression]);
             lvStaffs.DataBind();
         }
 
@@ -232,7 +286,9 @@ namespace OutModern.src.Admin.Staffs
         {
             lvStaffs.EditIndex = -1;
             lvStaffs.InsertItemPosition = InsertItemPosition.FirstItem;
-            lvStaffs.DataSource = GetStaffs();
+
+            string sortExpression = ViewState["SortExpression"].ToString();
+            lvStaffs.DataSource = GetStaffs(sortExpression, SortDirections[sortExpression]);
             lvStaffs.DataBind();
 
             // bind data source for Role ddl
@@ -254,7 +310,8 @@ namespace OutModern.src.Admin.Staffs
         {
             lvStaffs.InsertItemPosition = InsertItemPosition.None;
             lvStaffs.EditIndex = -1;
-            lvStaffs.DataSource = GetStaffs();
+            string sortExpression = ViewState["SortExpression"].ToString();
+            lvStaffs.DataSource = GetStaffs(sortExpression, SortDirections[sortExpression]);
             lvStaffs.DataBind();
         }
 
@@ -395,54 +452,25 @@ namespace OutModern.src.Admin.Staffs
                 }
             }
 
-        }
 
-        //Search Bar Method
-        public void FilterListView(string searchTerm)
-        {
-            lvStaffs.DataSource = FilterDataTable(GetStaffs(), searchTerm);
-            lvStaffs.DataBind();
-        }
 
-        private DataTable FilterDataTable(DataTable dataTable, string searchTerm)
-        {
-            // Escape single quotes for safety
-            string safeSearchTerm = searchTerm.Replace("'", "''");
 
-            // Build the filter expression with all relevant fields
-            string expression = string.Format(
-                "Convert(AdminId, 'System.String') LIKE '%{0}%' OR " +
-                "AdminName LIKE '%{0}%' OR " +
-                "AdminUsername LIKE '%{0}%' OR " +
-                "AdminRole LIKE '%{0}%' OR " +
-                "AdminEmail LIKE '%{0}%' OR " +
-                "AdminPhoneNo LIKE '%{0}%' OR " +
-                "AdminStatus LIKE '%{0}%'",
-                safeSearchTerm);
-
-            // Filter the rows
-            DataRow[] filteredRows = dataTable.Select(expression);
-
-            // Create a new DataTable for the filtered results
-            DataTable filteredDataTable = dataTable.Clone();
-
-            // Import the filtered rows
-            foreach (DataRow row in filteredRows)
-            {
-                filteredDataTable.ImportRow(row);
-            }
-
-            return filteredDataTable;
         }
 
         protected void lvStaffs_Sorting(object sender, ListViewSortEventArgs e)
         {
             toggleSortDirection(e.SortExpression); // Toggle sorting direction for the clicked column
+
+
             ViewState["SortExpression"] = e.SortExpression; // used for retain the sorting
 
             // Re-bind the ListView with sorted data
             lvStaffs.DataSource = GetStaffs(e.SortExpression, SortDirections[e.SortExpression]);
             lvStaffs.DataBind();
+        }
+
+        protected void lvStaffs_ItemCommand(object sender, ListViewCommandEventArgs e)
+        {
         }
     }
 }

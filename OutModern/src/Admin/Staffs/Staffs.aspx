@@ -74,6 +74,7 @@
                 OnItemUpdating="lvStaffs_ItemUpdating"
                 OnItemDataBound="lvStaffs_ItemDataBound"
                 OnSorting="lvStaffs_Sorting"
+                OnItemCommand="lvStaffs_ItemCommand"
                 OnPagePropertiesChanged="lvStaffs_PagePropertiesChanged"
                 DataKeyNames="AdminId"
                 ID="lvStaffs" runat="server">
@@ -222,5 +223,9 @@
             </asp:DataPager>
         </div>
     </div>
+
+    <script>
+
+    </script>
 
 </asp:Content>

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
@@ -23,77 +26,74 @@ namespace OutModern.src.Admin.Products
             { ProductAdd , "~/src/Admin/ProductAdd/ProductAdd.aspx" },
             { ProductDetails , "~/src/Admin/ProductDetails/ProductDetails.aspx" },
         };
+
+        private string ConnectionStirng = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                lvProducts.DataSource = GetProducts1();
+                lvProducts.DataSource = GetProducts();
                 lvProducts.DataBind();
                 Page.DataBind();
 
             }
         }
 
-        //TEST
-        public class Product
+        private DataTable GetProducts()
         {
-            public int Id { get; set; }
-            public string Path { get; set; }
-            public string Name { get; set; }
-            public string Category { get; set; }
-            public string Colors { get; set; } // Replace "..." with actual data if needed
-            public decimal Price { get; set; }
-            public int Quantity { get; set; }
-            public string Status { get; set; }
-            public int Reviews { get; set; }
+            DataTable data = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            {
+                connection.Open();
+                string sqlQuery =
+                    "SELECT distinct p.ProductId, [Path], ProductName, ProductCategory, UnitPrice, ProductStatusName " +
+                    "FROM Product p " +
+                    "INNER JOIN ProductDetail ON p.ProductId = ProductDetail.ProductId " +
+                    "INNER JOIN (Select TOP 1 ProductDetail.ProductId, [Path] from ProductImage, ProductDetail Where ProductImage.ProductDetailId = ProductDetail.ProductDetailId) t " +
+                    "ON t.ProductId = p.ProductId INNER JOIN ProductStatus ON p.ProductStatusId = ProductStatus.ProductStatusId";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    data.Load(command.ExecuteReader());
+                }
+            }
+
+            data.Columns.Add("Colors", typeof(DataTable));
+            foreach (DataRow row in data.Rows)
+            {
+                row["Colors"] = loadColors(row["productId"].ToString());
+            }
+
+            return data;
         }
 
-        private DataTable GetProducts1()
+        private DataTable loadColors(string productId)
         {
-            DataTable products = new DataTable();
-            products.Columns.Add("Id", typeof(int));
-            products.Columns.Add("Name", typeof(string));
-            products.Columns.Add("Path", typeof(string));
-            products.Columns.Add("Category", typeof(string));
-            products.Columns.Add("Price", typeof(double));
-            products.Columns.Add("Quantity", typeof(int));
-            products.Columns.Add("Status", typeof(string));
-            products.Columns.Add("Reviews", typeof(int));
+            DataTable data = new DataTable();
 
-            products.Rows.Add(
-                1,
-                "Premium Hoodie",
-                "~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de6441b1.png",
-                "Hoodies",
-                99.99,
-                44,
-                "Unavailable",
-                1
-                );
-            products.Rows.Add(
-                2,
-                "Premium Hoodie",
-                "~/images/product-img/hoodies/black-Hoodie/unisex-champion-tie-dye-hoodie-black-front-2-6116819deddd3.png",
-                "Hoodies",
-                199.99,
-                22,
-                "In Stock",
-                9
-                );
-            products.Rows.Add(
-               3,
-               "Premium Hoodie",
-               "~/images/product-img/hoodies/black-Hoodie/unisex-champion-tie-dye-hoodie-black-front-2-6116819deddd3.png",
-               "Hoodies",
-               299.99,
-               12,
-               "In Stock",
-               4
-               );
+            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            {
+                connection.Open();
 
-            return products;
+                string sqlQuery =
+                    "Select Distinct c.HexColor as color " +
+                    "From Product p, Color c, ProductDetail pd " +
+                    "Where p.ProductId = @productId AND pd.ColorId = c.ColorId";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@productId", productId);
+
+                    data.Load(command.ExecuteReader());
+                }
+            }
+
+            return data;
         }
-        //TEST
+
         protected void lvProducts_ItemDataBound(object sender, ListViewItemEventArgs e)
         {
             if (e.Item.ItemType == ListViewItemType.DataItem)
@@ -104,7 +104,7 @@ namespace OutModern.src.Admin.Products
 
                 // Find the span control
                 HtmlGenericControl statusSpan = (HtmlGenericControl)e.Item.FindControl("productStatus");
-                string status = rowView["Status"].ToString();
+                string status = rowView["ProductStatusName"].ToString();
 
                 // Add CSS class based on status
                 if (status == "In Stock")
@@ -126,7 +126,7 @@ namespace OutModern.src.Admin.Products
 
         protected void lvProducts_PagePropertiesChanged(object sender, EventArgs e)
         {
-            lvProducts.DataSource = GetProducts1();
+            lvProducts.DataSource = GetProducts();
             lvProducts.DataBind();
         }
 
@@ -136,8 +136,7 @@ namespace OutModern.src.Admin.Products
 
         public void FilterListView(string searchTerm)
         {
-
-            lvProducts.DataSource = FilterDataTable(GetProducts1(), searchTerm);
+            lvProducts.DataSource = FilterDataTable(GetProducts(), searchTerm);
             dpBottomProducts.SetPageProperties(0, dpBottomProducts.MaximumRows, false);
             lvProducts.DataBind();
         }
@@ -147,13 +146,11 @@ namespace OutModern.src.Admin.Products
 
             // Build filter expression with product fields
             string expression = string.Format(
-                "Convert(Id, 'System.String') LIKE '%{0}%' OR " +
-                "Name LIKE '%{0}%' OR " +
-                "Category LIKE '%{0}%' OR " +
-                "Convert(Price, 'System.String') LIKE '%{0}%' OR " +
-                "Convert(Quantity, 'System.String') LIKE '%{0}%' OR " +
+                "Convert(ProductId, 'System.String') LIKE '%{0}%' OR " +
+                "ProductName LIKE '%{0}%' OR " +
+                "ProductCategory LIKE '%{0}%' OR " +
+                "Convert(UnitPrice, 'System.String') LIKE '%{0}%' OR " +
                 "Status LIKE '%{0}%' OR " +
-                "Convert(Reviews, 'System.String') LIKE '%{0}%'",
                 safeSearchTerm);
 
             // Filter the rows

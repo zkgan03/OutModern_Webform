@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
 using System.Drawing;
+using System.Net;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -10,6 +13,8 @@ namespace OutModern.src.Admin.ProductDetails
     {
         protected static readonly string ProductEdit = "ProductEdit";
         protected static readonly string ProductReviewReply = "ProductReviewReply";
+
+        private string ConnectionStirng = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
         // Side menu urls
         protected Dictionary<string, string> urls = new Dictionary<string, string>()
@@ -22,6 +27,15 @@ namespace OutModern.src.Admin.ProductDetails
         {
             if (!IsPostBack)
             {
+                string productId = Request.QueryString["ProductId"];
+                if (productId == null)
+                {
+                    Response.StatusCode = 404;
+                    return;
+                }
+
+                loadProductDetails(productId);
+
                 lvReviews.DataSource = GetReviewList();
                 lvReviews.DataBind();
 
@@ -34,179 +48,102 @@ namespace OutModern.src.Admin.ProductDetails
             repeaterImg.DataBind();
         }
 
-        private List<ReviewData> GetReviewList()
+        private void loadProductDetails(string productId)
         {
-            List<ReviewData> reviewList = new List<ReviewData>
-                {
-                    new ReviewData
-                    {
-                        CustomerName = "Customer A",
-                        ReviewTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm"), // Format for display
-                        ReviewRating = 3.0,
-                        ReviewColor = "white",
-                        ReviewQuantity = 1,
-                        ReviewText = "This has problems!",
-                        Replies = new List<ReplyData>()
-                        {
-                            new ReplyData {
-                                AdminName = "Gan",
-                                AdminRole = "Admin",
-                                ReplyTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm"),
-                                ReplyText = "Hi, please edit your question..." },
-                            new ReplyData {
-                                AdminName = "Su",
-                                AdminRole = "Associate",
-                                ReplyTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm"),
-                                ReplyText = "This should not be a problem" }
-                        }
-                    },
-                    new ReviewData // Add more reviews with replies
-                    {
-                        CustomerName = "Customer B",
-                        ReviewTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm"), // Format for display
-                        ReviewRating = 4.0,
-                        ReviewColor = "black",
-                        ReviewQuantity = 3,
-                        ReviewText = "This is amazing!",
-                        //Replies = new List<ReplyData>()
-                        //    {
-                        //        new ReplyData {
-                        //            ReplyBy = "Manager",
-                        //            ReplyTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm"),
-                        //            ReplyText = "Thanks!" }
-                        //    }
-                    },
-                    new ReviewData
-                    {
-                        CustomerName = "Customer C",
-                        ReviewTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm"), // Format for display
-                        ReviewRating = 3.0,
-                        ReviewColor = "white",
-                        ReviewQuantity = 1,
-                        ReviewText = "This is review 3",
-                        Replies = new List<ReplyData>()
-                        {
-                            new ReplyData {
-                                AdminName = "Staff C",
-                                AdminRole = "Manager",
-                                ReplyTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm"),
-                                ReplyText = "Thanks for rating!" }
-                        }
-                    },
-                    new ReviewData // Add more reviews with replies
-                    {
-                        CustomerName = "Customer D",
-                        ReviewTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm"), // Format for display
-                        ReviewRating = 4.0,
-                        ReviewColor = "black",
-                        ReviewQuantity = 3,
-                        ReviewText = "Test Review",
-                        Replies = new List<ReplyData>()
-                            {
-                                new ReplyData {
-                                    AdminName = "Staff D",
-                                    AdminRole = "Some position",
-                                    ReplyTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm"),
-                                    ReplyText = "This is a reply"
-                                }
-                            }
-                    }
-                };
-            return reviewList;
+            //Select the productInfo
+            //Select ProductId, ProductCategory, UnitPrice, ProductStatusName
+            //FROM Product
+            //Join ProductStatus on Product.ProductStatusId = ProductStatus.ProductStatusId
+            //WHERE ProductId = 1;
+
+            //Select Quantity Based on size and color
+            //Select quantity
+            //FROM Product
+            //Join ProductDetail on Product.ProductId = ProductDetail.ProductId
+            //Join ProductStatus on Product.ProductStatusId = ProductStatus.ProductStatusId
+            //WHERE SizeId = 1 and ColorId = 1 and Product.ProductId = 1;
         }
 
-        private List<ImageData> GetBeigeImg()
+        private DataTable GetReviewList()
         {
-            List<ImageData> list = new List<ImageData>(){
-                new ImageData{
-                    ImageId = "123",
-                    path = "~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de6441b1.png"
-                },
-                new ImageData{
-                    ImageId = "123",
-                    path = "~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de644282.png"
-                },
-                new ImageData{
-                    ImageId = "123",
-                    path = "~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-zoomed-in-61167de6440a2.png"
-                }
-            };
+            DataTable reviewDataTable = new DataTable();
+            reviewDataTable.Columns.Add("CustomerName", typeof(string));
+            reviewDataTable.Columns.Add("ReviewTime", typeof(string));
+            reviewDataTable.Columns.Add("ReviewRating", typeof(double));
+            reviewDataTable.Columns.Add("ReviewColor", typeof(string));
+            reviewDataTable.Columns.Add("ReviewQuantity", typeof(int));
+            reviewDataTable.Columns.Add("ReviewText", typeof(string));
+            reviewDataTable.Columns.Add("Replies", typeof(DataTable));
 
-            return list;
+            // Add rows to the DataTable
+            reviewDataTable.Rows.Add("Customer A", DateTime.Now.ToString("yyyy-MM-dd HH:mm"), 3.0, "white", 1, "This has problems!", GenerateDummyRepliesData());
+            reviewDataTable.Rows.Add("Customer B", DateTime.Now.ToString("yyyy-MM-dd HH:mm"), 4.0, "black", 3, "This is amazing!", GenerateDummyRepliesData());
+            reviewDataTable.Rows.Add("Customer C", DateTime.Now.ToString("yyyy-MM-dd HH:mm"), 3.0, "white", 1, "This is review 3", GenerateDummyRepliesData());
+            reviewDataTable.Rows.Add("Customer D", DateTime.Now.ToString("yyyy-MM-dd HH:mm"), 4.0, "black", 3, "Test Review", GenerateDummyRepliesData());
+
+
+
+            return reviewDataTable;
         }
 
-        private List<ImageData> GetBlackImg()
+        private DataTable GenerateDummyRepliesData()
         {
-            List<ImageData> list = new List<ImageData>(){
-                new ImageData{
-                    ImageId = "123",
-                    path = "~/images/product-img/hoodies/black-Hoodie/all-over-print-unisex-hoodie-white-front-611679bab7dfd.png"
-                },
-                new ImageData{
-                    ImageId = "123",
-                    path = "~/images/product-img/hoodies/black-Hoodie/all-over-print-unisex-hoodie-white-front-611679bab7dfd.png"
+            // Create a new DataTable to hold the dummy data
+            DataTable dataTable = new DataTable();
 
-                },
-                new ImageData{
-                    ImageId = "123",
-                    path = "~/images/product-img/hoodies/black-Hoodie/all-over-print-unisex-hoodie-white-front-611679bab7dfd.png"
+            // Add columns to the DataTable
+            dataTable.Columns.Add("AdminName", typeof(string));
+            dataTable.Columns.Add("AdminRole", typeof(string));
+            dataTable.Columns.Add("ReplyTime", typeof(DateTime));
+            dataTable.Columns.Add("ReplyText", typeof(string));
 
-                }
-            };
+            // Add some dummy data rows to the DataTable
+            dataTable.Rows.Add("John Doe", "Admin", DateTime.Now.AddDays(-1), "Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+            dataTable.Rows.Add("Jane Smith", "Moderator", DateTime.Now.AddDays(-2), "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
+            dataTable.Rows.Add("Alice Johnson", "User", DateTime.Now.AddDays(-3), "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.");
 
-            return list;
+            return dataTable;
         }
 
-        private List<ColorData> GetColor()
+        private DataTable GetBeigeImg()
         {
-            List<ColorData> list = new List<ColorData>()
-            {
-                new ColorData
-                {
-                    Color="Beige"
-                },
-                new ColorData
-                {
-                    Color="White"
-                },
-                new ColorData
-                {
-                    Color="Black"
-                }
-            };
+            DataTable beigeImgDataTable = new DataTable();
+            beigeImgDataTable.Columns.Add("ImageId", typeof(string));
+            beigeImgDataTable.Columns.Add("path", typeof(string));
 
-            return list;
+            // Add rows to the DataTable
+            beigeImgDataTable.Rows.Add("123", "~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de6441b1.png");
+            beigeImgDataTable.Rows.Add("123", "~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de644282.png");
+            beigeImgDataTable.Rows.Add("123", "~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-zoomed-in-61167de6440a2.png");
+
+            return beigeImgDataTable;
         }
 
-        public class ReviewData
+        private DataTable GetBlackImg()
         {
-            public string CustomerName { get; set; }
-            public string ReviewTime { get; set; } // Consider using DateTime for formatting
-            public double ReviewRating { get; set; } // Consider using DateTime for formatting
-            public string ReviewColor { get; set; } // Consider using DateTime for formatting
-            public int ReviewQuantity { get; set; } // Consider using DateTime for formatting
-            public string ReviewText { get; set; }
-            public List<ReplyData> Replies { get; set; }
+            DataTable blackImgDataTable = new DataTable();
+            blackImgDataTable.Columns.Add("ImageId", typeof(string));
+            blackImgDataTable.Columns.Add("path", typeof(string));
+
+            // Add rows to the DataTable
+            blackImgDataTable.Rows.Add("123", "~/images/product-img/hoodies/black-Hoodie/all-over-print-unisex-hoodie-white-front-611679bab7dfd.png");
+            blackImgDataTable.Rows.Add("123", "~/images/product-img/hoodies/black-Hoodie/all-over-print-unisex-hoodie-white-front-611679bab7dfd.png");
+            blackImgDataTable.Rows.Add("123", "~/images/product-img/hoodies/black-Hoodie/all-over-print-unisex-hoodie-white-front-611679bab7dfd.png");
+
+            return blackImgDataTable;
         }
 
-        public class ReplyData
+        private DataTable GetColor()
         {
-            public string AdminName { get; set; }
-            public string AdminRole { get; set; }
+            DataTable colorDataTable = new DataTable();
+            colorDataTable.Columns.Add("Color", typeof(string));
 
-            public string ReplyTime { get; set; } // Consider using DateTime for formatting
-            public string ReplyText { get; set; }
-        }
+            // Add rows to the DataTable
+            colorDataTable.Rows.Add("Beige");
+            colorDataTable.Rows.Add("White");
+            colorDataTable.Rows.Add("Black");
 
-        public class ColorData
-        {
-            public string Color { get; set; } // Consider using DateTime for formatting
-        }
-
-        public class ImageData
-        {
-            public string ImageId { get; set; }
-            public string path { get; set; }
+            return colorDataTable;
         }
 
         protected void lvReviews_PagePropertiesChanged(object sender, EventArgs e)
@@ -255,15 +192,17 @@ namespace OutModern.src.Admin.ProductDetails
             }
             repeaterImg.DataBind();
 
-            lvReviews.DataSource = GetReviewList();
-            lvReviews.DataBind();
-
         }
 
 
 
         protected void repeaterColors_ItemDataBound(object sender, System.Web.UI.WebControls.RepeaterItemEventArgs e)
         {
+        }
+
+        protected void ddlSize_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            lblQuantity.Text = "222";
         }
     }
 }

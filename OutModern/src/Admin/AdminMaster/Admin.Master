@@ -105,7 +105,7 @@
                 }
 
                 #data-table thead {
-                    @apply sticky top-14 bg-gray-950 text-white;
+                    @apply z-50  sticky top-14 bg-gray-950 text-white;
                 }
 
                     #data-table thead th {

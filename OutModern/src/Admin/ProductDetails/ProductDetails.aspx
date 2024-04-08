@@ -85,7 +85,7 @@
             <asp:Label CssClass="text-2xl font-extrabold" ID="lblTitleProductName" runat="server" Text="Premium Hoodie"></asp:Label>
             <asp:HyperLink
                 CssClass="inline-block text-white px-2 py-1 rounded bg-amber-500 hover:opacity-50" ID="hlEditProduct" runat="server"
-                NavigateUrl='<%#urls[ProductEdit] + "?id=" + Request.QueryString["id"] %>'>
+                NavigateUrl='<%#urls[ProductEdit] + "?ProductId=" + Request.QueryString["ProductId"] %>'>
             <i class="fa-regular fa-pen-to-square"></i>
             </asp:HyperLink>
         </div>
@@ -129,53 +129,68 @@
 
                 <div class="mt-4">
 
-                    <div class="flex mt-4 items-center gap-7">
+                    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+                    <!--Size selection-->
+                    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                        <ContentTemplate>
+                            <div class="flex mt-4 items-center gap-7">
 
-                        <!--Size selection-->
-                        <div>
-                            <div>Size</div>
-                            <div>
-                                <asp:DropDownList ID="ddlSize" runat="server">
-                                    <asp:ListItem>S</asp:ListItem>
-                                    <asp:ListItem>M</asp:ListItem>
-                                    <asp:ListItem>L</asp:ListItem>
-                                    <asp:ListItem>XL</asp:ListItem>
-                                </asp:DropDownList>
+                                <div>
+                                    <div>Size</div>
+                                    <div>
+                                        <asp:DropDownList AutoPostBack="true" OnSelectedIndexChanged="ddlSize_SelectedIndexChanged" ID="ddlSize" runat="server">
+                                            <asp:ListItem>S</asp:ListItem>
+                                            <asp:ListItem>M</asp:ListItem>
+                                            <asp:ListItem>L</asp:ListItem>
+                                            <asp:ListItem>XL</asp:ListItem>
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div class="">
+                                    <div>Quantity</div>
+                                    <div>
+                                        <asp:Label CssClass="w-16 border border-gray-300 px-2 rounded" ID="lblQuantity" runat="server" Text="123"></asp:Label>
+                                    </div>
+                                </div>
+                            </div>
+                        </ContentTemplate>
+                        <Triggers>
+                            <asp:AsyncPostBackTrigger ControlID="ddlSize" EventName="SelectedIndexChanged" />
+                        </Triggers>
+                    </asp:UpdatePanel>
+
+                    <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+                        <ContentTemplate>
+                            <!--Colors-->
+                            <div class="mb-2 mt-2">
+                                <div>Color</div>
+                                <div class="flex items-center gap-2">
+                                    <asp:Repeater ID="repeaterColors" OnItemDataBound="repeaterColors_ItemDataBound" OnItemCommand="repeaterColors_ItemCommand" runat="server">
+                                        <ItemTemplate>
+                                            <asp:Button ID="btnColor" runat="server" UseSubmitBehavior="false"
+                                                CommandName="ChangeColor" CommandArgument='<%# Eval("Color") %>'
+                                                Style='<%# "background:" + Eval("Color") +";" %>' CssClass='<%# "color-varient" + (Container.ItemIndex == 0 ? " active" : "") %>' />
+                                        </ItemTemplate>
+                                    </asp:Repeater>
+                                </div>
                             </div>
 
-                        </div>
-                        <div class="">
-                            <div>Quantity</div>
-                            <div>
-                                <asp:Label CssClass="w-16 border border-gray-300 px-2 rounded" TextMode="Number" ID="lblQuantity" runat="server" Text="123"></asp:Label>
+                            <!-- Images -->
+                            <div class="flex gap-2 mt-2">
+                                <asp:Repeater ID="repeaterImg" runat="server">
+                                    <ItemTemplate>
+                                        <asp:Image ID="imgProd" runat="server" Width="10em"
+                                            CssClass="product-img"
+                                            ImageUrl='<%# Eval("path") %>' />
+                                    </ItemTemplate>
+                                </asp:Repeater>
                             </div>
-                        </div>
-                    </div>
+                        </ContentTemplate>
+                        <Triggers>
+                            <asp:AsyncPostBackTrigger  ControlID="repeaterColors" EventName="ItemCommand"/>
+                        </Triggers>
+                    </asp:UpdatePanel>
 
-                    <!--Colors-->
-                    <div class="mb-2 mt-2">
-                        <div>Color</div>
-                        <div class="flex items-center gap-2">
-                            <asp:Repeater ID="repeaterColors" OnItemDataBound="repeaterColors_ItemDataBound" OnItemCommand="repeaterColors_ItemCommand" runat="server">
-                                <ItemTemplate>
-                                    <asp:Button ID="btnColor" runat="server" UseSubmitBehavior="false"
-                                        CommandName="ChangeColor" CommandArgument='<%# Eval("Color") %>'
-                                        Style='<%# "background:" + Eval("Color") +";" %>' CssClass='<%# "color-varient" + (Container.ItemIndex == 0 ? " active" : "") %>' />
-                                </ItemTemplate>
-                            </asp:Repeater>
-                        </div>
-                    </div>
-
-                    <!-- Images -->
-                    <div class="flex gap-2 mt-2">
-                        <asp:Repeater ID="repeaterImg" runat="server">
-                            <ItemTemplate>
-                                <asp:Image ID="imgProd" runat="server" Width="10em"
-                                    CssClass="product-img"
-                                    ImageUrl='<%# Eval("path") %>' />
-                            </ItemTemplate>
-                        </asp:Repeater>
-                    </div>
                 </div>
             </div>
         </div>
@@ -240,7 +255,7 @@
                             </div>
 
                         </td>
-                        <td style="border: 1px solid black" class="auto-style2">
+                        <td style="border: 1px solid black;padding:1em;">
                             <asp:HyperLink ID="hlReply" CssClass="review-reply-btn" runat="server" NavigateUrl='<%#urls[ProductReviewReply] +"?id=" + Eval("CustomerName") %>'>Reply</asp:HyperLink>
                         </td>
                     </tr>

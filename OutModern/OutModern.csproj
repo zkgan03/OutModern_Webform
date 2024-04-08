@@ -67,6 +67,9 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="src\Admin\CustomerDetails\CustomerDetails.aspx.cs">
       <DependentUpon>CustomerDetails.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -116,13 +119,6 @@
     </Compile>
     <Compile Include="src\Admin\ProductReviewReply\ProductReviewReply.aspx.designer.cs">
       <DependentUpon>ProductReviewReply.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="src\Admin\StaffDetails\StaffDetails.aspx.cs">
-      <DependentUpon>StaffDetails.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="src\Admin\StaffDetails\StaffDetails.aspx.designer.cs">
-      <DependentUpon>StaffDetails.aspx</DependentUpon>
     </Compile>
     <Compile Include="src\Client\Cart\Cart.aspx.cs">
       <DependentUpon>Cart.aspx</DependentUpon>
@@ -295,6 +291,7 @@
     <Content Include="favicon\favicon-16x16.png" />
     <Content Include="favicon\favicon-32x32.png" />
     <Content Include="favicon\favicon.ico" />
+    <Content Include="Global.asax" />
     <Content Include="images\about_us_img\aboutUs%281%29.jpg" />
     <Content Include="images\about_us_img\happy.jpg" />
     <Content Include="images\about_us_img\img%28a%29.jpg" />
@@ -676,7 +673,6 @@
     <Content Include="src\Admin\Products\Products.aspx" />
     <Content Include="src\Admin\PromoCode\PromoCode.aspx" />
     <Content Include="src\Admin\Setting\Setting.aspx" />
-    <Content Include="src\Admin\StaffDetails\StaffDetails.aspx" />
     <Content Include="src\Admin\Staffs\Staffs.aspx" />
     <Content Include="src\Client\Cart\Cart.aspx" />
     <Content Include="src\Client\ClientMaster\css\ClientMaster.css" />

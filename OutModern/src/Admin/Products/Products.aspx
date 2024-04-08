@@ -19,7 +19,6 @@
                 .product-status.temp-unavailable {
                     @apply bg-amber-300;
                 }
-
         }
     </style>
 
@@ -63,7 +62,7 @@
                 </Fields>
             </asp:DataPager>
 
-            <asp:ListView OnItemCommand="lvProducts_ItemCommand" OnPagePropertiesChanged="lvProducts_PagePropertiesChanged" ID="lvProducts" runat="server" DataKeyNames="Id" OnItemDataBound="lvProducts_ItemDataBound">
+            <asp:ListView OnItemCommand="lvProducts_ItemCommand" OnPagePropertiesChanged="lvProducts_PagePropertiesChanged" ID="lvProducts" runat="server" DataKeyNames="ProductId" OnItemDataBound="lvProducts_ItemDataBound">
                 <LayoutTemplate>
 
                     <table id="data-table" style="width: 100%; text-align: center;">
@@ -101,20 +100,8 @@
                                     </asp:LinkButton>
                                 </th>
                                 <th>
-                                    <asp:LinkButton ID="lbQuantity" runat="server">
-                                        Quantity
-                                        <i class="fa-solid fa-arrow-up"></i>
-                                    </asp:LinkButton>
-                                </th>
-                                <th>
                                     <asp:LinkButton ID="LinkButton1" runat="server">
                                         Status
-                                        <i class="fa-solid fa-arrow-up"></i>
-                                    </asp:LinkButton>
-                                </th>
-                                <th>
-                                    <asp:LinkButton ID="LinkButton2" runat="server">
-                                        Reviews
                                         <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
@@ -126,22 +113,31 @@
 
                 </LayoutTemplate>
                 <ItemTemplate>
-                    <tr onclick="window.location='<%# Page.ResolveClientUrl(urls[ProductDetails] + "?id=" +  Eval("Id") )%>'">
-                        <td><%# Eval("Id") %></td>
+                    <tr onclick="window.location='<%# Page.ResolveClientUrl(urls[ProductDetails] + "?ProductId=" +  Eval("ProductId") )%>'">
+                        <td><%# Eval("ProductId") %></td>
                         <td>
                             <asp:Image ID="imgPath" CssClass="mx-auto" runat="server" Width="5em" ImageUrl='<%# Eval("Path") %>' />
-                            <%# Eval("Name") %>
+                            <%# Eval("ProductName") %>
                         </td>
-                        <td><%# Eval("Category") %></td>
-                        <td>...</td>
-                        <td><%# Eval("Price", "{0:0.00}") %></td>
-                        <td><%# Eval("Quantity") %></td>
+                        <td><%# Eval("ProductCategory") %></td>
                         <td>
-                            <span runat="server" id="productStatus" class="product-status"><%# Eval("Status") %></span>
+                            <div class="flex gap-2 justify-center items-center flex-wrap">
+                                <asp:Repeater ID="rptColors" runat="server" DataSource='<%# Eval("Colors") %>'>
+                                    <ItemTemplate>
+                                        <div style='<%# "background-color: #" + Eval("Color") +";" %>'
+                                            class="size-5 rounded-full border drop-shadow border-gray-300 ">
+                                        </div>
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                            </div>
+
                         </td>
-                        <td><%# Eval("Reviews") %></td>
+                        <td><%# Eval("UnitPrice", "{0:0.00}") %></td>
                         <td>
-                            <asp:HyperLink NavigateUrl='<%#urls[ProductEdit] + "?id=" + Eval("Id") %>' runat="server" CssClass="button">
+                            <span runat="server" id="productStatus" class="product-status"><%# Eval("ProductStatusName") %></span>
+                        </td>
+                        <td>
+                            <asp:HyperLink NavigateUrl='<%#urls[ProductEdit] + "?ProductId=" + Eval("ProductId") %>' runat="server" CssClass="button">
                                 <i class="fa-regular fa-pen-to-square"></i>
                             </asp:HyperLink>
                         </td>
