@@ -74,5 +74,10 @@ namespace OutModern.src.Admin.AdminMaster
                 currentContent.FilterListView(searchTerm);
             }
         }
+
+        protected void Timer1_Tick(object sender, EventArgs e)
+        {
+            lblServerTime.Text = DateTime.Now.ToString();
+        }
     }
 }

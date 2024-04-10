@@ -10,6 +10,7 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using OutModern.src.Admin.Interfaces;
+using OutModern.src.Admin.Staffs;
 
 
 namespace OutModern.src.Admin.Products
@@ -40,8 +41,37 @@ namespace OutModern.src.Admin.Products
 
             }
         }
+        //store each column sorting state into viewstate
+        private Dictionary<string, string> SortDirections
+        {
+            get
+            {
+                if (ViewState["SortDirections"] == null)
+                {
+                    ViewState["SortDirections"] = new Dictionary<string, string>();
+                }
+                return (Dictionary<string, string>)ViewState["SortDirections"];
+            }
+            set
+            {
+                ViewState["SortDirections"] = value;
+            }
+        }
 
-        private DataTable GetProducts()
+        // Toggle Sorting
+        private void toggleSortDirection(string columnName)
+        {
+            if (!SortDirections.ContainsKey(columnName))
+            {
+                SortDirections[columnName] = "ASC";
+            }
+            else
+            {
+                SortDirections[columnName] = SortDirections[columnName] == "ASC" ? "DESC" : "ASC";
+            }
+        }
+
+        private DataTable GetProducts(string sortExpression = null, string sortDirection = "ASC")
         {
             DataTable data = new DataTable();
 
@@ -49,11 +79,26 @@ namespace OutModern.src.Admin.Products
             {
                 connection.Open();
                 string sqlQuery =
-                    "SELECT distinct p.ProductId, [Path], ProductName, ProductCategory, UnitPrice, ProductStatusName " +
-                    "FROM Product p " +
-                    "INNER JOIN ProductDetail ON p.ProductId = ProductDetail.ProductId " +
-                    "INNER JOIN (Select TOP 1 ProductDetail.ProductId, [Path] from ProductImage, ProductDetail Where ProductImage.ProductDetailId = ProductDetail.ProductDetailId) t " +
-                    "ON t.ProductId = p.ProductId INNER JOIN ProductStatus ON p.ProductStatusId = ProductStatus.ProductStatusId";
+                    "SELECT ProductId, [Path], ProductName, ProductCategory, UnitPrice, ProductStatusName " +
+                    "FROM ( " +
+                            "SELECT p.ProductId, [Path], ProductName, ProductCategory, UnitPrice, ProductStatusName, " +
+                            "ROW_NUMBER() OVER (PARTITION BY p.ProductId ORDER BY p.ProductId ) AS RowNumber " +
+                            "FROM Product p " +
+                            "INNER JOIN ProductDetail ON p.ProductId = ProductDetail.ProductId " +
+                            "INNER JOIN ( " +
+                                "SELECT ProductDetail.ProductId, [Path] " +
+                                "FROM ProductImage " +
+                                "INNER JOIN ProductDetail ON ProductImage.ProductDetailId = ProductDetail.ProductDetailId " +
+                            ") t ON t.ProductId = p.ProductId " +
+                            "INNER JOIN ProductStatus ON p.ProductStatusId = ProductStatus.ProductStatusId " +
+                    ") AS Subquery " +
+                    "WHERE RowNumber = 1 ";
+
+                if (!string.IsNullOrEmpty(sortExpression))
+                {
+                    sqlQuery += "ORDER BY " + sortExpression + " " + sortDirection;
+                }
+
 
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
@@ -64,13 +109,13 @@ namespace OutModern.src.Admin.Products
             data.Columns.Add("Colors", typeof(DataTable));
             foreach (DataRow row in data.Rows)
             {
-                row["Colors"] = loadColors(row["productId"].ToString());
+                row["Colors"] = getColors(row["productId"].ToString());
             }
 
             return data;
         }
 
-        private DataTable loadColors(string productId)
+        private DataTable getColors(string productId)
         {
             DataTable data = new DataTable();
 
@@ -81,7 +126,8 @@ namespace OutModern.src.Admin.Products
                 string sqlQuery =
                     "Select Distinct c.HexColor as color " +
                     "From Product p, Color c, ProductDetail pd " +
-                    "Where p.ProductId = @productId AND pd.ColorId = c.ColorId";
+                    "Where p.ProductId = @productId AND pd.ColorId = c.ColorId " +
+                    "AND p.ProductId = pd.ProductId AND isDeleted = 0";
 
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
@@ -126,12 +172,14 @@ namespace OutModern.src.Admin.Products
 
         protected void lvProducts_PagePropertiesChanged(object sender, EventArgs e)
         {
-            lvProducts.DataSource = GetProducts();
+            string sortExpression = ViewState["SortExpression"]?.ToString();
+            lvProducts.DataSource = sortExpression == null ? GetProducts() : GetProducts(sortExpression, SortDirections[sortExpression]);
             lvProducts.DataBind();
         }
 
         protected void lvProducts_ItemCommand(object sender, ListViewCommandEventArgs e)
         {
+
         }
 
         public void FilterListView(string searchTerm)
@@ -168,5 +216,16 @@ namespace OutModern.src.Admin.Products
             return filteredDataTable;
         }
 
+        protected void lvProducts_Sorting(object sender, ListViewSortEventArgs e)
+        {
+            toggleSortDirection(e.SortExpression); // Toggle sorting direction for the clicked column
+
+
+            ViewState["SortExpression"] = e.SortExpression; // used for retain the sorting
+
+            // Re-bind the ListView with sorted data
+            lvProducts.DataSource = GetProducts(e.SortExpression, SortDirections[e.SortExpression]);
+            lvProducts.DataBind();
+        }
     }
 }

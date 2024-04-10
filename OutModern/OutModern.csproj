@@ -67,9 +67,6 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
     <Compile Include="src\Admin\CustomerDetails\CustomerDetails.aspx.cs">
       <DependentUpon>CustomerDetails.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -291,7 +288,6 @@
     <Content Include="favicon\favicon-16x16.png" />
     <Content Include="favicon\favicon-32x32.png" />
     <Content Include="favicon\favicon.ico" />
-    <Content Include="Global.asax" />
     <Content Include="images\about_us_img\aboutUs%281%29.jpg" />
     <Content Include="images\about_us_img\happy.jpg" />
     <Content Include="images\about_us_img\img%28a%29.jpg" />

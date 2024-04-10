@@ -105,7 +105,7 @@
                 }
 
                 #data-table thead {
-                    @apply z-50  sticky top-14 bg-gray-950 text-white;
+                    @apply z-50 sticky top-14 bg-gray-950 text-white;
                 }
 
                     #data-table thead th {
@@ -163,6 +163,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1"  runat="server"></asp:ScriptManager>
         <!-- Container -->
         <div class="flex items-stretch">
             <!-- Side menu -->
@@ -217,7 +218,7 @@
                     <div class="mt-5">
                         <div class="menu-title">Customer Relation</div>
                         <!--Customers-->
-                        <asp:HyperLink runat="server" ID="hyperlinkCustomers" NavigateUrl='<%# urls[Customers]  %>' ToolTip="Manage registered customer" >
+                        <asp:HyperLink runat="server" ID="hyperlinkCustomers" NavigateUrl='<%# urls[Customers]  %>' ToolTip="Manage registered customer">
                             <div class="menu-item">
                                 <i class="fa-duotone fa-users fa-lg fa-fw mr-2"></i>
                                 <span class="menu-item-text">Customers</span>
@@ -248,7 +249,7 @@
 
                         <!-- Site Map -->
                         <div class="ml-1">
-                            <asp:SiteMapPath ID="sitemapAdmin" runat="server" SiteMapProvider="adminSiteMap">
+                            <asp:SiteMapPath Enabled="false" ID="sitemapAdmin" runat="server" SiteMapProvider="adminSiteMap">
                             </asp:SiteMapPath>
                         </div>
                     </div>
@@ -296,9 +297,15 @@
                 <div class="p-2 max-w-screen-2xl">
 
                     <!-- Server Time-->
-                    <div class="text-center">
-                        Server Time : <%= DateTime.Now %>
-                    </div>
+                    <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+                        <ContentTemplate>
+                            <asp:Timer ID="Timer1" Interval="10000" OnTick="Timer1_Tick" runat="server"></asp:Timer>
+                            <div class="text-center">
+                                Server Time : <asp:Label ID="lblServerTime" runat="server" Text='<%# DateTime.Now %>'></asp:Label>
+                            </div>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+
 
                     <!-- Main content -->
                     <div class="p-12 pt-2">

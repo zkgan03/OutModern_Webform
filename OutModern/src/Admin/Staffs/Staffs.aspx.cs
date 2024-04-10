@@ -90,7 +90,7 @@ namespace OutModern.src.Admin.Staffs
         {
             if (!SortDirections.ContainsKey(columnName))
             {
-                SortDirections[columnName] = "DESC";
+                SortDirections[columnName] = "ASC";
             }
             else
             {
@@ -310,8 +310,11 @@ namespace OutModern.src.Admin.Staffs
         {
             lvStaffs.InsertItemPosition = InsertItemPosition.None;
             lvStaffs.EditIndex = -1;
-            string sortExpression = ViewState["SortExpression"].ToString();
-            lvStaffs.DataSource = GetStaffs(sortExpression, SortDirections[sortExpression]);
+            string sortExpression = ViewState["SortExpression"]?.ToString();
+            lvStaffs.DataSource =
+                sortExpression == null ?
+                GetStaffs() :
+                GetStaffs(sortExpression, SortDirections[sortExpression]); 
             lvStaffs.DataBind();
         }
 
@@ -451,9 +454,6 @@ namespace OutModern.src.Admin.Staffs
                         break;
                 }
             }
-
-
-
 
         }
 

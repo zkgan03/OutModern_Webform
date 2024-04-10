@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Net;
 using System.Web.UI;
@@ -15,6 +16,8 @@ namespace OutModern.src.Admin.ProductDetails
         protected static readonly string ProductReviewReply = "ProductReviewReply";
 
         private string ConnectionStirng = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        private string productId;
+
 
         // Side menu urls
         protected Dictionary<string, string> urls = new Dictionary<string, string>()
@@ -25,185 +28,312 @@ namespace OutModern.src.Admin.ProductDetails
         };
         protected void Page_Load(object sender, EventArgs e)
         {
+            productId = Request.QueryString["ProductId"];
+
             if (!IsPostBack)
             {
-                string productId = Request.QueryString["ProductId"];
                 if (productId == null)
                 {
                     Response.StatusCode = 404;
                     return;
                 }
 
-                loadProductDetails(productId);
+                initProductInfo(getProductInfo());
 
-                lvReviews.DataSource = GetReviewList();
+                // bind ddl of size
+                ddlSize.DataSource = getSizes();
+                ddlSize.DataValueField = "sizeId";
+                ddlSize.DataTextField = "sizeName";
+                ddlSize.DataBind();
+
+                // bind repeater for color
+                repeaterColors.DataSource = getColors();
+                repeaterColors.DataBind();
+
+                // int initQuantity
+                setQuantity();
+
+                // init images
+                repeaterImg.DataSource = getImages(ViewState["ColorId"].ToString());
+                repeaterImg.DataBind();
+
+                //init reviews
+                lvReviews.DataSource = getReviewList();
                 lvReviews.DataBind();
 
                 Page.DataBind();
             }
-            repeaterColors.DataSource = GetColor();
-            repeaterColors.DataBind();
 
-            repeaterImg.DataSource = GetBeigeImg();
-            repeaterImg.DataBind();
+
         }
 
-        private void loadProductDetails(string productId)
+        private void initProductInfo(DataTable productData)
         {
-            //Select the productInfo
-            //Select ProductId, ProductCategory, UnitPrice, ProductStatusName
-            //FROM Product
-            //Join ProductStatus on Product.ProductStatusId = ProductStatus.ProductStatusId
-            //WHERE ProductId = 1;
+            DataRow data = productData.Rows[0];
 
-            //Select Quantity Based on size and color
-            //Select quantity
-            //FROM Product
-            //Join ProductDetail on Product.ProductId = ProductDetail.ProductId
-            //Join ProductStatus on Product.ProductStatusId = ProductStatus.ProductStatusId
-            //WHERE SizeId = 1 and ColorId = 1 and Product.ProductId = 1;
+            lblProductId.Text = data["ProductId"].ToString();
+            lblTitleProductName.Text = data["ProductName"].ToString();
+            lblCategory.Text = data["ProductCategory"].ToString();
+            lblPrice.Text = data["UnitPrice"].ToString();
+            lblStatus.Text = data["ProductStatusName"].ToString();
         }
 
-        private DataTable GetReviewList()
+        // Get the products info
+        private DataTable getProductInfo()
         {
-            DataTable reviewDataTable = new DataTable();
-            reviewDataTable.Columns.Add("CustomerName", typeof(string));
-            reviewDataTable.Columns.Add("ReviewTime", typeof(string));
-            reviewDataTable.Columns.Add("ReviewRating", typeof(double));
-            reviewDataTable.Columns.Add("ReviewColor", typeof(string));
-            reviewDataTable.Columns.Add("ReviewQuantity", typeof(int));
-            reviewDataTable.Columns.Add("ReviewText", typeof(string));
-            reviewDataTable.Columns.Add("Replies", typeof(DataTable));
+            DataTable data = new DataTable();
+            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            {
+                connection.Open();
 
-            // Add rows to the DataTable
-            reviewDataTable.Rows.Add("Customer A", DateTime.Now.ToString("yyyy-MM-dd HH:mm"), 3.0, "white", 1, "This has problems!", GenerateDummyRepliesData());
-            reviewDataTable.Rows.Add("Customer B", DateTime.Now.ToString("yyyy-MM-dd HH:mm"), 4.0, "black", 3, "This is amazing!", GenerateDummyRepliesData());
-            reviewDataTable.Rows.Add("Customer C", DateTime.Now.ToString("yyyy-MM-dd HH:mm"), 3.0, "white", 1, "This is review 3", GenerateDummyRepliesData());
-            reviewDataTable.Rows.Add("Customer D", DateTime.Now.ToString("yyyy-MM-dd HH:mm"), 4.0, "black", 3, "Test Review", GenerateDummyRepliesData());
+                string sqlQuery =
+                    "Select ProductId, ProductName, ProductCategory, UnitPrice, ProductStatusName " +
+                    "FROM Product " +
+                    "Join ProductStatus on Product.ProductStatusId = ProductStatus.ProductStatusId " +
+                    "WHERE ProductId = @productId;";
 
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@productId", productId);
 
-
-            return reviewDataTable;
+                    data.Load(command.ExecuteReader());
+                }
+            }
+            return data;
         }
 
-        private DataTable GenerateDummyRepliesData()
+        // return all Sized available for the specific product
+        private DataTable getSizes()
+        {
+            DataTable data = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            {
+                connection.Open();
+
+                string sqlQuery =
+                    "Select Distinct s.sizeId, s.sizeName " +
+                    "From Product p, ProductDetail pd, Size s " +
+                    "Where p.ProductId = @productId AND pd.productId = p.productId AND s.sizeId = pd.sizeId";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@productId", productId);
+
+                    data.Load(command.ExecuteReader());
+                }
+            }
+
+            return data;
+        }
+
+        // return all colors available
+        private DataTable getColors()
+        {
+            DataTable data = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            {
+                connection.Open();
+
+                string sqlQuery =
+                    "Select distinct pd.ColorId, c.HexColor color " +
+                    "From Product p, Color c, ProductDetail pd " +
+                    "Where p.ProductId = @productId AND pd.ColorId = c.ColorId " +
+                    "AND p.ProductId = pd.ProductId AND isDeleted = 0";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@productId", productId);
+
+                    data.Load(command.ExecuteReader());
+                }
+            }
+
+            if (ViewState["ColorId"] == null)
+            {
+                ViewState["ColorId"] = data.Rows[0]["ColorId"].ToString();
+            }
+
+            return data;
+        }
+
+        //get Quantity based on color and size (return 0 if color not available)
+        private int getQuantity(string sizeId, string colorId)
+        {
+            DataTable data = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            {
+                connection.Open();
+
+                string sqlQuery =
+                    "select quantity " +
+                    "From ProductDetail " +
+                    "Where ProductId = @productId " +
+                    "AND SizeId = @sizeId " +
+                    "AND ColorId = @colorId; ";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@productId", productId);
+                    command.Parameters.AddWithValue("@sizeId", sizeId);
+                    command.Parameters.AddWithValue("@colorId", colorId);
+
+                    data.Load(command.ExecuteReader());
+                }
+            }
+
+            return data.Rows.Count == 0 ? 0 : (int)data.Rows[0]["quantity"];
+        }
+
+        //get images based on color
+        private DataTable getImages(string colorId)
+        {
+            DataTable data = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            {
+                connection.Open();
+
+                string sqlQuery =
+                    "select distinct [path] " +
+                    "From Product, ProductDetail, ProductImage " +
+                    "WHERE Product.ProductId = ProductDetail.ProductId " +
+                    "AND ProductDetail.ProductDetailId = ProductImage.ProductDetailId " +
+                    "AND ProductDetail.ColorId = @colorId " +
+                    "AND Product.ProductId = @productId";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@colorId", colorId);
+                    command.Parameters.AddWithValue("@productId", productId);
+
+                    data.Load(command.ExecuteReader());
+                }
+            }
+
+            return data;
+        }
+
+        //
+        // Dummy DATA
+        //
+        private DataTable getReviewList()
+        {
+            DataTable data = new DataTable();
+
+
+
+            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            {
+                connection.Open();
+                string sqlQuery =
+                     "Select ReviewId, CustomerFullname as CustomerName, ReviewDateTime as ReviewTime, Rating as ReviewRating, ColorName as ReviewColor, Quantity as ReviewQuantity, ReviewDescription as ReviewText " +
+                     "From Review r, Customer c, ProductDetail pd, Product p, Color co, Size s " +
+                     "Where r.CustomerId = c.CustomerId AND pd.ProductDetailId = r.ProductDetailId " +
+                     "AND pd.ColorId = co.ColorId AND pd.ProductId = p.ProductId AND s.SizeId = pd.SizeId " +
+                     "AND p.ProductId = @productId;";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@productId", productId);
+                    data.Load(command.ExecuteReader());
+                }
+            }
+
+
+            data.Columns.Add("Replies", typeof(DataTable));
+            foreach (DataRow row in data.Rows)
+            {
+                row["Replies"] = getReviewReplies(row["ReviewId"].ToString());
+            }
+
+            return data;
+        }
+
+        private DataTable getReviewReplies(string reviewId)
         {
             // Create a new DataTable to hold the dummy data
-            DataTable dataTable = new DataTable();
+            DataTable data = new DataTable();
 
-            // Add columns to the DataTable
-            dataTable.Columns.Add("AdminName", typeof(string));
-            dataTable.Columns.Add("AdminRole", typeof(string));
-            dataTable.Columns.Add("ReplyTime", typeof(DateTime));
-            dataTable.Columns.Add("ReplyText", typeof(string));
+            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            {
+                //ReplyTextReplyTimeAdminRoleAdminName
+                connection.Open();
+                string sqlQuery =
+                    "Select AdminFullName as AdminName, AdminRoleName as AdminRole, Reply as ReplyText, DateTime as ReplyTime " +
+                    "From [Admin] a, ReviewReply rr, Review r, AdminRole ar " +
+                    "Where a.AdminId = rr.AdminId AND r.ReviewId = rr.ReviewId AND a.AdminRoleId = ar.AdminRoleId " +
+                    "AND r.ReviewId = @reviewId;";
 
-            // Add some dummy data rows to the DataTable
-            dataTable.Rows.Add("John Doe", "Admin", DateTime.Now.AddDays(-1), "Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
-            dataTable.Rows.Add("Jane Smith", "Moderator", DateTime.Now.AddDays(-2), "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
-            dataTable.Rows.Add("Alice Johnson", "User", DateTime.Now.AddDays(-3), "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.");
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("reviewId", reviewId);
 
-            return dataTable;
+                    data.Load(command.ExecuteReader());
+                }
+
+            }
+
+            return data;
         }
 
-        private DataTable GetBeigeImg()
+        private void setQuantity()
         {
-            DataTable beigeImgDataTable = new DataTable();
-            beigeImgDataTable.Columns.Add("ImageId", typeof(string));
-            beigeImgDataTable.Columns.Add("path", typeof(string));
+            string sizeId = ddlSize.SelectedValue.ToString();
+            string colorId = ViewState["ColorId"].ToString();
 
-            // Add rows to the DataTable
-            beigeImgDataTable.Rows.Add("123", "~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de6441b1.png");
-            beigeImgDataTable.Rows.Add("123", "~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de644282.png");
-            beigeImgDataTable.Rows.Add("123", "~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-zoomed-in-61167de6440a2.png");
-
-            return beigeImgDataTable;
-        }
-
-        private DataTable GetBlackImg()
-        {
-            DataTable blackImgDataTable = new DataTable();
-            blackImgDataTable.Columns.Add("ImageId", typeof(string));
-            blackImgDataTable.Columns.Add("path", typeof(string));
-
-            // Add rows to the DataTable
-            blackImgDataTable.Rows.Add("123", "~/images/product-img/hoodies/black-Hoodie/all-over-print-unisex-hoodie-white-front-611679bab7dfd.png");
-            blackImgDataTable.Rows.Add("123", "~/images/product-img/hoodies/black-Hoodie/all-over-print-unisex-hoodie-white-front-611679bab7dfd.png");
-            blackImgDataTable.Rows.Add("123", "~/images/product-img/hoodies/black-Hoodie/all-over-print-unisex-hoodie-white-front-611679bab7dfd.png");
-
-            return blackImgDataTable;
-        }
-
-        private DataTable GetColor()
-        {
-            DataTable colorDataTable = new DataTable();
-            colorDataTable.Columns.Add("Color", typeof(string));
-
-            // Add rows to the DataTable
-            colorDataTable.Rows.Add("Beige");
-            colorDataTable.Rows.Add("White");
-            colorDataTable.Rows.Add("Black");
-
-            return colorDataTable;
+            int quantity = getQuantity(sizeId, colorId);
+            lblQuantity.Text = quantity.ToString();
         }
 
         protected void lvReviews_PagePropertiesChanged(object sender, EventArgs e)
         {
-            bindData();
-        }
-
-        private void bindData()
-        {
-            lvReviews.DataSource = GetReviewList();
+            lvReviews.DataSource = getReviewList();
             lvReviews.DataBind();
-
-            repeaterColors.DataSource = GetColor();
-            repeaterColors.DataBind();
-
-            repeaterImg.DataSource = GetBeigeImg();
-            repeaterImg.DataBind();
         }
+
+
 
         protected void repeaterColors_ItemCommand(object source, System.Web.UI.WebControls.RepeaterCommandEventArgs e)
         {
             if (e.CommandName == "ChangeColor")
             {
-                // Remove active class
-                foreach (RepeaterItem item in repeaterColors.Items)
-                {
-                    var button = item.FindControl("btnColor") as Button; // Replace with your button ID
-                    if (button != null)
-                    {
-                        button.CssClass = button.CssClass.Replace(" active", ""); // Remove "active"
-                    }
-                }
+                string colorId = e.CommandArgument.ToString();
+                ViewState["ColorId"] = colorId;
 
-                Button btn = (Button)e.CommandSource;
-                btn.CssClass += " active";
-
-                if (e.CommandArgument.ToString() == "Black")
-                {
-                    repeaterImg.DataSource = GetBlackImg();
-                }
-                else if (e.CommandArgument.ToString() == "Beige")
-                {
-                    repeaterImg.DataSource = GetBeigeImg();
-
-                }
+                selectColor(colorId);
+                setQuantity();
             }
-            repeaterImg.DataBind();
 
         }
 
-
-
-        protected void repeaterColors_ItemDataBound(object sender, System.Web.UI.WebControls.RepeaterItemEventArgs e)
+        private void selectColor(string colorId)
         {
+            // Remove active class
+            foreach (RepeaterItem item in repeaterColors.Items)
+            {
+                LinkButton lbColor = item.FindControl("lbColor") as LinkButton; // Replace with your button ID
+                if (lbColor != null)
+                {
+                    lbColor.CssClass = lbColor.CssClass.Replace(" active", ""); // Remove "active"
+                    if (lbColor.Attributes["data-colorId"] == colorId)
+                    {
+                        lbColor.CssClass += " active";
+                    }
+                }
+            }
+            repeaterImg.DataSource = getImages(ViewState["ColorId"].ToString());
+            repeaterImg.DataBind();
         }
 
         protected void ddlSize_SelectedIndexChanged(object sender, EventArgs e)
         {
-            lblQuantity.Text = "222";
+            setQuantity();
         }
+
+
     }
 }
 

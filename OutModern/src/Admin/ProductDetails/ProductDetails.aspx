@@ -128,8 +128,6 @@
                 <div class="text-xl font-[600]">Variation</div>
 
                 <div class="mt-4">
-
-                    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
                     <!--Size selection-->
                     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                         <ContentTemplate>
@@ -139,17 +137,13 @@
                                     <div>Size</div>
                                     <div>
                                         <asp:DropDownList AutoPostBack="true" OnSelectedIndexChanged="ddlSize_SelectedIndexChanged" ID="ddlSize" runat="server">
-                                            <asp:ListItem>S</asp:ListItem>
-                                            <asp:ListItem>M</asp:ListItem>
-                                            <asp:ListItem>L</asp:ListItem>
-                                            <asp:ListItem>XL</asp:ListItem>
                                         </asp:DropDownList>
                                     </div>
                                 </div>
                                 <div class="">
                                     <div>Quantity</div>
                                     <div>
-                                        <asp:Label CssClass="w-16 border border-gray-300 px-2 rounded" ID="lblQuantity" runat="server" Text="123"></asp:Label>
+                                        <asp:Label CssClass="w-16 border border-gray-300 px-2 rounded" ID="lblQuantity" runat="server" Text=""></asp:Label>
                                     </div>
                                 </div>
                             </div>
@@ -164,30 +158,35 @@
                             <!--Colors-->
                             <div class="mb-2 mt-2">
                                 <div>Color</div>
-                                <div class="flex items-center gap-2">
-                                    <asp:Repeater ID="repeaterColors" OnItemDataBound="repeaterColors_ItemDataBound" OnItemCommand="repeaterColors_ItemCommand" runat="server">
+                                <div class="flex items-center gap-2 flex-wrap">
+                                    <asp:Repeater ID="repeaterColors" OnItemCommand="repeaterColors_ItemCommand" runat="server">
                                         <ItemTemplate>
-                                            <asp:Button ID="btnColor" runat="server" UseSubmitBehavior="false"
-                                                CommandName="ChangeColor" CommandArgument='<%# Eval("Color") %>'
-                                                Style='<%# "background:" + Eval("Color") +";" %>' CssClass='<%# "color-varient" + (Container.ItemIndex == 0 ? " active" : "") %>' />
+                                            <asp:LinkButton
+                                                data-colorId='<%# Eval("ColorId") %>'
+                                                CommandName="ChangeColor"
+                                                CommandArgument='<%#Eval("ColorId") %>'
+                                                ID="lbColor" runat="server"
+                                                Style='<%# "background-color: #" + Eval("Color") +";" %>'
+                                                CssClass='<%# "color-varient" + (ViewState["ColorId"].ToString() == Eval("ColorId").ToString() ? " active" : "") %>'>
+                                            </asp:LinkButton>
                                         </ItemTemplate>
                                     </asp:Repeater>
                                 </div>
                             </div>
 
                             <!-- Images -->
-                            <div class="flex gap-2 mt-2">
+                            <div class="flex gap-2 mt-2 flex-wrap">
                                 <asp:Repeater ID="repeaterImg" runat="server">
                                     <ItemTemplate>
-                                        <asp:Image ID="imgProd" runat="server" Width="10em"
-                                            CssClass="product-img"
+                                        <asp:Image ID="imgProd" runat="server" Width="10em" Height="10em"
+                                            CssClass="product-img object-cover"
                                             ImageUrl='<%# Eval("path") %>' />
                                     </ItemTemplate>
                                 </asp:Repeater>
                             </div>
                         </ContentTemplate>
                         <Triggers>
-                            <asp:AsyncPostBackTrigger  ControlID="repeaterColors" EventName="ItemCommand"/>
+                            <asp:AsyncPostBackTrigger ControlID="repeaterColors" EventName="ItemCommand" />
                         </Triggers>
                     </asp:UpdatePanel>
 
@@ -201,78 +200,87 @@
                 Reviews (<asp:Label CssClass="text-3xl font-bold text-amber-500" ID="lblOverallRating" runat="server" Text="4.0"></asp:Label>/5.0)
             </div>
 
-            <!--Top Pagination-->
-            <asp:DataPager PagedControlID="lvReviews" class="pagination" ID="dpTopReviews" runat="server" PageSize="2">
-                <Fields>
-                    <asp:NextPreviousPagerField ButtonType="Button" ShowFirstPageButton="False" ShowNextPageButton="False" ShowPreviousPageButton="True" PreviousPageText="<" />
-                    <asp:NumericPagerField NumericButtonCssClass="datapagerStyle" CurrentPageLabelCssClass="active" ButtonCount="10" />
-                    <asp:NextPreviousPagerField ButtonCssClass="test" ButtonType="Button" ShowLastPageButton="False" ShowNextPageButton="True" ShowPreviousPageButton="False" NextPageText=">" />
-                </Fields>
-            </asp:DataPager>
+            <asp:UpdatePanel ID="UpdatePanel3" runat="server">
+                <ContentTemplate>
+                    <!--Top Pagination-->
+                    <asp:DataPager PagedControlID="lvReviews" class="pagination" ID="dpTopReviews" runat="server">
+                        <Fields>
+                            <asp:NextPreviousPagerField ButtonType="Button" ShowFirstPageButton="False" ShowNextPageButton="False" ShowPreviousPageButton="True" PreviousPageText="<" />
+                            <asp:NumericPagerField NumericButtonCssClass="datapagerStyle" CurrentPageLabelCssClass="active" ButtonCount="10" />
+                            <asp:NextPreviousPagerField ButtonCssClass="test" ButtonType="Button" ShowLastPageButton="False" ShowNextPageButton="True" ShowPreviousPageButton="False" NextPageText=">" />
+                        </Fields>
+                    </asp:DataPager>
 
-            <asp:ListView ID="lvReviews" OnPagePropertiesChanged="lvReviews_PagePropertiesChanged" runat="server" DataKeyNames="CustomerName">
-                <LayoutTemplate>
-                    <div>
-                        <table id="review-table" style="margin-top: 1em; padding: 1em; border: 1px solid black; width: 100%; border-spacing: 1px; text-align: center; border-collapse: collapse;">
+                    <asp:ListView ID="lvReviews" OnPagePropertiesChanged="lvReviews_PagePropertiesChanged" runat="server" DataKeyNames="CustomerName">
+                        <LayoutTemplate>
+                            <div>
+                                <table id="review-table" style="margin-top: 1em; padding: 1em; border: 1px solid black; width: 100%; border-spacing: 1px; text-align: center; border-collapse: collapse;">
+                                    <tr>
+                                        <th style="border: 1px solid black" class="auto-style1">Customer Info</th>
+                                        <th style="border: 1px solid black">Review Given</th>
+                                        <th style="border: 1px solid black" class="auto-style2">Action</th>
+                                    </tr>
+                                    <asp:PlaceHolder ID="itemPlaceHolder" runat="server"></asp:PlaceHolder>
+                                </table>
+                            </div>
+
+                        </LayoutTemplate>
+                        <ItemTemplate>
                             <tr>
-                                <th style="border: 1px solid black" class="auto-style1">Customer Info</th>
-                                <th style="border: 1px solid black">Review Given</th>
-                                <th style="border: 1px solid black" class="auto-style2">Action</th>
+                                <td style="padding: 1em; border: 1px solid black; text-align: left" aria-multiline="True" class="auto-style1">
+                                    <div class="text-lg font-[600]">
+                                        <%# Eval("CustomerName") %>
+                                    </div>
+                                    <div class="review-time"><%# Eval("ReviewTime") %></div>
+                                    <div class="review-item">rate : <%# Eval("ReviewRating","{0:0.0}") %></div>
+                                    <div class="review-item">color : <%# Eval("ReviewColor") %></div>
+                                    <div class="review-item">quantity : <%#Eval("ReviewQuantity") %></div>
+                                </td>
+                                <td style="padding: 1em; border: 1px solid black; text-align: left" aria-multiline="True">
+                                    <div class="review-gien">
+                                        <%# Eval("ReviewText") %>
+                                    </div>
+
+                                    <!-- Reply for review -->
+                                    <div class="reply-container">
+                                        <asp:Repeater ID="replyRepeater" runat="server" DataSource='<%# Eval("Replies") %>'>
+                                            <ItemTemplate>
+                                                <div class="reply">
+                                                    <div class="mb-2 text-sm opacity-60">reply</div>
+                                                    <div class="reply-name"><%# Eval("AdminName") %>, <%# Eval("AdminRole") %></div>
+                                                    <div class="reply-time"><%# Eval("ReplyTime") %></div>
+                                                    <div class="reply-given"><%# Eval("ReplyText") %></div>
+                                                </div>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+                                    </div>
+
+                                </td>
+                                <td style="border: 1px solid black; padding: 1em;">
+                                    <asp:HyperLink ID="hlReply" CssClass="review-reply-btn" runat="server" NavigateUrl='<%#urls[ProductReviewReply] +"?id=" + Eval("CustomerName") %>'>Reply</asp:HyperLink>
+                                </td>
                             </tr>
-                            <asp:PlaceHolder ID="itemPlaceHolder" runat="server"></asp:PlaceHolder>
-                        </table>
-                    </div>
+                        </ItemTemplate>
+                        <EmptyDataTemplate>
+                            <p>No review yet...</p>
+                        </EmptyDataTemplate>
+                    </asp:ListView>
 
-                </LayoutTemplate>
-                <ItemTemplate>
-                    <tr>
-                        <td style="padding: 1em; border: 1px solid black; text-align: left" aria-multiline="True" class="auto-style1">
-                            <div class="text-lg font-[600]">
-                                <%# Eval("CustomerName") %>
-                            </div>
-                            <div class="review-time"><%# Eval("ReviewTime") %></div>
-                            <div class="review-item">rate : <%# Eval("ReviewRating","{0:0.0}") %></div>
-                            <div class="review-item">color : <%# Eval("ReviewColor") %></div>
-                            <div class="review-item">quantity : <%#Eval("ReviewQuantity") %></div>
-                        </td>
-                        <td style="padding: 1em; border: 1px solid black; text-align: left" aria-multiline="True">
-                            <div class="review-gien">
-                                <%# Eval("ReviewText") %>
-                            </div>
+                    <!--Pagination Bottom-->
+                    <asp:DataPager PagedControlID="lvReviews" class="pagination" ID="dpBottomReviews" runat="server"  PageSize="10">
+                        <Fields>
+                            <asp:NextPreviousPagerField ButtonType="Button" ShowFirstPageButton="False" ShowNextPageButton="False" ShowPreviousPageButton="True" PreviousPageText="<" />
+                            <asp:NumericPagerField NumericButtonCssClass="datapagerStyle" CurrentPageLabelCssClass="active" ButtonCount="10" />
+                            <asp:NextPreviousPagerField ButtonCssClass="test" ButtonType="Button" ShowLastPageButton="False" ShowNextPageButton="True" ShowPreviousPageButton="False" NextPageText=">" />
+                        </Fields>
+                    </asp:DataPager>
+                </ContentTemplate>
+                <Triggers>
+                    <asp:AsyncPostBackTrigger ControlID="lvReviews" EventName="PagePropertiesChanged" />
+                </Triggers>
+            </asp:UpdatePanel>
 
-                            <!-- Reply for review -->
-                            <div class="reply-container">
-                                <asp:Repeater ID="replyRepeater" runat="server" DataSource='<%# Eval("Replies") %>'>
-                                    <ItemTemplate>
-                                        <div class="reply">
-                                            <div class="mb-2 text-sm opacity-60">reply</div>
-                                            <div class="reply-name"><%# Eval("AdminName") %>, <%# Eval("AdminRole") %></div>
-                                            <div class="reply-time"><%# Eval("ReplyTime") %></div>
-                                            <div class="reply-given"><%# Eval("ReplyText") %></div>
-                                        </div>
-                                    </ItemTemplate>
-                                </asp:Repeater>
-                            </div>
 
-                        </td>
-                        <td style="border: 1px solid black;padding:1em;">
-                            <asp:HyperLink ID="hlReply" CssClass="review-reply-btn" runat="server" NavigateUrl='<%#urls[ProductReviewReply] +"?id=" + Eval("CustomerName") %>'>Reply</asp:HyperLink>
-                        </td>
-                    </tr>
-                </ItemTemplate>
-                <EmptyDataTemplate>
-                    <p>No review yet...</p>
-                </EmptyDataTemplate>
-            </asp:ListView>
-
-            <!--Pagination Bottom-->
-            <asp:DataPager PagedControlID="lvReviews" class="pagination" ID="dpBottomReviews" runat="server" PageSize="2">
-                <Fields>
-                    <asp:NextPreviousPagerField ButtonType="Button" ShowFirstPageButton="False" ShowNextPageButton="False" ShowPreviousPageButton="True" PreviousPageText="<" />
-                    <asp:NumericPagerField NumericButtonCssClass="datapagerStyle" CurrentPageLabelCssClass="active" ButtonCount="10" />
-                    <asp:NextPreviousPagerField ButtonCssClass="test" ButtonType="Button" ShowLastPageButton="False" ShowNextPageButton="True" ShowPreviousPageButton="False" NextPageText=">" />
-                </Fields>
-            </asp:DataPager>
         </div>
     </div>
 </asp:Content>
