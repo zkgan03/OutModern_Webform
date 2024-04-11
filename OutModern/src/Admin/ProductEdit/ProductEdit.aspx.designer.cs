@@ -123,15 +123,6 @@ namespace OutModern.src.Admin.ProductEdit
         protected global::System.Web.UI.WebControls.Label lblSetStatus;
 
         /// <summary>
-        /// UpdatePanel2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanel2;
-
-        /// <summary>
         /// ddlColorAdd control.
         /// </summary>
         /// <remarks>
@@ -159,24 +150,6 @@ namespace OutModern.src.Admin.ProductEdit
         protected global::System.Web.UI.WebControls.Label lblAddColorStatus;
 
         /// <summary>
-        /// repeaterColors control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater repeaterColors;
-
-        /// <summary>
-        /// lblDeleteStatus control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblDeleteStatus;
-
-        /// <summary>
         /// UpdatePanel3 control.
         /// </summary>
         /// <remarks>
@@ -186,6 +159,24 @@ namespace OutModern.src.Admin.ProductEdit
         protected global::System.Web.UI.UpdatePanel UpdatePanel3;
 
         /// <summary>
+        /// repeaterColors control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater repeaterColors;
+
+        /// <summary>
+        /// lblDeleteColorStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblDeleteColorStatus;
+
+        /// <summary>
         /// lblAddImgStatus control.
         /// </summary>
         /// <remarks>
@@ -193,6 +184,15 @@ namespace OutModern.src.Admin.ProductEdit
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblAddImgStatus;
+
+        /// <summary>
+        /// UpdatePanel2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel2;
 
         /// <summary>
         /// repeaterImages control.

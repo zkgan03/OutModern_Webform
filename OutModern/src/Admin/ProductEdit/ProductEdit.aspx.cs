@@ -10,6 +10,8 @@ using System.Configuration;
 using System.Web.Script.Serialization;
 using System.Runtime.InteropServices;
 using System.Drawing;
+using System.IO;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace OutModern.src.Admin.ProductEdit
 {
@@ -72,10 +74,17 @@ namespace OutModern.src.Admin.ProductEdit
             ddlSize.DataBind();
 
             //bind color to add color in with ddl
-            ddlColorAdd.DataSource = getNotAddedColors();
+            DataTable colorNotAdded = getNotAddedColors();
+            ddlColorAdd.DataSource = colorNotAdded;
             ddlColorAdd.DataValueField = "ColorId";
             ddlColorAdd.DataTextField = "ColorName";
             ddlColorAdd.DataBind();
+            ListItemCollection itemCollection = ddlColorAdd.Items;
+            for (int i = 0; i < itemCollection.Count; i++)
+            {
+                itemCollection[i].Attributes
+                    .Add("data-hex", colorNotAdded.Rows[i]["HexColor"].ToString());
+            }
 
             //bind color available for product
             repeaterColors.DataSource = getProdColors();
@@ -89,6 +98,52 @@ namespace OutModern.src.Admin.ProductEdit
             repeaterImages.DataBind();
 
         }
+
+        //set quantity of the text
+        private void setQuantityText()
+        {
+            string sizeId = ddlSize.SelectedValue.ToString();
+            string colorId = ViewState["ColorId"].ToString();
+
+            int quantity = getQuantity(sizeId, colorId);
+            txtProdQuantity.Text = quantity.ToString();
+        }
+
+        // clear all the status
+        private void clearStatusText()
+        {
+            lblSetStatus.Text = "";
+            lblAddColorStatus.Text = "";
+            lblAddImgStatus.Text = "";
+            lblDeleteColorStatus.Text = "";
+            lblUpdateProductStatus.Text = "";
+        }
+
+        //select color style changing
+        private void selectColor(string colorId)
+        {
+            // Remove active class
+            foreach (RepeaterItem item in repeaterColors.Items)
+            {
+                LinkButton lbColor = item.FindControl("lbColor") as LinkButton;
+                if (lbColor != null)
+                {
+                    lbColor.CssClass = lbColor.CssClass.Replace(" active", ""); // Remove "active"
+                    if (lbColor.Attributes["data-colorId"] == colorId)
+                    {
+                        lbColor.CssClass += " active";
+                    }
+                }
+            }
+
+            //rebind image
+            repeaterImages.DataSource = getImages(ViewState["ColorId"].ToString());
+            repeaterImages.DataBind();
+        }
+
+        //
+        //DB operation
+        //
 
         // get imageas
         private DataTable getImages(string colorId)
@@ -200,7 +255,7 @@ namespace OutModern.src.Admin.ProductEdit
         }
 
         // return all the colors not added
-        private object getNotAddedColors()
+        private DataTable getNotAddedColors()
         {
             DataTable data = new DataTable();
 
@@ -258,27 +313,6 @@ namespace OutModern.src.Admin.ProductEdit
             return data;
         }
 
-        //select color style changing
-        private void selectColor(string colorId)
-        {
-            // Remove active class
-            foreach (RepeaterItem item in repeaterColors.Items)
-            {
-                LinkButton lbColor = item.FindControl("lbColor") as LinkButton;
-                if (lbColor != null)
-                {
-                    lbColor.CssClass = lbColor.CssClass.Replace(" active", ""); // Remove "active"
-                    if (lbColor.Attributes["data-colorId"] == colorId)
-                    {
-                        lbColor.CssClass += " active";
-                    }
-                }
-            }
-
-            repeaterImages.DataSource = getImages(ViewState["ColorId"].ToString());
-            repeaterImages.DataBind();
-        }
-
         //get quantity based on size and color
         private int getQuantity(string sizeId, string colorId)
         {
@@ -307,17 +341,6 @@ namespace OutModern.src.Admin.ProductEdit
 
 
             return data.Rows.Count == 0 ? 0 : (int)data.Rows[0]["quantity"];
-        }
-
-        //set quantity of the text
-        private void setQuantityText()
-        {
-            string sizeId = ddlSize.SelectedValue.ToString();
-            string colorId = ViewState["ColorId"].ToString();
-
-            int quantity = getQuantity(sizeId, colorId);
-            txtProdQuantity.Text = quantity.ToString();
-            lblSetStatus.Text = "";
         }
 
         // update the quantity
@@ -382,7 +405,7 @@ namespace OutModern.src.Admin.ProductEdit
         // update or insert the product with the selected color
         // if available (isDeleted = true), update the value to false, quantity to 0
         // if not available, insert it
-        private int upsertColor(string colorId)
+        private int upsertProdColor(string colorId)
         {
             int affectedRow = 0;
 
@@ -445,59 +468,9 @@ namespace OutModern.src.Admin.ProductEdit
             return affectedRow;
         }
 
-        //
-        //Page Events
-        //
-        protected void lbDiscard_Click(object sender, EventArgs e)
-        {
-            Response.Redirect(urls[ProductDetails] + "?id=" + Request.QueryString["id"]);
-        }
-
-        protected void lbUpdate_Click(object sender, EventArgs e)
-        {
-            string productName = txtProdName.Text;
-            string productCategory = ddlCategory.SelectedValue.ToString();
-            string unitPrice = txtPrice.Text;
-            string statusId = ddlStatus.SelectedValue.ToString();
-
-            int affectedRow = updateProductInfo(productName, productCategory, unitPrice, statusId);
-            lblUpdateProductStatus.Text = affectedRow > 0 ? "*Update Success !" : "*Failed to Update...";
-        }
-
-
-        protected void repeaterColors_ItemCommand(object source, RepeaterCommandEventArgs e)
-        {
-            if (e.CommandName == "ChangeColor")
-            {
-                string colorId = e.CommandArgument.ToString();
-                ViewState["ColorId"] = colorId;
-                selectColor(colorId);
-                setQuantityText();
-            }
-            else if (e.CommandName == "DeleteColor")
-            {
-                string colorId = e.CommandArgument.ToString();
-                int affectedRow = deleteProductWithColor(colorId);
-                lblDeleteStatus.Text = affectedRow > 0 ?
-                    "*Deleted Successfully" : "*Failed to Delete, Please Try Again Later";
-                string vsColorId = ViewState["ColorId"].ToString();
-
-                // if current selected color is deleted, make it select the first item
-                if (vsColorId == colorId)
-                {
-                    RepeaterItem item = repeaterColors.Items[0];
-                    LinkButton lbColor = item.FindControl("lbColor") as LinkButton;
-                    lbColor.CssClass += " active";
-                }
-
-                //rebind color
-                repeaterColors.DataSource = getProdColors();
-                repeaterColors.DataBind();
-                selectColor(ViewState["ColorId"].ToString());
-            }
-        }
-
-        private int deleteProductWithColor(string colorId)
+        // delete the product with the colorid given
+        // set isDeleted = 1
+        private int deleteProdColor(string colorId)
         {
             int affectedRow = 0;
 
@@ -522,11 +495,171 @@ namespace OutModern.src.Admin.ProductEdit
             return affectedRow;
         }
 
+        //save image path into db
+        private int saveImagePath(string colorId, string filePath)
+        {
+            int affectedRow = 0;
+
+            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            {
+                connection.Open();
+                string sqlQuery =
+                    "INSERT INTO ProductImage ([Path], ProductDetailId) " +
+                    "Select @path as [Path], ProductDetailId " +
+                    "FROM ProductDetail " +
+                    "WHERE ColorId = @colorId AND ProductId = @productId;";
+
+                // save into db
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@colorId", colorId);
+                    command.Parameters.AddWithValue("@path", filePath);
+                    command.Parameters.AddWithValue("@productId", productId);
+
+                    affectedRow = command.ExecuteNonQuery();
+                }
+
+            }
+            return affectedRow;
+        }
+
+        // delete the image in db based on path
+        private int deleteImage(string path)
+        {
+            int affectedRow = 0;
+
+            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            {
+                connection.Open();
+                string sqlQuery =
+                    "DELETE FROM ProductImage " +
+                    "WHERE [path] = @path; " +
+                    "DBCC CHECKIDENT ('ProductImage', RESEED,0); " +
+                    "DBCC CHECKIDENT ('ProductImage', RESEED);";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@path", path);
+                    affectedRow = command.ExecuteNonQuery();
+                }
+            }
+
+            return affectedRow;
+        }
+
+        //
+        //Page Events
+        //
+        protected void lbDiscard_Click(object sender, EventArgs e)
+        {
+            Response.Redirect(urls[ProductDetails] + "?id=" + Request.QueryString["id"]);
+        }
+
+        protected void lbUpdate_Click(object sender, EventArgs e)
+        {
+            string productName = txtProdName.Text;
+            string productCategory = ddlCategory.SelectedValue.ToString();
+            string unitPrice = txtPrice.Text;
+            string statusId = ddlStatus.SelectedValue.ToString();
+
+            int affectedRow = updateProductInfo(productName, productCategory, unitPrice, statusId);
+            lblUpdateProductStatus.Text = affectedRow > 0 ? "*Update Success !" : "*Failed to Update, Please Try Again..";
+        }
+
+        protected void repeaterColors_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            if (e.CommandName == "ChangeColor")
+            {
+                string colorId = e.CommandArgument.ToString();
+                ViewState["ColorId"] = colorId;
+                selectColor(colorId);
+                setQuantityText();
+            }
+            else if (e.CommandName == "DeleteColor")
+            {
+                string colorId = e.CommandArgument.ToString();
+                int affectedRow = deleteProdColor(colorId);
+
+                clearStatusText();
+                lblDeleteColorStatus.Text = affectedRow > 0 ?
+                    "*Deleted Successfully" : "*Failed to Delete, Please Try Again Later";
+                string vsColorId = ViewState["ColorId"].ToString();
+
+
+                //bind color to add color in with ddl
+                DataTable colorNotAdded = getNotAddedColors();
+                ddlColorAdd.DataSource = colorNotAdded;
+                ddlColorAdd.DataValueField = "ColorId";
+                ddlColorAdd.DataTextField = "ColorName";
+                ddlColorAdd.DataBind();
+                ListItemCollection itemCollection = ddlColorAdd.Items;
+                for (int i = 0; i < itemCollection.Count; i++)
+                {
+                    itemCollection[i].Attributes
+                        .Add("data-hex", colorNotAdded.Rows[i]["HexColor"].ToString());
+                }
+
+                //rebind color
+                repeaterColors.DataSource = getProdColors();
+                repeaterColors.DataBind();
+
+                // if current selected color is deleted, make it select the first item
+                if (vsColorId == colorId)
+                {
+                    RepeaterItem item = repeaterColors.Items[0];
+                    LinkButton lbColor = item.FindControl("lbColor") as LinkButton;
+                    lbColor.CssClass += " active";
+
+                    string firstColorId = lbColor.Attributes["data-colorId"].ToString();
+                    ViewState["ColorId"] = firstColorId;
+
+                    selectColor(firstColorId);
+                    setQuantityText();
+                }
+
+            }
+        }
+
         protected void repeaterImages_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
             if (e.CommandName == "DeleteImage")
             {
-                lblAddImgStatus.Text = "*Deleted Successful";
+                string path = e.CommandArgument.ToString();
+
+                // remove from db
+                int affectedRow = deleteImage(path);
+
+                clearStatusText();
+                if (affectedRow > 0)
+                {
+                    // remove from server folder
+                    string serverFilePath = Server.MapPath(path);
+                    if (File.Exists(serverFilePath)) File.Delete(serverFilePath);
+
+                    lblAddImgStatus.Text = "*Image Deleted Successfully";
+                }
+                else
+                {
+                    lblAddImgStatus.Text = "*Image Failed to Delete, Please Try Again later...";
+                }
+
+
+                //reBind repeater of images to show latest img
+                repeaterImages.DataSource = getImages(ViewState["ColorId"].ToString());
+                repeaterImages.DataBind();
+
+                //bind color to add color in with ddl
+                DataTable colorNotAdded = getNotAddedColors();
+                ddlColorAdd.DataSource = colorNotAdded;
+                ddlColorAdd.DataValueField = "ColorId";
+                ddlColorAdd.DataTextField = "ColorName";
+                ddlColorAdd.DataBind();
+                ListItemCollection itemCollection = ddlColorAdd.Items;
+                for (int i = 0; i < itemCollection.Count; i++)
+                {
+                    itemCollection[i].Attributes
+                        .Add("data-hex", colorNotAdded.Rows[i]["HexColor"].ToString());
+                }
             }
         }
 
@@ -542,13 +675,29 @@ namespace OutModern.src.Admin.ProductEdit
             string quantity = txtProdQuantity.Text;
 
             int affectedRow = updateQuantity(sizeId, colorId, quantity);
+            clearStatusText();
             lblSetStatus.Text = affectedRow > 0 ? "*Set Quantity Sucessfully !" : "*Failed To Set Quantity, Please Try Again..";
         }
 
         protected void btnAddColor_Click(object sender, EventArgs e)
         {
-            int affectedRow = upsertColor(ddlColorAdd.SelectedValue);
+            int affectedRow = upsertProdColor(ddlColorAdd.SelectedValue);
+
+            clearStatusText();
             lblAddColorStatus.Text = affectedRow > 0 ? "*Insert Successfully" : "*Failed To Insert, Please Try Again..";
+
+            //bind color to add color in with ddl
+            DataTable colorNotAdded = getNotAddedColors();
+            ddlColorAdd.DataSource = colorNotAdded;
+            ddlColorAdd.DataValueField = "ColorId";
+            ddlColorAdd.DataTextField = "ColorName";
+            ddlColorAdd.DataBind();
+            ListItemCollection itemCollection = ddlColorAdd.Items;
+            for (int i = 0; i < itemCollection.Count; i++)
+            {
+                itemCollection[i].Attributes
+                    .Add("data-hex", colorNotAdded.Rows[i]["HexColor"].ToString());
+            }
 
             //rebind color
             repeaterColors.DataSource = getProdColors();
@@ -556,13 +705,65 @@ namespace OutModern.src.Admin.ProductEdit
             selectColor(ViewState["ColorId"].ToString());
         }
 
-
         protected void btnAddImage_Click(object sender, EventArgs e)
         {
-            lblAddImgStatus.Text = "*Add Successful";
+            clearStatusText();
 
+            if (!fileImgUpload.HasFile)
+            {
+                lblAddImgStatus.Text = "*No file Added..";
+            }
+
+            string colorId = ViewState["ColorId"].ToString();
+
+            foreach (HttpPostedFile file in fileImgUpload.PostedFiles)
+            {
+                string newFileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
+                string serverFolderPath = $"~/images/product_img/{colorId}/";
+                string newFilePath = Path.Combine(serverFolderPath, newFileName);
+
+                // save into db first
+                int affectedRow = saveImagePath(colorId, newFilePath);
+
+                // save into folder
+                if (affectedRow > 0)
+                {
+                    string serverPhysicalPath = Server.MapPath(newFilePath);
+
+                    string directory = Path.GetDirectoryName(serverPhysicalPath);
+
+                    //create the folder if not exist
+                    if (!Directory.Exists(directory))
+                    {
+                        Directory.CreateDirectory(directory);
+                    }
+                    file.SaveAs(serverPhysicalPath); //convert into physical path then store
+
+                    lblAddImgStatus.Text += $"*{Path.GetFileName(file.FileName)} added Successfully" + "</br>";
+                }
+                else
+                {
+                    lblAddImgStatus.Text += $"{file.FileName} FAILED to add </ br> ";
+                }
+            }
+
+            //reBind repeater of images to show latest img
+            repeaterImages.DataSource = getImages(ViewState["ColorId"].ToString());
+            repeaterImages.DataBind();
+
+            //bind color to add color in with ddl
+            DataTable colorNotAdded = getNotAddedColors();
+            ddlColorAdd.DataSource = colorNotAdded;
+            ddlColorAdd.DataValueField = "ColorId";
+            ddlColorAdd.DataTextField = "ColorName";
+            ddlColorAdd.DataBind();
+            ListItemCollection itemCollection = ddlColorAdd.Items;
+            for (int i = 0; i < itemCollection.Count; i++)
+            {
+                itemCollection[i].Attributes
+                    .Add("data-hex", colorNotAdded.Rows[i]["HexColor"].ToString());
+            }
         }
-
 
 
     }

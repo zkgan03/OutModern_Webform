@@ -164,19 +164,19 @@
                     </Triggers>
                 </asp:UpdatePanel>
 
-                <asp:UpdatePanel ID="UpdatePanel2" runat="server">
-                    <ContentTemplate>
-                        <!--Colors-->
-                        <div class=" mt-4">
-                            <div class="font-[600]">Colors </div>
-                            <!--Add color-->
-                            <div class="flex gap-2 items-center">
-                                <asp:DropDownList ID="ddlColorAdd" runat="server"></asp:DropDownList>
-                                <div class="color-varient add-color"></div>
-                                <asp:Button ID="btnAddColor" OnClick="btnAddColor_Click" CssClass="button" runat="server" Text="Add" />
-                                <asp:Label ID="lblAddColorStatus" runat="server" CssClass="opacity-50"></asp:Label>
-                            </div>
+                <!--Colors-->
+                <div class=" mt-4">
+                    <div class="font-[600]">Colors </div>
+                    <!--Add color-->
+                    <div class="flex gap-2 items-center">
+                        <asp:DropDownList ID="ddlColorAdd" runat="server"></asp:DropDownList>
+                        <div class="color-varient add-color"></div>
+                        <asp:Button ID="btnAddColor" OnClick="btnAddColor_Click" CssClass="button" runat="server" Text="Add" />
+                        <asp:Label ID="lblAddColorStatus" runat="server" CssClass="opacity-50"></asp:Label>
+                    </div>
 
+                    <asp:UpdatePanel ID="UpdatePanel3" runat="server">
+                        <ContentTemplate>
                             <!--Color selection-->
                             <div class="flex gap-3 items-center mt-5">
                                 <asp:Repeater ID="repeaterColors" OnItemCommand="repeaterColors_ItemCommand" runat="server">
@@ -200,60 +200,66 @@
 
                                     </ItemTemplate>
                                 </asp:Repeater>
-                                <asp:Label ID="lblDeleteStatus" runat="server" CssClass="opacity-50"></asp:Label>
+                                <asp:Label ID="lblDeleteColorStatus" runat="server" CssClass="opacity-50"></asp:Label>
                             </div>
+                            </div>
+                        </ContentTemplate>
+                        <Triggers>
+                            <asp:AsyncPostBackTrigger ControlID="repeaterColors" EventName="ItemCommand" />
+                        </Triggers>
+                    </asp:UpdatePanel>
+
+
+                    <!-- Images -->
+                    <div class="mt-5 ">
+                        <div class="flex items-center gap-7">
+                            <div class="font-[600]">Image : </div>
                         </div>
-                    </ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="repeaterColors" EventName="ItemCommand" />
-                    </Triggers>
-                </asp:UpdatePanel>
+                        <div>
+                            <asp:Label ID="lblAddImgStatus" CssClass="ml-5 opacity-50" runat="server"></asp:Label>
+                        </div>
+                        <div class="flex items-center">
+                            <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+                                <ContentTemplate>
+                                    <!-- Repeater images-->
+                                    <div class="flex flex-wrap gap-2 items-center">
+                                        <asp:Repeater ID="repeaterImages" runat="server" OnItemCommand="repeaterImages_ItemCommand">
+                                            <ItemTemplate>
+                                                <div class="relative">
+                                                    <asp:LinkButton
+                                                        CssClass="block absolute font top-1 right-1 text-red-500 leading-5 hover:opacity-50"
+                                                        ID="lbDeleteImg" runat="server"
+                                                        CommandArgument='<%# Eval("path") %>'
+                                                        CommandName="DeleteImage">
+                                                            <i class="fa-solid fa-xmark fa-lg"></i>
+                                                    </asp:LinkButton>
 
-                <asp:UpdatePanel ID="UpdatePanel3" runat="server">
-                    <ContentTemplate>
-                        <!-- Images -->
-                        <div class="mt-5 ">
-                            <div class="flex items-center gap-7">
-                                <div class="font-[600]">Image : </div>
-                                <asp:Label ID="lblAddImgStatus" CssClass="opacity-50" runat="server" Text=""></asp:Label>
-                            </div>
-                            <div class="flex items-center">
-                                <div class="flex flex-wrap gap-2 items-center">
-                                    <asp:Repeater ID="repeaterImages" runat="server" OnItemCommand="repeaterImages_ItemCommand">
-                                        <ItemTemplate>
-                                            <div class="relative">
-                                                <asp:LinkButton
-                                                    CssClass="block absolute font top-1 right-1 text-red-500 leading-5 hover:opacity-50"
-                                                    ID="lbDeleteImg" runat="server"
-                                                    CommandArgument='<%# Eval("path") %>'
-                                                    CommandName="DeleteImage">
-                                                    <i class="fa-solid fa-xmark fa-lg"></i>
-                                                </asp:LinkButton>
-
-                                                <div>
-                                                    <asp:Image ID="imgProd" runat="server" Width="10em" Height="10em"
-                                                        CssClass="product-img"
-                                                        ImageUrl='<%# Eval("path") %>' />
+                                                    <div>
+                                                        <asp:Image ID="imgProd" runat="server" Width="10em" Height="10em"
+                                                            CssClass="product-img object-cover"
+                                                            ImageUrl='<%# Eval("path") %>' />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </ItemTemplate>
-                                    </asp:Repeater>
-                                </div>
-                                <div class="add-image">
-                                    <asp:FileUpload ID="fileImgUpload"
-                                        CssClass="hidden"
-                                        runat="server" accept=".png,.jpg,.jpeg,.webp" />
-                                    <i class="fa-regular fa-plus"></i>
-                                    <asp:Button ID="btnAddImage" CssClass="hidden" runat="server" OnClick="btnAddImage_Click" />
-                                </div>
-
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+                                    </div>
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
+                            <div class="add-image">
+                                <asp:FileUpload ID="fileImgUpload"
+                                    AllowMultiple="true"
+                                    CssClass="hidden"
+                                    runat="server" accept=".png,.jpg,.jpeg,.webp" />
+                                <i class="fa-regular fa-plus"></i>
+                                <asp:Button ID="btnAddImage" CssClass="hidden"
+                                    runat="server" OnClick="btnAddImage_Click" />
                             </div>
                         </div>
-                    </ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="repeaterImages" EventName="ItemCommand" />
-                    </Triggers>
-                </asp:UpdatePanel>
+
+
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -290,12 +296,12 @@
                         if (Extension == "webp" || Extension == "png"
                             || Extension == "jpeg" || Extension == "jpg") {
 
-                            <%= Page.ClientScript.GetPostBackEventReference(btnAddImage, "") %>;
+                            __doPostBack('<%= btnAddImage.UniqueID %>', '');
 
                         }
                         //The file upload is NOT an image
                         else {
-                            alert("Photo only allows file types of GIF, PNG, JPG, JPEG and BMP. ");
+                            alert("Photo only allows file types of PNG, JPG, JPEG and WEBP. ");
                         }
                     }
                 }
@@ -304,11 +310,13 @@
             (() => {
                 const ddlColor = document.querySelector("#<%= ddlColorAdd.ClientID %>");
                 const addColorBtn = document.querySelector(".color-varient.add-color");
-                addColorBtn.style.backgroundColor = `#${ddlColor.value}`
+                const hexColor = ddlColor.querySelector("option:checked").dataset.hex
+                addColorBtn.style.backgroundColor = `#${hexColor}`
 
                 ddlColor.onchange = () => {
-                    console.log("changed")
-                    addColorBtn.style.backgroundColor = `#${ddlColor.value}`
+                    const hexColor = ddlColor.querySelector("option:checked").dataset.hex
+                    console.log(hexColor)
+                    addColorBtn.style.backgroundColor = `#${hexColor}`
                 }
             })();
         }
@@ -318,8 +326,5 @@
         var prm = Sys.WebForms.PageRequestManager.getInstance();
         prm.add_endRequest(init);
 
-
-
     </script>
-
 </asp:Content>

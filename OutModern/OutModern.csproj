@@ -829,6 +829,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="images\product_img\1\" />
+    <Folder Include="images\product_img\2\" />
+    <Folder Include="images\product_img\3\" />
     <Folder Include="src\Client\Home\css\" />
     <Folder Include="src\Client\Home\js\" />
   </ItemGroup>
