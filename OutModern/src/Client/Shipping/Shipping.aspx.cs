@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -9,6 +10,17 @@ using System.Web.UI.WebControls;
 
 namespace OutModern.src.Client.Shipping
 {
+    public class Address
+    {
+        public int AddressId { get; set; }
+        public int CustomerId { get; set; }
+        public string AddressName { get; set; }
+        public string AddressLine { get; set; }
+        public string Country { get; set; }
+        public string State { get; set; }
+        public string PostalCode { get; set; }
+    }
+
     public partial class Shipping : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
@@ -19,21 +31,21 @@ namespace OutModern.src.Client.Shipping
                 DataTable dummyData = (DataTable)Session["DummyData"];
 
                 //// Retrieve the subtotal value from session
-                decimal subtotal = (decimal)Session["Subtotal"];
-                decimal delivery = 5;
-                if (subtotal > 100)
-                {
-                    delivery = 0;
-                    lblDeliveryCost.Text = "RM0.00";
-                }
-                decimal tax = (subtotal * 6 / 100);
-                decimal total = subtotal + tax + delivery;
+                //decimal subtotal = (decimal)Session["Subtotal"];
+                //decimal delivery = 5;
+                //if (subtotal > 100)
+                //{
+                //    delivery = 0;
+                //    lblDeliveryCost.Text = "RM0.00";
+                //}
+                //decimal tax = (subtotal * 6 / 100);
+                //decimal total = subtotal + tax + delivery;
 
 
 
-                lblItemPrice.Text = "RM" + subtotal.ToString("N2");
-                lblTax.Text = "RM" + (subtotal * 6 / 100).ToString("N2");
-                lblTotal.Text = "RM" + total.ToString("N2");
+                //lblItemPrice.Text = "RM" + subtotal.ToString("N2");
+                //lblTax.Text = "RM" + (subtotal * 6 / 100).ToString("N2");
+                //lblTotal.Text = "RM" + total.ToString("N2");
 
                 // Bind the dummy data to the ListView control
                 ProductListView.DataSource = dummyData;
@@ -91,6 +103,50 @@ namespace OutModern.src.Client.Shipping
             }
         }
 
+        protected void btnAddAddress_Click(object sender, EventArgs e)
+        {
+
+            // If all textboxes are filled, proceed to add the address to the database
+            Address address = new Address
+            {
+                CustomerId = 123, // Replace with the actual customer ID
+                AddressName = txtNickname.Text,
+                AddressLine = txtAddr.Text,
+                Country = ddlCountryOrigin.SelectedItem.Text,
+                State = txtState.Text,
+                PostalCode = txtPostal.Text
+            };
+
+            // Add the address to the database
+            AddAddressToDatabase(address);
+        }
+
+
+        private void AddAddressToDatabase(Address address)
+        {
+            // Database connection and insert command logic as shown in the previous response
+            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\b1ank3r\source\repos\OutModern_Webform\OutModern\App_Data\OutModern.mdf;Integrated Security=True";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string insertQuery = @"INSERT INTO [dbo].[Address] (CustomerId, AddressName, AddressLine, Country, State, PostalCode) 
+                        VALUES (@CustomerId, @AddressName, @AddressLine, @Country, @State, @PostalCode)";
+
+                using (SqlCommand command = new SqlCommand(insertQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@CustomerId", address.CustomerId);
+                    command.Parameters.AddWithValue("@AddressName", address.AddressName);
+                    command.Parameters.AddWithValue("@AddressLine", address.AddressLine);
+                    command.Parameters.AddWithValue("@Country", address.Country);
+                    command.Parameters.AddWithValue("@State", address.State);
+                    command.Parameters.AddWithValue("@PostalCode", address.PostalCode);
+
+                    command.ExecuteNonQuery();
+                }
+
+            }
+
+        }
 
         protected void btnProceed_Click(object sender, EventArgs e)
         {
@@ -115,5 +171,6 @@ namespace OutModern.src.Client.Shipping
                 // lblEmptyCart.Visible = true;
             }
         }
+
     }
 }
