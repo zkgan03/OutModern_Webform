@@ -3,6 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
 
     <div class="mx-10">
 
@@ -20,7 +21,7 @@
                 </div>
 
                 <div class="border-b">
-                    <asp:ListView ID="AddressListView" runat="server" OnItemDataBound="AddressListView_ItemDataBound">
+                    <asp:ListView ID="AddressListView" runat="server" OnSelectedIndexChanged="AddressListView_SelectedIndexChanged">
                         <LayoutTemplate>
                             <div class="grid-cols-2 grid gap-x-16">
                                 <div runat="server" id="itemPlaceholder"></div>
@@ -42,7 +43,6 @@
                             </div>
                         </ItemTemplate>
                     </asp:ListView>
-
                 </div>
 
                 <!--Add address-->
@@ -371,7 +371,10 @@
                 <!--Submit button-->
                 <div class="mt-8">
                     <asp:Button ID="btnProceed" runat="server" Text="Proceed to Payment" CssClass="bg-[#131118] w-full cursor-pointer rounded-xl px-4 py-2 font-semibold text-white hover:bg-gray-700" OnClick="btnProceed_Click" />
+
+                    <asp:Label ID="lblMessage" runat="server" CssClass="text-xl text-red-600" Visible="false" Text="ERROR! Please select an address."></asp:Label>
                 </div>
+
 
             </div>
             <!-- Add more input fields as needed -->
@@ -381,6 +384,7 @@
     </div>
 
     <script>
+
         document.addEventListener('DOMContentLoaded', function () {
             var addressItems = document.querySelectorAll('.address-item');
             addressItems.forEach(function (item) {
@@ -392,6 +396,7 @@
                 });
             });
         });
+
 
         function validateAndHighlight() {
 
@@ -450,7 +455,7 @@
 
         function validateNickname() {
             var txtNickname = document.getElementById('<%= txtNickname.ClientID %>');
-    
+
             if (txtNickname.value.trim() !== '') {
                 // Remove the error-border class to revert the border color to black
                 txtNickname.classList.remove('error-border');
@@ -461,7 +466,7 @@
 
         function validateAddr() {
             var addr = document.getElementById('<%= txtAddr.ClientID %>');
-    
+
             if (addr.value.trim() !== '') {
                 // Remove the error-border class to revert the border color to black
                 addr.classList.remove('error-border');
@@ -472,7 +477,7 @@
 
         function validateState() {
             var state = document.getElementById('<%= txtState.ClientID %>');
-    
+
             if (state.value.trim() !== '') {
                 // Remove the error-border class to revert the border color to black
                 state.classList.remove('error-border');
@@ -486,7 +491,7 @@
             var postal = document.getElementById('<%= txtPostal.ClientID %>');
 
             postal.value = postal.value.replace(/\D/g, '');
-    
+
             if (postal.value.trim() !== '') {
                 // Remove the error-border class to revert the border color to black
                 postal.classList.remove('error-border');
@@ -502,10 +507,10 @@
             if (selectedValue !== 'default') {
                 ddlCountryOrigin.classList.remove('error-border');
             }
-            else{
+            else {
                 ddlCountryOrigin.classList.add('error-border');
             }
-        }   
+        }
 
 
 

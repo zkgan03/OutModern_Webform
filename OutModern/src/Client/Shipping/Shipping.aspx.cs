@@ -50,66 +50,78 @@ namespace OutModern.src.Client.Shipping
                 // Bind the dummy data to the ListView control
                 ProductListView.DataSource = dummyData;
                 ProductListView.DataBind();
-                BindData();
+                BindAddresses();
             }
 
         }
 
-        private void BindData()
+        private void BindAddresses()
         {
-            DataTable dummyAddData = GetDummyAddData();
+            // Get the list of addresses for the current customer
+            List<Address> addresses = GetAddresses();
 
-            // Store the data source in a session variable
-            Session["DummyAddData"] = dummyAddData;
-
-            // Bind the data to the ProductListView
-            AddressListView.DataSource = dummyAddData;
+            // Bind the addresses to the ListView control
+            AddressListView.DataSource = addresses;
             AddressListView.DataBind();
-
-
         }
 
-        public static DataTable GetDummyAddData()
+        //REMEMBER CHANGE CUSTOMER ID 
+        private List<Address> GetAddresses()
         {
-            DataTable dummyAddData = new DataTable();
+            List<Address> addresses = new List<Address>();
 
-            // Add columns to match your GridView's DataFields
-            dummyAddData.Columns.Add("AddressName", typeof(string));
-            dummyAddData.Columns.Add("AddressLine", typeof(string));
-            dummyAddData.Columns.Add("Country", typeof(string));
-            dummyAddData.Columns.Add("State", typeof(string));
-            dummyAddData.Columns.Add("PostalCode", typeof(string));
+            // Dummy customer ID for testing
+            int dummyCustomerId = 1;
 
-            // Add rows with dummy data
-            dummyAddData.Rows.Add("Zhiken", "Sample Address Address", "Malaysia", "Wilayah Persekutuan", "54200");
-            dummyAddData.Rows.Add("Rando", "Sample Address", "Malaysia", "Wilayah Persekutuan", "54200");
+            // Establish connection to your database (assuming SQL Server)
+            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\b1ank3r\source\repos\OutModern_Webform\OutModern\App_Data\OutModern.mdf;Integrated Security=True";
 
-            // Add more rows as needed for testing
-
-
-            return dummyAddData;
-        }
-
-        protected void AddressListView_ItemDataBound(object sender, ListViewItemEventArgs e)
-        {
-            if (e.Item.ItemType == ListViewItemType.DataItem)
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                // Add client-side click event handler to the data item
-                var dataItem = e.Item.FindControl("address-item") as HtmlGenericControl;
-                if (dataItem != null)
+                // Write SQL query to select addresses based on customer ID
+                string query = "SELECT * FROM Address WHERE CustomerId = @CustomerId";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    dataItem.Attributes["onclick"] = "selectAddress(this)";
+                    // Add parameter for the customer ID
+                    command.Parameters.AddWithValue("@CustomerId", dummyCustomerId);
+
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            // Create a new Address object for each record and add it to the list
+                            Address address = new Address
+                            {
+                                AddressId = Convert.ToInt32(reader["AddressId"]),
+                                CustomerId = Convert.ToInt32(reader["CustomerId"]),
+                                AddressName = reader["AddressName"].ToString(),
+                                AddressLine = reader["AddressLine"].ToString(),
+                                Country = reader["Country"].ToString(),
+                                State = reader["State"].ToString(),
+                                PostalCode = reader["PostalCode"].ToString()
+                            };
+
+                            addresses.Add(address);
+                        }
+                    }
                 }
             }
+
+            // Return the list of addresses
+            return addresses;
         }
 
+
+        //REMEMBER CHANGE CUSTOMER ID 
         protected void btnAddAddress_Click(object sender, EventArgs e)
         {
 
             // If all textboxes are filled, proceed to add the address to the database
             Address address = new Address
             {
-                CustomerId = 123, // Replace with the actual customer ID
+                CustomerId = 1, // Replace with the actual customer ID
                 AddressName = txtNickname.Text,
                 AddressLine = txtAddr.Text,
                 Country = ddlCountryOrigin.SelectedItem.Text,
@@ -119,8 +131,10 @@ namespace OutModern.src.Client.Shipping
 
             // Add the address to the database
             AddAddressToDatabase(address);
-        }
 
+            // Rebind the addresses after adding a new address
+            BindAddresses();
+        }
 
         private void AddAddressToDatabase(Address address)
         {
@@ -150,27 +164,66 @@ namespace OutModern.src.Client.Shipping
 
         protected void btnProceed_Click(object sender, EventArgs e)
         {
-            // Retrieve the data source from the session variable
-            DataTable dummyData = (DataTable)Session["DummyData"];
+            // Retrieve the selected address details from session variables
+            string addressName = Session["SelectedAddressName"] as string;
+            string addressLine = Session["SelectedAddressLine"] as string;
+            string postalCode = Session["SelectedPostalCode"] as string;
+            string state = Session["SelectedState"] as string;
+            string country = Session["SelectedCountry"] as string;
 
-            // Check if the DataTable is not null and contains at least one row
-            if (dummyData != null && dummyData.Rows.Count > 0)
+            // Check if an address is selected
+            if (!string.IsNullOrEmpty(addressName) && !string.IsNullOrEmpty(addressLine) &&
+                !string.IsNullOrEmpty(postalCode) && !string.IsNullOrEmpty(state) &&
+                !string.IsNullOrEmpty(country))
             {
-                // Store the dummy data in a session variable
-                Session["DummyData"] = dummyData;
+                // Proceed with further actions using the selected address details
 
-                // Redirect to the Shipping page
-                Response.Redirect("~/src/Client/Payment/Payment.aspx");
+                // For example, redirect to the payment page with selected address details
+                Response.Redirect(string.Format("Payment.aspx?AddressName={0}&AddressLine={1}&PostalCode={2}&State={3}&Country={4}",
+                    addressName, addressLine, postalCode, state, country));
             }
             else
             {
-                // Cart is empty, disable the button
-                btnProceed.Enabled = false;
+                // Display a message if no address is selected
+                lblMessage.Visible = true;
+            }
 
-                // Optionally, you can also display a message to the user
-                // lblEmptyCart.Visible = true;
+            BindAddresses();
+        }
+
+        protected void AddressListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Get the index of the selected item
+            int selectedIndex = AddressListView.SelectedIndex;
+
+            // Check if an item is selected
+            if (selectedIndex != -1)
+            {
+                // Retrieve the data item bound to the selected index
+                var dataItem = AddressListView.DataKeys[selectedIndex];
+
+                // Retrieve the values of the properties
+                string addressName = dataItem["AddressName"].ToString();
+                string addressLine = dataItem["AddressLine"].ToString();
+                string postalCode = dataItem["PostalCode"].ToString();
+                string state = dataItem["State"].ToString();
+                string country = dataItem["Country"].ToString();
+
+                // Store the selected address details in session variables
+                Session["SelectedAddressName"] = addressName;
+                Session["SelectedAddressLine"] = addressLine;
+                Session["SelectedPostalCode"] = postalCode;
+                Session["SelectedState"] = state;
+                Session["SelectedCountry"] = country;
+
+                // Log debug information to the browser's console
+                string script = $"console.log('Selected Address: {addressName}, {addressLine}, {postalCode}, {state}, {country}');";
+                ScriptManager.RegisterStartupScript(this, GetType(), "logSelectedAddress", script, true);
+
             }
         }
+
+
 
     }
 }
