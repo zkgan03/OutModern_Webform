@@ -33,6 +33,15 @@ namespace OutModern.src.Client.Shipping
         protected global::System.Web.UI.WebControls.SiteMapPath SiteMapPath1;
 
         /// <summary>
+        /// AddressUpdatePanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel AddressUpdatePanel;
+
+        /// <summary>
         /// AddressListView control.
         /// </summary>
         /// <remarks>

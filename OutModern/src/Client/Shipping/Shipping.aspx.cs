@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
@@ -50,9 +52,10 @@ namespace OutModern.src.Client.Shipping
                 // Bind the dummy data to the ListView control
                 ProductListView.DataSource = dummyData;
                 ProductListView.DataBind();
-                BindAddresses();
+
             }
 
+            BindAddresses();
         }
 
         private void BindAddresses()
@@ -131,9 +134,6 @@ namespace OutModern.src.Client.Shipping
 
             // Add the address to the database
             AddAddressToDatabase(address);
-
-            // Rebind the addresses after adding a new address
-            BindAddresses();
         }
 
         private void AddAddressToDatabase(Address address)
@@ -165,22 +165,17 @@ namespace OutModern.src.Client.Shipping
         protected void btnProceed_Click(object sender, EventArgs e)
         {
             // Retrieve the selected address details from session variables
-            string addressName = Session["SelectedAddressName"] as string;
-            string addressLine = Session["SelectedAddressLine"] as string;
-            string postalCode = Session["SelectedPostalCode"] as string;
-            string state = Session["SelectedState"] as string;
-            string country = Session["SelectedCountry"] as string;
+            Address selectedAddress = Session["SelectedAddress"] as Address;
 
             // Check if an address is selected
-            if (!string.IsNullOrEmpty(addressName) && !string.IsNullOrEmpty(addressLine) &&
-                !string.IsNullOrEmpty(postalCode) && !string.IsNullOrEmpty(state) &&
-                !string.IsNullOrEmpty(country))
+            if (selectedAddress != null)
             {
-                // Proceed with further actions using the selected address details
 
-                // For example, redirect to the payment page with selected address details
-                Response.Redirect(string.Format("Payment.aspx?AddressName={0}&AddressLine={1}&PostalCode={2}&State={3}&Country={4}",
-                    addressName, addressLine, postalCode, state, country));
+                // Store the selected address in a session variable
+                Session["SelectedAddress"] = selectedAddress;
+
+                // Redirect to the Payment.aspx page
+                Response.Redirect("../Payment/Payment.aspx");
             }
             else
             {
@@ -188,42 +183,105 @@ namespace OutModern.src.Client.Shipping
                 lblMessage.Visible = true;
             }
 
-            BindAddresses();
         }
 
-        protected void AddressListView_SelectedIndexChanged(object sender, EventArgs e)
+        protected void AddressListView_ItemCommand(object sender, ListViewCommandEventArgs e)
         {
-            // Get the index of the selected item
-            int selectedIndex = AddressListView.SelectedIndex;
-
-            // Check if an item is selected
-            if (selectedIndex != -1)
+            if (e.CommandName == "Select")
             {
-                // Retrieve the data item bound to the selected index
-                var dataItem = AddressListView.DataKeys[selectedIndex];
 
-                // Retrieve the values of the properties
-                string addressName = dataItem["AddressName"].ToString();
-                string addressLine = dataItem["AddressLine"].ToString();
-                string postalCode = dataItem["PostalCode"].ToString();
-                string state = dataItem["State"].ToString();
-                string country = dataItem["Country"].ToString();
+                ViewState["selectedItem"] = Convert.ToInt32(e.CommandArgument);  // Store the selected index
 
-                // Store the selected address details in session variables
-                Session["SelectedAddressName"] = addressName;
-                Session["SelectedAddressLine"] = addressLine;
-                Session["SelectedPostalCode"] = postalCode;
-                Session["SelectedState"] = state;
-                Session["SelectedCountry"] = country;
+                // Retrieve the index of the selected item
+                int index = Convert.ToInt32(e.CommandArgument);
 
-                // Log debug information to the browser's console
-                string script = $"console.log('Selected Address: {addressName}, {addressLine}, {postalCode}, {state}, {country}');";
-                ScriptManager.RegisterStartupScript(this, GetType(), "logSelectedAddress", script, true);
+                // Retrieve the primary key of the selected item
+                int addressId = Convert.ToInt32(AddressListView.DataKeys[index].Value);
+
+                // Access the selected data item using the primary key
+                Address selectedAddress = GetAddressById(addressId);
+
+                // Save the selected address details to session
+                Session["SelectedAddress"] = selectedAddress;
+
+                BindAddresses();
 
             }
+        }
+
+        protected void AddressListView_ItemDataBound(object sender, ListViewItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListViewItemType.DataItem)
+            {
+                var dataItem = e.Item as ListViewDataItem;
+
+                // Check if the current row is the selected row
+                if (ViewState["selectedItem"] != null && ViewState["selectedItem"].ToString() == e.Item.DataItemIndex.ToString())
+                {
+                    // Find the LinkButton in the current item
+                    LinkButton linkButton = e.Item.FindControl("LinkButton1") as LinkButton;
+                    if (linkButton != null)
+                    {
+                        // Apply the highlight CSS class or any other desired styling
+                        linkButton.Style["box-shadow"] += "0 0 10px #000000;";
+                    }
+                }
+            }
+        }
+
+
+        private Address GetAddressById(int addressId)
+        {
+            Address address = null;
+
+            // Establish connection to your database (assuming SQL Server)
+            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\b1ank3r\source\repos\OutModern_Webform\OutModern\App_Data\OutModern.mdf;Integrated Security=True";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                // Write SQL query to select address details based on addressId
+                string query = "SELECT * FROM Address WHERE AddressId = @AddressId";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    // Add parameter for the addressId
+                    command.Parameters.AddWithValue("@AddressId", addressId);
+
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            // Create a new Address object with the retrieved details
+                            address = new Address
+                            {
+                                AddressId = Convert.ToInt32(reader["AddressId"]),
+                                CustomerId = Convert.ToInt32(reader["CustomerId"]),
+                                AddressName = reader["AddressName"].ToString(),
+                                AddressLine = reader["AddressLine"].ToString(),
+                                Country = reader["Country"].ToString(),
+                                State = reader["State"].ToString(),
+                                PostalCode = reader["PostalCode"].ToString()
+                            };
+                        }
+                    }
+                }
+            }
+
+            return address;
+        }
+
+        protected void AddressListView_SelectedIndexChanging(object sender, ListViewSelectEventArgs e)
+        {
+
+        }
+        protected void AddressListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
 
 
 
     }
+
 }

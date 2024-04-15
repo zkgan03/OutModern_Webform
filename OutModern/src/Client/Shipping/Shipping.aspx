@@ -21,28 +21,35 @@
                 </div>
 
                 <div class="border-b">
-                    <asp:ListView ID="AddressListView" runat="server" OnSelectedIndexChanged="AddressListView_SelectedIndexChanged">
-                        <LayoutTemplate>
-                            <div class="grid-cols-2 grid gap-x-16">
-                                <div runat="server" id="itemPlaceholder"></div>
-                            </div>
-                        </LayoutTemplate>
-                        <ItemTemplate>
-                            <!-- Address Existing -->
-                            <div class="w-[100%] address-item mb-6 flex max-w-sm cursor-pointer rounded-2xl border bg-white shadow">
-                                <div class="w-full p-4">
-                                    <div class="flex justify-between">
-                                        <div class="text-xl font-bold capitalize text-black"><%# Eval("AddressName") %></div>
-                                    </div>
-                                    <div class="flex flex-col">
-                                        <div class="text-sm"><%# Eval("AddressLine") %></div>
-                                        <div class="text-sm"><%# Eval("PostalCode") %> <%# Eval("State") %></div>
-                                        <div class="text-sm"><%# Eval("Country") %></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </ItemTemplate>
-                    </asp:ListView>
+                        <asp:UpdatePanel ID="AddressUpdatePanel" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="true">
+                            <ContentTemplate>
+                                <asp:ListView ID="AddressListView" runat="server" OnItemCommand="AddressListView_ItemCommand" DataKeyNames="AddressId" OnSelectedIndexChanged="AddressListView_SelectedIndexChanged" OnSelectedIndexChanging="AddressListView_SelectedIndexChanging" OnItemDataBound="AddressListView_ItemDataBound">
+                                    <LayoutTemplate>
+                                        <div class="grid-cols-2 grid gap-x-16">
+                                            <div runat="server" id="itemPlaceholder"></div>
+                                        </div>
+                                    </LayoutTemplate>
+                                    <ItemTemplate>
+                                        <asp:LinkButton ID="LinkButton1" runat="server" CommandName="Select" CommandArgument="<%# Container.DisplayIndex %>"
+                                            CssClass="w-[100%] address-item mb-6 flex max-w-sm cursor-pointer rounded-2xl border bg-white shadow">
+            <div class="w-full p-4">
+                <div class="flex justify-between">
+                    <div class="text-xl font-bold capitalize text-black"><%# Eval("AddressName") %></div>
+                </div>
+                <div class="flex flex-col">
+                    <div class="text-sm"><%# Eval("AddressLine") %>,</div>
+                    <div class="text-sm"><%# Eval("PostalCode") %>,  <%# Eval("State") %></div>
+                    <div class="text-sm"><%# Eval("Country") %></div>
+                </div>
+            </div>
+        </asp:LinkButton>
+                                    </ItemTemplate>
+                                </asp:ListView>
+                            </ContentTemplate>
+                            <Triggers>
+                                <asp:AsyncPostBackTrigger ControlID="AddressListView" EventName="ItemCommand" />
+                            </Triggers>
+                        </asp:UpdatePanel>
                 </div>
 
                 <!--Add address-->
@@ -385,19 +392,6 @@
 
     <script>
 
-        document.addEventListener('DOMContentLoaded', function () {
-            var addressItems = document.querySelectorAll('.address-item');
-            addressItems.forEach(function (item) {
-                item.addEventListener('click', function () {
-                    addressItems.forEach(function (el) {
-                        el.classList.remove('selected');
-                    });
-                    this.classList.add('selected');
-                });
-            });
-        });
-
-
         function validateAndHighlight() {
 
             try {
@@ -437,14 +431,10 @@
                 });
 
                 if (errorTextboxes.length > 0) {
-                    // Alert the user about validation errors
-                    alert('Please fill in all required fields.');
-                    // Cancel the postback if there are validation errors
-                    console.log('Validation result: false');
+
                     return false;
                 } else {
-                    // Proceed with the postback if there are no errors
-                    console.log('Validation result: true');
+
                     return true;
                 }
             } catch (error) {
@@ -452,6 +442,7 @@
                 return false;
             }
         }
+
 
         function validateNickname() {
             var txtNickname = document.getElementById('<%= txtNickname.ClientID %>');
@@ -518,10 +509,6 @@
     </script>
 
     <style>
-        .selected {
-            box-shadow: 0 0 10px #000000; /* Replace with your desired glow color */
-        }
-
         .error-border {
             border-color: red;
         }
