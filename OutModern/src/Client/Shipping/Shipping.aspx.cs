@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
@@ -9,6 +12,17 @@ using System.Web.UI.WebControls;
 
 namespace OutModern.src.Client.Shipping
 {
+    public class Address
+    {
+        public int AddressId { get; set; }
+        public int CustomerId { get; set; }
+        public string AddressName { get; set; }
+        public string AddressLine { get; set; }
+        public string Country { get; set; }
+        public string State { get; set; }
+        public string PostalCode { get; set; }
+    }
+
     public partial class Shipping : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
@@ -19,101 +33,255 @@ namespace OutModern.src.Client.Shipping
                 DataTable dummyData = (DataTable)Session["DummyData"];
 
                 //// Retrieve the subtotal value from session
-                decimal subtotal = (decimal)Session["Subtotal"];
-                decimal delivery = 5;
-                if (subtotal > 100)
-                {
-                    delivery = 0;
-                    lblDeliveryCost.Text = "RM0.00";
-                }
-                decimal tax = (subtotal * 6 / 100);
-                decimal total = subtotal + tax + delivery;
+                //decimal subtotal = (decimal)Session["Subtotal"];
+                //decimal delivery = 5;
+                //if (subtotal > 100)
+                //{
+                //    delivery = 0;
+                //    lblDeliveryCost.Text = "RM0.00";
+                //}
+                //decimal tax = (subtotal * 6 / 100);
+                //decimal total = subtotal + tax + delivery;
 
 
 
-                lblItemPrice.Text = "RM" + subtotal.ToString("N2");
-                lblTax.Text = "RM" + (subtotal * 6 / 100).ToString("N2");
-                lblTotal.Text = "RM" + total.ToString("N2");
+                //lblItemPrice.Text = "RM" + subtotal.ToString("N2");
+                //lblTax.Text = "RM" + (subtotal * 6 / 100).ToString("N2");
+                //lblTotal.Text = "RM" + total.ToString("N2");
 
                 // Bind the dummy data to the ListView control
                 ProductListView.DataSource = dummyData;
                 ProductListView.DataBind();
-                BindData();
+
+            }
+
+            BindAddresses();
+        }
+
+        private void BindAddresses()
+        {
+            // Get the list of addresses for the current customer
+            List<Address> addresses = GetAddresses();
+
+            // Bind the addresses to the ListView control
+            AddressListView.DataSource = addresses;
+            AddressListView.DataBind();
+        }
+
+        //REMEMBER CHANGE CUSTOMER ID 
+        private List<Address> GetAddresses()
+        {
+            List<Address> addresses = new List<Address>();
+
+            // Dummy customer ID for testing
+            int dummyCustomerId = 1;
+
+            // Establish connection to your database (assuming SQL Server)
+            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\b1ank3r\source\repos\OutModern_Webform\OutModern\App_Data\OutModern.mdf;Integrated Security=True";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                // Write SQL query to select addresses based on customer ID
+                string query = "SELECT * FROM Address WHERE CustomerId = @CustomerId";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    // Add parameter for the customer ID
+                    command.Parameters.AddWithValue("@CustomerId", dummyCustomerId);
+
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            // Create a new Address object for each record and add it to the list
+                            Address address = new Address
+                            {
+                                AddressId = Convert.ToInt32(reader["AddressId"]),
+                                CustomerId = Convert.ToInt32(reader["CustomerId"]),
+                                AddressName = reader["AddressName"].ToString(),
+                                AddressLine = reader["AddressLine"].ToString(),
+                                Country = reader["Country"].ToString(),
+                                State = reader["State"].ToString(),
+                                PostalCode = reader["PostalCode"].ToString()
+                            };
+
+                            addresses.Add(address);
+                        }
+                    }
+                }
+            }
+
+            // Return the list of addresses
+            return addresses;
+        }
+
+
+        //REMEMBER CHANGE CUSTOMER ID 
+        protected void btnAddAddress_Click(object sender, EventArgs e)
+        {
+
+            // If all textboxes are filled, proceed to add the address to the database
+            Address address = new Address
+            {
+                CustomerId = 1, // Replace with the actual customer ID
+                AddressName = txtNickname.Text,
+                AddressLine = txtAddr.Text,
+                Country = ddlCountryOrigin.SelectedItem.Text,
+                State = txtState.Text,
+                PostalCode = txtPostal.Text
+            };
+
+            // Add the address to the database
+            AddAddressToDatabase(address);
+        }
+
+        private void AddAddressToDatabase(Address address)
+        {
+            // Database connection and insert command logic as shown in the previous response
+            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\b1ank3r\source\repos\OutModern_Webform\OutModern\App_Data\OutModern.mdf;Integrated Security=True";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string insertQuery = @"INSERT INTO [dbo].[Address] (CustomerId, AddressName, AddressLine, Country, State, PostalCode) 
+                        VALUES (@CustomerId, @AddressName, @AddressLine, @Country, @State, @PostalCode)";
+
+                using (SqlCommand command = new SqlCommand(insertQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@CustomerId", address.CustomerId);
+                    command.Parameters.AddWithValue("@AddressName", address.AddressName);
+                    command.Parameters.AddWithValue("@AddressLine", address.AddressLine);
+                    command.Parameters.AddWithValue("@Country", address.Country);
+                    command.Parameters.AddWithValue("@State", address.State);
+                    command.Parameters.AddWithValue("@PostalCode", address.PostalCode);
+
+                    command.ExecuteNonQuery();
+                }
+
             }
 
         }
 
-        private void BindData()
+        protected void btnProceed_Click(object sender, EventArgs e)
         {
-            DataTable dummyAddData = GetDummyAddData();
+            // Retrieve the selected address details from session variables
+            Address selectedAddress = Session["SelectedAddress"] as Address;
 
-            // Store the data source in a session variable
-            Session["DummyAddData"] = dummyAddData;
+            // Check if an address is selected
+            if (selectedAddress != null)
+            {
 
-            // Bind the data to the ProductListView
-            AddressListView.DataSource = dummyAddData;
-            AddressListView.DataBind();
+                // Store the selected address in a session variable
+                Session["SelectedAddress"] = selectedAddress;
 
+                // Redirect to the Payment.aspx page
+                Response.Redirect("../Payment/Payment.aspx");
+            }
+            else
+            {
+                // Display a message if no address is selected
+                lblMessage.Visible = true;
+            }
 
         }
 
-        public static DataTable GetDummyAddData()
+        protected void AddressListView_ItemCommand(object sender, ListViewCommandEventArgs e)
         {
-            DataTable dummyAddData = new DataTable();
+            if (e.CommandName == "Select")
+            {
 
-            // Add columns to match your GridView's DataFields
-            dummyAddData.Columns.Add("AddressName", typeof(string));
-            dummyAddData.Columns.Add("AddressLine", typeof(string));
-            dummyAddData.Columns.Add("Country", typeof(string));
-            dummyAddData.Columns.Add("State", typeof(string));
-            dummyAddData.Columns.Add("PostalCode", typeof(string));
+                ViewState["selectedItem"] = Convert.ToInt32(e.CommandArgument);  // Store the selected index
 
-            // Add rows with dummy data
-            dummyAddData.Rows.Add("Zhiken", "Sample Address Address", "Malaysia", "Wilayah Persekutuan", "54200");
-            dummyAddData.Rows.Add("Rando", "Sample Address", "Malaysia", "Wilayah Persekutuan", "54200");
+                // Retrieve the index of the selected item
+                int index = Convert.ToInt32(e.CommandArgument);
 
-            // Add more rows as needed for testing
+                // Retrieve the primary key of the selected item
+                int addressId = Convert.ToInt32(AddressListView.DataKeys[index].Value);
 
+                // Access the selected data item using the primary key
+                Address selectedAddress = GetAddressById(addressId);
 
-            return dummyAddData;
+                // Save the selected address details to session
+                Session["SelectedAddress"] = selectedAddress;
+
+                BindAddresses();
+
+            }
         }
 
         protected void AddressListView_ItemDataBound(object sender, ListViewItemEventArgs e)
         {
             if (e.Item.ItemType == ListViewItemType.DataItem)
             {
-                // Add client-side click event handler to the data item
-                var dataItem = e.Item.FindControl("address-item") as HtmlGenericControl;
-                if (dataItem != null)
+                var dataItem = e.Item as ListViewDataItem;
+
+                // Check if the current row is the selected row
+                if (ViewState["selectedItem"] != null && ViewState["selectedItem"].ToString() == e.Item.DataItemIndex.ToString())
                 {
-                    dataItem.Attributes["onclick"] = "selectAddress(this)";
+                    // Find the LinkButton in the current item
+                    LinkButton linkButton = e.Item.FindControl("LinkButton1") as LinkButton;
+                    if (linkButton != null)
+                    {
+                        // Apply the highlight CSS class or any other desired styling
+                        linkButton.Style["box-shadow"] += "0 0 10px #000000;";
+                    }
                 }
             }
         }
 
 
-        protected void btnProceed_Click(object sender, EventArgs e)
+        private Address GetAddressById(int addressId)
         {
-            // Retrieve the data source from the session variable
-            DataTable dummyData = (DataTable)Session["DummyData"];
+            Address address = null;
 
-            // Check if the DataTable is not null and contains at least one row
-            if (dummyData != null && dummyData.Rows.Count > 0)
+            // Establish connection to your database (assuming SQL Server)
+            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\b1ank3r\source\repos\OutModern_Webform\OutModern\App_Data\OutModern.mdf;Integrated Security=True";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                // Store the dummy data in a session variable
-                Session["DummyData"] = dummyData;
+                // Write SQL query to select address details based on addressId
+                string query = "SELECT * FROM Address WHERE AddressId = @AddressId";
 
-                // Redirect to the Shipping page
-                Response.Redirect("~/src/Client/Payment/Payment.aspx");
-            }
-            else
-            {
-                // Cart is empty, disable the button
-                btnProceed.Enabled = false;
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    // Add parameter for the addressId
+                    command.Parameters.AddWithValue("@AddressId", addressId);
 
-                // Optionally, you can also display a message to the user
-                // lblEmptyCart.Visible = true;
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            // Create a new Address object with the retrieved details
+                            address = new Address
+                            {
+                                AddressId = Convert.ToInt32(reader["AddressId"]),
+                                CustomerId = Convert.ToInt32(reader["CustomerId"]),
+                                AddressName = reader["AddressName"].ToString(),
+                                AddressLine = reader["AddressLine"].ToString(),
+                                Country = reader["Country"].ToString(),
+                                State = reader["State"].ToString(),
+                                PostalCode = reader["PostalCode"].ToString()
+                            };
+                        }
+                    }
+                }
             }
+
+            return address;
         }
+
+        protected void AddressListView_SelectedIndexChanging(object sender, ListViewSelectEventArgs e)
+        {
+
+        }
+        protected void AddressListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+
+
     }
+
 }
