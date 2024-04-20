@@ -69,15 +69,6 @@ namespace OutModern.src.Admin.ProductReviewReply
         protected global::System.Web.UI.WebControls.Label lblCustomerReview;
 
         /// <summary>
-        /// lblReplyNum control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblReplyNum;
-
-        /// <summary>
         /// txtReply control.
         /// </summary>
         /// <remarks>
@@ -85,6 +76,15 @@ namespace OutModern.src.Admin.ProductReviewReply
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtReply;
+
+        /// <summary>
+        /// lblSendStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSendStatus;
 
         /// <summary>
         /// btnReplySend control.

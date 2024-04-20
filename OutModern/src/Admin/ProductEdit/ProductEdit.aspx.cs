@@ -50,6 +50,7 @@ namespace OutModern.src.Admin.ProductEdit
             lblProdId.Text = data["ProductId"].ToString();
             txtProdName.Text = data["ProductName"].ToString();
             txtPrice.Text = data["UnitPrice"].ToString();
+            txtProdDescription.Text = data["ProductDescription"].ToString();
 
             // bind status drop down list
             ddlStatus.DataSource = getProductStatus();
@@ -94,14 +95,19 @@ namespace OutModern.src.Admin.ProductEdit
             setQuantityText();
 
             //Bind repeater of images
-            repeaterImages.DataSource = getImages(ViewState["ColorId"].ToString());
-            repeaterImages.DataBind();
+            repeaterImages.DataSource = ViewState["ColorId"] != null ?
+                getImages(ViewState["ColorId"].ToString()) :
+                new DataTable();
 
+            repeaterImages.DataBind();
         }
 
         //set quantity of the text
         private void setQuantityText()
         {
+            if (ViewState["ColorId"] == null) return;
+
+
             string sizeId = ddlSize.SelectedValue.ToString();
             string colorId = ViewState["ColorId"].ToString();
 
@@ -160,7 +166,8 @@ namespace OutModern.src.Admin.ProductEdit
                     "WHERE Product.ProductId = ProductDetail.ProductId " +
                     "AND ProductDetail.ProductDetailId = ProductImage.ProductDetailId " +
                     "AND ProductDetail.ColorId = @colorId " +
-                    "AND Product.ProductId = @productId";
+                    "AND Product.ProductId = @productId " +
+                    "AND ProductDetail.isDeleted = 0";
 
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
@@ -183,7 +190,7 @@ namespace OutModern.src.Admin.ProductEdit
                 connection.Open();
 
                 string sqlQuery =
-                    "Select ProductId, ProductName, ProductCategory, UnitPrice, ProductStatusName " +
+                    "Select ProductId, ProductName,ProductDescription, ProductCategory, UnitPrice, ProductStatusName " +
                     "FROM Product " +
                     "Join ProductStatus on Product.ProductStatusId = ProductStatus.ProductStatusId " +
                     "WHERE ProductId = @productId;";
@@ -204,11 +211,11 @@ namespace OutModern.src.Admin.ProductEdit
             data.Columns.Add("ProductCategory");
 
             // Add product categories to the table
-            data.Rows.Add("Hoodie");
-            data.Rows.Add("Tee Shirt");
-            data.Rows.Add("Sweater");
-            data.Rows.Add("Short and Pant");
-            data.Rows.Add("Trouser");
+            data.Rows.Add("Hoodies");
+            data.Rows.Add("Tee Shirts");
+            data.Rows.Add("Sweaters");
+            data.Rows.Add("Shorts and Pants");
+            data.Rows.Add("Trousers");
             data.Rows.Add("Accessories");
 
             return data;
@@ -305,7 +312,7 @@ namespace OutModern.src.Admin.ProductEdit
             }
 
             // store in viewstate to maintain the selection of color
-            if (ViewState["ColorId"] == null)
+            if (ViewState["ColorId"] == null && data.Rows.Count > 0)
             {
                 ViewState["ColorId"] = data.Rows[0]["ColorId"].ToString();
             }
@@ -371,7 +378,7 @@ namespace OutModern.src.Admin.ProductEdit
 
         // update product info
         // return the number of row affected
-        private int updateProductInfo(string productName, string productCategory, string unitPrice, string statusId)
+        private int updateProductInfo(string productName, string productDescription, string productCategory, string unitPrice, string statusId)
         {
             int affectedRow = 0;
 
@@ -382,6 +389,7 @@ namespace OutModern.src.Admin.ProductEdit
                 string sqlQuery =
                     "Update Product " +
                     "SET ProductName = @productName, " +
+                    "ProductDescription = @productDescription, " +
                     "ProductCategory = @productCategory, " +
                     "UnitPrice = @unitPrice, " +
                     "ProductStatusId = @StatusId " +
@@ -390,6 +398,7 @@ namespace OutModern.src.Admin.ProductEdit
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
                     command.Parameters.AddWithValue("@productName", productName);
+                    command.Parameters.AddWithValue("@productDescription", productDescription);
                     command.Parameters.AddWithValue("@productCategory", productCategory);
                     command.Parameters.AddWithValue("@unitPrice", unitPrice);
                     command.Parameters.AddWithValue("@statusId", statusId);
@@ -416,18 +425,17 @@ namespace OutModern.src.Admin.ProductEdit
                 int noOfProdInDB = 0;
 
                 string queryCheckProdAvailability =
-                    "Select ProductDetailId " +
+                    "Select Count(ProductDetailId) " +
                     "FROM ProductDetail " +
                     "WHERE ColorId = @colorId " +
-                    "AND ProductDetail.ProductId = @productId AND isDeleted = 1" +
-                    "";
+                    "AND ProductDetail.ProductId = @productId AND isDeleted = 1";
 
                 using (SqlCommand command = new SqlCommand(queryCheckProdAvailability, connection))
                 {
                     command.Parameters.AddWithValue("@colorId", colorId);
                     command.Parameters.AddWithValue("@productId", productId);
 
-                    noOfProdInDB = command.ExecuteNonQuery();
+                    noOfProdInDB = int.Parse(command.ExecuteScalar().ToString());
                 }
 
                 if (noOfProdInDB > 0)
@@ -550,19 +558,17 @@ namespace OutModern.src.Admin.ProductEdit
         //
         //Page Events
         //
-        protected void lbDiscard_Click(object sender, EventArgs e)
-        {
-            Response.Redirect(urls[ProductDetails] + "?id=" + Request.QueryString["id"]);
-        }
-
         protected void lbUpdate_Click(object sender, EventArgs e)
         {
             string productName = txtProdName.Text;
             string productCategory = ddlCategory.SelectedValue.ToString();
             string unitPrice = txtPrice.Text;
             string statusId = ddlStatus.SelectedValue.ToString();
+            string productDescription = txtProdDescription.Text;
 
-            int affectedRow = updateProductInfo(productName, productCategory, unitPrice, statusId);
+            // TODO : validation
+
+            int affectedRow = updateProductInfo(productName, productDescription, productCategory, unitPrice, statusId);
             lblUpdateProductStatus.Text = affectedRow > 0 ? "*Update Success !" : "*Failed to Update, Please Try Again..";
         }
 
@@ -592,6 +598,7 @@ namespace OutModern.src.Admin.ProductEdit
                 ddlColorAdd.DataValueField = "ColorId";
                 ddlColorAdd.DataTextField = "ColorName";
                 ddlColorAdd.DataBind();
+
                 ListItemCollection itemCollection = ddlColorAdd.Items;
                 for (int i = 0; i < itemCollection.Count; i++)
                 {
@@ -603,8 +610,10 @@ namespace OutModern.src.Admin.ProductEdit
                 repeaterColors.DataSource = getProdColors();
                 repeaterColors.DataBind();
 
-                // if current selected color is deleted, make it select the first item
-                if (vsColorId == colorId)
+                // if current selected color is deleted
+                // and there is color available
+                // make it select the first item
+                if (vsColorId == colorId && repeaterColors.Items.Count > 0)
                 {
                     RepeaterItem item = repeaterColors.Items[0];
                     LinkButton lbColor = item.FindControl("lbColor") as LinkButton;
@@ -616,7 +625,10 @@ namespace OutModern.src.Admin.ProductEdit
                     selectColor(firstColorId);
                     setQuantityText();
                 }
-
+                else
+                {
+                    repeaterImages.DataBind();
+                }
             }
         }
 
@@ -670,9 +682,18 @@ namespace OutModern.src.Admin.ProductEdit
 
         protected void btnUpdateQuantity_Click(object sender, EventArgs e)
         {
+
+            if (ViewState["ColorId"] == null)
+            {
+                lblSetStatus.Text = "*Please Add and Select a Color to Set Quantity!";
+                return;
+            }
+
             string sizeId = ddlSize.SelectedValue.ToString();
             string colorId = ViewState["ColorId"].ToString();
             string quantity = txtProdQuantity.Text;
+
+            // TODO : validation
 
             int affectedRow = updateQuantity(sizeId, colorId, quantity);
             clearStatusText();

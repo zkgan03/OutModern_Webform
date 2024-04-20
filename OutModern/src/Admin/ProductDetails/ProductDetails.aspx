@@ -90,41 +90,54 @@
             </asp:HyperLink>
         </div>
 
-        <!-- Product Container-->
-        <div class="flex mt-8 gap-20">
-            <!-- Product Details -->
-            <div class="w-56">
-                <div class="text-xl font-[600]">Product Info</div>
-                <div class="mt-4 ml-2 text-xl">
-                    <div class="desc-grp">
-                        <div class="desc-title">Product ID</div>
-                        <div>
-                            <asp:Label ID="lblProductId" runat="server" Text="P1001"></asp:Label>
+        <div class="border border-black rounded p-5 mt-2">
+            <div class="text-xl font-[600]">Product Info</div>
+
+            <!-- Product Container-->
+            <div class="flex gap-10 mt-4">
+                <!-- Product Details -->
+                <div class="w-56">
+                    <div class="ml-2 text-xl">
+                        <div class="desc-grp">
+                            <div class="desc-title">Product ID</div>
+                            <div>
+                                <asp:Label ID="lblProductId" runat="server" Text="P1001"></asp:Label>
+                            </div>
+                        </div>
+                        <div class="desc-grp">
+                            <div class="desc-title">Category</div>
+                            <div>
+                                <asp:Label ID="lblCategory" runat="server" Text="Hoodie"></asp:Label>
+                            </div>
+                        </div>
+                        <div class="desc-grp">
+                            <div class="desc-title">Price (RM)</div>
+                            <div>
+                                <asp:Label ID="lblPrice" runat="server" Text="99.99"></asp:Label>
+                            </div>
+                        </div>
+                        <div class="desc-grp">
+                            <div class="desc-title">Status</div>
+                            <div>
+                                <asp:Label ID="lblStatus" runat="server" Text="In Stock"></asp:Label>
+                            </div>
                         </div>
                     </div>
+                </div>
+
+                <!--Product Description-->
+                <div>
                     <div class="desc-grp">
-                        <div class="desc-title">Category</div>
+                        <div class="desc-title">Product Description</div>
                         <div>
-                            <asp:Label ID="lblCategory" runat="server" Text="Hoodie"></asp:Label>
-                        </div>
-                    </div>
-                    <div class="desc-grp">
-                        <div class="desc-title">Price (RM)</div>
-                        <div>
-                            <asp:Label ID="lblPrice" runat="server" Text="99.99"></asp:Label>
-                        </div>
-                    </div>
-                    <div class="desc-grp">
-                        <div class="desc-title">Status</div>
-                        <div>
-                            <asp:Label ID="lblStatus" runat="server" Text="In Stock"></asp:Label>
+                            <asp:Label ID="lblProductDesription" runat="server"></asp:Label>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Variation -->
-            <div class="flex-1">
+            <div class="flex-1 mt-10">
                 <div class="text-xl font-[600]">Variation</div>
 
                 <div class="mt-4">
@@ -132,7 +145,6 @@
                     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                         <ContentTemplate>
                             <div class="flex mt-4 items-center gap-7">
-
                                 <div>
                                     <div>Size</div>
                                     <div>
@@ -170,6 +182,11 @@
                                                 CssClass='<%# "color-varient" + (ViewState["ColorId"].ToString() == Eval("ColorId").ToString() ? " active" : "") %>'>
                                             </asp:LinkButton>
                                         </ItemTemplate>
+                                        <FooterTemplate>
+                                            <asp:Label ID="lblNoColor" CssClass="text-red-500" runat="server"
+                                                Visible='<%# ((Repeater)Container.NamingContainer).Items.Count == 0 %>'
+                                                Text="**No Color added**" />
+                                        </FooterTemplate>
                                     </asp:Repeater>
                                 </div>
                             </div>
@@ -182,6 +199,11 @@
                                             CssClass="product-img object-cover"
                                             ImageUrl='<%# Eval("path") %>' />
                                     </ItemTemplate>
+                                    <FooterTemplate>
+                                        <asp:Label ID="lblNoImage" CssClass="text-red-500" runat="server"
+                                            Visible='<%# ((Repeater)Container.NamingContainer).Items.Count == 0 %>'
+                                            Text="**No Image added**" />
+                                    </FooterTemplate>
                                 </asp:Repeater>
                             </div>
                         </ContentTemplate>
@@ -257,7 +279,7 @@
 
                                 </td>
                                 <td style="border: 1px solid black; padding: 1em;">
-                                    <asp:HyperLink ID="hlReply" CssClass="review-reply-btn" runat="server" NavigateUrl='<%#urls[ProductReviewReply] +"?id=" + Eval("CustomerName") %>'>Reply</asp:HyperLink>
+                                    <asp:HyperLink ID="hlReply" CssClass="review-reply-btn" runat="server" NavigateUrl='<%#urls[ProductReviewReply] +"?ReviewId=" + Eval("ReviewId") %>'>Reply</asp:HyperLink>
                                 </td>
                             </tr>
                         </ItemTemplate>
@@ -267,7 +289,7 @@
                     </asp:ListView>
 
                     <!--Pagination Bottom-->
-                    <asp:DataPager PagedControlID="lvReviews" class="pagination" ID="dpBottomReviews" runat="server"  PageSize="10">
+                    <asp:DataPager PagedControlID="lvReviews" class="pagination" ID="dpBottomReviews" runat="server" PageSize="10">
                         <Fields>
                             <asp:NextPreviousPagerField ButtonType="Button" ShowFirstPageButton="False" ShowNextPageButton="False" ShowPreviousPageButton="True" PreviousPageText="<" />
                             <asp:NumericPagerField NumericButtonCssClass="datapagerStyle" CurrentPageLabelCssClass="active" ButtonCount="10" />

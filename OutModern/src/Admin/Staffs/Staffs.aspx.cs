@@ -65,6 +65,7 @@ namespace OutModern.src.Admin.Staffs
                 }
             }
 
+
             return data;
         }
 
@@ -287,8 +288,10 @@ namespace OutModern.src.Admin.Staffs
             lvStaffs.EditIndex = -1;
             lvStaffs.InsertItemPosition = InsertItemPosition.FirstItem;
 
-            string sortExpression = ViewState["SortExpression"].ToString();
-            lvStaffs.DataSource = GetStaffs(sortExpression, SortDirections[sortExpression]);
+            string sortExpression = ViewState["SortExpression"]?.ToString();
+            lvStaffs.DataSource = sortExpression == null ?
+                GetStaffs() :
+                GetStaffs(sortExpression, SortDirections[sortExpression]);
             lvStaffs.DataBind();
 
             // bind data source for Role ddl
@@ -314,7 +317,7 @@ namespace OutModern.src.Admin.Staffs
             lvStaffs.DataSource =
                 sortExpression == null ?
                 GetStaffs() :
-                GetStaffs(sortExpression, SortDirections[sortExpression]); 
+                GetStaffs(sortExpression, SortDirections[sortExpression]);
             lvStaffs.DataBind();
         }
 

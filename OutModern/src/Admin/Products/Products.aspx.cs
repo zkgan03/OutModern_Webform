@@ -35,7 +35,7 @@ namespace OutModern.src.Admin.Products
         {
             if (!IsPostBack)
             {
-                lvProducts.DataSource = GetProducts();
+                lvProducts.DataSource = getProducts();
                 lvProducts.DataBind();
                 Page.DataBind();
 
@@ -71,7 +71,7 @@ namespace OutModern.src.Admin.Products
             }
         }
 
-        private DataTable GetProducts(string sortExpression = null, string sortDirection = "ASC")
+        private DataTable getProducts(string sortExpression = null, string sortDirection = "ASC")
         {
             DataTable data = new DataTable();
 
@@ -88,7 +88,7 @@ namespace OutModern.src.Admin.Products
                             "INNER JOIN ( " +
                                 "SELECT ProductDetail.ProductId, [Path] " +
                                 "FROM ProductImage " +
-                                "INNER JOIN ProductDetail ON ProductImage.ProductDetailId = ProductDetail.ProductDetailId " +
+                                "RIGHT OUTER JOIN ProductDetail ON ProductImage.ProductDetailId = ProductDetail.ProductDetailId " +
                             ") t ON t.ProductId = p.ProductId " +
                             "INNER JOIN ProductStatus ON p.ProductStatusId = ProductStatus.ProductStatusId " +
                     ") AS Subquery " +
@@ -173,7 +173,7 @@ namespace OutModern.src.Admin.Products
         protected void lvProducts_PagePropertiesChanged(object sender, EventArgs e)
         {
             string sortExpression = ViewState["SortExpression"]?.ToString();
-            lvProducts.DataSource = sortExpression == null ? GetProducts() : GetProducts(sortExpression, SortDirections[sortExpression]);
+            lvProducts.DataSource = sortExpression == null ? getProducts() : getProducts(sortExpression, SortDirections[sortExpression]);
             lvProducts.DataBind();
         }
 
@@ -184,7 +184,7 @@ namespace OutModern.src.Admin.Products
 
         public void FilterListView(string searchTerm)
         {
-            lvProducts.DataSource = FilterDataTable(GetProducts(), searchTerm);
+            lvProducts.DataSource = FilterDataTable(getProducts(), searchTerm);
             dpBottomProducts.SetPageProperties(0, dpBottomProducts.MaximumRows, false);
             lvProducts.DataBind();
         }
@@ -224,7 +224,7 @@ namespace OutModern.src.Admin.Products
             ViewState["SortExpression"] = e.SortExpression; // used for retain the sorting
 
             // Re-bind the ListView with sorted data
-            lvProducts.DataSource = GetProducts(e.SortExpression, SortDirections[e.SortExpression]);
+            lvProducts.DataSource = getProducts(e.SortExpression, SortDirections[e.SortExpression]);
             lvProducts.DataBind();
         }
     }

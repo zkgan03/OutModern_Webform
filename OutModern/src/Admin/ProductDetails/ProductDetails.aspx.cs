@@ -54,7 +54,9 @@ namespace OutModern.src.Admin.ProductDetails
                 setQuantity();
 
                 // init images
-                repeaterImg.DataSource = getImages(ViewState["ColorId"].ToString());
+                repeaterImg.DataSource = ViewState["ColorId"] != null ?
+                    getImages(ViewState["ColorId"].ToString()) :
+                    new DataTable();
                 repeaterImg.DataBind();
 
                 //init reviews
@@ -76,6 +78,7 @@ namespace OutModern.src.Admin.ProductDetails
             lblCategory.Text = data["ProductCategory"].ToString();
             lblPrice.Text = data["UnitPrice"].ToString();
             lblStatus.Text = data["ProductStatusName"].ToString();
+            lblProductDesription.Text = data["ProductDescription"].ToString();
         }
 
         // Get the products info
@@ -87,7 +90,7 @@ namespace OutModern.src.Admin.ProductDetails
                 connection.Open();
 
                 string sqlQuery =
-                    "Select ProductId, ProductName, ProductCategory, UnitPrice, ProductStatusName " +
+                    "Select ProductId, ProductName,ProductDescription, ProductCategory, UnitPrice, ProductStatusName " +
                     "FROM Product " +
                     "Join ProductStatus on Product.ProductStatusId = ProductStatus.ProductStatusId " +
                     "WHERE ProductId = @productId;";
@@ -95,7 +98,6 @@ namespace OutModern.src.Admin.ProductDetails
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
                     command.Parameters.AddWithValue("@productId", productId);
-
                     data.Load(command.ExecuteReader());
                 }
             }
@@ -150,7 +152,7 @@ namespace OutModern.src.Admin.ProductDetails
                 }
             }
 
-            if (ViewState["ColorId"] == null)
+            if (ViewState["ColorId"] == null && data.Rows.Count > 0)
             {
                 ViewState["ColorId"] = data.Rows[0]["ColorId"].ToString();
             }
@@ -216,9 +218,7 @@ namespace OutModern.src.Admin.ProductDetails
             return data;
         }
 
-        //
-        // Dummy DATA
-        //
+        //get all Reviews
         private DataTable getReviewList()
         {
             DataTable data = new DataTable();
@@ -242,7 +242,6 @@ namespace OutModern.src.Admin.ProductDetails
                 }
             }
 
-
             data.Columns.Add("Replies", typeof(DataTable));
             foreach (DataRow row in data.Rows)
             {
@@ -252,6 +251,7 @@ namespace OutModern.src.Admin.ProductDetails
             return data;
         }
 
+        //get replies for particular id
         private DataTable getReviewReplies(string reviewId)
         {
             // Create a new DataTable to hold the dummy data
@@ -281,6 +281,8 @@ namespace OutModern.src.Admin.ProductDetails
 
         private void setQuantity()
         {
+            if (ViewState["ColorId"] == null) return;
+
             string sizeId = ddlSize.SelectedValue.ToString();
             string colorId = ViewState["ColorId"].ToString();
 
