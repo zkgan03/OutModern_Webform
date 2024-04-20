@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
@@ -77,7 +78,7 @@ namespace OutModern.src.Client.Shipping
             int dummyCustomerId = 1;
 
             // Establish connection to your database (assuming SQL Server)
-            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\b1ank3r\source\repos\OutModern_Webform\OutModern\App_Data\OutModern.mdf;Integrated Security=True";
+            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -121,19 +122,23 @@ namespace OutModern.src.Client.Shipping
         protected void btnAddAddress_Click(object sender, EventArgs e)
         {
 
-            // If all textboxes are filled, proceed to add the address to the database
-            Address address = new Address
+            if (ValidateAndHighlight())
             {
-                CustomerId = 1, // Replace with the actual customer ID
-                AddressName = txtNickname.Text,
-                AddressLine = txtAddr.Text,
-                Country = ddlCountryOrigin.SelectedItem.Text,
-                State = txtState.Text,
-                PostalCode = txtPostal.Text
-            };
+                // If all textboxes are filled, proceed to add the address to the database
+                Address address = new Address
+                {
+                    CustomerId = 1, // Replace with the actual customer ID
+                    AddressName = txtNickname.Text,
+                    AddressLine = txtAddr.Text,
+                    Country = ddlCountryOrigin.SelectedItem.Text,
+                    State = txtState.Text,
+                    PostalCode = txtPostal.Text
+                };
 
-            // Add the address to the database
-            AddAddressToDatabase(address);
+                // Add the address to the database
+                AddAddressToDatabase(address);
+            }
+
         }
 
         private void AddAddressToDatabase(Address address)
@@ -235,7 +240,7 @@ namespace OutModern.src.Client.Shipping
             Address address = null;
 
             // Establish connection to your database (assuming SQL Server)
-            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\b1ank3r\source\repos\OutModern_Webform\OutModern\App_Data\OutModern.mdf;Integrated Security=True";
+            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -279,6 +284,88 @@ namespace OutModern.src.Client.Shipping
         {
 
         }
+
+        protected bool ValidateAndHighlight()
+        {
+            try
+            {
+                string nickname = txtNickname.Text.Trim();
+                string addr = txtAddr.Text.Trim();
+                string postal = txtPostal.Text.Trim();
+                string state = txtState.Text.Trim();
+                string country = ddlCountryOrigin.SelectedValue;
+
+                List<Control> errorControls = new List<Control>();
+
+                if (string.IsNullOrEmpty(nickname))
+                {
+                    errorControls.Add(txtNickname);
+                }
+                else
+                {
+                    RemoveErrorBorder(txtNickname);
+                }
+
+                if (string.IsNullOrEmpty(addr))
+                {
+                    errorControls.Add(txtAddr);
+                }
+                else
+                {
+                    RemoveErrorBorder(txtAddr);
+                }
+
+                if (string.IsNullOrEmpty(postal))
+                {
+                    errorControls.Add(txtPostal);
+                }
+                else
+                {
+                    RemoveErrorBorder(txtPostal);
+                }
+
+                if (string.IsNullOrEmpty(state))
+                {
+                    errorControls.Add(txtState);
+                }
+                else
+                {
+                    RemoveErrorBorder(txtState);
+                }
+
+                if (country == "default")
+                {
+                    errorControls.Add(ddlCountryOrigin);
+                }
+                else
+                {
+                    RemoveErrorBorder(ddlCountryOrigin);
+                }
+
+                // Apply red border only to controls with errors
+                foreach (Control control in errorControls)
+                {
+                    if (control is WebControl webControl)
+                    {
+                        webControl.CssClass += " error-border";
+                    }
+                }
+
+                return errorControls.Count == 0; // Return true if no errors, false otherwise
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in ValidateAndHighlight: " + ex.Message);
+                return false;
+            }
+        }
+
+        protected void RemoveErrorBorder(WebControl control)
+        {
+            // Remove error border CSS class from the control
+            control.CssClass = control.CssClass.Replace("error-border", "").Trim();
+        }
+
 
 
 

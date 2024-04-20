@@ -316,7 +316,7 @@
 
                     <!--Add address button-->
                     <div class="mt-8">
-                        <asp:Button ID="btnAddAddress" OnClick="btnAddAddress_Click" OnClientClick="return validateAndHighlight();" runat="server" Text="Add New Address" CssClass="bg-[#131118] h-12 w-1/3 cursor-pointer rounded-xl px-4 py-2 font-semibold text-white hover:bg-gray-700" />
+                        <asp:Button ID="btnAddAddress" OnClick="btnAddAddress_Click" runat="server" Text="Add New Address" CssClass="bg-[#131118] h-12 w-1/3 cursor-pointer rounded-xl px-4 py-2 font-semibold text-white hover:bg-gray-700" />
                     </div>
                 </div>
             </div>
@@ -391,58 +391,6 @@
     </div>
 
     <script>
-
-        function validateAndHighlight() {
-
-            try {
-                var nickname = document.getElementById('<%= txtNickname.ClientID %>').value;
-                var addr = document.getElementById('<%= txtAddr.ClientID %>').value;
-                var postal = document.getElementById('<%= txtPostal.ClientID %>').value;
-                var state = document.getElementById('<%= txtState.ClientID %>').value;
-                var country = document.getElementById('<%=ddlCountryOrigin.ClientID %>').value;
-
-                var errorTextboxes = [];
-
-                if (nickname.trim() === '') {
-                    errorTextboxes.push(document.getElementById('<%= txtNickname.ClientID %>'));
-                }
-
-                if (addr.trim() === '') {
-                    errorTextboxes.push(document.getElementById('<%= txtAddr.ClientID %>'));
-                }
-
-                if (postal.trim() === '') {
-                    errorTextboxes.push(document.getElementById('<%= txtPostal.ClientID %>'));
-                }
-
-                if (state.trim() === '') {
-                    errorTextboxes.push(document.getElementById('<%= txtState.ClientID %>'));
-                }
-
-                if (country === 'default') {
-                    errorTextboxes.push(document.getElementById('<%=ddlCountryOrigin.ClientID %>'));
-                }
-
-                // Apply red border only to textboxes with errors
-                errorTextboxes.forEach(function (textbox) {
-                    if (textbox) {
-                        textbox.classList.add('error-border');
-                    }
-                });
-
-                if (errorTextboxes.length > 0) {
-
-                    return false;
-                } else {
-
-                    return true;
-                }
-            } catch (error) {
-                console.error('Error in validateAndHighlight:', error);
-                return false;
-            }
-        }
-
 
         function validateNickname() {
             var txtNickname = document.getElementById('<%= txtNickname.ClientID %>');
