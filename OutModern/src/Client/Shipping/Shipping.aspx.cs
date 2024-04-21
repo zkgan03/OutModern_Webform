@@ -172,12 +172,15 @@ namespace OutModern.src.Client.Shipping
             // Retrieve the selected address details from session variables
             Address selectedAddress = Session["SelectedAddress"] as Address;
 
+            Session.Remove("SelectedAddress");
+
             // Check if an address is selected
             if (selectedAddress != null)
             {
-
                 // Store the selected address in a session variable
-                Session["SelectedAddress"] = selectedAddress;
+                Session["SelectedAddressPayment"] = selectedAddress;
+
+
 
                 // Redirect to the Payment.aspx page
                 Response.Redirect("../Payment/Payment.aspx");
