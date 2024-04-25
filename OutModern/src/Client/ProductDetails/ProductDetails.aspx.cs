@@ -13,6 +13,8 @@ namespace OutModern.src.Client.ProductDetails
     public partial class ProductDetails : System.Web.UI.Page
     {
         string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        int customerId = 1; // REMEMBER TO CHANGE ID
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -480,5 +482,138 @@ namespace OutModern.src.Client.ProductDetails
                 }
             }
         }
+
+        protected void AddToCart_Click(object sender, EventArgs e)
+        {
+            // Get the selected product details
+            int productId = Convert.ToInt32(Request.QueryString["ProductId"]);
+            int colorId = Convert.ToInt32(ViewState["ColorId"]);
+            int sizeId = Convert.ToInt32(ViewState["SizeId"]);
+            int quantity = Convert.ToInt32(txtQuantity.Text);
+
+
+            // Check if the customer ID is valid
+            if (customerId > 0)
+            {
+                // Check if the cart item already exists for the same customer and product details
+                int existingCartItemQuantity = GetExistingCartItemQuantity(customerId, productId, colorId, sizeId);
+
+                if (existingCartItemQuantity > 0)
+                {
+                    // Update the quantity for the existing cart item
+                    UpdateCartItemQuantity(customerId, productId, colorId, sizeId, existingCartItemQuantity + quantity);
+                }
+                else
+                {
+                    // Insert the data into the CartItem table
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        string sqlQuery = "INSERT INTO CartItem (CartId, ProductDetailId, Quantity) VALUES (@CartId, @ProductDetailId, @Quantity)";
+                        using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                        {
+                            connection.Open();
+                            command.Parameters.AddWithValue("@CartId", GetCartId(customerId)); // You need to implement this method to retrieve the cart ID based on the customer ID
+                            command.Parameters.AddWithValue("@ProductDetailId", GetProductDetailId(productId, colorId, sizeId)); // You need to implement this method to retrieve the ProductDetailId based on the product ID, color ID, and size ID
+                            command.Parameters.AddWithValue("@Quantity", quantity);
+                            command.ExecuteNonQuery();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Response.Redirect("~/src/Client/Login/Login.aspx");
+            }
+        }
+
+        private int GetExistingCartItemQuantity(int customerId, int productId, int colorId, int sizeId)
+        {
+            int existingQuantity = 0;
+
+            // Query to check if the cart item already exists for the provided customer ID and product details
+            string query = "SELECT Quantity FROM CartItem WHERE CartId = @CartId AND ProductDetailId = @ProductDetailId";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@CartId", GetCartId(customerId));
+                    command.Parameters.AddWithValue("@ProductDetailId", GetProductDetailId(productId, colorId, sizeId));
+
+                    connection.Open();
+                    object result = command.ExecuteScalar();
+
+                    if (result != null && result != DBNull.Value)
+                    {
+                        existingQuantity = Convert.ToInt32(result);
+                    }
+                }
+            }
+
+            return existingQuantity;
+        }
+
+        private void UpdateCartItemQuantity(int customerId, int productId, int colorId, int sizeId, int newQuantity)
+        {
+            // Query to update the quantity of the existing cart item
+            string query = "UPDATE CartItem SET Quantity = @Quantity WHERE CartId = @CartId AND ProductDetailId = @ProductDetailId";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Quantity", newQuantity);
+                    command.Parameters.AddWithValue("@CartId", GetCartId(customerId));
+                    command.Parameters.AddWithValue("@ProductDetailId", GetProductDetailId(productId, colorId, sizeId));
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+
+        private int GetCartId(int customerId)
+        {
+            int cartId = 0; // Initialize cartId to 0
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sqlQuery = "SELECT CartId FROM Cart WHERE CustomerId = @CustomerId";
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@CustomerId", customerId);
+                    connection.Open();
+                    object result = command.ExecuteScalar();
+                    if (result != null)
+                    {
+                        cartId = Convert.ToInt32(result);
+                    }
+                }
+            }
+            return cartId;
+        }
+
+        private int GetProductDetailId(int productId, int colorId, int sizeId)
+        {
+            int productDetailId = 0; // Initialize productDetailId to 0
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sqlQuery = "SELECT ProductDetailId FROM ProductDetail WHERE ProductId = @ProductId AND ColorId = @ColorId AND SizeId = @SizeId";
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@ProductId", productId);
+                    command.Parameters.AddWithValue("@ColorId", colorId);
+                    command.Parameters.AddWithValue("@SizeId", sizeId);
+                    connection.Open();
+                    object result = command.ExecuteScalar();
+                    if (result != null)
+                    {
+                        productDetailId = Convert.ToInt32(result);
+                    }
+                }
+            }
+            return productDetailId;
+        }
+
     }
 }
