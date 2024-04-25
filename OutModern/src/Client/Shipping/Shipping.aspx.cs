@@ -83,7 +83,7 @@ namespace OutModern.src.Client.Shipping
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 // Write SQL query to select addresses based on customer ID
-                string query = "SELECT * FROM Address WHERE CustomerId = @CustomerId";
+                string query = "SELECT * FROM Address WHERE CustomerId = @CustomerId AND isDeleted = 0";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
