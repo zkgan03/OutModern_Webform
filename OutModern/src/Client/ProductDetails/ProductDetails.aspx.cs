@@ -1,133 +1,484 @@
 ﻿using OutModern.src.Client.Products;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
+using System.Data.SqlClient;
+using System.Text;
 using System.Web.UI.WebControls;
+
 
 namespace OutModern.src.Client.ProductDetails
 {
     public partial class ProductDetails : System.Web.UI.Page
     {
+        string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                string productId = Request.QueryString["productID"];
-                if (!string.IsNullOrEmpty(productId))
-                {
-                    var product = GetProducts(productId);
-                    if (product != null)
-                    {
-                        productNameUrl.Text = product["productName"].ToString();
-                        lblProdName.Text = product["productName"].ToString();
-                        lblPrice.Text = "RM" + product["price"].ToString();
-                        lblReviews.Text = " (" + product["totalReview"].ToString() + " Reviews)";
-                        mainImage1.ImageUrl = product["productImageUrl1"].ToString();
-                        mainImage2.ImageUrl = product["productImageUrl2"].ToString();
-                        mainImage3.ImageUrl = product["productImageUrl3"].ToString();
-                        Image1.ImageUrl = product["productImageUrl1"].ToString();
-                        Image2.ImageUrl = product["productImageUrl2"].ToString();
-                        Image3.ImageUrl = product["productImageUrl3"].ToString();
+                GetProductInfo();
+                ColorRepeater.DataBind();
+                SizeRepeater.DataBind();
+                initColorSize();
+                ReviewListView.DataBind();
+                calculateOverallRating();
+            }
+        }
 
-                    }
-                    else
+        private DataTable getReviewList()
+        {
+            string productId = Request.QueryString["ProductId"];
+            DataTable data = new DataTable();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sqlQuery =
+                     "Select ReviewId, CustomerFullname as CustomerName, ReviewDateTime as ReviewTime, Rating as ReviewRating, ColorName as ReviewColor, Quantity as ReviewQuantity, ReviewDescription as ReviewText " +
+                     "From Review r, Customer c, ProductDetail pd, Product p, Color co, Size s " +
+                     "Where r.CustomerId = c.CustomerId AND pd.ProductDetailId = r.ProductDetailId " +
+                     "AND pd.ColorId = co.ColorId AND pd.ProductId = p.ProductId AND s.SizeId = pd.SizeId " +
+                     "AND p.ProductId = @productId;";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@productId", productId);
+                    data.Load(command.ExecuteReader());
+                }
+            }
+            return data;
+        }
+
+        private void calculateOverallRating()
+        {
+            DataTable reviewsTable = getReviewList();
+            int totalReview = 0;
+            double totalRating = 0;
+            double avgRating = 0.0;
+            int oneStar = 0, twoStar = 0, threeStar = 0, fourStar = 0, fiveStar = 0;
+            double onePer = 0, twoPer = 0, threePer = 0, fourPer = 0, fivePer = 0;
+            foreach (DataRow row in reviewsTable.Rows)
+            {
+                double rating;
+                if (double.TryParse(row["ReviewRating"].ToString(), out rating))
+                {
+                    totalRating += rating;
+                    totalReview++;
+                    switch (rating)
                     {
-                        lblProdName.Text = "Product not found.";
+                        case 1.0:
+                            oneStar++;
+                            break;
+                        case 2.0:
+                            twoStar++;
+                            break;
+                        case 3.0:
+                            threeStar++;
+                            break;
+                        case 4.0:
+                            fourStar++;
+                            break;
+                        case 5.0:
+                            fiveStar++;
+                            break;
+                    }
+                    avgRating = totalRating / (double)totalReview;
+                    onePer = oneStar / (double)totalReview * 100;
+                    twoPer = twoStar / (double)totalReview * 100;
+                    threePer = threeStar / (double)totalReview * 100;
+                    fourPer = fourStar / (double)totalReview * 100;
+                    fivePer = fiveStar / (double)totalReview * 100;
+                }
+            }
+            if (totalReview > 0)
+            {
+                avgRating = totalRating / totalReview;
+            }
+            starBar1.Attributes["style"] = "width: calc((" + onePer + ") / 100 * 100%)";
+            starBar2.Attributes["style"] = "width: calc((" + twoPer + ") / 100 * 100%)";
+            starBar3.Attributes["style"] = "width: calc((" + threePer + ") / 100 * 100%)";
+            starBar4.Attributes["style"] = "width: calc((" + fourPer + ") / 100 * 100%)";
+            starBar5.Attributes["style"] = "width: calc((" + fivePer + ") / 100 * 100%)";
+            lbl1star.Text = onePer.ToString("F0");
+            lbl2star.Text = twoPer.ToString("F0");
+            lbl3star.Text = threePer.ToString("F0");
+            lbl4star.Text = fourPer.ToString("F0");
+            lbl5star.Text = fivePer.ToString("F0");
+            avgRating = Math.Round(avgRating, 1);
+            lblAvgRatings.Text = avgRating.ToString("F1");
+            lblReviews.Text = "(" + totalReview.ToString() + " Reviews)";
+            lblTotalReview.Text = totalReview.ToString();
+            int fullStars = (int)avgRating;
+            double remainder = avgRating - fullStars;
+            int grayStars = 5 - fullStars - (remainder >= 0.5 ? 1 : 0);
+            StringBuilder stars = new StringBuilder();
+            StringBuilder stars1 = new StringBuilder();
+            for (int i = 0; i < fullStars; i++)
+            {
+                stars.Append("<i class='fas fa-star text-yellow-400 text-lg'></i>");
+                stars1.Append("<i class='fas fa-star rounded-lg bg-black p-2 text-lg text-yellow-300'></i>");
+            }
+            if (remainder >= 0.5)
+            {
+                stars.Append("<i class='fas fa-star-half-alt text-yellow-400 text-lg'></i>");
+                stars1.Append("<i class='fas fa-star-half-alt rounded-lg bg-black p-2 text-lg text-yellow-300'></i>");
+            }
+            for (int i = 0; i < grayStars; i++)
+            {
+                stars.Append("<i class='far fa-star text-gray-400 text-lg'></i>");
+                stars1.Append("<i class='far fa-star rounded-lg bg-black p-2 text-lg text-yellow-300'></i>");
+            }
+            ratingStar2.InnerHtml = stars1.ToString();
+            ratingStars.InnerHtml = stars.ToString();
+        }
+
+        private void initColorSize()
+        {
+            bool quantityGreaterThanZero = false;
+            foreach (RepeaterItem colorItem in ColorRepeater.Items)
+            {
+                LinkButton colorBtn = colorItem.FindControl("lbtnColor") as LinkButton;
+                string colorId = colorBtn.Attributes["data-colorId"];
+                ViewState["ColorId"] = colorId;
+                foreach (RepeaterItem sizeItem in SizeRepeater.Items)
+                {
+                    LinkButton sizeBtn = sizeItem.FindControl("lbtnSize") as LinkButton;
+                    string sizeId = sizeBtn.Attributes["data-sizeId"];
+                    ViewState["SizeId"] = sizeId;
+                    if (GetQuantity() > 0)
+                    {
+                        quantityGreaterThanZero = true;
+                        break;  
+                    }
+                }
+                if (quantityGreaterThanZero)
+                {
+                    break; 
+                }
+            }
+            GetImages(ViewState["ColorId"].ToString());
+        }
+
+        protected string FormatReplies(object replyDescriptionObj)
+        {
+            string replyDescription = replyDescriptionObj.ToString();
+            if (!string.IsNullOrEmpty(replyDescription))
+            {
+                string[] replies = replyDescription.Split(new string[] { "NextReviewReply " }, StringSplitOptions.RemoveEmptyEntries);
+                StringBuilder sb = new StringBuilder();
+
+                foreach (string reply in replies)
+                {
+                    sb.Append("<div class='overflow-hidden rounded-lg mb-4 bg-white shadow-lg'>");
+                    sb.Append("<div class='px-6 py-4'>");
+                    sb.Append($"<p class='font-bold text-black'>Seller's Response:</p>");
+                    sb.Append($"<div class='mt-2 text-gray-700'>");
+                    sb.Append($"<p>{reply}</p>");
+                    sb.Append("</div>");
+                    sb.Append("</div>");
+                    sb.Append("</div>");
+                }
+
+                return sb.ToString();
+            }
+            return string.Empty;
+        }
+
+        protected string GenerateStars(int rating)
+        {
+            StringBuilder stars = new StringBuilder();
+
+            for (int i = 1; i <= 5; i++)
+            {
+                if (i <= rating)
+                {
+                    stars.Append("<i class='fas fa-star text-yellow-400 text-sm'></i>");
+                }
+                else
+                {
+                    stars.Append("<i class='far fa-star text-gray-400 text-sm'></i>");
+                }
+            }
+            return stars.ToString();
+        }
+
+        private int GetQuantity()
+        {
+            int quantity = 0;
+            string productId = Request.QueryString["ProductId"];
+            string colorId = ViewState["ColorId"] as string;
+            string sizeId = ViewState["SizeId"] as string;
+            if (colorId != null && sizeId != null)
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    string sqlQuery = "SELECT Quantity AS TotalQuantity FROM ProductDetail WHERE ProductId = @productId AND SizeId = @sizeId AND ColorId = @colorId";
+
+                    using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@productId", productId);  // Replace with your ProductId
+                        command.Parameters.AddWithValue("@sizeId", sizeId);
+                        command.Parameters.AddWithValue("@colorId", colorId);
+                        connection.Open();
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                if (reader["TotalQuantity"] != DBNull.Value)
+                                {
+                                    lblQuantity.Text = reader["TotalQuantity"].ToString() + " pieces available";
+                                    quantity = Convert.ToInt32(reader["TotalQuantity"]);
+                                    txtQuantity.Attributes["Max"] = quantity.ToString();
+                                }
+                            }
+                        }
+
+                        connection.Close();
+                    }
+                }
+            }
+            return quantity;
+        }
+
+        protected void GetImages(string colorId)
+        {
+            string productId = Request.QueryString["ProductId"];
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+
+                string sqlQuery = "SELECT DISTINCT Path " +
+    "FROM Product " +
+    "INNER JOIN ProductDetail ON Product.ProductId = ProductDetail.ProductId " +
+    "INNER JOIN ProductImage ON ProductDetail.ProductDetailId = ProductImage.ProductDetailId " +
+    "WHERE ProductDetail.ColorId = @colorId AND Product.ProductId = @productId";
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@colorId", colorId);  // Replace with your ColorId
+                    command.Parameters.AddWithValue("@productId", productId);  // Replace with your ProductId
+                    connection.Open();
+                    List<string> imageUrls = new List<string>();
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string imageUrl = reader["Path"].ToString();
+                            imageUrls.Add(imageUrl);
+
+                        }
+                    }
+                    if (imageUrls.Count >= 1)
+                    {
+                        mainImage1.ImageUrl = imageUrls[0];
+                        Image1.ImageUrl = imageUrls[0];
+                    }
+                    if (imageUrls.Count >= 2)
+                    {
+                        mainImage2.ImageUrl = imageUrls[1];
+                        Image2.ImageUrl = imageUrls[1];
+                    }
+                    if (imageUrls.Count >= 3)
+                    {
+                        mainImage3.ImageUrl = imageUrls[2];
+                        Image3.ImageUrl = imageUrls[2];
+                    }
+                    connection.Close();
+                }
+            }
+
+        }
+
+        private void GetProductInfo()
+        {
+            string productId = Request.QueryString["ProductId"];
+            if (productId != null)
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    string query = "Select ProductId, ProductName, ProductDescription, ProductCategory, UnitPrice " +
+                    "FROM Product " +
+                    "WHERE ProductId = @ProductId;";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@ProductId", productId);
+                        connection.Open();
+                        SqlDataReader reader = command.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            lblProdName.Text = reader["ProductName"].ToString();
+                            lblDescription.Text = reader["ProductDescription"].ToString();
+                            lblPrice.Text = "RM " + reader["UnitPrice"].ToString();
+                        }
+                        connection.Close();
+                    }
+                }
+            }
+        }
+        private void selectColor(string colorId)
+        {
+            foreach (RepeaterItem item in ColorRepeater.Items)
+            {
+                LinkButton colorBtn = item.FindControl("lbtnColor") as LinkButton; // Replace with your button ID
+                if (colorBtn != null)
+                {
+                    colorBtn.CssClass.Replace(" selectedColor", "");
+                    if (colorBtn.Attributes["data-colorId"] == colorId)
+                    {
+                        colorBtn.CssClass += " selectedColor";
+                        lblColor.Text = colorBtn.Attributes["value"].ToString();
+                        lblColor.Visible = true;
+                    }
+                }
+            }
+            GetImages(colorId);
+            resetInputQuantity();
+        }
+
+        protected void ColorRepeater_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            if (e.CommandName == "SelectColor")
+            {
+                string previousColorId = ViewState["ColorId"] as string;
+                string newColorId = e.CommandArgument.ToString();
+
+                // Remove the 'selectedColor' class from the previously selected color button
+                foreach (RepeaterItem item in ColorRepeater.Items)
+                {
+                    LinkButton colorBtn = item.FindControl("lbtnColor") as LinkButton;
+                    if (colorBtn != null && colorBtn.Attributes["data-colorId"] == previousColorId)
+                    {
+                        colorBtn.CssClass = colorBtn.CssClass.Replace(" selectedColor", "").Trim();
+                        break;
                     }
                 }
 
+                ViewState["ColorId"] = newColorId;
+                selectColor(newColorId);
+
+                string sizeId = ViewState["SizeId"] as string;
+                if (sizeId != null)
+                {
+                    selectSize(sizeId);
+                }
             }
+
         }
 
-        private dynamic GetProducts(string productId)
+        private void selectSize(string sizeId)
         {
-            var dummyData = GetDummyData();
-            DataRow[] rows = dummyData.Select($"productID = '{productId}'");
-            if (rows.Length > 0)
+            foreach (RepeaterItem item in SizeRepeater.Items)
             {
-                return rows[0];
+                LinkButton sizeBtn = item.FindControl("lbtnSize") as LinkButton; // Replace with your button ID
+                if (sizeBtn != null)
+                {
+                    sizeBtn.CssClass.Replace(" selectedSize", "").Trim(); ;
+                    if (sizeBtn.Attributes["data-sizeId"] == sizeId)
+                    {
+                        sizeBtn.CssClass += " selectedSize";
+                        lblSize.Text = sizeBtn.Attributes["value"].ToString();
+                        lblSize.Visible = true;
+                    }
+                }
             }
-            else
+            GetQuantity();
+            resetInputQuantity();
+        }
+
+        private void resetInputQuantity()
+        {
+            txtQuantity.Text = "1";
+        }
+
+        protected void btnDecrease_Click(object sender, EventArgs e)
+        {
+            int quantity = Convert.ToInt32(txtQuantity.Text);
+            if (quantity > 1)  // Ensure quantity doesn't go negative
             {
-                return null;
+                quantity--;
+                txtQuantity.Text = quantity.ToString();
             }
         }
 
-        private DataTable GetDummyData()
+        protected void btnIncrease_Click(object sender, EventArgs e)
         {
-            DataTable dummyData = new DataTable();
-
-            // Add columns to match your GridView's DataFields
-            dummyData.Columns.Add("productID", typeof(string));
-            dummyData.Columns.Add("productName", typeof(string));
-            dummyData.Columns.Add("productImageUrl1", typeof(string));
-            dummyData.Columns.Add("productImageUrl2", typeof(string));
-            dummyData.Columns.Add("productImageUrl3", typeof(string));
-            dummyData.Columns.Add("price", typeof(decimal));
-            dummyData.Columns.Add("stockLevel", typeof(int));
-            dummyData.Columns.Add("totalReview", typeof(int));
-            dummyData.Columns.Add("productCategory", typeof(string));
-            // Add rows with dummy data
-            dummyData.Rows.Add("P001", "Premium Hoodie", "~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de6441b1.png",
-                "~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-zoomed-in-61167de6440a2.png", "~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de644282.png",
-                49.99, 100, 170,"Hoodie");
-            dummyData.Rows.Add("P002", "Logo Hoodie", "~/images/product-img/hoodies/white-Hoodie/unisex-essential-eco-hoodie-white-front-60e7150a8381a.png",
-                "~/images/product-img/hoodies/white-Hoodie/unisex-essential-eco-hoodie-white-front-60e7150a8364f.png", "~/images/product-img/hoodies/white-Hoodie/unisex-essential-eco-hoodie-white-front-2-60e7150a8377c.png",
-                99.99, 120, 66,"Hoodie");
-            dummyData.Rows.Add("P003", "Classic Hoodie", "~/images/product-img/hoodies/white-Hoodie/unisex-premium-hoodie-white-front-61167fab1babf.png",
-               "~/images/product-img/hoodies/white-Hoodie/unisex-essential-eco-hoodie-white-front-60e7150a8364f.png", "~/images/product-img/hoodies/white-Hoodie/unisex-premium-hoodie-white-front-61167fab1b96e.png",
-               188.88, 130, 20, "Hoodie");
-            dummyData.Rows.Add("P004", "Classic Sweater", "~/images/product-img/sweater/white-sweater/mens-long-sleeve-shirt-white-front-60e812b79c7a6.png",
-                "~/images/product-img/sweater/white-sweater/mens-long-sleeve-shirt-white-front-60e812b79d9ea.png", "~/images/product-img/sweater/white-sweater/mens-long-sleeve-shirt-white-front-60e812b79dd0f.png",
-                69.99, 100, 170, "Sweater");
-            dummyData.Rows.Add("P005", "Family Sweater", "~/images/product-img/sweater/white-sweater/unisex-fleece-sweatshirt-white-front-6117dbba91161.png",
-                "~/images/product-img/sweater/white-sweater/unisex-fleece-sweatshirt-white-front-2-6117dbba913f6.png", "~/images/product-img/sweater/white-sweater/unisex-fleece-sweatshirt-white-front-2-6117dbba912b4.png",
-                89.99, 120, 26, "Sweater");
-            dummyData.Rows.Add("P006", "Logo Sweater", "~/images/product-img/sweater/white-sweater/unisex-crew-neck-sweatshirt-white-front-60e80cba6f9d1.png",
-               "~/images/product-img/sweater/white-sweater/unisex-crew-neck-sweatshirt-white-front-60e80cba6fb89.png", "~/images/product-img/sweater/white-sweater/unisex-crew-neck-sweatshirt-white-front-60e80cba6ef27.png",
-               288.88, 130, 29, "Sweater");
-            dummyData.Rows.Add("P008", "Special Sweater 2", "~/images/product-img/sweater/white-sweater/all-over-print-unisex-sweatshirt-white-right-front-6117db4cccf2d.png",
-                "~/images/product-img/sweater/white-sweater/all-over-print-unisex-sweatshirt-white-right-front-6117db4ccd002.png", "~/images/product-img/sweater/white-Sweater/all-over-print-unisex-sweatshirt-white-back-6117db4ccce12.png",
-                389.99, 120, 56, "Sweater");
-            dummyData.Rows.Add("P009", "Classic T-Shirt", "~/images/product-img/teeShirt/white-Tee/adult-quality-tee-white-front-60e814c22d7df.png",
-               "~/images/product-img/teeShirt/white-Tee/adult-quality-tee-white-front-2-60e814c22d433.png", "~/images/product-img/teeShirt/white-Tee/adult-quality-tee-white-front-60e814c22d568.png",
-               18.88, 130, 30, "Tee Shirt");
-            dummyData.Rows.Add("P0010", "Logo T-Shirt", "~/images/product-img/teeShirt/white-Tee/mens-classic-t-shirt-white-front-6107e5efd1661.png",
-               "~/images/product-img/teeShirt/white-Tee/mens-classic-t-shirt-white-front-6107e5efd17ce.png", "~/images/product-img/teeShirt/white-Tee/mens-classic-t-shirt-white-front-6107e5efd18c9.png",
-               78.88, 130, 23, "Tee Shirt");
-            dummyData.Rows.Add("P0011", "Pocket T-Shirt", "~/images/product-img/teeShirt/white-Tee/unisex-pocket-t-shirt-white-front-610c034560867.png",
-               "~/images/product-img/teeShirt/white-Tee/unisex-pocket-t-shirt-white-front-610c034560b3f.png", "~/images/product-img/teeShirt/white-Tee/unisex-pocket-t-shirt-white-front-610c034560c0f.pngg",
-               77.77, 130, 21, "Tee Shirt");
-            dummyData.Rows.Add("P0012", "Classic Tee", "~/images/product-img/teeShirt/white-Tee/adult-quality-tee-white-front-60e814c22d7df.png",
-               "~/images/product-img/teeShirt/white-Tee/adult-quality-tee-white-front-2-60e814c22d433.png", "~/images/product-img/teeShirt/white-Tee/adult-quality-tee-white-front-60e814c22d568.png",
-               66.66, 130, 22, "Tee Shirt");
-            dummyData.Rows.Add("P013", "Logo Sweater", "~/images/product-img/sweater/white-sweater/unisex-crew-neck-sweatshirt-white-front-60e80cba6f9d1.png",
-               "~/images/product-img/sweater/white-sweater/unisex-crew-neck-sweatshirt-white-front-60e80cba6fb89.png", "~/images/product-img/sweater/white-sweater/unisex-crew-neck-sweatshirt-white-front-60e80cba6ef27.png",
-               288.88, 130, 20,"Sweater");
-
-
-
-            // Add more rows as needed for testing
-            return dummyData;
+            int quantity = Convert.ToInt32(txtQuantity.Text);
+            int totalQuantity = GetQuantity();
+            if (quantity < totalQuantity)
+            {
+                quantity++;
+                txtQuantity.Text = quantity.ToString();
+            }
         }
 
-        protected void radioColor_CheckedChanged(object sender, EventArgs e)
+        protected void SizeRepeater_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            RadioButton radioButton = (RadioButton) sender;
-            string color = radioButton.Attributes["value"];
-            lblColor.Text = color.ToString();
-            lblColor.Visible = true;
+            if (e.CommandName == "SelectSize")
+            {
+                string previousSizeId = ViewState["SizeId"] as string;
+                string newSizeId = e.CommandArgument.ToString();
 
+                // Remove the 'selectedSize' class from the previously selected size button
+                foreach (RepeaterItem item in SizeRepeater.Items)
+                {
+                    LinkButton sizeBtn = item.FindControl("lbtnSize") as LinkButton;
+                    if (sizeBtn != null && sizeBtn.Attributes["data-sizeId"] == previousSizeId)
+                    {
+                        sizeBtn.CssClass = sizeBtn.CssClass.Replace(" selectedSize", "").Trim();
+                        break;
+                    }
+                }
+
+                ViewState["SizeId"] = newSizeId;
+                selectSize(newSizeId);
+
+                string colorId = ViewState["ColorId"] as string;
+                if (colorId != null)
+                {
+                    selectColor(colorId);
+                }
+            }
         }
-        protected void radioSize_CheckedChanged(object sender, EventArgs e)
+
+        protected void SizeRepeater_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            RadioButton radioButton = (RadioButton)sender;
-            string size = radioButton.Attributes["value"];
-            lblSize.Text = size.ToString();
-            lblSize.Visible = true;
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                LinkButton sizeBtn = e.Item.FindControl("lbtnSize") as LinkButton;
+                if (sizeBtn != null)
+                {
+                    string sizeId = sizeBtn.Attributes["data-sizeId"];
+                    string selectedSizeId = ViewState["SizeId"] as string;
+                    sizeBtn.CssClass.Replace(" selectedSize", "").Trim();
+                    if (sizeId == selectedSizeId)
+                    {
+                        sizeBtn.CssClass += " selectedSize";
+                        lblSize.Text = sizeBtn.Attributes["value"].ToString();
+                        lblSize.Visible = true;
+                    }
+                }
+            }
+        }
+
+        protected void ColorRepeater_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                LinkButton colorBtn = e.Item.FindControl("lbtnColor") as LinkButton;
+                if (colorBtn != null)
+                {
+                    string colorId = colorBtn.Attributes["data-colorId"];
+                    string selectedColorId = ViewState["ColorId"] as string;
+                    colorBtn.CssClass = colorBtn.CssClass.Replace(" selectedColor", "").Trim();
+                    if (colorId == selectedColorId)
+                    {
+                        colorBtn.CssClass += " selectedColor";
+                        lblColor.Text = colorBtn.Attributes["value"].ToString();
+                        lblColor.Visible = true;
+                    }
+
+                }
+            }
         }
     }
 }

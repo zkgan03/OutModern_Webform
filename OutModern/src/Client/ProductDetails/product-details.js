@@ -10,7 +10,6 @@ imgs.forEach(
     })
 );
 
-// Close Image Modal
 var span = document.getElementsByClassName("close-modal")[0];
 span.onclick = function () {
     modal.style.display = "none";
@@ -68,3 +67,4 @@ function showDivs(n) {
     dots[slideIndex - 1].className += " opacity-off";
     dots[slideIndex - 1].style.border = "2px solid #000";
 }
+
