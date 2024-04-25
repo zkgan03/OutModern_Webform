@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace OutModern.src.Client.Login
 {
-    public partial class AdminLogin : System.Web.UI.Page
+    public partial class AdminForgetPassword : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -16,8 +16,7 @@ namespace OutModern.src.Client.Login
 
         protected void btn_login_Click(object sender, EventArgs e)
         {
-            // Redirect to Login page
-            Response.Redirect("~/src/Admin/Dashboard/Dashboard.aspx");
+            Response.Redirect("AdminResetPassword.aspx");
         }
     }
 }

@@ -36,7 +36,6 @@ namespace OutModern.src.Admin.Staffs
 
                 Page.DataBind();
             }
-
         }
 
         private DataTable GetStaffs()
@@ -83,24 +82,22 @@ namespace OutModern.src.Admin.Staffs
 
         protected void lvStaffs_PagePropertiesChanged(object sender, EventArgs e)
         {
+            lvStaffs.InsertItemPosition = InsertItemPosition.None;
+            lvStaffs.EditIndex = -1;
             lvStaffs.DataSource = GetStaffs();
             lvStaffs.DataBind();
         }
 
         protected void lbAddStaff_Click(object sender, EventArgs e)
         {
+            lvStaffs.DataSource = GetStaffs();
+            lvStaffs.EditIndex = -1;
             lvStaffs.InsertItemPosition = InsertItemPosition.FirstItem;
             lvStaffs.DataBind();
         }
 
         protected void lvStaffs_ItemCommand(object sender, ListViewCommandEventArgs e)
         {
-            if (e.CommandName == "Edit")
-            {
-                Response.Write("Edit");
-                lvStaffs.EditIndex = e.Item.DisplayIndex;
-                lvStaffs.DataBind(); // Rebind ListView to display edit template
-            }
 
         }
 
@@ -114,7 +111,10 @@ namespace OutModern.src.Admin.Staffs
 
         protected void lvStaffs_ItemEditing(object sender, ListViewEditEventArgs e)
         {
-            Response.Write("Editing");
+            lvStaffs.DataSource = GetStaffs();
+            lvStaffs.InsertItemPosition = InsertItemPosition.None;
+            lvStaffs.EditIndex = e.NewEditIndex;
+            lvStaffs.DataBind();
         }
 
         protected void lvStaffs_ItemInserting(object sender, ListViewInsertEventArgs e)
@@ -122,35 +122,31 @@ namespace OutModern.src.Admin.Staffs
 
         }
 
-        protected void lbEdit_Click(object sender, EventArgs e)
-        {
-
-            Response.Write("Clicked");
-        }
-
         protected void lvStaffs_ItemDataBound(object sender, ListViewItemEventArgs e)
         {
             if (e.Item.ItemType != ListViewItemType.DataItem) return;
 
-
             DataRowView rowView = (DataRowView)e.Item.DataItem;
             HtmlGenericControl statusSpan = (HtmlGenericControl)e.Item.FindControl("userStatus");
-            string status = rowView["AdminStatus"].ToString();
 
-            switch (status)
+            if (statusSpan != null)
             {
-                case "Activated":
-                    statusSpan.Attributes["class"] += " activated";
-                    break;
-                case "Locked":
-                    statusSpan.Attributes["class"] += " locked";
-                    break;
-                case "Deleted":
-                    statusSpan.Attributes["class"] += " deleted";
-                    break;
-                default:
-                    // Handle cases where status doesn't match any of the above
-                    break;
+                string status = rowView["AdminStatus"].ToString();
+                switch (status)
+                {
+                    case "Activated":
+                        statusSpan.Attributes["class"] += " activated";
+                        break;
+                    case "Locked":
+                        statusSpan.Attributes["class"] += " locked";
+                        break;
+                    case "Deleted":
+                        statusSpan.Attributes["class"] += " deleted";
+                        break;
+                    default:
+                        // Handle cases where status doesn't match any of the above
+                        break;
+                }
             }
 
         }
@@ -190,6 +186,11 @@ namespace OutModern.src.Admin.Staffs
             }
 
             return filteredDataTable;
+        }
+
+        protected void lvStaffs_ItemUpdating(object sender, ListViewUpdateEventArgs e)
+        {
+
         }
     }
 }

@@ -40,9 +40,21 @@ namespace OutModern.src.Client.Payment
             }
         }
 
-        protected void btnSubmitOrder_Click(object sender, EventArgs e)
+        protected void ButtonHome_Click(object sender, EventArgs e)
         {
             Response.Redirect("~/src/Client/Home/Home.aspx");
         }
+
+        protected void BtnViewOrder_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/src/Client/UserProfile/ToShip.aspx");
+        }
+
+        protected void btnSubmitOrder_Click(object sender, EventArgs e)
+        {
+            // Prevent the default form submission behavior
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openModal();", true);
+        }
+
     }
 }

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ForgetPassword.aspx.cs" Inherits="OutModern.src.Client.Login.ForgetPassword1" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="AdminForgetPassword.aspx.cs" Inherits="OutModern.src.Client.Login.AdminForgetPassword" %>
 
 <!DOCTYPE html>
 
@@ -19,14 +19,14 @@
     <!-- import tailwind js-->
     <script src="<%= Page.ResolveClientUrl("~/lib/tailwind/tailwind.js") %>"></script>
 </head>
-<body class="min-h-screen bg-cover bg-no-repeat bg-fixed" style="background-image: url('../../../../images/login-img/login-background.jpg')">
+<body class="min-h-screen bg-cover bg-no-repeat bg-fixed" style="background-image: url('../../../../images/login-img/login-background6.jpg')">
     <form id="form1" runat="server">
 
         <div class="FPBox">
 
 
             <div class="FPBoxTitle">
-                <asp:HyperLink ID="hl_back_login" runat="server" class="FPBack" NavigateUrl="~/src/Client/Login/Login.aspx">< Back</asp:HyperLink>
+                <asp:HyperLink ID="hl_back_login" runat="server" class="FPBack" NavigateUrl="~/src/Client/Login/AdminLogin.aspx">< Back</asp:HyperLink>
                 <div class="ml-0.5 mr-28 font-sans text-3xl text-black font-bold">Forget Password</div>
             </div>
 
@@ -43,8 +43,7 @@
             </div>
 
             <div class="FPConfirmButton">
-                <asp:Button ID="btn_login" runat="server" class="FPButton" Text="Send Verification" CssClass="bg-black hover:bg-gray-700" Style="width: 100%; border-radius: 1.5625rem; padding: 0.5605vw 1.3417vw; font-family: sans-serif; color: whitesmoke; font-weight: bold; border: 0.052vw solid #f5f5f5; cursor: pointer;"
-                    OnClick="btn_login_Click" />
+                <asp:Button ID="btn_login" runat="server" class="FPButton" Text="Send Verification" CssClass="bg-black hover:bg-gray-700" Style="width: 100%; border-radius: 1.5625rem; padding: 0.5605vw 1.3417vw; font-family: sans-serif; color: whitesmoke; font-weight: bold; border: 0.052vw solid #f5f5f5; cursor: pointer;" OnClick="btn_login_Click"/>
             </div>
 
         </div>

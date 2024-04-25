@@ -139,27 +139,7 @@
                         <asp:HyperLink ID="hyperlinkHome" CssClass="text-black-600 hover:text-gray-800" runat="server" NavigateUrl="~/src/Client/Home/Home.aspx">Home</asp:HyperLink>
                         <asp:HyperLink ID="hyperlinkAbout" CssClass="text-black-600 hover:text-gray-800" runat="server" NavigateUrl="#">About Us</asp:HyperLink>
                         <asp:HyperLink ID="hyperlinkProduct" CssClass="text-black-600 hover:text-gray-800" runat="server" NavigateUrl="~/src/Client/Products/Products.aspx">Products</asp:HyperLink>
-                        <!-- Categories-nav-->
-                        <!--<div class="nav-dropdown text-xl  group relative py-1.5 hover:text-black cursor-pointer">
-                            <span class="text-black hover:text-gray-800 cursor-pointer">Categories</span>
-                            <i class="fa-solid fa-angle-down align-middle group-hover:text-black"></i>
-                            <div class="drop-down">
-                                <ul>
-                                    <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink2" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
-                                    </li>
-                                    <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
-                                    </li>
-                                    <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink3" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
-                                    </li>
-                                    <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink4" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>-->
+
                     </div>
 
                     <!-- RIGHT PART -->
@@ -184,20 +164,19 @@
                                 <i class="fa-solid fa-angle-down align-middle group-hover:text-black"></i>
                             </div>
 
-
                             <div class="drop-down max-w-xs">
                                 <ul>
                                     <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink5" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
+                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink5" NavigateUrl="~/src/Client/UserProfile/UserProfile.aspx" runat="server">My Profile</asp:HyperLink>
                                     </li>
                                     <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink6" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
+                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink6" NavigateUrl="~/src/Client/UserProfile/ToShip.aspx" runat="server">My Order</asp:HyperLink>
                                     </li>
                                     <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink7" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
+                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink7" NavigateUrl="~/src/Client/Login/Login.aspx" runat="server">Log In</asp:HyperLink>
                                     </li>
                                     <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink8" NavigateUrl="#" runat="server">item 1</asp:HyperLink>
+                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink8" NavigateUrl="~/src/Client/Login/SignUp.aspx" runat="server">Sign Up</asp:HyperLink>
                                     </li>
                                 </ul>
                             </div>

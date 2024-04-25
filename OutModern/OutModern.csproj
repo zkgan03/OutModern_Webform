@@ -16,11 +16,13 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>
-    </IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>44338</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -131,12 +133,26 @@
     <Compile Include="src\Client\Cart\Cart.aspx.designer.cs">
       <DependentUpon>Cart.aspx</DependentUpon>
     </Compile>
+    <Compile Include="src\Client\Login\AdminForgetPassword.aspx.cs">
+      <DependentUpon>AdminForgetPassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\Login\AdminForgetPassword.aspx.designer.cs">
+      <DependentUpon>AdminForgetPassword.aspx</DependentUpon>
+    </Compile>
     <Compile Include="src\Client\Login\AdminLogin.aspx.cs">
       <DependentUpon>AdminLogin.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="src\Client\Login\AdminLogin.aspx.designer.cs">
       <DependentUpon>AdminLogin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\Login\AdminResetPassword.aspx.cs">
+      <DependentUpon>AdminResetPassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\Login\AdminResetPassword.aspx.designer.cs">
+      <DependentUpon>AdminResetPassword.aspx</DependentUpon>
     </Compile>
     <Compile Include="src\Client\Login\FirstPage.aspx.cs">
       <DependentUpon>FirstPage.aspx</DependentUpon>
@@ -196,7 +212,6 @@
     </Compile>
     <Compile Include="src\Client\Products\Products.aspx.cs">
       <DependentUpon>Products.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="src\Client\Products\Products.aspx.designer.cs">
       <DependentUpon>Products.aspx</DependentUpon>
@@ -293,7 +308,6 @@
     <Content Include="images\about_us_img\our_purpose.jpg" />
     <Content Include="images\about_us_img\Simple.jpg" />
     <Content Include="images\about_us_img\Together.jpg" />
-    <Content Include="images\arrow_up.png" />
     <Content Include="images\charles-etoroma-95UF6LXe-Lo-unsplash.jpg" />
     <Content Include="images\contact_us_pic.jpg" />
     <Content Include="images\customerService.jpeg" />
@@ -310,6 +324,7 @@
     <Content Include="images\marble.jpg" />
     <Content Include="images\mastercard_logo.png" />
     <Content Include="images\maybank_logo.png" />
+    <Content Include="images\paypal.png" />
     <Content Include="images\person1.jpg" />
     <Content Include="images\person2.jpg" />
     <Content Include="images\person3.jpg" />
@@ -638,6 +653,7 @@
     <Content Include="images\shirt2After.png" />
     <Content Include="images\signupMsg.jpg" />
     <Content Include="images\star.svg" />
+    <Content Include="images\tick-mark.png" />
     <Content Include="images\TnG_logo.png" />
     <Content Include="images\vid-poster.png" />
     <Content Include="images\visa_logo.png" />
@@ -776,7 +792,9 @@
     <Content Include="lib\fonts\ChakraPetch\ChakraPetch-Regular.ttf" />
     <Content Include="lib\fonts\ChakraPetch\ChakraPetch-SemiBold.ttf" />
     <Content Include="lib\fonts\ChakraPetch\ChakraPetch-SemiBoldItalic.ttf" />
+    <Content Include="src\Client\Login\AdminForgetPassword.aspx" />
     <Content Include="src\Client\Login\AdminLogin.aspx" />
+    <Content Include="src\Client\Login\AdminResetPassword.aspx" />
     <Content Include="src\Client\Login\css\AdminLogin.css" />
     <Content Include="src\Client\Login\css\FirstPage.css" />
     <Content Include="src\Client\Login\css\ForgetPassword.css" />

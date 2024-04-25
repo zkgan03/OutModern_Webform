@@ -11,7 +11,7 @@ namespace OutModern.src.Client.Login
 {
 
 
-    public partial class AdminLogin
+    public partial class AdminForgetPassword
     {
 
         /// <summary>
@@ -24,31 +24,22 @@ namespace OutModern.src.Client.Login
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// hl_cust_login control.
+        /// hl_back_login control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hl_cust_login;
+        protected global::System.Web.UI.WebControls.HyperLink hl_back_login;
 
         /// <summary>
-        /// txt_email control.
+        /// txt_fp_email control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txt_email;
-
-        /// <summary>
-        /// txt_password control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txt_password;
+        protected global::System.Web.UI.WebControls.TextBox txt_fp_email;
 
         /// <summary>
         /// btn_login control.
@@ -58,14 +49,5 @@ namespace OutModern.src.Client.Login
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btn_login;
-
-        /// <summary>
-        /// hl_forget_password control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hl_forget_password;
     }
 }

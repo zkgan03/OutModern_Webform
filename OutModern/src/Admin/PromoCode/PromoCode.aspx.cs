@@ -23,12 +23,16 @@ namespace OutModern.src.Admin.PromoCode
 
         protected void lbAddPromoCode_Click(object sender, EventArgs e)
         {
+            lvPromoCodes.DataSource = GetPromoCodes();
             lvPromoCodes.InsertItemPosition = InsertItemPosition.FirstItem;
+            lvPromoCodes.EditIndex = -1;
             lvPromoCodes.DataBind();
         }
 
         protected void lvPromoCodes_PagePropertiesChanged(object sender, EventArgs e)
         {
+            lvPromoCodes.InsertItemPosition = InsertItemPosition.None;
+            lvPromoCodes.EditIndex = -1;
             lvPromoCodes.DataSource = GetPromoCodes();
             lvPromoCodes.DataBind();
         }
@@ -40,13 +44,17 @@ namespace OutModern.src.Admin.PromoCode
 
         protected void lvPromoCodes_ItemEditing(object sender, ListViewEditEventArgs e)
         {
-
+            lvPromoCodes.DataSource = GetPromoCodes();
+            lvPromoCodes.EditIndex = e.NewEditIndex;
+            lvPromoCodes.InsertItemPosition = InsertItemPosition.None;
+            lvPromoCodes.DataBind();
         }
 
         protected void lvPromoCodes_ItemCanceling(object sender, ListViewCancelEventArgs e)
         {
             lvPromoCodes.DataSource = GetPromoCodes();
             lvPromoCodes.InsertItemPosition = InsertItemPosition.None;
+            lvPromoCodes.EditIndex = -1;
             lvPromoCodes.DataBind();
         }
 
@@ -68,17 +76,23 @@ namespace OutModern.src.Admin.PromoCode
                 new DataColumn("Quantity", typeof(int))
               });
 
-            // Generate 10 dummy promo codes
-            Random random = new Random();
-            for (int i = 0; i < 10; i++)
+            // Define an array of static promo codes
+            string[] staticPromoCodes = new string[] { "SUMMER2024", "AUTUMNSALE", "HOLIDAYGIFT", "BACKTOSCHOOL", "FLASHDEAL10", "LOYALTYBONUS", "FREESHIP50", "WEEKEND25", "HAPPYHOUR", "NEWYEAR23" };
+
+            // Generate 10 dummy promo codes (using a loop up to the length of the array)
+            for (int i = 0; i < Math.Min(10, staticPromoCodes.Length); i++)
             {
                 DataRow drPromoCode = dtPromoCodes.NewRow();
                 drPromoCode["PromoId"] = i + 1; // Assuming PromoId starts from 1
-                drPromoCode["PromoCode"] = $"PROMO{i + 1:000}"; // Generate 3-digit codes
-                drPromoCode["DiscountRate"] = random.NextDouble() * 0.5 + 0.05; // Random discount rate between 5% and 55%
-                drPromoCode["StartDate"] = DateTime.Now.AddDays(-random.Next(7)); // Start date within the last week
-                drPromoCode["EndDate"] = (DateTime)drPromoCode["StartDate"] + TimeSpan.FromDays(random.Next(14));
-                drPromoCode["Quantity"] = random.Next(100, 1001); // Quantity between 100 and 1000
+
+                // Use promo codes from the array
+                drPromoCode["PromoCode"] = staticPromoCodes[i];
+
+                // Set fixed values (replace with your desired values)
+                drPromoCode["DiscountRate"] = 0.1; // 10% discount
+                drPromoCode["StartDate"] = DateTime.Now.AddDays(-3); // Start date 3 days ago
+                drPromoCode["EndDate"] = DateTime.Now.AddDays(7); // End date 7 days from now
+                drPromoCode["Quantity"] = 500; // Quantity of 500
 
                 dtPromoCodes.Rows.Add(drPromoCode);
             }
