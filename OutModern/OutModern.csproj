@@ -201,6 +201,13 @@
     <Compile Include="src\Client\Payment\Payment.aspx.designer.cs">
       <DependentUpon>Payment.aspx</DependentUpon>
     </Compile>
+    <Compile Include="src\Client\Payment\Success.aspx.cs">
+      <DependentUpon>Success.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\Payment\Success.aspx.designer.cs">
+      <DependentUpon>Success.aspx</DependentUpon>
+    </Compile>
     <Compile Include="src\Client\ProductDetails\ProductDetails.aspx.cs">
       <DependentUpon>ProductDetails.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -808,6 +815,7 @@
     <Content Include="src\Client\Login\ResetPassword.aspx" />
     <Content Include="src\Client\Login\SignUp.aspx" />
     <Content Include="src\Client\Payment\Payment.aspx" />
+    <Content Include="src\Client\Payment\Success.aspx" />
     <Content Include="src\Client\ProductDetails\product-details.js" />
     <Content Include="src\Client\ProductDetails\ProductDetails.aspx" />
     <Content Include="src\Client\Products\Products.aspx" />

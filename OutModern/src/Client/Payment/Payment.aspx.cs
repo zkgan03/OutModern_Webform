@@ -81,7 +81,7 @@ namespace OutModern.src.Client.Payment
                 decimal totalAmount = 50;
 
                 //payment request
-                string returnURL = "http://localhost:44338/src/Client/Home/Home.aspx?status=success";
+                string returnURL = "http://localhost:44338/src/Client/Payment/Success.aspx?status=success";
                 string cancelURL = "http://localhost:44338/src/Client/Cart/Cart.aspx";
                 string currency = "MYR";
                 string paypalSandboxEmail = "sb-olaow30210165@business.example.com";
