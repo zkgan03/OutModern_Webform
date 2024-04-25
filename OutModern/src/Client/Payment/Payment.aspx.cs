@@ -10,6 +10,14 @@ using System.Web.UI.WebControls;
 
 namespace OutModern.src.Client.Payment
 {
+    public class PaymentInfo
+    {
+        public string PaymentMethod { get; set; }
+        public string CardNumber { get; set; }
+        public string ExpirationDate { get; set; }
+        public string CVV { get; set; }
+    }
+
     public partial class Payment : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
@@ -63,65 +71,81 @@ namespace OutModern.src.Client.Payment
 
         protected void btnSubmitOrder_Click(object sender, EventArgs e)
         {
+            string paymentMethod;
 
-            // Step 1: Calculate total amount (you need to implement this logic)
-            decimal totalAmount = 50;
-
-            // Step 2: Set up the PayPal payment request
-            string returnURL = "http://localhost:44338/src/Client/Home/Home.aspx?status=success"; 
-            string cancelURL = "http://localhost:44338/src/Client/Cart/Cart.aspx"; 
-            string currency = "MYR";
-            string paypalSandboxEmail = "sb-olaow30210165@business.example.com";
-
-            string paypalSandboxURL = $"https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_xclick&business={paypalSandboxEmail}&currency_code={currency}&amount={totalAmount}&return={returnURL}&cancel_return={cancelURL}";
-
-            // Redirect the user to PayPal
-            Response.Redirect(paypalSandboxURL);
-        }
-
-        protected void LabelContainer_Click(object sender, EventArgs e)
-        {
-            // Get the label container that triggered the click event
-            Label clickedLabelContainer = (Label)sender;
-
-            // Remove 'selected' class from all label containers
-            lblCreditCardContainer.CssClass = lblCreditCardContainer.CssClass.Replace(" selected", "");
-            lblPaypalContainer.CssClass = lblPaypalContainer.CssClass.Replace(" selected", "");
-
-            // Add 'selected' class to the clicked label container
-            clickedLabelContainer.CssClass += " selected";
-
-            // Trigger the CheckedChanged event for the corresponding radio button
-            if (clickedLabelContainer == lblCreditCardContainer)
+            if (paypal.Checked)
             {
-                creditCard.Checked = true;
-                paypal.Checked = false;
-                PaymentMethod_CheckedChanged(creditCard, EventArgs.Empty);
+
+                paymentMethod = "Paypal";
+                // total;
+                decimal totalAmount = 50;
+
+                //payment request
+                string returnURL = "http://localhost:44338/src/Client/Home/Home.aspx?status=success";
+                string cancelURL = "http://localhost:44338/src/Client/Cart/Cart.aspx";
+                string currency = "MYR";
+                string paypalSandboxEmail = "sb-olaow30210165@business.example.com";
+
+                string paypalSandboxURL = $"https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_xclick&business={paypalSandboxEmail}&currency_code={currency}&amount={totalAmount}&return={returnURL}&cancel_return={cancelURL}";
+
+                PaymentInfo creditCardInfo = new PaymentInfo
+                {
+                    PaymentMethod = paymentMethod,
+                };
+                Session["PaymentInfo"] = creditCardInfo;
+                // Redirect the user to PayPal
+                Response.Redirect(paypalSandboxURL);
+
             }
-            else if (clickedLabelContainer == lblPaypalContainer)
+            else
             {
-                paypal.Checked = true;
-                creditCard.Checked = false;
-                PaymentMethod_CheckedChanged(paypal, EventArgs.Empty);
+                //creditcard
+
+                // Retrieve credit card information from form fields
+                paymentMethod = "Credit Card";
+                string cardNumber = txtCardNumber.Text.Trim();
+                string expirationDate = txtExpirationDate.Text.Trim();
+                string cvv = txtCvv.Text.Trim();
+
+                // Create an instance of CreditCardInfo and store the card information
+                PaymentInfo creditCardInfo = new PaymentInfo
+                {
+                    PaymentMethod = paymentMethod,
+                    CardNumber = cardNumber,
+                    ExpirationDate = expirationDate,
+                    CVV = cvv
+                };
+
+                // Store credit card information into session variable
+                Session["PaymentInfo"] = creditCardInfo;
+
+                // Redirect or perform any other action after storing the payment information
+                Response.Redirect("PaymentConfirmationPage.aspx");
+
             }
         }
 
         protected void PaymentMethod_CheckedChanged(object sender, EventArgs e)
         {
+
+            lblCreditCardContainer.CssClass = lblCreditCardContainer.CssClass.Replace(" selected", "");
+            lblPaypalContainer.CssClass = lblPaypalContainer.CssClass.Replace(" selected", "");
+
             // Handle the CheckedChanged event as before
             if (creditCard.Checked)
             {
                 // Show credit card payment details
                 paymentDetails.Style["display"] = "block";
-
+                lblCreditCardContainer.CssClass += " selected";
             }
-            else if (paypal.Checked)
+            else
             {
                 // Hide payment details for Paypal
                 paymentDetails.Style["display"] = "none";
-
+                lblPaypalContainer.CssClass += " selected";
             }
         }
+
 
 
 

@@ -22,13 +22,13 @@
                     <asp:Label ID="lblCreditCardContainer" runat="server" CssClass="address-item selected mb-4 flex h-14 w-56 cursor-pointer items-center rounded-md border border-gray-300 bg-white p-4 shadow-md" AssociatedControlID="creditCard" OnClick="LabelContainer_Click">
                         <asp:Image ID="imgCreditCard" ImageUrl="~/images/mastercard_logo.png" CssClass="ml-4 h-8 w-10" runat="server" />
                         <span class="ml-2 mr-2 text-gray-700">Credit Card</span>
-                        <asp:RadioButton ID="creditCard" GroupName="paymentMethod" runat="server" Checked="true" CssClass="ml-auto h-5 w-5" OnCheckedChanged="PaymentMethod_CheckedChanged" />
+                        <asp:RadioButton ID="creditCard" GroupName="paymentMethod" runat="server" Checked="true" CssClass="ml-auto h-5 w-5" OnCheckedChanged="PaymentMethod_CheckedChanged" AutoPostBack="True" />
                     </asp:Label>
 
                     <asp:Label ID="lblPaypalContainer" runat="server" CssClass="address-item mb-4 flex h-14 w-56 cursor-pointer items-center rounded-md border border-gray-300 bg-white p-4 shadow-md" AssociatedControlID="paypal" OnClick="LabelContainer_Click">
                         <asp:Image ID="imgPaypal" ImageUrl="~/images/paypal.png" CssClass="ml-6 h-8 w-8" runat="server" />
                         <span class="ml-2 mr-2 text-gray-700">Paypal</span>
-                        <asp:RadioButton ID="paypal" GroupName="paymentMethod" CssClass="ml-auto h-5 w-5" runat="server" OnCheckedChanged="PaymentMethod_CheckedChanged" />
+                        <asp:RadioButton ID="paypal" GroupName="paymentMethod" CssClass="ml-auto h-5 w-5" runat="server" OnCheckedChanged="PaymentMethod_CheckedChanged" AutoPostBack="True" />
                     </asp:Label>
                 </div>
 
