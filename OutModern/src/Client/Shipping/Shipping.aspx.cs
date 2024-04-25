@@ -135,8 +135,16 @@ namespace OutModern.src.Client.Shipping
                     PostalCode = txtPostal.Text
                 };
 
+                txtNickname.Text = "";
+                txtAddr.Text = "";
+                txtState.Text = "";
+                txtPostal.Text = "";
+                ddlCountryOrigin.SelectedIndex = 0;
+
                 // Add the address to the database
                 AddAddressToDatabase(address);
+
+                Response.Redirect(Request.RawUrl);
             }
 
         }
