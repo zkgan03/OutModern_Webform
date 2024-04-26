@@ -81,8 +81,8 @@
                                         <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# Eval("ProductImageUrl") %>' CssClass="w-16 h-16 mr-4" />
                                         <div>
                                             <div class="text-lg font-semibold capitalize text-black"><%# Eval("ProductName") %></div>
-                                            <div class="text-sm">Color: <%# Eval("Color") %></div>
-                                            <div class="text-sm">Size: <%# Eval("Size") %></div>
+                                            <div class="text-sm">Color: <%# Eval("ColorName") %></div>
+                                            <div class="text-sm">Size: <%# Eval("SizeName") %></div>
                                             <div class="text-sm">Quantity: <%# Eval("Quantity") %></div>
                                         </div>
                                     </div>
@@ -100,10 +100,6 @@
                 <div class="mb-2 ml-6 mr-6 flex flex-wrap justify-between">
                     <span class="text-gray-500">Delivery Cost</span>
                     <asp:Label ID="lblDeliveryCost" runat="server" CssClass="text-gray-500" Text="RM5.00"></asp:Label>
-                </div>
-                <div class="mb-4 ml-6 mr-6 flex flex-wrap justify-between border-b border-gray-300 pb-4">
-                    <span class="text-gray-500">Estimated Tax</span>
-                    <asp:Label ID="lblTax" runat="server" CssClass="text-gray-500" Text="tax"></asp:Label>
                 </div>
                 <div class="ml-6 mr-6 flex flex-wrap justify-between font-semibold">
                     <span class="text-gray-500">Total</span>

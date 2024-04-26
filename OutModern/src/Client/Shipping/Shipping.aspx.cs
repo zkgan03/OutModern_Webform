@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OutModern.src.Admin.Customers;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -26,37 +27,23 @@ namespace OutModern.src.Client.Shipping
 
     public partial class Shipping : System.Web.UI.Page
     {
+
+        string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        int customerId = 1;
         protected void Page_Load(object sender, EventArgs e)
+        {
+            BindCartItems();
+            BindAddresses();
+            UpdateSubtotalandGrandTotalLabel();
+        }
+
+        protected void Page_Unload(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                // Retrieve the dummy data from the session variable
-                DataTable dummyData = (DataTable)Session["DummyData"];
-
-                //// Retrieve the subtotal value from session
-                //decimal subtotal = (decimal)Session["Subtotal"];
-                //decimal delivery = 5;
-                //if (subtotal > 100)
-                //{
-                //    delivery = 0;
-                //    lblDeliveryCost.Text = "RM0.00";
-                //}
-                //decimal tax = (subtotal * 6 / 100);
-                //decimal total = subtotal + tax + delivery;
-
-
-
-                //lblItemPrice.Text = "RM" + subtotal.ToString("N2");
-                //lblTax.Text = "RM" + (subtotal * 6 / 100).ToString("N2");
-                //lblTotal.Text = "RM" + total.ToString("N2");
-
-                // Bind the dummy data to the ListView control
-                ProductListView.DataSource = dummyData;
-                ProductListView.DataBind();
-
+                Session.Remove("SelectedAddress");
             }
 
-            BindAddresses();
         }
 
         private void BindAddresses()
@@ -69,16 +56,74 @@ namespace OutModern.src.Client.Shipping
             AddressListView.DataBind();
         }
 
+        private void BindCartItems()
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "SELECT CI.ProductDetailId, CI.Quantity, PD.ColorId, PD.SizeId, PD.ProductId, " +
+                               "P.ProductName, P.UnitPrice, (CI.Quantity * P.UnitPrice) AS Subtotal, " +
+                               "(SELECT TOP 1 PI.Path FROM ProductImage PI WHERE PI.ProductDetailId = PD.ProductDetailId) AS ProductImageUrl, " +
+                               "S.SizeName, C.ColorName " +
+                               "FROM CartItem CI " +
+                               "INNER JOIN ProductDetail PD ON CI.ProductDetailId = PD.ProductDetailId " +
+                               "INNER JOIN Product P ON PD.ProductId = P.ProductId " +
+                               "INNER JOIN Size S ON PD.SizeId = S.SizeId " +
+                               "INNER JOIN Color C ON PD.ColorId = C.ColorId " +
+                               "WHERE CI.CartId = (SELECT CartId FROM Cart WHERE CustomerId = @CustomerId)";
+
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@CustomerId", customerId);
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+
+                con.Open();
+                da.Fill(dt);
+                con.Close();
+
+                ProductListView.DataSource = dt;
+                ProductListView.DataBind();
+            }
+        }
+
+        private void UpdateSubtotalandGrandTotalLabel()
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "SELECT Subtotal FROM Cart WHERE CustomerId = @CustomerId";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@CustomerId", customerId);
+
+                con.Open();
+                object result = cmd.ExecuteScalar();
+                con.Close();
+
+                // Check if the result is not null
+                if (result != null)
+                {
+                    decimal subtotal = Convert.ToDecimal(result);
+                    lblItemPrice.Text = $"RM{subtotal.ToString("N2")}";
+
+                    decimal deliveryCost = decimal.Parse(lblDeliveryCost.Text.Replace("RM", ""));
+                    decimal grandTotal = subtotal + deliveryCost;
+
+                    lblTotal.Text = $"RM{grandTotal.ToString("N2")}";
+                }
+                else
+                {
+                    // If subtotal is null, display 0.00
+                    lblTotal.Text = "RM0.00";
+                }
+            }
+        }
+
         //REMEMBER CHANGE CUSTOMER ID 
         private List<Address> GetAddresses()
         {
             List<Address> addresses = new List<Address>();
 
-            // Dummy customer ID for testing
-            int dummyCustomerId = 1;
-
             // Establish connection to your database (assuming SQL Server)
-            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -88,7 +133,7 @@ namespace OutModern.src.Client.Shipping
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     // Add parameter for the customer ID
-                    command.Parameters.AddWithValue("@CustomerId", dummyCustomerId);
+                    command.Parameters.AddWithValue("@CustomerId", customerId);
 
                     connection.Open();
                     using (SqlDataReader reader = command.ExecuteReader())
@@ -127,7 +172,7 @@ namespace OutModern.src.Client.Shipping
                 // If all textboxes are filled, proceed to add the address to the database
                 Address address = new Address
                 {
-                    CustomerId = 1, // Replace with the actual customer ID
+                    CustomerId = customerId, // Replace with the actual customer ID
                     AddressName = txtNickname.Text,
                     AddressLine = txtAddr.Text,
                     Country = ddlCountryOrigin.SelectedItem.Text,
@@ -151,8 +196,7 @@ namespace OutModern.src.Client.Shipping
 
         private void AddAddressToDatabase(Address address)
         {
-            // Database connection and insert command logic as shown in the previous response
-            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\b1ank3r\source\repos\OutModern_Webform\OutModern\App_Data\OutModern.mdf;Integrated Security=True";
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -180,15 +224,13 @@ namespace OutModern.src.Client.Shipping
             // Retrieve the selected address details from session variables
             Address selectedAddress = Session["SelectedAddress"] as Address;
 
-            Session.Remove("SelectedAddress");
+
 
             // Check if an address is selected
             if (selectedAddress != null)
             {
                 // Store the selected address in a session variable
                 Session["SelectedAddressPayment"] = selectedAddress;
-
-
 
                 // Redirect to the Payment.aspx page
                 Response.Redirect("../Payment/Payment.aspx");
@@ -205,6 +247,7 @@ namespace OutModern.src.Client.Shipping
         {
             if (e.CommandName == "Select")
             {
+                lblMessage.Visible = false;
 
                 ViewState["selectedItem"] = Convert.ToInt32(e.CommandArgument);  // Store the selected index
 
@@ -249,9 +292,6 @@ namespace OutModern.src.Client.Shipping
         private Address GetAddressById(int addressId)
         {
             Address address = null;
-
-            // Establish connection to your database (assuming SQL Server)
-            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
