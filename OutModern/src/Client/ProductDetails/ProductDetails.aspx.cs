@@ -1,4 +1,5 @@
-﻿using OutModern.src.Client.Products;
+﻿using OutModern.src.Client.Cart;
+using OutModern.src.Client.Products;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -516,6 +517,8 @@ namespace OutModern.src.Client.ProductDetails
                             command.Parameters.AddWithValue("@ProductDetailId", GetProductDetailId(productId, colorId, sizeId)); // You need to implement this method to retrieve the ProductDetailId based on the product ID, color ID, and size ID
                             command.Parameters.AddWithValue("@Quantity", quantity);
                             command.ExecuteNonQuery();
+
+                            UpdateCartSubtotal(customerId);
                         }
                     }
                 }
@@ -523,6 +526,26 @@ namespace OutModern.src.Client.ProductDetails
             else
             {
                 Response.Redirect("~/src/Client/Login/Login.aspx");
+            }
+        }
+
+        private void UpdateCartSubtotal(int customerId)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "UPDATE Cart " +
+                               "SET Subtotal = (SELECT SUM(P.UnitPrice * CI.Quantity) " +
+                                              "FROM CartItem CI " +
+                                              "INNER JOIN ProductDetail PD ON CI.ProductDetailId = PD.ProductDetailId " +
+                                              "INNER JOIN Product P ON PD.ProductId = P.ProductId " +
+                                              "WHERE CI.CartId = Cart.CartId) " +
+                               "WHERE CustomerId = @CustomerId";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@CustomerId", customerId);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
             }
         }
 

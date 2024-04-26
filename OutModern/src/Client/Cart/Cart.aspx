@@ -32,6 +32,8 @@
                                     </LayoutTemplate>
                                     <ItemTemplate>
 
+                                        <asp:HiddenField ID="hidProductDetailId" runat="server" Value='<%# Eval("ProductDetailId") %>' />
+
                                         <!--Product-->
                                         <tr class="border-b border-gray-200">
                                             <td class="px-4 py-6">
@@ -39,14 +41,14 @@
                                                     <asp:Image ID="imgProduct" runat="server" AlternateText="Image" ImageUrl='<%# Eval("ProductImageUrl") %>' CssClass="w-16 h-16 mr-4" />
                                                     <div>
                                                         <div class="text-lg font-bold capitalize text-black"><%# Eval("ProductName") %></div>
-                                                        <div class="text-sm text-gray-500">Color: <%# Eval("Color") %></div>
-                                                        <div class="text-sm text-gray-500">Size: <%# Eval("Size") %></div>
+                                                        <div class="text-sm text-gray-500">Color: <%# Eval("ColorName") %></div>
+                                                        <div class="text-sm text-gray-500">Size: <%# Eval("SizeName") %></div>
                                                     </div>
                                                 </div>
                                             </td>
 
                                             <!--Price-->
-                                            <td class="px-4 py-2 text-center font-bold">RM<%# Eval("Price", "{0:N2}") %></td>
+                                            <td class="px-4 py-2 text-center font-bold">RM<%# Eval("UnitPrice", "{0:N2}") %></td>
 
                                             <!--Quantity Button-->
                                             <td class="px-6 py-2">
