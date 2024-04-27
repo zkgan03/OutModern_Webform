@@ -810,6 +810,7 @@
     <Content Include="src\Client\Login\SignUp.aspx" />
     <Content Include="src\Client\Payment\Payment.aspx" />
     <Content Include="src\Client\ProductDetails\ProductDetails.aspx" />
+    <Content Include="src\Client\ProductDetails\productDetails.css" />
     <Content Include="src\Client\ProductDetails\productDetails.js" />
     <Content Include="src\Client\Products\Products.aspx" />
     <Content Include="src\Client\Shipping\Shipping.aspx" />

@@ -1,151 +1,7 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/src/Client/ClientMaster/Client.Master" AutoEventWireup="true" CodeBehind="ProductDetails.aspx.cs" Inherits="OutModern.src.Client.ProductDetails.ProductDetails" MaintainScrollPositionOnPostback="true" EnableViewState="true" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <style type="text/css">
-        .size-chart tbody > :nth-child(odd) {
-            background-color: rgb(255, 255, 255);
-        }
-
-        .size-chart thead th {
-            background-color: rgb(255, 220, 227);
-            font-weight: bold;
-            width: 12ch;
-        }
-
-        .size-chart tr :first-child {
-            text-align: center;
-            position: sticky;
-            left: 0;
-            background-color: rgb(255, 220, 227);
-            width: 12ch;
-            font-weight: bold;
-        }
-
-        .image-modal {
-            display: none;
-            position: fixed;
-            z-index: 98;
-            padding-top: 50px;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: rgba(143, 143, 143, 0.8);
-        }
-
-        .image-modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            margin: auto;
-            width: 80%;
-            max-width: 700px;
-        }
-
-        .image-modal-content {
-            -webkit-animation-name: zoom;
-            -webkit-animation-duration: 0.6s;
-            animation-name: zoom;
-            animation-duration: 0.6s;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 35px;
-            color: #f1f1f1;
-            font-size: 60px;
-            text-shadow: 0px 0px 5px rgb(0, 0, 0);
-            transition: 0.1s;
-            cursor: pointer;
-        }
-
-            .close-modal:hover,
-            .close-modal:active {
-                color: whitesmoke;
-                text-shadow: 0px 0px 10px black;
-            }
-
-        .opacity,
-        .hover-opacity:hover {
-            opacity: 0.6;
-        }
-
-        .opacity-off,
-        .hover-opacity-off:hover {
-            opacity: 1;
-        }
-
-        .opacity.hover-opacity-off.opacity-off {
-            border: 2px solid #000;
-            border-radius: 5px;
-        }
-
-        .selectedColor, .selectedSize {
-            box-shadow: 0 0 0 2px whitesmoke, 0 0 0 4px black;
-        }
-
-        .selectedSize {
-            min-height: 2.5rem;
-            min-width: 5rem;
-            display: inline-block;
-            border-radius: 1px;
-            text-align: center;
-            padding: 10px 8px;
-        }
-
-        .datapagerStyle {
-            padding: 8px 12px;
-            margin: 0 3px;
-            border: 1px solid black;
-            border-radius: 4px;
-            color: #333;
-            background-color: #fff;
-            cursor: pointer;
-        }
-
-        .datapagerStyle:hover,
-            .active {
-                padding: 8px 12px;
-                margin: 0 3px;
-                border: 1px solid black;
-                border-radius: 4px;
-                background-color: black;
-                color: #fff;
-            }
-
-        .buttonDisabled {
-            min-height: 3rem !important;
-            text-align: center;
-            padding: 10px 10px;
-            background-color: #f0f0f0; /* Light grey */
-            color: #999999; /* Lighter grey for text */
-            border: 2px solid #cccccc; /* Light grey border */
-            cursor: not-allowed;
-            opacity: 0.7; /* Reduced opacity */
-            transition: opacity 0.3s ease; /* Smooth transition */
-            border-radius: 3.5px;
-        }
-
-        .buttonColorDisabled { 
-            cursor: not-allowed;
-            opacity: 0.9; /* Adjust opacity as needed */
-            height: 2.25rem; /* Equivalent to h-9 */
-            width: 2.25rem; /* Equivalent to w-9 */
-            border-radius: 9999px; /* Equivalent to rounded-full */
-        }
-
-        .ratingStar i {
-            border-radius: 0.5rem; /* rounded-lg */
-            background-color: #000; /* bg-black */
-            padding: 0.5rem; /* p-2 */
-            font-size: 1.125rem; /* text-lg */
-            color: #f3e100; /* text-yellow-300 */
-        }
-    </style>
-
+    <link href="productDetails.css" rel="stylesheet" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
@@ -489,22 +345,14 @@
                 <ContentTemplate>
                     <div class="flex flex-wrap items-center p-4 text-lg font-bold">
                         <p class="underline">All Ratings and Reviews</p>
-
                         <div style="margin-left: auto">
-                            <button class="cursor-pointer select-none border border-black bg-black px-4 py-2 text-base text-white transition duration-200" id="latestBtn" onclick="
-sortFromLatest()">
-                                Latest</button>
-                            <button class="cursor-pointer select-none border border-black bg-transparent px-4 py-2 text-base transition duration-200" id="topRatedBtn" onclick="
-sortFromTopRated()"
-                                onmouseenter="this.style.color = 'whitesmoke'; this.style.backgroundColor = 'black'"
-                                onmouseleave="this.style.color = 'black'; this.style.backgroundColor = 'whitesmoke'">
-                                Top
-        Rated</button>
+                            <asp:Button OnClick="btnLatest_Click" ID="btnLatest" class="btnSorting clicked latestBtn" runat="server" Text="Latest" />
+                            <asp:Button OnClick="btnTopRated_Click" ID="btnTopRated" class="btnSorting TopRatedBtn" runat="server" Text="TopRated" />                     
                         </div>
                     </div>
                     <asp:SqlDataSource ID="ReviewDataSource" runat="server"
                         ConnectionString='<%$ ConnectionStrings:ConnectionString %>'
-                        SelectCommand="SELECT r.ReviewId, c.CustomerFullname AS CustomerName, r.ReviewDateTime AS ReviewTime, r.Rating AS ReviewRating, s.SizeName AS SizeName, co.ColorName AS ReviewColor, pd.Quantity AS ReviewQuantity, r.ReviewDescription AS ReviewText, STRING_AGG(rr.Reply, 'NextReviewReply ') AS ReplyDescription FROM Review r INNER JOIN Customer c ON r.CustomerId = c.CustomerId INNER JOIN ProductDetail pd ON pd.ProductDetailId = r.ProductDetailId INNER JOIN Product p ON pd.ProductId = p.ProductId INNER JOIN Color co ON pd.ColorId = co.ColorId INNER JOIN Size s ON s.SizeId = pd.SizeId LEFT JOIN ReviewReply rr ON r.ReviewId = rr.ReviewId WHERE p.ProductId = @ProductId GROUP BY r.ReviewId, c.CustomerFullname, r.ReviewDateTime, r.Rating, s.SizeName, co.ColorName, pd.Quantity, r.ReviewDescription;">
+                        SelectCommand="SELECT r.ReviewId, c.CustomerFullname AS CustomerName, r.ReviewDateTime AS ReviewTime, r.Rating AS ReviewRating, s.SizeName AS SizeName, co.ColorName AS ReviewColor, pd.Quantity AS ReviewQuantity, r.ReviewDescription AS ReviewText, STRING_AGG(rr.Reply, 'NextReviewReply ') AS ReplyDescription FROM Review r INNER JOIN Customer c ON r.CustomerId = c.CustomerId INNER JOIN ProductDetail pd ON pd.ProductDetailId = r.ProductDetailId INNER JOIN Product p ON pd.ProductId = p.ProductId INNER JOIN Color co ON pd.ColorId = co.ColorId INNER JOIN Size s ON s.SizeId = pd.SizeId LEFT JOIN ReviewReply rr ON r.ReviewId = rr.ReviewId WHERE p.ProductId = @ProductId GROUP BY r.ReviewId, c.CustomerFullname, r.ReviewDateTime, r.Rating, s.SizeName, co.ColorName, pd.Quantity, r.ReviewDescription ORDER BY ReviewDateTime DESC;">
                         <SelectParameters>
                             <asp:QueryStringParameter QueryStringField="ProductId" Name="ProductId"></asp:QueryStringParameter>
                         </SelectParameters>
@@ -578,5 +426,6 @@ sortFromTopRated()"
                 txtQuantity.value = maxQuantity.toString();
             }
         }
+     
     </script>
 </asp:Content>

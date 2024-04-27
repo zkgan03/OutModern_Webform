@@ -27,6 +27,7 @@ namespace OutModern.src.Client.ProductDetails
                 ReviewListView.DataBind();
                 calculateOverallRating();
             }
+            ApplySorting();
         }
 
         private bool IsButtonEnabled(string colorId)
@@ -538,6 +539,34 @@ namespace OutModern.src.Client.ProductDetails
         protected void restoreImage()
         {
             ScriptManager.RegisterStartupScript(this, GetType(), "InitializeSlider", "initializeSlider();", true);
+        }
+
+        protected void btnLatest_Click(object sender, EventArgs e)
+        {
+            ViewState["SortingCriteria"] = "ReviewDateTime DESC";
+            ReviewDataPager.SetPageProperties(0, ReviewDataPager.PageSize, true);
+            ApplySorting();
+            btnLatest.CssClass = "btnSorting clicked";
+            btnTopRated.CssClass = "btnSorting not-clicked";
+        }
+
+        protected void btnTopRated_Click(object sender, EventArgs e)
+        {
+            ViewState["SortingCriteria"] = "ReviewRating DESC";
+            ReviewDataPager.SetPageProperties(0, ReviewDataPager.PageSize, true);
+            ApplySorting();
+            btnTopRated.CssClass = "btnSorting clicked";
+            btnLatest.CssClass = "btnSorting not-clicked";
+        }
+
+        private void ApplySorting()
+        {
+            string sortingCriteria = ViewState["SortingCriteria"] as string;
+            if (!string.IsNullOrEmpty(sortingCriteria))
+            {
+                ReviewDataSource.SelectCommand = "SELECT r.ReviewId, c.CustomerFullname AS CustomerName, r.ReviewDateTime AS ReviewTime, r.Rating AS ReviewRating, s.SizeName AS SizeName, co.ColorName AS ReviewColor, pd.Quantity AS ReviewQuantity, r.ReviewDescription AS ReviewText, STRING_AGG(rr.Reply, 'NextReviewReply ') AS ReplyDescription FROM Review r INNER JOIN Customer c ON r.CustomerId = c.CustomerId INNER JOIN ProductDetail pd ON pd.ProductDetailId = r.ProductDetailId INNER JOIN Product p ON pd.ProductId = p.ProductId INNER JOIN Color co ON pd.ColorId = co.ColorId INNER JOIN Size s ON s.SizeId = pd.SizeId LEFT JOIN ReviewReply rr ON r.ReviewId = rr.ReviewId WHERE p.ProductId = 1 GROUP BY r.ReviewId, c.CustomerFullname, r.ReviewDateTime, r.Rating, s.SizeName, co.ColorName, pd.Quantity, r.ReviewDescription ORDER BY " + sortingCriteria;
+                ReviewListView.DataBind();
+            }
         }
     }
 
