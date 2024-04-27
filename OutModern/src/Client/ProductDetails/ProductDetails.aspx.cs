@@ -140,28 +140,8 @@ namespace OutModern.src.Client.ProductDetails
             lblAvgRatings.Text = avgRating.ToString("F1");
             lblReviews.Text = "(" + totalReview.ToString() + " Reviews)";
             lblTotalReview.Text = totalReview.ToString();
-            int fullStars = (int)avgRating;
-            double remainder = avgRating - fullStars;
-            int grayStars = 5 - fullStars - (remainder >= 0.5 ? 1 : 0);
-            StringBuilder stars = new StringBuilder();
-            StringBuilder stars1 = new StringBuilder();
-            for (int i = 0; i < fullStars; i++)
-            {
-                stars.Append("<i class='fas fa-star text-yellow-400 text-lg'></i>");
-                stars1.Append("<i class='fas fa-star rounded-lg bg-black p-2 text-lg text-yellow-300'></i>");
-            }
-            if (remainder >= 0.5)
-            {
-                stars.Append("<i class='fas fa-star-half-alt text-yellow-400 text-lg'></i>");
-                stars1.Append("<i class='fas fa-star-half-alt rounded-lg bg-black p-2 text-lg text-yellow-300'></i>");
-            }
-            for (int i = 0; i < grayStars; i++)
-            {
-                stars.Append("<i class='far fa-star text-gray-400 text-lg'></i>");
-                stars1.Append("<i class='far fa-star rounded-lg bg-black p-2 text-lg text-yellow-300'></i>");
-            }
-            ratingStar2.InnerHtml = stars1.ToString();
-            ratingStars.InnerHtml = stars.ToString();
+            ratingStar2.InnerHtml = GenerateStars(avgRating);
+            ratingStars.InnerHtml = GenerateStars(avgRating);
         }
 
         private void initColorSize()
@@ -216,20 +196,23 @@ namespace OutModern.src.Client.ProductDetails
             return string.Empty;
         }
 
-        protected string GenerateStars(int rating)
+        protected string GenerateStars(double rating)
         {
+            int fullStars = (int)rating;
+            double remainder = rating - fullStars;
+            int grayStars = 5 - fullStars - (remainder >= 0.5 ? 1 : 0);
             StringBuilder stars = new StringBuilder();
-
-            for (int i = 1; i <= 5; i++)
+            for (int i = 0; i < fullStars; i++)
             {
-                if (i <= rating)
-                {
-                    stars.Append("<i class='fas fa-star text-yellow-400 text-sm'></i>");
-                }
-                else
-                {
-                    stars.Append("<i class='far fa-star text-gray-400 text-sm'></i>");
-                }
+                stars.Append("<i class='fas fa-star text-yellow-400 text-lg'></i>");
+            }
+            if (remainder >= 0.5)
+            {
+                stars.Append("<i class='fas fa-star-half-alt text-yellow-400 text-lg'></i>");
+            }
+            for (int i = 0; i < grayStars; i++)
+            {
+                stars.Append("<i class='far fa-star text-gray-400 text-lg'></i>");
             }
             return stars.ToString();
         }

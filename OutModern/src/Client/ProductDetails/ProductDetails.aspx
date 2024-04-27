@@ -136,6 +136,14 @@
             width: 2.25rem; /* Equivalent to w-9 */
             border-radius: 9999px; /* Equivalent to rounded-full */
         }
+
+        .ratingStar i {
+            border-radius: 0.5rem; /* rounded-lg */
+            background-color: #000; /* bg-black */
+            padding: 0.5rem; /* p-2 */
+            font-size: 1.125rem; /* text-lg */
+            color: #f3e100; /* text-yellow-300 */
+        }
     </style>
 
 </asp:Content>
