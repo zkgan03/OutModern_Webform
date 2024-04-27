@@ -40,16 +40,16 @@
                     </div>
                     <div class="mb-4">
                         <asp:Label for="txtCardNumber" runat="server" class="text-gray-700">Card Number</asp:Label>
-                        <asp:TextBox ID="txtCardNumber" runat="server" CssClass="mt-1 w-full rounded-md border border-gray-300 px-3 py-2" placeholder="1234 1234 1234 2343"></asp:TextBox>
+                        <asp:TextBox ID="txtCardNumber" runat="server" CssClass="mt-1 w-full rounded-md border border-gray-300 px-3 py-2" placeholder="1234 1234 1234 2343" MaxLength="16" oninput="validateCcNo(this)"></asp:TextBox>
                     </div>
                     <div class="flex space-x-4">
                         <div class="flex-1 mb-4">
                             <asp:Label for="txtExpirationDate" runat="server" class="text-gray-700">Expiration Date</asp:Label>
-                            <asp:TextBox ID="txtExpirationDate" runat="server" CssClass="mt-1 w-full rounded-md border border-gray-300 px-3 py-2" placeholder="MM/YY"></asp:TextBox>
+                            <asp:TextBox ID="txtExpirationDate" runat="server" CssClass="mt-1 w-full rounded-md border border-gray-300 px-3 py-2" placeholder="MM/YY" oninput="formatExpirationDate(this)" MaxLength="5"></asp:TextBox>
                         </div>
                         <div class="flex-1 mb-4">
                             <asp:Label for="txtCvv" runat="server" class="text-gray-700">CVV</asp:Label>
-                            <asp:TextBox ID="txtCvv" runat="server" CssClass="mt-1 w-full rounded-md border border-gray-300 px-3 py-2" placeholder="123"></asp:TextBox>
+                            <asp:TextBox ID="txtCvv" runat="server" CssClass="mt-1 w-full rounded-md border border-gray-300 px-3 py-2" placeholder="123" MaxLength="3" oninput="validateDigits(this)"></asp:TextBox>
                         </div>
                     </div>
 
@@ -113,12 +113,12 @@
             </div>
 
         </div>
-        <!-- Add more input fields as needed -->
+
     </div>
 
     <script>
 
-    </script>
+</script>
 
 
     <style>
@@ -130,5 +130,73 @@
             background-color: rgba(0, 0, 0, 0.4);
         }
     </style>
+
+    <script>
+        function formatExpirationDate(input) {
+            // Remove non-numeric characters
+            var value = input.value.replace(/\D/g, '');
+            // Check if the value has MM/YY format
+            if (/^\d{0,2}\/?\d{0,2}$/.test(value)) {
+                // Extract month and year parts
+                var month = value.substr(0, 2);
+                var year = value.substr(2);
+                // Ensure month is between 01 and 12
+                if (month !== '' && parseInt(month, 10) > 12) {
+                    month = '12';
+                }
+                // Format the value as MM/YY
+                var formattedValue = month + (year.length > 0 ? '/' + year : '');
+                // Update the input value
+                input.value = formattedValue;
+            } else {
+                // If the input doesn't match the MM/YY format, clear the input value
+                input.value = '';
+            }
+        }
+
+        function validateCcNo(input) {
+            input.value = input.value.replace(/\D/g, ''); // Remove non-numeric characters
+
+            // Validate credit card number using Luhn algorithm
+            var cardNumber = input.value;
+            var sum = 0;
+            var doubleDigit = false;
+
+            for (var i = cardNumber.length - 1; i >= 0; i--) {
+                var digit = parseInt(cardNumber.charAt(i));
+
+                if (doubleDigit) {
+                    digit *= 2;
+                    if (digit > 9) {
+                        digit -= 9;
+                    }
+                }
+
+                sum += digit;
+                doubleDigit = !doubleDigit;
+            }
+
+            var isValid = (sum % 10) === 0;
+
+            if (!isValid) {
+                // Optionally, you can provide feedback to the user that the credit card number is invalid
+                // For example, change the border color of the input field to red
+                input.style.borderColor = 'red';
+            } else {
+                // Reset the border color if the credit card number is valid
+                input.style.borderColor = '';
+            }
+        }
+
+
+        function validateDigits(input) {
+            input.value = input.value.replace(/\D/g, ''); // Remove non-numeric characters
+        }
+
+    </script>
+
+
+
+
 </asp:Content>
 

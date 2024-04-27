@@ -108,7 +108,7 @@ namespace OutModern.src.Client.Cart
                 // Update the quantity in the UI
                 txtQuantity.Text = currentQuantity.ToString();
 
-                
+
                 UpdateQuantityInDatabase(productDetailId, currentQuantity, customerId);
 
                 Response.Redirect(Request.RawUrl);
@@ -155,27 +155,27 @@ namespace OutModern.src.Client.Cart
             }
         }
 
-private void UpdateQuantityInDatabase(int productDetailId, int newQuantity, int customerId)
-{
-    using (SqlConnection con = new SqlConnection(connectionString))
-    {
-        string query = "UPDATE CartItem " +
-                       "SET Quantity = @NewQuantity " +
-                       "WHERE CartId = (SELECT CartId FROM Cart WHERE CustomerId = @CustomerId) " +
-                       "AND ProductDetailId = @ProductDetailId";
-        SqlCommand cmd = new SqlCommand(query, con);
-        cmd.Parameters.AddWithValue("@NewQuantity", newQuantity);
-        cmd.Parameters.AddWithValue("@CustomerId", customerId);
-        cmd.Parameters.AddWithValue("@ProductDetailId", productDetailId);
+        private void UpdateQuantityInDatabase(int productDetailId, int newQuantity, int customerId)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "UPDATE CartItem " +
+                               "SET Quantity = @NewQuantity " +
+                               "WHERE CartId = (SELECT CartId FROM Cart WHERE CustomerId = @CustomerId) " +
+                               "AND ProductDetailId = @ProductDetailId";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@NewQuantity", newQuantity);
+                cmd.Parameters.AddWithValue("@CustomerId", customerId);
+                cmd.Parameters.AddWithValue("@ProductDetailId", productDetailId);
 
-        con.Open();
-        cmd.ExecuteNonQuery();
-        con.Close();
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
 
-        // Recalculate and update the subtotal in the Cart table
-        UpdateCartSubtotal(customerId);
-    }
-}
+                // Recalculate and update the subtotal in the Cart table
+                UpdateCartSubtotal(customerId);
+            }
+        }
 
 
 
@@ -266,8 +266,6 @@ private void UpdateQuantityInDatabase(int productDetailId, int newQuantity, int 
                 con.Close();
             }
         }
-
-
 
         protected void btnApply_Click(object sender, EventArgs e)
         {

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Web;
@@ -17,7 +18,7 @@ namespace OutModern.src.Client.Payment
     {
         public string PaymentMethod { get; set; }
         public string CardNumber { get; set; }
-        public string ExpirationDate { get; set; }
+        public DateTime? ExpirationDate { get; set; }
         public string CVV { get; set; }
     }
 
@@ -36,8 +37,6 @@ namespace OutModern.src.Client.Payment
                 {
                     // Retrieve the selected address from the session
                     Address selectedAddress = Session["SelectedAddressPayment"] as Address;
-
-                    Session.Remove("SelectedAddressPayment");
 
                 }
 
@@ -109,14 +108,41 @@ namespace OutModern.src.Client.Payment
             }
         }
 
-        protected void ButtonHome_Click(object sender, EventArgs e)
+        private decimal GetTotal()
         {
-            Response.Redirect("~/src/Client/Home/Home.aspx");
-        }
+            decimal grandTotal = 0;
 
-        protected void BtnViewOrder_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("~/src/Client/UserProfile/ToShip.aspx");
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "SELECT Subtotal FROM Cart WHERE CustomerId = @CustomerId";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@CustomerId", customerId);
+
+                con.Open();
+                object result = cmd.ExecuteScalar();
+                con.Close();
+
+                // Check if the result is not null
+                if (result != null)
+                {
+                    decimal subtotal = Convert.ToDecimal(result);
+                    lblItemPrice.Text = $"RM{subtotal.ToString("N2")}";
+
+                    decimal deliveryCost = decimal.Parse(lblDeliveryCost.Text.Replace("RM", ""));
+                    grandTotal = subtotal + deliveryCost;
+
+                    lblTotal.Text = $"RM{grandTotal.ToString("N2")}";
+                }
+                else
+                {
+                    // If subtotal is null, display 0.00
+                    lblTotal.Text = "RM0.00";
+                }
+
+                
+            }
+
+            return grandTotal;
         }
 
         protected void btnSubmitOrder_Click(object sender, EventArgs e)
@@ -128,7 +154,7 @@ namespace OutModern.src.Client.Payment
 
                 paymentMethod = "Paypal";
                 // total;
-                decimal totalAmount = 50;
+                decimal totalAmount = GetTotal();
 
                 //payment request
                 string returnURL = "http://localhost:44338/src/Client/Payment/Success.aspx?status=success";
@@ -141,6 +167,9 @@ namespace OutModern.src.Client.Payment
                 PaymentInfo creditCardInfo = new PaymentInfo
                 {
                     PaymentMethod = paymentMethod,
+                    CardNumber = null,
+                    ExpirationDate = null,
+                    CVV = null
                 };
                 Session["PaymentInfo"] = creditCardInfo;
                 // Redirect the user to PayPal
@@ -151,11 +180,24 @@ namespace OutModern.src.Client.Payment
             {
                 //creditcard
 
+                // Validate and highlight inputs
+                ValidateAndHighlightInputs();
+
+                // Check if any input has validation errors
+                if (HasValidationErrors())
+                {
+                    return; // Prevent further processing if there are validation errors
+                }
+
                 // Retrieve credit card information from form fields
                 paymentMethod = "Credit Card";
                 string cardNumber = txtCardNumber.Text.Trim();
-                string expirationDate = txtExpirationDate.Text.Trim();
+                string expirationDateText = txtExpirationDate.Text.Trim();
                 string cvv = txtCvv.Text.Trim();
+
+
+
+                DateTime expirationDate = DateTime.ParseExact(expirationDateText, "MM/yy", CultureInfo.InvariantCulture);
 
                 // Create an instance of CreditCardInfo and store the card information
                 PaymentInfo creditCardInfo = new PaymentInfo
@@ -170,7 +212,7 @@ namespace OutModern.src.Client.Payment
                 Session["PaymentInfo"] = creditCardInfo;
 
                 // Redirect or perform any other action after storing the payment information
-                Response.Redirect("PaymentConfirmationPage.aspx");
+                Response.Redirect("../Payment/Success.aspx?status=success");
 
             }
         }
@@ -197,7 +239,46 @@ namespace OutModern.src.Client.Payment
         }
 
 
+        private void ValidateAndHighlightInputs()
+        {
+            // Validate card number input
+            if (string.IsNullOrWhiteSpace(txtCardNumber.Text))
+            {
+                txtCardNumber.Attributes["style"] = "border-color: red;";
+            }
+            else
+            {
+                txtCardNumber.Attributes["style"] = "";
+            }
 
+            // Validate expiration date input
+            if (string.IsNullOrWhiteSpace(txtExpirationDate.Text) || txtExpirationDate.Text.Length < 5)
+            {
+                txtExpirationDate.Attributes["style"] = "border-color: red;";
+            }
+            else
+            {
+                txtExpirationDate.Attributes["style"] = "";
+            }
+
+            // Validate CVV input
+            if (string.IsNullOrWhiteSpace(txtCvv.Text))
+            {
+                txtCvv.Attributes["style"] = "border-color: red;";
+            }
+            else
+            {
+                txtCvv.Attributes["style"] = "";
+            }
+        }
+
+        private bool HasValidationErrors()
+        {
+            // Check if any input has validation errors
+            return string.IsNullOrWhiteSpace(txtCardNumber.Text)
+                || (string.IsNullOrWhiteSpace(txtExpirationDate.Text) && txtExpirationDate.Text.Length < 5)
+                || string.IsNullOrWhiteSpace(txtCvv.Text);
+        }
 
     }
 }
