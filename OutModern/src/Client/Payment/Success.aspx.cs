@@ -221,8 +221,6 @@ namespace OutModern.src.Client.Payment
         private void ClearCart(int customerId)
         {
 
-
-
             // Implement logic to clear the cart based on customerId
             using (SqlConnection con = new SqlConnection(connectionString))
             {

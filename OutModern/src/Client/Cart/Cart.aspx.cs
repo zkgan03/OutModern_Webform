@@ -252,7 +252,7 @@ namespace OutModern.src.Client.Cart
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 string query = "UPDATE Cart " +
-                               "SET Subtotal = (SELECT SUM(P.UnitPrice * CI.Quantity) " +
+                               "SET Subtotal = (SELECT COALESCE(SUM(P.UnitPrice * CI.Quantity), 0) " +
                                               "FROM CartItem CI " +
                                               "INNER JOIN ProductDetail PD ON CI.ProductDetailId = PD.ProductDetailId " +
                                               "INNER JOIN Product P ON PD.ProductId = P.ProductId " +
