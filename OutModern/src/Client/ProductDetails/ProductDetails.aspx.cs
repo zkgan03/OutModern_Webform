@@ -4,7 +4,10 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 
 
@@ -24,6 +27,35 @@ namespace OutModern.src.Client.ProductDetails
                 ReviewListView.DataBind();
                 calculateOverallRating();
             }
+        }
+
+        private bool IsButtonEnabled(string colorId)
+        {
+            string productId = Request.QueryString["ProductId"];
+            int quantity = 0;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sqlQuery = "SELECT SUM(Quantity) AS TotalQuantity " +
+                                  "FROM ProductDetail " +
+                                  "WHERE ColorId = @colorId AND ProductId = @productId";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@colorId", colorId);
+                    command.Parameters.AddWithValue("@productId", productId);
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            quantity = (int)reader["TotalQuantity"];
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return quantity == 0;
         }
 
         private DataTable getReviewList()
@@ -227,7 +259,7 @@ namespace OutModern.src.Client.ProductDetails
                             {
                                 if (reader["TotalQuantity"] != DBNull.Value)
                                 {
-                                    lblQuantity.Text = reader["TotalQuantity"].ToString() + " pieces available";
+                                    lblQuantity.Text = reader["TotalQuantity"].ToString();
                                     quantity = Convert.ToInt32(reader["TotalQuantity"]);
                                     txtQuantity.Attributes["Max"] = quantity.ToString();
                                 }
@@ -265,7 +297,6 @@ namespace OutModern.src.Client.ProductDetails
                         {
                             string imageUrl = reader["Path"].ToString();
                             imageUrls.Add(imageUrl);
-
                         }
                     }
                     if (imageUrls.Count >= 1)
@@ -286,7 +317,6 @@ namespace OutModern.src.Client.ProductDetails
                     connection.Close();
                 }
             }
-
         }
 
         private void GetProductInfo()
@@ -331,6 +361,7 @@ namespace OutModern.src.Client.ProductDetails
                     }
                 }
             }
+            GetQuantity();
             GetImages(colorId);
             resetInputQuantity();
         }
@@ -341,8 +372,6 @@ namespace OutModern.src.Client.ProductDetails
             {
                 string previousColorId = ViewState["ColorId"] as string;
                 string newColorId = e.CommandArgument.ToString();
-
-                // Remove the 'selectedColor' class from the previously selected color button
                 foreach (RepeaterItem item in ColorRepeater.Items)
                 {
                     LinkButton colorBtn = item.FindControl("lbtnColor") as LinkButton;
@@ -352,17 +381,42 @@ namespace OutModern.src.Client.ProductDetails
                         break;
                     }
                 }
-
                 ViewState["ColorId"] = newColorId;
                 selectColor(newColorId);
+                checkQuantity(newColorId);
+            }
+        }
 
-                string sizeId = ViewState["SizeId"] as string;
-                if (sizeId != null)
+        private void checkQuantity(string colorId)
+        {
+            string firstAvailableSizeId = null;
+            foreach (RepeaterItem item in SizeRepeater.Items)
+            {
+                LinkButton sizeBtn = item.FindControl("lbtnSize") as LinkButton;
+                string sizeId = sizeBtn.Attributes["data-sizeId"];
+                if (IsButtonEnabled(colorId, sizeId))
                 {
-                    selectSize(sizeId);
+                    sizeBtn.Enabled = false;
+                    sizeBtn.CssClass = " buttonDisabled";
+                }
+                else
+                {
+                    sizeBtn.Enabled = true;
+                    sizeBtn.CssClass = "flex items-center justify-center rounded-md px-4 py-3 hover:bg-gray-300";
+                    if(sizeId == ViewState["SizeId"].ToString() && GetQuantity() > 0)
+                    {
+                        sizeBtn.CssClass += " selectedSize";
+                    }
+                    else if (firstAvailableSizeId == null) {
+                        firstAvailableSizeId = sizeId;
+                    }
                 }
             }
-
+            if (GetQuantity() == 0)
+            {
+                ViewState["SizeId"] = firstAvailableSizeId;
+                selectSize(firstAvailableSizeId);
+            }
         }
 
         private void selectSize(string sizeId)
@@ -385,6 +439,91 @@ namespace OutModern.src.Client.ProductDetails
             resetInputQuantity();
         }
 
+        protected void SizeRepeater_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            if (e.CommandName == "SelectSize")
+            {
+                string newSizeId = e.CommandArgument.ToString();
+                string previousSizeId = ViewState["SizeId"] as string;
+                foreach (RepeaterItem item in SizeRepeater.Items)
+                {
+                    LinkButton sizeBtn = item.FindControl("lbtnSize") as LinkButton;
+                    if (sizeBtn != null && sizeBtn.Attributes["data-sizeId"] == previousSizeId)
+                    {
+                        sizeBtn.CssClass = sizeBtn.CssClass.Replace(" selectedSize", "").Trim();
+                        break;
+                    }            
+                }
+                ViewState["SizeId"] = newSizeId;
+                selectSize(newSizeId);
+            }
+        }
+
+        private bool IsButtonEnabled(string colorId, string sizeId)
+        {
+            string productId = Request.QueryString["ProductId"];
+            int quantity = 0;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sqlQuery = "SELECT Quantity " +
+                                  "FROM ProductDetail " +
+                                  "WHERE ColorId = @colorId AND SizeId = @sizeId AND ProductId = @productId";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@colorId", colorId);
+                    command.Parameters.AddWithValue("@sizeId", sizeId);
+                    command.Parameters.AddWithValue("@productId", productId);
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            quantity = (int)reader["Quantity"];
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return quantity == 0;
+        }
+
+        protected void SizeRepeater_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                LinkButton sizeBtn = e.Item.FindControl("lbtnSize") as LinkButton;
+                string sizeId = sizeBtn.Attributes["data-sizeId"];
+                string colorId = ViewState["ColorId"] as string;
+                if (colorId != null && sizeId != null)
+                {   
+                    if (IsButtonEnabled(colorId, sizeId))
+                    {
+                        sizeBtn.Enabled = false;
+                        sizeBtn.CssClass = "buttonDisabled"; // Make sure the CSS class exists in your stylesheet
+                    }
+                    
+                }
+                restoreImage();
+            }
+        }
+
+        protected void ColorRepeater_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                LinkButton colorBtn = e.Item.FindControl("lbtnColor") as LinkButton;
+                string colorId = colorBtn.Attributes["data-colorId"];
+                if (IsButtonEnabled(colorId))
+                {
+                    colorBtn.Enabled = false;
+                    colorBtn.CssClass = "buttonColorDisabled"; // Make sure the CSS class exists in your stylesheet
+                }
+                restoreImage();
+            }
+        }
+
         private void resetInputQuantity()
         {
             txtQuantity.Text = "1";
@@ -398,87 +537,25 @@ namespace OutModern.src.Client.ProductDetails
                 quantity--;
                 txtQuantity.Text = quantity.ToString();
             }
+            restoreImage();
         }
 
         protected void btnIncrease_Click(object sender, EventArgs e)
         {
             int quantity = Convert.ToInt32(txtQuantity.Text);
-            int totalQuantity = GetQuantity();
+            int totalQuantity = Convert.ToInt32(lblQuantity.Text);
             if (quantity < totalQuantity)
             {
                 quantity++;
                 txtQuantity.Text = quantity.ToString();
             }
+            restoreImage();
         }
 
-        protected void SizeRepeater_ItemCommand(object source, RepeaterCommandEventArgs e)
+        protected void restoreImage()
         {
-            if (e.CommandName == "SelectSize")
-            {
-                string previousSizeId = ViewState["SizeId"] as string;
-                string newSizeId = e.CommandArgument.ToString();
-
-                // Remove the 'selectedSize' class from the previously selected size button
-                foreach (RepeaterItem item in SizeRepeater.Items)
-                {
-                    LinkButton sizeBtn = item.FindControl("lbtnSize") as LinkButton;
-                    if (sizeBtn != null && sizeBtn.Attributes["data-sizeId"] == previousSizeId)
-                    {
-                        sizeBtn.CssClass = sizeBtn.CssClass.Replace(" selectedSize", "").Trim();
-                        break;
-                    }
-                }
-
-                ViewState["SizeId"] = newSizeId;
-                selectSize(newSizeId);
-
-                string colorId = ViewState["ColorId"] as string;
-                if (colorId != null)
-                {
-                    selectColor(colorId);
-                }
-            }
-        }
-
-        protected void SizeRepeater_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
-            {
-                LinkButton sizeBtn = e.Item.FindControl("lbtnSize") as LinkButton;
-                if (sizeBtn != null)
-                {
-                    string sizeId = sizeBtn.Attributes["data-sizeId"];
-                    string selectedSizeId = ViewState["SizeId"] as string;
-                    sizeBtn.CssClass.Replace(" selectedSize", "").Trim();
-                    if (sizeId == selectedSizeId)
-                    {
-                        sizeBtn.CssClass += " selectedSize";
-                        lblSize.Text = sizeBtn.Attributes["value"].ToString();
-                        lblSize.Visible = true;
-                    }
-                }
-            }
-        }
-
-        protected void ColorRepeater_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
-            {
-                LinkButton colorBtn = e.Item.FindControl("lbtnColor") as LinkButton;
-                if (colorBtn != null)
-                {
-                    string colorId = colorBtn.Attributes["data-colorId"];
-                    string selectedColorId = ViewState["ColorId"] as string;
-                    colorBtn.CssClass = colorBtn.CssClass.Replace(" selectedColor", "").Trim();
-                    if (colorId == selectedColorId)
-                    {
-                        colorBtn.CssClass += " selectedColor";
-                        lblColor.Text = colorBtn.Attributes["value"].ToString();
-                        lblColor.Visible = true;
-                    }
-
-                }
-            }
+            ScriptManager.RegisterStartupScript(this, GetType(), "InitializeSlider", "initializeSlider();", true);
         }
     }
+
 }
