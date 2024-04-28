@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OutModern.src.Admin.Products;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -7,6 +8,8 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static OutModern.src.Admin.Products.Products;
+
 
 namespace OutModern.src.Client.Products
 {
@@ -15,119 +18,115 @@ namespace OutModern.src.Client.Products
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public decimal UnitPrice { get; set; }
+        public string ProductCategory { get; set; }
         public List<string> ImagePaths { get; set; }
         public int TotalReview { get; set; }
+        public int ratings { get; set; }
         public string productImageUrl1 { get; set; }
         public string productImageUrl2 { get; set; }
     }
 
-
     public partial class Products : System.Web.UI.Page
     {
+        string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                ProductRepeater.DataSource = GetProducts();
-                ProductRepeater.DataBind();
+                BindProducts(GetProductsInfo());
+                CategoryRepeater.DataBind();
                 lblTotalProducts.Text = ProductRepeater.Items.Count.ToString() + " Products Found";
-
             }
         }
+        private void BindProducts(List<Product> products)
+        {
+            ProductRepeater.DataSource = products;
+            ProductRepeater.DataBind();
+        }
 
-        private List<Product> GetProducts()
+        private List<Product> GetProductsInfo()
         {
             List<Product> products = new List<Product>();
 
-            // Establish connection to your database (assuming SQL Server)
-            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                // Write SQL query to select product information and image paths
-                string query = @"
-SELECT p.ProductId, p.ProductName, p.UnitPrice, pi.Path AS ImagePath,
-       COUNT(r.ProductDetailId) AS TotalReview, pd.ColorId
-FROM Product p
-INNER JOIN ProductDetail pd ON p.ProductId = pd.ProductId
-INNER JOIN ProductImage pi ON pd.ProductDetailId = pi.ProductDetailId
-LEFT JOIN Review r ON pd.ProductDetailId = r.ProductDetailId
-GROUP BY p.ProductId, p.ProductName, p.UnitPrice, pi.Path, pd.ColorId
-ORDER BY pd.ColorId";
-
-
-                // Create SqlCommand object with the query and connection
-                using (SqlCommand command = new SqlCommand(query, connection))
+                string sqlQuery = "SELECT p.ProductId, p.ProductName, p.UnitPrice, p.ProductCategory, COUNT(r.ReviewId) AS TotalReview FROM Product p LEFT JOIN ProductDetail pd ON p.ProductId = pd.ProductId LEFT JOIN Review r ON pd.ProductDetailId = r.ProductDetailId GROUP BY p.ProductId, p.ProductName, p.UnitPrice, p.ProductCategory;";
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
-                    try
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        // Open the connection
-                        connection.Open();
-
-                        // Execute the query and fetch the result
-                        SqlDataReader reader = command.ExecuteReader();
-
                         while (reader.Read())
                         {
-                            // Check if product already exists in the list
-                            Product existingProduct = products.FirstOrDefault(p => p.ProductId == (int)reader["ProductId"]);
-
-                            if (existingProduct == null)
+                            Product product = new Product();
+                            product.ProductId = (int)reader["ProductId"];
+                            product.ProductName = reader["ProductName"].ToString();
+                            product.UnitPrice = (decimal)reader["UnitPrice"];
+                            product.ProductCategory = reader["ProductCategory"].ToString();
+                            product.TotalReview = (int)reader["TotalReview"];
+                            product.ImagePaths = GetProductImages(product.ProductId);
+                            List<string> imagePaths = GetProductImages(product.ProductId);
+                            // Check if imagePaths is null or empty
+                            if (imagePaths == null || imagePaths.Count == 0)
                             {
-                                // Create new Product object
-                                Product product = new Product
-                                {
-                                    ProductId = (int)reader["ProductId"],
-                                    ProductName = reader["ProductName"].ToString(),
-                                    UnitPrice = (decimal)reader["UnitPrice"],
-                                    ImagePaths = new List<string>(),
-                                    TotalReview = (int)reader["TotalReview"]
-                                };
-
-                                // Add image path to the list
-                                product.ImagePaths.Add(reader["ImagePath"].ToString());
-
-                                // Add product to the list
-                                products.Add(product);
+                                // Skip this product as it doesn't have image paths
+                                continue;
                             }
-                            else
-                            {
-                                // Add additional image path to the existing product
-                                existingProduct.ImagePaths.Add(reader["ImagePath"].ToString());
-                            }
+                            product.ImagePaths = imagePaths;
+                            product.productImageUrl1 = imagePaths.FirstOrDefault();
+                            product.productImageUrl2 = imagePaths.Skip(1).FirstOrDefault();
+                            products.Add(product);
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        // Handle exception (e.g., log error, show message to user)
-                        // You might want to throw or handle this exception according to your application's requirements
-                        // For now, I'll just rethrow it
-                    }
                 }
             }
-
-
-            // Assign the first two image paths to productImageUrl1 and productImageUrl2
-            foreach (var product in products)
-            {
-                // Ensure there are at least two image paths
-                while (product.ImagePaths.Count < 2)
-                {
-                    // If there's only one image path, duplicate it to have at least two paths
-                    product.ImagePaths.Add(product.ImagePaths.First());
-                }
-
-                // Assign the first two image paths to properties
-                product.productImageUrl1 = product.ImagePaths[0];
-                product.productImageUrl2 = product.ImagePaths[1];
-            }
-
-
-            // Return the list of products
             return products;
         }
 
+        private List<string> GetProductImages(int productId)
+        {
+            List<string> imagePaths = new List<string>();
 
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string imageQuery = @"SELECT DISTINCT Path FROM ProductImage WHERE ProductDetailId IN (SELECT ProductDetailId FROM ProductDetail WHERE ProductId = @ProductId)";
 
+                using (SqlCommand command = new SqlCommand(imageQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@ProductId", productId);
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string imagePath = reader["Path"].ToString();
+                            imagePaths.Add(imagePath);
+                        }
+                    }
+                }
+            }
+            return imagePaths;
+        }
+
+        private List<Product> SortProducts(List<Product> products, string sortExpression)
+        {
+            switch (sortExpression)
+            {
+                case "ProductName":
+                    return products.OrderBy(p => p.ProductName).ToList();
+                case "Price":
+                    return products.OrderBy(p => p.UnitPrice).ToList();
+                default:
+                    return products; // Return the original list if the sort expression is not recognized
+            }
+        }
+
+        protected void ddlSort_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string sortExpression = ddlSort.SelectedValue;    
+            List<Product> sortedProducts = SortProducts(GetProductsInfo(), sortExpression);
+            BindProducts(sortedProducts);
+        }
     }
+
 }

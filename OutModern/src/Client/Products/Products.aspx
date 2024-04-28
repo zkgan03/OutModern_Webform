@@ -49,11 +49,11 @@
                 </asp:Label>
                 <div class="mb-1 flex items-center space-x-4">
                     <div class="relative" style="">
-                        <select id="sortSelect" class="w-full appearance-none rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-sm font-medium text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
-                            <option value="Featured">Sort By:&nbsp;Featured</option>
-                             <option value="Customer Ratings"> Customer Ratings</option>
-                             <option value="Best Seller"> Best Seller</option>
-                        </select>
+                        <asp:DropDownList ID="ddlSort" AutoPostBack="True" OnSelectedIndexChanged="ddlSort_SelectedIndexChanged" runat="server" CssClass="w-full appearance-none rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-sm font-medium text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                            <asp:ListItem Value="Featured" Text="Sort By:&nbsp;Featured" Selected="True"></asp:ListItem>
+                            <asp:ListItem Value="Price" Text="Price"></asp:ListItem>
+                            <asp:ListItem Value="Best Seller" Text="Best Seller"></asp:ListItem>
+                        </asp:DropDownList>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
                             <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                 <path fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -71,7 +71,7 @@
                         <div class="p-5 hover:bg-[#f8efd6] hover:cursor-pointer hover:[transition:0.3s]" onclick="openPriceList();invertIcon(this)">
                             Price Range<i class="fa fa-caret-down !font-black float-right"></i>
                         </div>
-                        <ul class="pb-5 pl-5">
+                        <ul class="pb-5 pl-5 pt-2">
                             <li class="list-none">
                                 <asp:TextBox class="text-center" Type="Number" ID="minPrice" runat="server" Style="width: 45%" placeholder="Min Price"></asp:TextBox>
                                 -
@@ -103,21 +103,17 @@
                             By Category<i class="fa fa-caret-down !font-black float-right"></i>
                         </div>
                         <ul class="pb-2 pl-5" id="">
-                            <li class="list-none pb-4 pl-5">
-                                <asp:CheckBox ID="chckHoodies" runat="server" Text="   Hoodies" />
-                            </li>
-                            <li class="list-none pb-4 pl-5">
-                                <asp:CheckBox ID="chckShorts" runat="server" Text="    Shorts" />
-                            </li>
-                            <li class="list-none pb-4 pl-5">
-                                <asp:CheckBox ID="chckSweater" runat="server" Text="   Sweater" />
-                            </li>
-                            <li class="list-none pb-4 pl-5">
-                                <asp:CheckBox ID="chckTeeShirt" runat="server" Text="  TeeShirt" />
-                            </li>
-                            <li class="list-none pb-4 pl-5">
-                                <asp:CheckBox ID="chcktrousers" runat="server" Text="  Trousers" />
-                            </li>
+                            <asp:SqlDataSource ConnectionString='<%$ ConnectionStrings:ConnectionString %>' ID="CategorySqlDataSource" runat="server" SelectCommand="SELECT DISTINCT ProductCategory FROM Product"></asp:SqlDataSource>
+                            <asp:Repeater ID="CategoryRepeater" runat="server" DataSourceID="CategorySqlDataSource">
+                               <ItemTemplate>
+                                   <li class="flex items-center pb-4 pl-5">
+                                       <div class="mr-1">
+                                           <asp:CheckBox ID="CategoryCheckBox" data-category='<%# Eval("ProductCategory") %>'  runat="server" />
+                                       </div>
+                                       <span><%# Eval("ProductCategory") %></span>
+                                   </li>
+                               </ItemTemplate>
+                            </asp:Repeater>
                         </ul>
                     </li>
                     <li class="list-none border-b border-gray-300">
@@ -163,75 +159,6 @@
                                         <i class="far fa-star"></i>
                                     </asp:ListItem>
                                 </asp:RadioButtonList>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="list-none border-b border-gray-300">
-                        <div class="p-5 hover:bg-[#f8efd6] hover:cursor-pointer hover:[transition:0.3s]" onclick="openSortList();invertIcon(this)">
-                            Colors<i class="fa fa-caret-down !font-black float-right"></i>
-                        </div>
-                        <ul class="w-4/5 pl-5">
-                            <li class="radio-no-bullet flex list-none flex-wrap gap-3.5 pb-5 pl-5 pt-2">
-                                <label class="colorGrp inline-flex cursor-pointer items-center">
-                                    <asp:RadioButton ID="radioBeige" value="Beige" runat="server" GroupName="colorSelection" />
-                                    <span class="border-opacity-10 h-6 w-6 rounded-full border border-gray-600" style="background-color: beige"></span>
-                                </label>
-                                <label class="colorGrp inline-flex cursor-pointer items-center">
-                                    <asp:RadioButton ID="radioLightGray" value="LightGray" runat="server" GroupName="colorSelection" />
-                                    <span class="border-opacity-10 h-6 w-6 rounded-full border border-gray-600" style="background-color: lightgray"></span>
-                                </label>
-                                <label class="colorGrp inline-flex cursor-pointer items-center">
-                                    <asp:RadioButton ID="radioBlack" value="Black" runat="server" GroupName="colorSelection" />
-                                    <span class="border-opacity-10 h-6 w-6 rounded-full border border-gray-600" style="background-color: black"></span>
-                                </label>
-                                <label class="colorGrp inline-flex cursor-pointer items-center">
-                                    <asp:RadioButton ID="RadioButton1" value="Beige" runat="server" GroupName="colorSelection" />
-                                    <span class="border-opacity-10 h-6 w-6 rounded-full border border-gray-600" style="background-color: red"></span>
-                                </label>
-                                <label class="colorGrp inline-flex cursor-pointer items-center">
-                                    <asp:RadioButton ID="RadioButton2" value="LightGray" runat="server" GroupName="colorSelection" />
-                                    <span class="border-opacity-10 h-6 w-6 rounded-full border border-gray-600" style="background-color: orange"></span>
-                                </label>
-                                <label class="colorGrp inline-flex cursor-pointer items-center">
-                                    <asp:RadioButton ID="RadioButton3" value="Black" runat="server" GroupName="colorSelection" />
-                                    <span class="border-opacity-10 h-6 w-6 rounded-full border border-gray-600" style="background-color: orangered"></span>
-                                </label>
-                                <label class="colorGrp inline-flex cursor-pointer items-center">
-                                    <asp:RadioButton ID="RadioButton4" value="Beige" runat="server" GroupName="colorSelection" />
-                                    <span class="border-opacity-10 h-6 w-6 rounded-full border border-gray-600" style="background-color: blueviolet"></span>
-                                </label>
-                                <label class="colorGrp inline-flex cursor-pointer items-center">
-                                    <asp:RadioButton ID="RadioButton5" value="LightGray" runat="server" GroupName="colorSelection" />
-                                    <span class="border-opacity-10 h-6 w-6 rounded-full border border-gray-600" style="background-color: blue"></span>
-                                </label>
-                                <label class="colorGrp inline-flex cursor-pointer items-center">
-                                    <asp:RadioButton ID="RadioButton6" value="Black" runat="server" GroupName="colorSelection" />
-                                    <span class="border-opacity-10 h-6 w-6 rounded-full border border-gray-600" style="background-color: aqua"></span>
-                                </label>
-                                <label class="colorGrp inline-flex cursor-pointer items-center">
-                                    <asp:RadioButton ID="RadioButton7" value="Beige" runat="server" GroupName="colorSelection" />
-                                    <span class="border-opacity-10 h-6 w-6 rounded-full border border-gray-600" style="background-color: beige"></span>
-                                </label>
-                                <label class="colorGrp inline-flex cursor-pointer items-center">
-                                    <asp:RadioButton ID="RadioButton8" value="LightGray" runat="server" GroupName="colorSelection" />
-                                    <span class="border-opacity-10 h-6 w-6 rounded-full border border-gray-600" style="background-color: lightgray"></span>
-                                </label>
-                                <label class="colorGrp inline-flex cursor-pointer items-center">
-                                    <asp:RadioButton ID="RadioButton9" value="Black" runat="server" GroupName="colorSelection" />
-                                    <span class="border-opacity-10 h-6 w-6 rounded-full border border-gray-600" style="background-color: black"></span>
-                                </label>
-                                <label class="colorGrp inline-flex cursor-pointer items-center">
-                                    <asp:RadioButton ID="RadioButton10" value="Beige" runat="server" GroupName="colorSelection" />
-                                    <span class="border-opacity-10 h-6 w-6 rounded-full border border-gray-600" style="background-color: red"></span>
-                                </label>
-                                <label class="colorGrp inline-flex cursor-pointer items-center">
-                                    <asp:RadioButton ID="RadioButton11" value="LightGray" runat="server" GroupName="colorSelection" />
-                                    <span class="border-opacity-10 h-6 w-6 rounded-full border border-gray-600" style="background-color: orange"></span>
-                                </label>
-                                <label class="colorGrp inline-flex cursor-pointer items-center">
-                                    <asp:RadioButton ID="RadioButton12" value="Black" runat="server" GroupName="colorSelection" />
-                                    <span class="border-opacity-10 h-6 w-6 rounded-full border border-gray-600" style="background-color: orangered"></span>
-                                </label>
                             </li>
                         </ul>
                     </li>
@@ -298,17 +225,5 @@
              image.src = imageUrl;
          }, 200);
      }
-     const sortSelect = document.getElementById("sortSelect");
-
-     sortSelect.addEventListener("change", function () {
-         const selectedOption = sortSelect.options[sortSelect.selectedIndex];
-
-         selectedOption.textContent = "Sort By: " + selectedOption.textContent;
-         for (var i = 0; i < sortSelect.options.length; i++) {
-             if (sortSelect.selectedIndex !== i) {
-                 sortSelect.options[i].textContent = sortSelect.options[i].value;
-             }
-         }
-     });
  </script>
 </asp:Content>

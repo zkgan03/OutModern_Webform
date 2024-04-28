@@ -28,6 +28,7 @@ namespace OutModern.src.Client.ProductDetails
                 calculateOverallRating();
             }
             ApplySorting();
+            restoreImage();
         }
 
         private bool IsButtonEnabled(string colorId)
@@ -486,10 +487,8 @@ namespace OutModern.src.Client.ProductDetails
                     {
                         sizeBtn.Enabled = false;
                         sizeBtn.CssClass = "buttonDisabled"; // Make sure the CSS class exists in your stylesheet
-                    }
-                    
+                    }       
                 }
-                restoreImage();
             }
         }
 
@@ -504,7 +503,6 @@ namespace OutModern.src.Client.ProductDetails
                     colorBtn.Enabled = false;
                     colorBtn.CssClass = "buttonColorDisabled"; // Make sure the CSS class exists in your stylesheet
                 }
-                restoreImage();
             }
         }
 
@@ -521,7 +519,6 @@ namespace OutModern.src.Client.ProductDetails
                 quantity--;
                 txtQuantity.Text = quantity.ToString();
             }
-            restoreImage();
         }
 
         protected void btnIncrease_Click(object sender, EventArgs e)
@@ -533,7 +530,6 @@ namespace OutModern.src.Client.ProductDetails
                 quantity++;
                 txtQuantity.Text = quantity.ToString();
             }
-            restoreImage();
         }
 
         protected void restoreImage()

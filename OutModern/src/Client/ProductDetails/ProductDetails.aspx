@@ -19,7 +19,7 @@
                 <asp:Label ID="productNameUrl" runat="server" Text="Label" CssClass="text-sm text-black"></asp:Label>
             </div>
         </div>
-        <div class="w-full">
+        <div class="flex w-full">
             <asp:UpdatePanel ID="UpdatePanel2" runat="server">
                 <ContentTemplate>
                     <div class="flex">
@@ -132,10 +132,8 @@
                                             <asp:Label ID="lblQuantity" class="ml-4 text-gray-600" runat="server" Text="Label"></asp:Label>
                                             pieces available
                                         </span>
-
                                     </div>
                                 </div>
-
                             </div>
                             <div class="mb-5" style="border-top: 1.5px solid lightgray">
                                 <div class="mt-7 flex items-center">
@@ -151,7 +149,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>                        
+                    </div>
                 </ContentTemplate>
                 <Triggers>
                     <asp:AsyncPostBackTrigger ControlID="ColorRepeater" EventName="ItemCommand" />
@@ -159,7 +158,6 @@
                 </Triggers>
             </asp:UpdatePanel>
         </div>
-
     </div>
     <div class="mt-12">
         <div class="border-t-2 border-black">
@@ -339,7 +337,7 @@
             </div>
         </div>
     </div>
-    <div class="mx-auto mt-5 w-4/5 rounded-lg p-4 shadow-lg">
+     <div class="mx-auto mt-5 w-4/5 rounded-lg p-4 shadow-lg">
         <div class="w-full">
             <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                 <ContentTemplate>
@@ -428,4 +426,4 @@
         }
      
     </script>
-</asp:Content>
+</asp:Content>                         
