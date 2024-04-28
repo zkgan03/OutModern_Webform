@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    
+
     <div class="w-[72%] min-h-[60vh] mx-auto pb-20 pt-10">
         <asp:SiteMapPath ID="SiteMapPath1" runat="server" CssClass="mb-4 text-3xl font-bold"></asp:SiteMapPath>
         <h1 class="mb-4 text-3xl font-bold">Checkout</h1>
@@ -76,7 +76,7 @@
             </div>
 
             <!--OrderSummary-->
-            <div class="h-96 w-1/4 overflow-y-auto rounded-md bg-white p-6 shadow-md">
+            <div class="w-1/4 overflow-y-auto rounded-md bg-white p-6 shadow-md">
                 <div class="mb-4">
                     <div class="flex flex-wrap justify-between border-b border-gray-300 pb-4">
                         <h2 class="text-xl font-bold">Subtotal</h2>
@@ -89,7 +89,15 @@
 
                     <div class="border-2 mb-2 flex items-center rounded-lg border-black">
                         <asp:TextBox runat="server" ID="txtDiscountCode" CssClass="w-full flex-grow rounded-lg px-4 py-4 text-sm outline-none" />
-                        <asp:Button runat="server" ID="btnApply" CssClass="right-0 cursor-pointer rounded-md bg-black px-6 py-4 text-sm text-white hover:bg-gray-800" Text="Apply" />
+                        <asp:Button runat="server" ID="btnApply" CssClass="right-0 cursor-pointer rounded-md bg-black px-6 py-4 text-sm text-white hover:bg-gray-800" Text="Apply" OnClick="btnApply_Click"/>
+                    </div>
+
+                    <div class="flex flex-wrap justify-between">
+                        <span>Discount</span>
+                        <div>
+                            <asp:Label ID="lblDiscountRate" runat="server" CssClass="text-gray-700" Text="(0%)"></asp:Label>
+                            <asp:Label ID="lblDiscount" runat="server" CssClass="text-gray-700" Text="RM0.00"></asp:Label>
+                        </div>
                     </div>
 
                     <div class="flex flex-wrap justify-between border-b border-gray-300 pb-4">

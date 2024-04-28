@@ -105,7 +105,8 @@ namespace OutModern.src.Client.Shipping
                     lblItemPrice.Text = $"RM{subtotal.ToString("N2")}";
 
                     decimal deliveryCost = decimal.Parse(lblDeliveryCost.Text.Replace("RM", ""));
-                    decimal grandTotal = subtotal + deliveryCost;
+                    decimal discount = decimal.Parse(lblDiscount.Text.Replace("RM", ""));
+                    decimal grandTotal = subtotal + deliveryCost - discount;
 
                     lblTotal.Text = $"RM{grandTotal.ToString("N2")}";
                 }

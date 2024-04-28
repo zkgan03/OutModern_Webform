@@ -21,17 +21,17 @@
                 </div>
 
                 <div class="border-b">
-                        <asp:UpdatePanel ID="AddressUpdatePanel" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="true">
-                            <ContentTemplate>
-                                <asp:ListView ID="AddressListView" runat="server" OnItemCommand="AddressListView_ItemCommand" DataKeyNames="AddressId" OnSelectedIndexChanged="AddressListView_SelectedIndexChanged" OnSelectedIndexChanging="AddressListView_SelectedIndexChanging" OnItemDataBound="AddressListView_ItemDataBound">
-                                    <LayoutTemplate>
-                                        <div class="grid-cols-2 grid gap-x-16">
-                                            <div runat="server" id="itemPlaceholder"></div>
-                                        </div>
-                                    </LayoutTemplate>
-                                    <ItemTemplate>
-                                        <asp:LinkButton ID="LinkButton1" runat="server" CommandName="Select" CommandArgument="<%# Container.DisplayIndex %>"
-                                            CssClass="w-[100%] address-item mb-6 flex max-w-sm cursor-pointer rounded-2xl border bg-white shadow">
+                    <asp:UpdatePanel ID="AddressUpdatePanel" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="true">
+                        <ContentTemplate>
+                            <asp:ListView ID="AddressListView" runat="server" OnItemCommand="AddressListView_ItemCommand" DataKeyNames="AddressId" OnSelectedIndexChanged="AddressListView_SelectedIndexChanged" OnSelectedIndexChanging="AddressListView_SelectedIndexChanging" OnItemDataBound="AddressListView_ItemDataBound">
+                                <LayoutTemplate>
+                                    <div class="grid-cols-2 grid gap-x-16">
+                                        <div runat="server" id="itemPlaceholder"></div>
+                                    </div>
+                                </LayoutTemplate>
+                                <ItemTemplate>
+                                    <asp:LinkButton ID="LinkButton1" runat="server" CommandName="Select" CommandArgument="<%# Container.DisplayIndex %>"
+                                        CssClass="w-[100%] address-item mb-6 flex max-w-sm cursor-pointer rounded-2xl border bg-white shadow">
             <div class="w-full p-4">
                 <div class="flex justify-between">
                     <div class="text-xl font-bold capitalize text-black"><%# Eval("AddressName") %></div>
@@ -42,14 +42,14 @@
                     <div class="text-sm"><%# Eval("Country") %></div>
                 </div>
             </div>
-        </asp:LinkButton>
-                                    </ItemTemplate>
-                                </asp:ListView>
-                            </ContentTemplate>
-                            <Triggers>
-                                <asp:AsyncPostBackTrigger ControlID="AddressListView" EventName="ItemCommand" />
-                            </Triggers>
-                        </asp:UpdatePanel>
+                                    </asp:LinkButton>
+                                </ItemTemplate>
+                            </asp:ListView>
+                        </ContentTemplate>
+                        <Triggers>
+                            <asp:AsyncPostBackTrigger ControlID="AddressListView" EventName="ItemCommand" />
+                        </Triggers>
+                    </asp:UpdatePanel>
                 </div>
 
                 <!--Add address-->
@@ -361,6 +361,15 @@
                         <span class="text-gray-500">Items</span>
                         <asp:Label ID="lblItemPrice" runat="server" CssClass="text-gray-500" Text="itemprice"></asp:Label>
                     </div>
+
+                    <div class="flex flex-wrap justify-between">
+                        <span>Discount</span>
+                        <div>
+                            <asp:Label ID="lblDiscountRate" runat="server" CssClass="text-gray-700" Text="(0%)"></asp:Label>
+                            <asp:Label ID="lblDiscount" runat="server" CssClass="text-gray-700" Text="RM0.00"></asp:Label>
+                        </div>
+                    </div>
+
                     <div class="mb-2 ml-6 mr-6 flex flex-wrap justify-between">
                         <span class="text-gray-500">Delivery Cost</span>
                         <asp:Label ID="lblDeliveryCost" runat="server" CssClass="text-gray-500" Text="RM5.00"></asp:Label>

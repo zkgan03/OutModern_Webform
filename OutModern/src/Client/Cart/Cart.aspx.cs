@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OutModern.src.Admin.PromoCode;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -10,6 +11,18 @@ using System.Web.UI.WebControls;
 
 namespace OutModern.src.Client.Cart
 {
+    public class PromoTable
+    {
+        public int PromoId { get; set; }
+        public string PromoCode { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public int DiscountRate { get; set; }
+        public int Quantity { get; set; }
+
+        // Add any additional properties or methods if needed
+    }
+
     public partial class Cart : System.Web.UI.Page
     {
         string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
@@ -41,7 +54,8 @@ namespace OutModern.src.Client.Cart
                     lblSubtotal.Text = $"RM{subtotal.ToString("N2")}";
 
                     decimal deliveryCost = decimal.Parse(lblDeliveryCost.Text.Replace("RM", ""));
-                    decimal grandTotal = subtotal + deliveryCost;
+                    decimal discount = decimal.Parse(lblDiscount.Text.Replace("RM", ""));
+                    decimal grandTotal = subtotal + deliveryCost - discount;
 
                     lblGrandTotal.Text = $"RM{grandTotal.ToString("N2")}";
                 }
@@ -177,8 +191,6 @@ namespace OutModern.src.Client.Cart
             }
         }
 
-
-
         private int GetMaxStock(int productDetailId)
         {
             int maxStock = 0;
@@ -269,16 +281,96 @@ namespace OutModern.src.Client.Cart
 
         protected void btnApply_Click(object sender, EventArgs e)
         {
+            string discountCode = txtDiscountCode.Text.Trim();
 
+            // Retrieve the promo code details from the database
+            PromoTable promoCode = GetPromoCode(discountCode);
+
+            if (promoCode != null)
+            {
+                // Update the UI with the discount rate
+                lblDiscountRate.Text = $"({promoCode.DiscountRate}%)";
+
+                decimal subtotal = GetCartSubtotal(customerId);
+                // Calculate the discount amount
+                decimal discountAmount = subtotal * ((decimal)promoCode.DiscountRate / 100);
+
+                // Update the UI with the discount amount
+                lblDiscount.Text = $"RM{discountAmount.ToString("N2")}";
+            }
+            else
+            {
+                lblDiscountRate.Text = "(Invalid code)";
+                // lblDiscount.Text = "RM0.00";
+            }
+
+            UpdateSubtotalandGrandTotalLabel();
+        }
+
+        private PromoTable GetPromoCode(string discountCode)
+        {
+            PromoTable promoCode = null;
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "SELECT * FROM PromoCode WHERE PromoCode = @DiscountCode";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@DiscountCode", discountCode);
+
+                con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    promoCode = new PromoTable
+                    {
+                        PromoId = reader.GetInt32(reader.GetOrdinal("PromoId")),
+                        PromoCode = reader.GetString(reader.GetOrdinal("PromoCode")),
+                        StartDate = reader.GetDateTime(reader.GetOrdinal("StartDate")),
+                        EndDate = reader.GetDateTime(reader.GetOrdinal("EndDate")),
+                        DiscountRate = reader.GetInt32(reader.GetOrdinal("DiscountRate")),
+                        Quantity = reader.GetInt32(reader.GetOrdinal("Quantity"))
+                    };
+                }
+
+                reader.Close();
+                con.Close();
+            }
+
+            return promoCode;
+        }
+
+        private decimal GetCartSubtotal(int customerId)
+        {
+            decimal subtotal = 0;
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "SELECT Subtotal FROM Cart WHERE CustomerId = @CustomerId";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@CustomerId", customerId);
+
+                con.Open();
+                object result = cmd.ExecuteScalar();
+
+                if (result != null && result != DBNull.Value)
+                {
+                    subtotal = Convert.ToDecimal(result);
+                }
+
+                con.Close();
+            }
+
+            return subtotal;
         }
 
         protected void btnCheckout_Click(object sender, EventArgs e)
         {
+            // Check if the cart is empty
+            bool cartIsEmpty = IsCartEmpty(customerId);
 
-            if (true)
+            if (!cartIsEmpty)
             {
-
-
                 // Redirect to the Shipping page
                 Response.Redirect("~/src/Client/Shipping/Shipping.aspx");
             }
@@ -286,11 +378,34 @@ namespace OutModern.src.Client.Cart
             {
                 // Cart is empty, disable the button
                 btnCheckout.Enabled = false;
-
-                // Optionally, you can also display a message to the user
-                // lblEmptyCart.Visible = true;
             }
         }
+
+        private bool IsCartEmpty(int customerId)
+        {
+            bool cartIsEmpty = true;
+
+            // Check if the cart has any items
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "SELECT COUNT(*) FROM CartItem WHERE CartId = (SELECT CartId FROM Cart WHERE CustomerId = @CustomerId)";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@CustomerId", customerId);
+
+                con.Open();
+                int itemCount = (int)cmd.ExecuteScalar();
+                con.Close();
+
+                // If item count is greater than 0, cart is not empty
+                if (itemCount > 0)
+                {
+                    cartIsEmpty = false;
+                }
+            }
+
+            return cartIsEmpty;
+        }
+
 
     }
 
