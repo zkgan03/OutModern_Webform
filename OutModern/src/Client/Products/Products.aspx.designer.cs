@@ -78,15 +78,6 @@ namespace OutModern.src.Client.Products
         protected global::System.Web.UI.WebControls.Button btnPriceFilter;
 
         /// <summary>
-        /// rbSortByPrice control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButtonList rbSortByPrice;
-
-        /// <summary>
         /// CategoryCheckBoxList control.
         /// </summary>
         /// <remarks>

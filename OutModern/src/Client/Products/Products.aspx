@@ -63,6 +63,8 @@
                     <div class="relative" style="">
                         <asp:DropDownList ID="ddlSort" AutoPostBack="True" OnSelectedIndexChanged="ddlSort_SelectedIndexChanged" runat="server" CssClass="w-full appearance-none rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-sm font-medium text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
                             <asp:ListItem Value="Featured" Text="Sort By:&nbsp;Featured" Selected="True"></asp:ListItem>
+                            <asp:ListItem Value="LowestPrice" Text="Price: Low to High"></asp:ListItem>
+                            <asp:ListItem Value="HighestPrice" Text="Price: High to Low"></asp:ListItem>
                             <asp:ListItem Value="Customer Ratings" Text="Avg. Customer Ratings"></asp:ListItem>
                             <asp:ListItem Value="TotalSold" Text="Best Sellers"></asp:ListItem>
                         </asp:DropDownList>
@@ -92,21 +94,6 @@
                             <li class="mt-5 flex list-none items-center">
                                 <asp:Button ID="btnPriceFilter" runat="server" Text="Apply" CssClass="w-11/12 cursor-pointer bg-black p-2.5 text-center text-white" OnClick="btnPriceFilter_Click"  />
                             </li>
-                        </ul>
-                    </li>
-                    <li class="list-none border-b border-gray-300">
-                        <div class="p-5 hover:bg-[#f8efd6] hover:cursor-pointer hover:[transition:0.3s]" onclick="openSortList();invertIcon(this)">
-                            Sort by<i class="fa fa-caret-down !font-black float-right"></i>
-                        </div>
-                        <ul class="pb-2 pl-5">
-                            <li class="list-none pb-4 pl-5">
-                                <asp:RadioButtonList ID="rbSortByPrice" runat="server" CssClass="button-list flex list-none flex-col space-y-4" RepeatLayout="UnorderedList" AutoPostBack="True" OnSelectedIndexChanged="rbSortByPrice_SelectedIndexChanged">
-                                    <asp:ListItem Value="Recommended" Text="Recommended" Selected="True"></asp:ListItem>
-                                    <asp:ListItem Value="LowestPrice" Text="Lowest Price"></asp:ListItem>
-                                    <asp:ListItem Value="HighestPrice" Text="Highest Price"></asp:ListItem>
-                                </asp:RadioButtonList>
-                            </li>
-
                         </ul>
                     </li>
                     <li class="list-none border-b border-gray-300">
@@ -168,6 +155,16 @@
                                         <i class="far fa-star"></i> & above
                                     </asp:ListItem>
                                 </asp:RadioButtonList>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="list-none border-b border-gray-300">
+                        <div class="p-5 hover:bg-[#f8efd6] hover:cursor-pointer hover:[transition:0.3s]" onclick="openSortList();invertIcon(this)">
+                            Colors<i class="fa fa-caret-down !font-black float-right"></i>
+                        </div>
+                        <ul class="w-4/5 pl-5">
+                            <li class="radio-no-bullet flex list-none flex-wrap gap-3.5 pb-5 pl-5 pt-2">
+                                Color Filtering
                             </li>
                         </ul>
                     </li>

@@ -189,8 +189,6 @@ namespace OutModern.src.Client.Products
             }
 
             filteredProducts = SortProducts(filteredProducts, ddlSort.SelectedValue);
-            filteredProducts = SortProducts(filteredProducts, rbSortByPrice.SelectedValue);
-
             BindProducts(filteredProducts);
         }
 
@@ -230,11 +228,6 @@ namespace OutModern.src.Client.Products
             FilterProducts();
         }
 
-        protected void rbSortByPrice_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            FilterProducts();
-        }
-
         protected void CategoryCheckBoxList_SelectedIndexChanged(object sender, EventArgs e)
         {
             updateCategoryList();
@@ -260,7 +253,8 @@ namespace OutModern.src.Client.Products
             CategoryCheckBoxList.ClearSelection();
             ddlSort.SelectedIndex = 0;
             rbRatings.ClearSelection();
-            rbSortByPrice.SelectedIndex = 0;
+            txtMinPrice.Text = "";
+            txtMaxPrice.Text = "";
             minPrice = null;
             maxPrice = null;
             FilterProducts();
