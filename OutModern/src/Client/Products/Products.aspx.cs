@@ -34,6 +34,8 @@ namespace OutModern.src.Client.Products
         private List<Product> productList = new List<Product>();   
         private List<string> selectedCategories = new List<string>();
         private string selectedRating;
+        private decimal? minPrice;
+        private decimal? maxPrice;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -47,6 +49,7 @@ namespace OutModern.src.Client.Products
             productList = GetProductsInfo();
             selectedRating = rbRatings.SelectedValue;
             updateCategoryList();
+            updateMinAndMaxPrice();
         }
         private void BindProducts(List<Product> products)
         {
@@ -76,7 +79,7 @@ namespace OutModern.src.Client.Products
                             product.ProductCategory = reader["ProductCategory"].ToString();
                             product.TotalReview = (int)reader["TotalReview"];
                             decimal totalRating = (decimal)reader["TotalRating"];
-                            product.OverallRatings = product.TotalReview != 0 ? totalRating / (decimal)product.TotalReview : 0;
+                            product.OverallRatings = product.TotalReview != 0 ? Math.Round((totalRating / (decimal)product.TotalReview), 1) : 0;
                             product.TotalSold = GetTotalSold(product.ProductId);
                             List<string> imagePaths = GetProductImages(product.ProductId);
                             // Check if imagePaths is null or empty
@@ -180,8 +183,14 @@ namespace OutModern.src.Client.Products
                 filteredProducts = filteredProducts.Where(p => selectedCategories.Contains(p.ProductCategory)).ToList();
             }
 
+            if (minPrice.HasValue || maxPrice.HasValue)
+            {
+                filteredProducts = filteredProducts.Where(p => (!minPrice.HasValue || p.UnitPrice >= minPrice.Value) && (!maxPrice.HasValue || p.UnitPrice <= maxPrice.Value)).ToList();
+            }
+
             filteredProducts = SortProducts(filteredProducts, ddlSort.SelectedValue);
             filteredProducts = SortProducts(filteredProducts, rbSortByPrice.SelectedValue);
+
             BindProducts(filteredProducts);
         }
 
@@ -197,7 +206,6 @@ namespace OutModern.src.Client.Products
 
         protected string GenerateStars(double rating)
         {
-            rating = Math.Round(rating, 1);
             int fullStars = (int)rating;
             double remainder = rating - fullStars;
             int grayStars = 5 - fullStars - (remainder >= 0.5 ? 1 : 0);
@@ -253,7 +261,38 @@ namespace OutModern.src.Client.Products
             ddlSort.SelectedIndex = 0;
             rbRatings.ClearSelection();
             rbSortByPrice.SelectedIndex = 0;
+            minPrice = null;
+            maxPrice = null;
             FilterProducts();
+        }
+
+        protected void btnPriceFilter_Click(object sender, EventArgs e)
+        {
+            updateMinAndMaxPrice();
+            FilterProducts();
+        }
+
+        private void updateMinAndMaxPrice()
+        {
+            decimal minPriceValue, maxPriceValue;
+
+            if (decimal.TryParse(txtMinPrice.Text, out minPriceValue))
+            {
+                minPrice = minPriceValue;
+            }
+            else
+            {
+                minPrice = null;
+            }
+
+            if (decimal.TryParse(txtMaxPrice.Text, out maxPriceValue))
+            {
+                maxPrice = maxPriceValue;
+            }
+            else
+            {
+                maxPrice = null;
+            }
         }
     }
 }

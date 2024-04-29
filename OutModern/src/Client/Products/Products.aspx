@@ -85,9 +85,12 @@
                         </div>
                         <ul class="pb-5 pl-5 pt-2">
                             <li class="list-none">
-                                <asp:TextBox class="text-center" Type="Number" ID="minPrice" runat="server" Style="width: 45%" placeholder="Min Price"></asp:TextBox>
+                                <asp:TextBox class="text-center" Type="Number" ID="txtMinPrice" runat="server" Style="width: 45%;border: 1px solid rgba(0, 0, 0, .26);border-radius: .125rem;" placeholder="Min Price"></asp:TextBox>
                                 -
-                                <asp:TextBox class="text-center" Type="Number" placeholder="Max Price" ID="maxPrice" runat="server" Style="width: 45%"></asp:TextBox>
+                                <asp:TextBox class="text-center" Type="Number" placeholder="Max Price" ID="txtMaxPrice" runat="server" Style="width: 45%;border: 1px solid rgba(0, 0, 0, .26);border-radius: .125rem;"></asp:TextBox>
+                            </li>
+                            <li class="mt-5 flex list-none items-center">
+                                <asp:Button ID="btnPriceFilter" runat="server" Text="Apply" CssClass="w-11/12 cursor-pointer bg-black p-2.5 text-center text-white" OnClick="btnPriceFilter_Click"  />
                             </li>
                         </ul>
                     </li>

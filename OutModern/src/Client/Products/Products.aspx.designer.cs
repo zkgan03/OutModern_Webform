@@ -51,22 +51,31 @@ namespace OutModern.src.Client.Products
         protected global::System.Web.UI.WebControls.DropDownList ddlSort;
 
         /// <summary>
-        /// minPrice control.
+        /// txtMinPrice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox minPrice;
+        protected global::System.Web.UI.WebControls.TextBox txtMinPrice;
 
         /// <summary>
-        /// maxPrice control.
+        /// txtMaxPrice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox maxPrice;
+        protected global::System.Web.UI.WebControls.TextBox txtMaxPrice;
+
+        /// <summary>
+        /// btnPriceFilter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnPriceFilter;
 
         /// <summary>
         /// rbSortByPrice control.
