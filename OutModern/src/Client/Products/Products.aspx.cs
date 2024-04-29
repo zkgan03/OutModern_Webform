@@ -32,20 +32,24 @@ namespace OutModern.src.Client.Products
         string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         private List<Product> productList = new List<Product>();   
         private List<string> selectedCategories = new List<string>();
+        private string selectedRating;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
+                selectedRating = string.Empty;
                 productList = GetProductsInfo();
                 BindProducts(productList);
-                lblTotalProducts.Text = ProductRepeater.Items.Count.ToString() + " Products Found";
+                FilterProducts();
             }
             productList = GetProductsInfo();
+            selectedRating = rbRatings.SelectedValue;
         }
         private void BindProducts(List<Product> products)
         {
             ProductRepeater.DataSource = products;
             ProductRepeater.DataBind();
+            lblTotalProducts.Text = ProductRepeater.Items.Count.ToString() + " Products Found";
         }
 
         private List<Product> GetProductsInfo()
@@ -120,8 +124,12 @@ namespace OutModern.src.Client.Products
             {
                 case "ProductName":
                     return products.OrderBy(p => p.ProductName).ToList();
-                case "Price":
+                case "Customer Ratings":
+                    return products.OrderByDescending(p => p.OverallRatings).ToList();
+                case "LowestPrice":
                     return products.OrderBy(p => p.UnitPrice).ToList();
+                case "HighestPrice":
+                    return products.OrderByDescending(p => p.UnitPrice).ToList();
                 default:
                     return products; // Return the original list if the sort expression is not recognized
             }
@@ -131,22 +139,23 @@ namespace OutModern.src.Client.Products
         {
             List<Product> filteredProducts;
 
-            if (selectedCategories.Count == 0)
+            if (string.IsNullOrEmpty(selectedRating))
             {
                 filteredProducts = productList;
             }
             else
             {
-                filteredProducts = productList.Where(p => selectedCategories.Contains(p.ProductCategory)).ToList();
+                int selectedRatingValue = int.Parse(selectedRating.Substring(0, 1));
+                filteredProducts = productList.Where(p => p.OverallRatings >= selectedRatingValue).ToList();
             }
+            filteredProducts = SortProducts(filteredProducts, rbSortBy.SelectedValue);
+            filteredProducts = SortProducts(filteredProducts, ddlSort.SelectedValue);   
             BindProducts(filteredProducts);
         }
 
         protected void ddlSort_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string sortExpression = ddlSort.SelectedValue;    
-            List<Product> sortedProducts = SortProducts(productList, sortExpression);
-            BindProducts(sortedProducts);
+            FilterProducts();
         }
 
         protected void CategoryCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -184,6 +193,16 @@ namespace OutModern.src.Client.Products
                 stars.Append("<i class='far fa-star text-gray-400 text-lg'></i>");
             }
             return stars.ToString();
+        }
+
+        protected void rbRatings_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FilterProducts();
+        }
+
+        protected void rbSortBy_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FilterProducts();
         }
     }
 }

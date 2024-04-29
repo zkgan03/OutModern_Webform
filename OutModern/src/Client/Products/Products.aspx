@@ -51,7 +51,7 @@
                     <div class="relative" style="">
                         <asp:DropDownList ID="ddlSort" AutoPostBack="True" OnSelectedIndexChanged="ddlSort_SelectedIndexChanged" runat="server" CssClass="w-full appearance-none rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-sm font-medium text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
                             <asp:ListItem Value="Featured" Text="Sort By:&nbsp;Featured" Selected="True"></asp:ListItem>
-                            <asp:ListItem Value="Price" Text="Price"></asp:ListItem>
+                            <asp:ListItem Value="Customer Ratings" Text="Avg. Customer Ratings"></asp:ListItem>
                             <asp:ListItem Value="Best Seller" Text="Best Seller"></asp:ListItem>
                         </asp:DropDownList>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
@@ -85,17 +85,13 @@
                         </div>
                         <ul class="pb-2 pl-5">
                             <li class="list-none pb-4 pl-5">
-                                <input type="radio" name="sortBy" id="rmd" class="rmd" checked />
-                                <label for="rmd">Recommended</label>
+                                <asp:RadioButtonList ID="rbSortBy" runat="server" CssClass="flex list-none flex-col space-y-4" RepeatLayout="UnorderedList" AutoPostBack="True"  OnSelectedIndexChanged="rbSortBy_SelectedIndexChanged">
+                                    <asp:ListItem Value="Recommended" Text="Recommended" Selected="True"></asp:ListItem>
+                                    <asp:ListItem Value="LowestPrice" Text="Lowest Price"></asp:ListItem>
+                                    <asp:ListItem Value="HighestPrice" Text="Highest Price"></asp:ListItem>
+                                </asp:RadioButtonList>
                             </li>
-                            <li class="list-none pb-4 pl-5">
-                                <input type="radio" name="sortBy" id="lowestPrice" class="lowestPrice" />
-                                <label for="lowestPrice">Lowest Price</label>
-                            </li>
-                            <li class="list-none pb-4 pl-5">
-                                <input type="radio" name="sortBy" id="highestPrice" class="highestPrice" />
-                                <label for="highestPrice">Highest Price</label>
-                            </li>
+                           
                         </ul>
                     </li>
                     <li class="list-none border-b border-gray-300">
@@ -122,41 +118,41 @@
                         </div>
                         <ul class="pl-5">
                             <li class="radio-no-bullet list-none pb-5 pl-5">
-                                <asp:RadioButtonList runat="server" ID="rbRatings">
+                                <asp:RadioButtonList runat="server" ID="rbRatings" AutoPostBack="True" OnSelectedIndexChanged="rbRatings_SelectedIndexChanged">
                                     <asp:ListItem Value="5s">
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i> 
+                                        <i class="fas fa-star"></i>
                                     </asp:ListItem>
                                     <asp:ListItem Value="4s">
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
-                                        <i class="far fa-star"></i> 
+                                        <i class="far fa-star"></i> & above
                                     </asp:ListItem>
                                     <asp:ListItem Value="3s">
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
                                         <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i> & above
                                     </asp:ListItem>
                                     <asp:ListItem Value="2s">
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
                                         <i class="far fa-star"></i>
                                         <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i> & above
                                     </asp:ListItem>
                                     <asp:ListItem Value="1s">
                                         <i class="fas fa-star"></i>
                                         <i class="far fa-star"></i>
                                         <i class="far fa-star"></i>
                                         <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i> & above
                                     </asp:ListItem>
                                 </asp:RadioButtonList>
                             </li>
