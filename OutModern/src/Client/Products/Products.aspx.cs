@@ -197,7 +197,7 @@ namespace OutModern.src.Client.Products
             FilterProducts();
         }
 
-        protected void rbSortBy_SelectedIndexChanged(object sender, EventArgs e)
+        protected void rbSortByPrice_SelectedIndexChanged(object sender, EventArgs e)
         {
             FilterProducts();
         }
