@@ -78,22 +78,13 @@ namespace OutModern.src.Client.Products
         protected global::System.Web.UI.WebControls.RadioButtonList rbSortBy;
 
         /// <summary>
-        /// CategorySqlDataSource control.
+        /// CategoryCheckBoxList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource CategorySqlDataSource;
-
-        /// <summary>
-        /// CategoryRepeater control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater CategoryRepeater;
+        protected global::System.Web.UI.WebControls.CheckBoxList CategoryCheckBoxList;
 
         /// <summary>
         /// rbRatings control.

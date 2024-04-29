@@ -17,11 +17,20 @@
         }
 
         .colorGrp input[type="radio"],
-.sizeGrp input[type="radio"] {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-}
+        .sizeGrp input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .checkbox-list label {
+            display: inline-block;
+            margin-bottom: 8px; /* Adjust this value to control the spacing */
+        }
+
+        .checkbox-list input[type="checkbox"] {
+            margin-right: 8px; /* Adjust the spacing between checkbox and text */
+        }
      
     </style>
 </asp:Content>
@@ -98,18 +107,16 @@
                         <div class="p-5 hover:bg-[#f8efd6] hover:cursor-pointer hover:[transition:0.3s]" onclick="openSortList();invertIcon(this)">
                             By Category<i class="fa fa-caret-down !font-black float-right"></i>
                         </div>
-                        <ul class="pb-2 pl-5" id="">
-                            <asp:SqlDataSource ConnectionString='<%$ ConnectionStrings:ConnectionString %>' ID="CategorySqlDataSource" runat="server" SelectCommand="SELECT DISTINCT ProductCategory FROM Product"></asp:SqlDataSource>
-                            <asp:Repeater ID="CategoryRepeater" runat="server" DataSourceID="CategorySqlDataSource" EnableViewState="true">
-                               <ItemTemplate>
-                                   <li class="flex items-center pb-4 pl-5">
-                                       <div class="mr-1">
-                                           <asp:CheckBox ID="CategoryCheckBox" data-category='<%# Eval("ProductCategory") %>' runat="server" AutoPostBack="true" OnCheckedChanged="CategoryCheckBox_CheckedChanged" />
-                                       </div>
-                                       <span><%# Eval("ProductCategory") %></span>
-                                   </li>
-                               </ItemTemplate>
-                            </asp:Repeater>
+                        <ul class="pl-5" id="">
+                             <li class="list-none pb-2.5 pl-5">
+                                 <asp:CheckBoxList ID="CategoryCheckBoxList" runat="server" CssClass="checkbox-list" AutoPostBack="true" OnSelectedIndexChanged="CategoryCheckBoxList_SelectedIndexChanged"> 
+                                     <asp:ListItem Text="Hoodie" Value="Hoodie"></asp:ListItem>
+                                     <asp:ListItem Text="Short" Value="Short"></asp:ListItem>
+                                     <asp:ListItem Text="Sweater" Value="Sweater"></asp:ListItem>
+                                     <asp:ListItem Text="TeeShirt" Value="TeeShirt"></asp:ListItem>
+                                     <asp:ListItem Text="Trouser" Value="Trouser"></asp:ListItem>
+                                 </asp:CheckBoxList>
+                             </li>
                         </ul>
                     </li>
                     <li class="list-none border-b border-gray-300">

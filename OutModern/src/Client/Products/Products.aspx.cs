@@ -38,12 +38,14 @@ namespace OutModern.src.Client.Products
             if (!IsPostBack)
             {
                 selectedRating = string.Empty;
+                selectedCategories.Clear();
                 productList = GetProductsInfo();
                 BindProducts(productList);
                 FilterProducts();
             }
             productList = GetProductsInfo();
             selectedRating = rbRatings.SelectedValue;
+            restoreCategoryCheckBox();
         }
         private void BindProducts(List<Product> products)
         {
@@ -74,7 +76,6 @@ namespace OutModern.src.Client.Products
                             product.TotalReview = (int)reader["TotalReview"];
                             decimal totalRating = (decimal)reader["TotalRating"];
                             product.OverallRatings = product.TotalReview != 0 ? totalRating / (decimal)product.TotalReview : 0;
-                            product.ImagePaths = GetProductImages(product.ProductId);
                             List<string> imagePaths = GetProductImages(product.ProductId);
                             // Check if imagePaths is null or empty
                             if (imagePaths == null || imagePaths.Count == 0)
@@ -148,6 +149,12 @@ namespace OutModern.src.Client.Products
                 int selectedRatingValue = int.Parse(selectedRating.Substring(0, 1));
                 filteredProducts = productList.Where(p => p.OverallRatings >= selectedRatingValue).ToList();
             }
+
+            if (selectedCategories.Count > 0)
+            {
+                filteredProducts = filteredProducts.Where(p => selectedCategories.Contains(p.ProductCategory)).ToList();
+            }
+
             filteredProducts = SortProducts(filteredProducts, rbSortBy.SelectedValue);
             filteredProducts = SortProducts(filteredProducts, ddlSort.SelectedValue);   
             BindProducts(filteredProducts);
@@ -160,16 +167,6 @@ namespace OutModern.src.Client.Products
 
         protected void CategoryCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            CheckBox categoryCheckBox = (CheckBox)sender;
-            string category = categoryCheckBox.Attributes["data-category"];
-            if (categoryCheckBox.Checked)
-            {
-                selectedCategories.Add(category);
-            }
-            else
-            {
-                selectedCategories.Remove(category);
-            }
             FilterProducts();
         }
 
@@ -203,6 +200,24 @@ namespace OutModern.src.Client.Products
         protected void rbSortBy_SelectedIndexChanged(object sender, EventArgs e)
         {
             FilterProducts();
+        }
+
+        protected void CategoryCheckBoxList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            restoreCategoryCheckBox();
+            FilterProducts();
+        }
+
+        private void restoreCategoryCheckBox()
+        {
+            selectedCategories.Clear(); // Clear the existing selected categories
+            foreach (ListItem item in CategoryCheckBoxList.Items)
+            {
+                if (item.Selected)
+                {
+                    selectedCategories.Add(item.Value);
+                }
+            }
         }
     }
 }
