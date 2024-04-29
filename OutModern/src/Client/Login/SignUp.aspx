@@ -36,26 +36,44 @@
                             <asp:TextBox ID="txt_su_fullname" runat="server" class="SUTextBox" placeholder="Fullname"></asp:TextBox>
                         </div>
 
+                        <!-- Error Message-->
+                        <asp:Label ID="FullnameErrMsg" runat="server" Style="color: red"></asp:Label>
+
                         <div class="boxItem">
                             <asp:TextBox ID="txt_su_username" runat="server" class="SUTextBox" placeholder="Username"></asp:TextBox>
                         </div>
+
+                        <!-- Error Message-->
+                        <asp:Label ID="UsernameErrMsg" runat="server" Style="color: red"></asp:Label>
 
                         <div class="boxItem">
                             <asp:TextBox ID="txt_su_email" runat="server" class="SUTextBox" placeholder="Email" TextMode="Email"></asp:TextBox>
                         </div>
 
+                        <!-- Error Message-->
+                        <asp:Label ID="EmailErrMsg" runat="server" Style="color: red"></asp:Label>
+
                         <div class="boxItem">
                             <asp:TextBox ID="txt_su_password" runat="server" class="SUTextBox" TextMode="Password" placeholder="Password"></asp:TextBox>
                         </div>
+
+                        <!-- Error Message-->
+                        <asp:Label ID="PasswordErrMsg" runat="server" Style="color: red"></asp:Label>
 
                         <div class="boxItem">
                             <asp:TextBox ID="txt_su_reenter_password" runat="server" class="SUTextBox" TextMode="Password" placeholder="Re-enter Password"></asp:TextBox>
                         </div>
 
+                        <!-- Error Message-->
+                        <asp:Label ID="ReenterPasswordErrMsg" runat="server" Style="color: red"></asp:Label>
+
                         <div class="boxItem3">
                             <asp:CheckBox ID="chkbox_policy" runat="server" Text="&nbsp;I agree to the terms and" class="policyText" />
                             <asp:HyperLink ID="hl_policy" runat="server" class="policyText1" NavigateUrl="~/src/Client/Login/Policy.aspx"><u>privacy policy</u></asp:HyperLink>
                         </div>
+
+                        <!-- Error Message-->
+                        <asp:Label ID="PolicyErrMsg" runat="server" Style="color: red"></asp:Label>
 
                         <div class="boxItem1">
                             <asp:Button ID="btn_sign_up" runat="server" class="SUButton" Text="Register" CssClass="bg-black hover:bg-gray-700" Style="width: 100%; border-radius: 1.042vw; padding: 0.7rem 3.0vw; font-family: sans-serif; color: whitesmoke; font-weight: bold; border: 0.052vw solid #f5f5f5; cursor: pointer;"

@@ -194,6 +194,7 @@
     <Compile Include="src\Client\Login\SignUp.aspx.designer.cs">
       <DependentUpon>SignUp.aspx</DependentUpon>
     </Compile>
+    <Compile Include="src\Client\Login\StringUtil.cs" />
     <Compile Include="src\Client\Payment\Payment.aspx.cs">
       <DependentUpon>Payment.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

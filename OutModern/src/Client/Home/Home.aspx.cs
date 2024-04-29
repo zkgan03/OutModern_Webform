@@ -11,7 +11,19 @@ namespace OutModern.src.Client.Home
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack && Request.Cookies["AuthToken"] != null)
+            {
+                // Automatically log in the user using the authentication token
+                // Here, you might retrieve user details based on the token and set the session accordingly
+                Session["LoggedIn"] = true;
+            }
 
+            // Check if user is not logged in
+            if (Session["LoggedIn"] == null || !(bool)Session["LoggedIn"])
+            {
+                // Redirect to Login.aspx
+                Response.Redirect("~/src/Client/Login/Login.aspx");
+            }
         }
     }
 }
