@@ -45,7 +45,7 @@ namespace OutModern.src.Client.Products
             }
             productList = GetProductsInfo();
             selectedRating = rbRatings.SelectedValue;
-            restoreCategoryCheckBox();
+            updateCategoryList();
         }
         private void BindProducts(List<Product> products)
         {
@@ -155,7 +155,7 @@ namespace OutModern.src.Client.Products
                 filteredProducts = filteredProducts.Where(p => selectedCategories.Contains(p.ProductCategory)).ToList();
             }
 
-            filteredProducts = SortProducts(filteredProducts, rbSortBy.SelectedValue);
+            filteredProducts = SortProducts(filteredProducts, rbSortByPrice.SelectedValue);
             filteredProducts = SortProducts(filteredProducts, ddlSort.SelectedValue);   
             BindProducts(filteredProducts);
         }
@@ -204,11 +204,11 @@ namespace OutModern.src.Client.Products
 
         protected void CategoryCheckBoxList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            restoreCategoryCheckBox();
+            updateCategoryList();
             FilterProducts();
         }
 
-        private void restoreCategoryCheckBox()
+        private void updateCategoryList()
         {
             selectedCategories.Clear(); // Clear the existing selected categories
             foreach (ListItem item in CategoryCheckBoxList.Items)
@@ -218,6 +218,17 @@ namespace OutModern.src.Client.Products
                     selectedCategories.Add(item.Value);
                 }
             }
+        }
+
+        protected void btnReset_Click(object sender, EventArgs e)
+        {
+            selectedRating = string.Empty;
+            selectedCategories.Clear();
+            CategoryCheckBoxList.ClearSelection();
+            ddlSort.SelectedIndex = 0;
+            rbRatings.ClearSelection();
+            rbSortByPrice.SelectedIndex = 0;
+            FilterProducts();
         }
     }
 }

@@ -69,13 +69,13 @@ namespace OutModern.src.Client.Products
         protected global::System.Web.UI.WebControls.TextBox maxPrice;
 
         /// <summary>
-        /// rbSortBy control.
+        /// rbSortByPrice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButtonList rbSortBy;
+        protected global::System.Web.UI.WebControls.RadioButtonList rbSortByPrice;
 
         /// <summary>
         /// CategoryCheckBoxList control.
@@ -94,6 +94,15 @@ namespace OutModern.src.Client.Products
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButtonList rbRatings;
+
+        /// <summary>
+        /// btnReset control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnReset;
 
         /// <summary>
         /// ProductRepeater control.

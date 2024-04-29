@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/src/Client/ClientMaster/Client.Master" AutoEventWireup="true" CodeBehind="Products.aspx.cs" Inherits="OutModern.src.Client.Products.Products"  %>
+﻿<%@ Page Language="C#" MasterPageFile="~/src/Client/ClientMaster/Client.Master" AutoEventWireup="true" CodeBehind="Products.aspx.cs" Inherits="OutModern.src.Client.Products.Products" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style>
@@ -29,9 +29,12 @@
         }
 
         .checkbox-list input[type="checkbox"] {
-            margin-right: 8px; /* Adjust the spacing between checkbox and text */
+            margin-right: 6px; /* Adjust the spacing between checkbox and text */
         }
-     
+
+        .button-list label {
+            margin-left: 6px;
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -94,13 +97,13 @@
                         </div>
                         <ul class="pb-2 pl-5">
                             <li class="list-none pb-4 pl-5">
-                                <asp:RadioButtonList ID="rbSortBy" runat="server" CssClass="flex list-none flex-col space-y-4" RepeatLayout="UnorderedList" AutoPostBack="True"  OnSelectedIndexChanged="rbSortBy_SelectedIndexChanged">
+                                <asp:RadioButtonList ID="rbSortByPrice" runat="server" CssClass="button-list flex list-none flex-col space-y-4" RepeatLayout="UnorderedList" AutoPostBack="True" OnSelectedIndexChanged="rbSortByPrice_SelectedIndexChanged">
                                     <asp:ListItem Value="Recommended" Text="Recommended" Selected="True"></asp:ListItem>
                                     <asp:ListItem Value="LowestPrice" Text="Lowest Price"></asp:ListItem>
                                     <asp:ListItem Value="HighestPrice" Text="Highest Price"></asp:ListItem>
                                 </asp:RadioButtonList>
                             </li>
-                           
+
                         </ul>
                     </li>
                     <li class="list-none border-b border-gray-300">
@@ -108,15 +111,15 @@
                             By Category<i class="fa fa-caret-down !font-black float-right"></i>
                         </div>
                         <ul class="pl-5" id="">
-                             <li class="list-none pb-2.5 pl-5">
-                                 <asp:CheckBoxList ID="CategoryCheckBoxList" runat="server" CssClass="checkbox-list" AutoPostBack="true" OnSelectedIndexChanged="CategoryCheckBoxList_SelectedIndexChanged"> 
-                                     <asp:ListItem Text="Hoodie" Value="Hoodie"></asp:ListItem>
-                                     <asp:ListItem Text="Short" Value="Short"></asp:ListItem>
-                                     <asp:ListItem Text="Sweater" Value="Sweater"></asp:ListItem>
-                                     <asp:ListItem Text="TeeShirt" Value="TeeShirt"></asp:ListItem>
-                                     <asp:ListItem Text="Trouser" Value="Trouser"></asp:ListItem>
-                                 </asp:CheckBoxList>
-                             </li>
+                            <li class="list-none pb-2.5 pl-5">
+                                <asp:CheckBoxList ID="CategoryCheckBoxList" runat="server" CssClass="checkbox-list" AutoPostBack="true" OnSelectedIndexChanged="CategoryCheckBoxList_SelectedIndexChanged">
+                                    <asp:ListItem Text="Hoodie" Value="Hoodie"></asp:ListItem>
+                                    <asp:ListItem Text="Short" Value="Short"></asp:ListItem>
+                                    <asp:ListItem Text="Sweater" Value="Sweater"></asp:ListItem>
+                                    <asp:ListItem Text="TeeShirt" Value="TeeShirt"></asp:ListItem>
+                                    <asp:ListItem Text="Trouser" Value="Trouser"></asp:ListItem>
+                                </asp:CheckBoxList>
+                            </li>
                         </ul>
                     </li>
                     <li class="list-none border-b border-gray-300">
@@ -125,7 +128,7 @@
                         </div>
                         <ul class="pl-5">
                             <li class="radio-no-bullet list-none pb-5 pl-5">
-                                <asp:RadioButtonList runat="server" ID="rbRatings" AutoPostBack="True" OnSelectedIndexChanged="rbRatings_SelectedIndexChanged">
+                                <asp:RadioButtonList runat="server" CssClass="button-list" ID="rbRatings" AutoPostBack="True" OnSelectedIndexChanged="rbRatings_SelectedIndexChanged">
                                     <asp:ListItem Value="5s">
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
@@ -165,6 +168,9 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="mt-4 flex list-none items-center justify-center">
+                        <asp:Button ID="btnReset" runat="server" Text="Reset" CssClass="w-11/12 cursor-pointer bg-black p-2.5 text-center text-white" OnClick="btnReset_Click" />
+                    </li>
                 </ul>
             </div>
             <div class="ml-5 mr-8 w-4/5 py-4">
@@ -172,10 +178,10 @@
                     <!-- Product 1 -->
                     <asp:Repeater ID="ProductRepeater" runat="server">
                         <ItemTemplate>
-                            <div onclick='<%# Eval("productID", "window.location.href = \"/src/Client/ProductDetails/ProductDetails.aspx?ProductId={0}\";") %>'  class="cursor-pointer bg-white rounded-lg shadow-md overflow-hidden hover:bg-yellow-100 hover:shadow-md hover:-translate-x-2 hover:-translate-y-2 transition duration-100 z-0">
-                                <asp:Image ImageUrl='<%# Eval("productImageUrl1", "{0}") %>' ID="Image1" runat="server" class="w-full h-100 object-cover bg-gray-200 hover:cursor-pointer" style="transition: transform 0.5s ease-in-out;"
-                                     onmouseover='<%# "changeImage(this, \"" + ResolveClientUrl(Eval("productImageUrl2").ToString()) + "\")" %>'
-    onmouseout='<%# "changeImage(this, \"" + ResolveClientUrl(Eval("productImageUrl1").ToString()) + "\")" %>'/>
+                            <div onclick='<%# Eval("productID", "window.location.href = \"/src/Client/ProductDetails/ProductDetails.aspx?ProductId={0}\";") %>' class="cursor-pointer bg-white rounded-lg shadow-md overflow-hidden hover:bg-yellow-100 hover:shadow-md hover:-translate-x-2 hover:-translate-y-2 transition duration-100 z-0">
+                                <asp:Image ImageUrl='<%# Eval("productImageUrl1", "{0}") %>' ID="Image1" runat="server" class="w-full h-100 object-cover bg-gray-200 hover:cursor-pointer" Style="transition: transform 0.5s ease-in-out;"
+                                    onmouseover='<%# "changeImage(this, \"" + ResolveClientUrl(Eval("productImageUrl2").ToString()) + "\")" %>'
+                                    onmouseout='<%# "changeImage(this, \"" + ResolveClientUrl(Eval("productImageUrl1").ToString()) + "\")" %>' />
                                 <div class="p-4 pr-0">
                                     <h2 class="mb-2">
                                         <asp:Label class="text-xl font-bold text-gray-800 hover:cursor-pointer hover:underline" ID="lblName" runat="server">
@@ -216,11 +222,11 @@
             </a>
         </div>
     </div>
- <script>
-     function changeImage(image, imageUrl) {
-         setTimeout(function () {
-             image.src = imageUrl;
-         }, 200);
-     }
- </script>
+    <script>
+        function changeImage(image, imageUrl) {
+            setTimeout(function () {
+                image.src = imageUrl;
+            }, 200);
+        }
+    </script>
 </asp:Content>
