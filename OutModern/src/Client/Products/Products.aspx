@@ -64,7 +64,7 @@
                         <asp:DropDownList ID="ddlSort" AutoPostBack="True" OnSelectedIndexChanged="ddlSort_SelectedIndexChanged" runat="server" CssClass="w-full appearance-none rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-sm font-medium text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
                             <asp:ListItem Value="Featured" Text="Sort By:&nbsp;Featured" Selected="True"></asp:ListItem>
                             <asp:ListItem Value="Customer Ratings" Text="Avg. Customer Ratings"></asp:ListItem>
-                            <asp:ListItem Value="Best Seller" Text="Best Seller"></asp:ListItem>
+                            <asp:ListItem Value="TotalSold" Text="Best Sellers"></asp:ListItem>
                         </asp:DropDownList>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
                             <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -191,6 +191,9 @@
                                         <asp:Label ID="lblPrice" class="text-xl font-bold text-gray-700" runat="server">
                                             RM<%# Eval("UnitPrice") %>
                                         </asp:Label>
+                                    </p>
+                                    <p class="mb-2">
+                                       <span class="font-bold text-gray-600"><%# Eval("TotalSold").ToString() == "0" ? "No Sold" : Eval("TotalSold") + " Sold" %></span>
                                     </p>
                                     <div class="mb-2 flex items-center">
                                         <%# GenerateStars(Convert.ToDouble(Eval("OverallRatings"))) %>

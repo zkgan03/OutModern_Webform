@@ -23,6 +23,7 @@ namespace OutModern.src.Client.Products
         public List<string> ImagePaths { get; set; }
         public int TotalReview { get; set; }
         public decimal OverallRatings { get; set; }
+        public int TotalSold { get; set; }
         public string productImageUrl1 { get; set; }
         public string productImageUrl2 { get; set; }
     }
@@ -60,7 +61,7 @@ namespace OutModern.src.Client.Products
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sqlQuery = "SELECT p.ProductId, p.ProductName, p.UnitPrice, p.ProductCategory, COUNT(r.ReviewId) AS TotalReview, SUM(r.Rating) AS TotalRating FROM Product p LEFT JOIN ProductDetail pd ON p.ProductId = pd.ProductId LEFT JOIN Review r ON pd.ProductDetailId = r.ProductDetailId GROUP BY p.ProductId, p.ProductName, p.UnitPrice, p.ProductCategory;";
+                string sqlQuery = "SELECT p.ProductId, p.ProductName, p.UnitPrice, p.ProductCategory, COUNT(r.ReviewId) AS TotalReview, SUM(r.Rating) AS TotalRating FROM Product p INNER JOIN ProductDetail pd ON p.ProductId = pd.ProductId LEFT JOIN Review r ON pd.ProductDetailId = r.ProductDetailId GROUP BY p.ProductId, p.ProductName, p.UnitPrice, p.ProductCategory;";
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
                     connection.Open();
@@ -76,6 +77,7 @@ namespace OutModern.src.Client.Products
                             product.TotalReview = (int)reader["TotalReview"];
                             decimal totalRating = (decimal)reader["TotalRating"];
                             product.OverallRatings = product.TotalReview != 0 ? totalRating / (decimal)product.TotalReview : 0;
+                            product.TotalSold = GetTotalSold(product.ProductId);
                             List<string> imagePaths = GetProductImages(product.ProductId);
                             // Check if imagePaths is null or empty
                             if (imagePaths == null || imagePaths.Count == 0)
@@ -92,6 +94,29 @@ namespace OutModern.src.Client.Products
                 }
             }
             return products;
+        }
+
+        private int GetTotalSold(int productId)
+        {
+            int totalSold = 0;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sqlQuery = "SELECT SUM(Quantity) AS TotalSold FROM OrderItem WHERE ProductDetailId IN (SELECT ProductDetailId FROM ProductDetail WHERE ProductId = @ProductId)";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@ProductId", productId);
+                    connection.Open();
+                    object result = command.ExecuteScalar();
+                    if (result != DBNull.Value)
+                    {
+                        totalSold = Convert.ToInt32(result);
+                    }
+                }
+            }
+
+            return totalSold;
         }
 
         private List<string> GetProductImages(int productId)
@@ -123,8 +148,8 @@ namespace OutModern.src.Client.Products
         {
             switch (sortExpression)
             {
-                case "ProductName":
-                    return products.OrderBy(p => p.ProductName).ToList();
+                case "TotalSold":
+                    return products.OrderByDescending(p => p.TotalSold).ToList();
                 case "Customer Ratings":
                     return products.OrderByDescending(p => p.OverallRatings).ToList();
                 case "LowestPrice":
@@ -155,8 +180,8 @@ namespace OutModern.src.Client.Products
                 filteredProducts = filteredProducts.Where(p => selectedCategories.Contains(p.ProductCategory)).ToList();
             }
 
+            filteredProducts = SortProducts(filteredProducts, ddlSort.SelectedValue);
             filteredProducts = SortProducts(filteredProducts, rbSortByPrice.SelectedValue);
-            filteredProducts = SortProducts(filteredProducts, ddlSort.SelectedValue);   
             BindProducts(filteredProducts);
         }
 
