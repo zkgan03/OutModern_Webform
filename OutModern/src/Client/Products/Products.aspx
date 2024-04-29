@@ -104,11 +104,11 @@
                         </div>
                         <ul class="pb-2 pl-5" id="">
                             <asp:SqlDataSource ConnectionString='<%$ ConnectionStrings:ConnectionString %>' ID="CategorySqlDataSource" runat="server" SelectCommand="SELECT DISTINCT ProductCategory FROM Product"></asp:SqlDataSource>
-                            <asp:Repeater ID="CategoryRepeater" runat="server" DataSourceID="CategorySqlDataSource">
+                            <asp:Repeater ID="CategoryRepeater" runat="server" DataSourceID="CategorySqlDataSource" EnableViewState="true">
                                <ItemTemplate>
                                    <li class="flex items-center pb-4 pl-5">
                                        <div class="mr-1">
-                                           <asp:CheckBox ID="CategoryCheckBox" data-category='<%# Eval("ProductCategory") %>'  runat="server" />
+                                           <asp:CheckBox ID="CategoryCheckBox" data-category='<%# Eval("ProductCategory") %>' runat="server" AutoPostBack="true" OnCheckedChanged="CategoryCheckBox_CheckedChanged" />
                                        </div>
                                        <span><%# Eval("ProductCategory") %></span>
                                    </li>
@@ -184,13 +184,7 @@
                                         </asp:Label>
                                     </p>
                                     <div class="mb-2 flex items-center">
-                                        <span><i class="fas fa-star"></i></span>
-                                        <span><i class="fas fa-star"></i></span>
-                                        <span><i class="fas fa-star"></i></span>
-                                        <span><i class="fas fa-star"></i></span>
-                                        <span>
-                                            <i class="fas fa-star-half-alt"></i>
-                                        </span>
+                                        <%# GenerateStars(Convert.ToDouble(Eval("OverallRatings"))) %>
                                         <span class="ml-2 text-gray-600">(<%# Eval("TotalReview") %> Reviews)</span>
                                     </div>
                                 </div>
