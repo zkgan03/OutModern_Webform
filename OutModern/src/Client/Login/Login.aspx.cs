@@ -78,13 +78,6 @@ namespace OutModern.src.Client.Login
                                     Session["LoggedIn"] = true;
                                     Session["email"] = email;
 
-                                    // Set a persistent authentication token on the client-side (e.g., a cookie)
-                                    if (chkbox_login.Checked)
-                                    {
-                                        HttpCookie authCookie = new HttpCookie("KeepMeLogIn", "some_unique_token_here");
-                                        authCookie.Expires = DateTime.Now.AddDays(1); // Set the cookie expiration time
-                                        Response.Cookies.Add(authCookie);
-                                    }
 
                                     Response.Redirect("~/src/Client/Home/Home.aspx");
                                 }
