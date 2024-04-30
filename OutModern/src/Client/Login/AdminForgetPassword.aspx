@@ -46,6 +46,8 @@
                 <asp:Button ID="btn_login" runat="server" class="FPButton" Text="Send Verification" CssClass="bg-black hover:bg-gray-700" Style="width: 100%; border-radius: 1.5625rem; padding: 0.5605vw 1.3417vw; font-family: sans-serif; color: whitesmoke; font-weight: bold; border: 0.052vw solid #f5f5f5; cursor: pointer;" OnClick="btn_login_Click"/>
             </div>
 
+            <asp:Label ID="lblMessage" runat="server"/>
+
         </div>
 
     </form>

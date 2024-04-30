@@ -279,6 +279,7 @@
     <Compile Include="src\ErrorPages\500.aspx.designer.cs">
       <DependentUpon>500.aspx</DependentUpon>
     </Compile>
+    <Compile Include="src\Util\StringUtil.cs" />
     <Content Include="App_Data\OutModern.mdf" />
     <Content Include="App_Data\OutModern_log.ldf">
       <DependentUpon>OutModern.mdf</DependentUpon>
