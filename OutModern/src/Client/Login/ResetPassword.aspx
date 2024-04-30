@@ -38,6 +38,8 @@
                     OnClick="btn_reset_password_Click" />
             </div>
 
+            <asp:Label ID="lblMessage" runat="server"></asp:Label>
+
         </div>
     </form>
 </body>

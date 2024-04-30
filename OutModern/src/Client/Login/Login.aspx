@@ -18,6 +18,30 @@
 
     <!-- import tailwind js-->
     <script src="<%= Page.ResolveClientUrl("~/lib/tailwind/tailwind.js") %>"></script>
+
+    <!-- JavaScript code for displaying popup message -->
+    <script>
+        window.onload = function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const registered = urlParams.get('registered');
+
+            if (registered === 'true') {
+                alert("Registration successful! You can now login.");
+            }
+        };
+    </script>
+
+    <script>
+        window.onload = function () {
+            // Check if the password has been changed successfully
+            var passwordChanged = '<%= Session["PasswordChanged"] %>';
+            if (passwordChanged === 'True') {
+                alert("Password changed successfully! You can now login.");
+                // Reset the session variable to avoid displaying the message again on subsequent page loads
+                '<%= Session["PasswordChanged"] = null %>';
+            }
+        };
+    </script>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -42,9 +66,8 @@
                         <asp:TextBox ID="txt_password" runat="server" class="loginTextBox" TextMode="Password" placeholder="Password"></asp:TextBox>
                     </div>
 
-                    <div class="loginBoxItem1">
-                        <asp:CheckBox ID="chkbox_login" runat="server" Text="&nbsp;Keep me logged in" class="chkLogin" />
-                    </div>
+                    <!-- Error Message-->
+                    <asp:Label ID="ErrMsg" runat="server" Style="color: red"></asp:Label>
 
                     <div class="loginBoxButton">
                         <asp:Button ID="btn_login" runat="server" Text="Log In" CssClass="bg-black hover:bg-gray-700" Style="width: 100%; border-radius: 10px; padding: 10px; font-family: sans-serif; color: white; font-weight: bold; border: 1px solid #f5f5f5; margin-top: 10px; cursor: pointer;" OnClick="btn_login_Click" />

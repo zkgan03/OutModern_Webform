@@ -33,6 +33,15 @@ namespace OutModern.src.Client.Login
         protected global::System.Web.UI.WebControls.TextBox txt_su_fullname;
 
         /// <summary>
+        /// FullnameErrMsg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label FullnameErrMsg;
+
+        /// <summary>
         /// txt_su_username control.
         /// </summary>
         /// <remarks>
@@ -40,6 +49,15 @@ namespace OutModern.src.Client.Login
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txt_su_username;
+
+        /// <summary>
+        /// UsernameErrMsg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label UsernameErrMsg;
 
         /// <summary>
         /// txt_su_email control.
@@ -51,6 +69,15 @@ namespace OutModern.src.Client.Login
         protected global::System.Web.UI.WebControls.TextBox txt_su_email;
 
         /// <summary>
+        /// EmailErrMsg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label EmailErrMsg;
+
+        /// <summary>
         /// txt_su_password control.
         /// </summary>
         /// <remarks>
@@ -60,6 +87,15 @@ namespace OutModern.src.Client.Login
         protected global::System.Web.UI.WebControls.TextBox txt_su_password;
 
         /// <summary>
+        /// PasswordErrMsg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label PasswordErrMsg;
+
+        /// <summary>
         /// txt_su_reenter_password control.
         /// </summary>
         /// <remarks>
@@ -67,6 +103,15 @@ namespace OutModern.src.Client.Login
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txt_su_reenter_password;
+
+        /// <summary>
+        /// ReenterPasswordErrMsg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label ReenterPasswordErrMsg;
 
         /// <summary>
         /// chkbox_policy control.
@@ -85,6 +130,15 @@ namespace OutModern.src.Client.Login
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HyperLink hl_policy;
+
+        /// <summary>
+        /// PolicyErrMsg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label PolicyErrMsg;
 
         /// <summary>
         /// btn_sign_up control.

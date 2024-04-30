@@ -18,6 +18,18 @@
 
     <!-- import tailwind js-->
     <script src="<%= Page.ResolveClientUrl("~/lib/tailwind/tailwind.js") %>"></script>
+
+    <script>
+    window.onload = function () {
+        // Check if the password has been changed successfully
+        var passwordChanged = '<%= Session["PasswordChanged"] %>';
+        if (passwordChanged === 'True') {
+            alert("Password changed successfully! You can now login.");
+            // Reset the session variable to avoid displaying the message again on subsequent page loads
+            '<%= Session["PasswordChanged"] = null %>';
+        }
+    };
+    </script>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -41,6 +53,9 @@
                     <div class="loginBoxItem">
                         <asp:TextBox ID="txt_password" runat="server" class="loginTextBox" TextMode="Password" placeholder="Password"></asp:TextBox>
                     </div>
+
+                    <!-- Error Message-->
+                    <asp:Label ID="ErrMsg" runat="server" Style="color: red"></asp:Label>
 
                     <div class="loginBoxButton">
                         <asp:Button ID="btn_login" runat="server" class="loginButton" Text="Log In" CssClass="bg-black hover:bg-gray-700" Style="width: 100%; border-radius: 10px; padding: 10px; font-family: sans-serif; color: white; font-weight: bold; border: 1px solid #f5f5f5; margin-top: 10px; cursor: pointer;" OnClick="btn_login_Click" />

@@ -36,7 +36,7 @@
 
         @layer components {
             .header {
-                @apply bg-[#f5f5f5] h-[75px] text-center sticky top-0  shadow flex justify-between;
+                @apply bg-[#f5f5f5] h-[75px] text-center sticky top-0 shadow flex justify-between;
             }
 
             .header-scroll {
@@ -178,11 +178,14 @@
                                     <li>
                                         <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink8" NavigateUrl="~/src/Client/Login/SignUp.aspx" runat="server">Sign Up</asp:HyperLink>
                                     </li>
+                                    <li>
+                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink9" NavigateUrl="~/src/Client/Login/Login.aspx" Visible="false" runat="server">Log Out</asp:HyperLink> <!--if havent log in cannot see-->
+                                    </li>
                                 </ul>
                             </div>
 
                         </div>
-                        
+
                     </div>
                 </nav>
             </header>
@@ -278,13 +281,13 @@
                         <div class="mt-2 flex justify-between items-center">
                             <div class="flex gap-4">
                                 <div id="visaLink" class="text-white text-2xl">
-                <i class="fa-brands fa-cc-visa text-white text-2xl"></i>
+                                    <i class="fa-brands fa-cc-visa text-white text-2xl"></i>
                                 </div>
                                 <div id="mastercardLink" class="text-white text-2xl">
-                <i class="fab fa-cc-mastercard text-white text-2xl"></i>
+                                    <i class="fab fa-cc-mastercard text-white text-2xl"></i>
                                 </div>
-                                <div ID="paypalLink" class="text-white text-2xl">
-                <i class="fa-brands fa-cc-paypal text-white text-2xl"></i>
+                                <div id="paypalLink" class="text-white text-2xl">
+                                    <i class="fa-brands fa-cc-paypal text-white text-2xl"></i>
                                 </div>
                             </div>
 
