@@ -152,8 +152,10 @@ namespace OutModern.src.Admin.Staffs
 
 
         //insert staff
-        private int insertStaff(string adminName,
+        private int insertStaff(
+            string adminName,
             string adminUsername,
+            string adminPassword,
             string adminRole,
             string adminEmail,
             string adminPhoneNo,
@@ -167,13 +169,14 @@ namespace OutModern.src.Admin.Staffs
                 connection.Open();
 
                 string sqlQuery =
-                    "INSERT INTO Admin (AdminFullName, AdminUsername, AdminEmail, AdminPhoneNo, AdminStatusId, AdminRoleId) " +
-                    "VALUES (@adminName, @adminUsername, @adminEmail, @adminPhoneNo, @adminStatus, @adminRole)";
+                    "INSERT INTO Admin (AdminFullName, AdminUsername, AdminPassword, AdminEmail, AdminPhoneNo, AdminStatusId, AdminRoleId) " +
+                    "VALUES (@adminName, @adminUsername, @adminPassword, @adminEmail, @adminPhoneNo, @adminStatus, @adminRole)";
 
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
                     command.Parameters.AddWithValue("@adminName", adminName);
                     command.Parameters.AddWithValue("@adminUsername", adminUsername);
+                    command.Parameters.AddWithValue("@adminPassword", adminPassword);
                     command.Parameters.AddWithValue("@adminEmail", adminEmail);
                     command.Parameters.AddWithValue("@adminPhoneNo", adminPhoneNo);
                     command.Parameters.AddWithValue("@adminStatus", adminStatus);
@@ -390,14 +393,40 @@ namespace OutModern.src.Admin.Staffs
             //check nulls
             if (string.IsNullOrEmpty(addAdminName) || string.IsNullOrEmpty(addAdminUsername) || string.IsNullOrEmpty(addRole) || string.IsNullOrEmpty(addAdminEmail) || string.IsNullOrEmpty(addAdminPhoneNo) || string.IsNullOrEmpty(addStatus))
             {
-                Page.ClientScript.RegisterStartupScript(GetType(), "alert",
-                        "document.addEventListener('DOMContentLoaded', ()=> alert('Please fill in all fields'))",
+                Page.ClientScript.RegisterStartupScript(GetType(), "Add Failed",
+                        "document.addEventListener('DOMContentLoaded', ()=> alert('Please fill in all fields'));",
                         true);
                 return;
             }
 
+            //check email
+            if (!StringUtil.EmailUtil.IsValidEmail(addAdminEmail))
+            {
+                Page.ClientScript
+                    .RegisterStartupScript(GetType(),
+                    "Add Failed",
+                    "document.addEventListener('DOMContentLoaded', ()=>alert('Please Enter Valid Email'));",
+                    true);
 
-            int noOfRowAffected = insertStaff(addAdminName, addAdminUsername, addRole, addAdminEmail, addAdminPhoneNo, addStatus);
+                return;
+            }
+
+            //check phone
+            if (!StringUtil.PhoneUtil.IsValidPhoneNumber(addAdminPhoneNo))
+            {
+                Page.ClientScript
+                    .RegisterStartupScript(GetType(),
+                        "Add Failed",
+                        "document.addEventListener('DOMContentLoaded', ()=>alert('Please Enter Valid Phone Number'));",
+                        true);
+
+                return;
+            }
+
+            string tempPass = addAdminUsername + addAdminPhoneNo;
+            string hashPass = StringUtil.PasswordUtil.HashPassword(tempPass);
+
+            int noOfRowAffected = insertStaff(addAdminName, addAdminUsername, hashPass, addRole, addAdminEmail, addAdminPhoneNo, addStatus);
 
             if (noOfRowAffected > 0)
             {
@@ -428,12 +457,54 @@ namespace OutModern.src.Admin.Staffs
 
             // Get the updated values from the controls
             string adminId = lblAdminId.Text;
-            string updatedAdminName = txtEditAdminName.Text;
-            string updatedAdminUsername = txtEditAdminUsername.Text;
+            string updatedAdminName = txtEditAdminName.Text.Trim();
+            string updatedAdminUsername = txtEditAdminUsername.Text.Trim();
             string updatedRole = ddlEditRole.SelectedValue;
-            string updatedAdminEmail = txtEditAdminEmail.Text;
-            string updatedAdminPhoneNo = txtEditAdminPhoneNo.Text;
+            string updatedAdminEmail = txtEditAdminEmail.Text.Trim();
+            string updatedAdminPhoneNo = txtEditAdminPhoneNo.Text.Trim();
             string updatedStatus = ddlEditStatus.SelectedValue;
+
+            //check nulls
+            if (string.IsNullOrEmpty(updatedAdminName)
+                || string.IsNullOrEmpty(updatedAdminUsername)
+                || string.IsNullOrEmpty(updatedRole)
+                || string.IsNullOrEmpty(updatedAdminEmail)
+                || string.IsNullOrEmpty(updatedAdminPhoneNo)
+                || string.IsNullOrEmpty(updatedStatus))
+            {
+                Page.ClientScript
+                    .RegisterStartupScript(GetType(),
+                    "Update Failed",
+                    "document.addEventListener('DOMContentLoaded', ()=>alert('Please Fill in All Fields'));",
+                    true);
+
+
+                return;
+            }
+
+            //check email
+            if (!StringUtil.EmailUtil.IsValidEmail(updatedAdminEmail))
+            {
+                Page.ClientScript
+                    .RegisterStartupScript(GetType(),
+                    "Update Failed",
+                    "document.addEventListener('DOMContentLoaded', ()=>alert('Please Enter Valid Email'));",
+                    true);
+
+                return;
+            }
+
+            //check phone
+            if (!StringUtil.PhoneUtil.IsValidPhoneNumber(updatedAdminPhoneNo))
+            {
+                Page.ClientScript
+                    .RegisterStartupScript(GetType(),
+                        "Update Failed",
+                        "document.addEventListener('DOMContentLoaded', ()=>alert('Please Enter Valid Phone Number'));",
+                        true);
+
+                return;
+            }
 
             int noOfRowAffected = updateStaff(adminId, updatedAdminName, updatedAdminUsername, updatedRole, updatedAdminEmail, updatedAdminPhoneNo, updatedStatus);
 

@@ -637,6 +637,8 @@ namespace OutModern.src.Admin.ProductEdit
                 string colorId = e.CommandArgument.ToString();
                 ViewState["ColorId"] = colorId;
                 selectColor(colorId);
+
+                bindColorDropDownList();
                 setQuantityText();
             }
             else if (e.CommandName == "DeleteColor")
@@ -718,6 +720,7 @@ namespace OutModern.src.Admin.ProductEdit
         protected void ddlSize_SelectedIndexChanged(object sender, EventArgs e)
         {
             setQuantityText();
+            bindColorDropDownList();
         }
 
         protected void btnUpdateQuantity_Click(object sender, EventArgs e)
@@ -750,7 +753,23 @@ namespace OutModern.src.Admin.ProductEdit
 
             int affectedRow = updateQuantity(sizeId, colorId, quantity);
             clearStatusText();
-            lblSetStatus.Text = affectedRow > 0 ? "**Set Quantity Sucessfully !" : "**Failed To Set Quantity, Please Try Again..";
+            if(affectedRow > 0)
+            {
+                lblSetStatus.Text = "**Set Quantity Sucessfully !";
+                Page.ClientScript.RegisterClientScriptBlock(GetType(),
+                           "Set Quantity",
+                           "document.addEventListener('DOMContentLoaded', ()=>alert('Quantity Set Successfully'));",
+                           true);
+            }
+            else
+            {
+                lblSetStatus.Text = "**Failed To Set Quantity, Please Try Again..";
+                Page.ClientScript
+                    .RegisterClientScriptBlock(GetType(),
+                    "Set Quantity",
+                    "document.addEventListener('DOMContentLoaded', ()=>alert('Failed to Set Quantity, Please Try Again Later'));",
+                                 true);
+            }
 
         }
 

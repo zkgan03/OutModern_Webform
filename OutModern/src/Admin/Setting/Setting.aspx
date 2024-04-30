@@ -30,7 +30,12 @@
         <div id="edit-form" class="mt-4 w-fit border border-gray-700 rounded  p-4 relative">
 
             <div class="absolute top-2 right-2">
-                <asp:LinkButton CssClass="button bg-green-500" ID="lbUpdateInfo" runat="server">Update</asp:LinkButton>
+                <asp:LinkButton
+                    CssClass="button bg-green-500"
+                    ID="lbUpdateInfo"
+                    OnClientClick="return confirm('Are you sure you want to update your info?');"
+                    OnClick="lbUpdateInfo_Click"
+                    runat="server">Update</asp:LinkButton>
             </div>
 
             <div class="text-2xl mt-5 font-[600]">
@@ -42,7 +47,7 @@
                 <div class="edit-section">
                     <div class="edit-label">Your ID</div>
                     <div>
-                        <asp:Label ID="lblId" CssClass="edit-item disabled" runat="server" Text="S12"></asp:Label>
+                        <asp:Label ID="lblId" CssClass="edit-item disabled" runat="server"></asp:Label>
                     </div>
                 </div>
 
@@ -50,7 +55,7 @@
                 <div class="edit-section">
                     <div class="edit-label">Your FullName</div>
                     <div>
-                        <asp:TextBox ID="txtFName" CssClass="edit-item" runat="server" Text="Gan"></asp:TextBox>
+                        <asp:TextBox ID="txtFName" CssClass="edit-item" runat="server"></asp:TextBox>
                     </div>
                 </div>
 
@@ -58,7 +63,7 @@
                 <div class="edit-section">
                     <div class="edit-label">Your Username</div>
                     <div>
-                        <asp:TextBox ID="txtUsername" CssClass="edit-item" runat="server" Text="cus123"></asp:TextBox>
+                        <asp:TextBox ID="txtUsername" CssClass="edit-item" runat="server"></asp:TextBox>
                     </div>
                 </div>
 
@@ -66,7 +71,7 @@
                 <div class="edit-section">
                     <div class="edit-label">Email</div>
                     <div>
-                        <asp:TextBox ID="txtPrice" CssClass="edit-item" runat="server" Text="cus123@mail.com"></asp:TextBox>
+                        <asp:TextBox ID="txtEmail" CssClass="edit-item" runat="server"></asp:TextBox>
                     </div>
                 </div>
 
@@ -74,7 +79,7 @@
                 <div class="edit-section">
                     <div class="edit-label">Phone No</div>
                     <div>
-                        <asp:TextBox ID="txtPhoneNo" CssClass="edit-item" runat="server" Text="012-1234567"></asp:TextBox>
+                        <asp:TextBox ID="txtPhoneNo" CssClass="edit-item" runat="server"></asp:TextBox>
                     </div>
                 </div>
             </div>
@@ -84,7 +89,11 @@
         <div class="mt-4 w-fit border border-gray-700 rounded p-4 relative">
 
             <div class="absolute top-2 right-2">
-                <asp:LinkButton ID="lbUpdatePassword" CssClass="button bg-green-500" runat="server">Change</asp:LinkButton>
+                <asp:LinkButton ID="lbUpdatePassword"
+                    CssClass="button bg-green-500"
+                    OnClientClick="return confirm('Are you sure you want to change your password?');"
+                    OnClick="lbUpdatePassword_Click"
+                    runat="server">Change</asp:LinkButton>
             </div>
             <div class="font-[600] text-2xl mt-5">
                 Change Password
@@ -95,23 +104,23 @@
                 <div class="mt-2">
                     <div class="edit-label">Current Password</div>
                     <div>
-                        <asp:TextBox ID="txtCurrPass" CssClass="px-2" TextMode="Password" runat="server" Text=""></asp:TextBox>
+                        <asp:TextBox ID="txtCurrPass" CssClass="px-2" TextMode="Password" runat="server"></asp:TextBox>
                     </div>
                 </div>
 
                 <!--New Pass-->
-                <div class="edit-section">
+                <div class="edit-section mt-2">
                     <div class="edit-label">New Password</div>
                     <div>
-                        <asp:TextBox ID="Textbox1" CssClass="px-2" TextMode="Password" runat="server" Text=""></asp:TextBox>
+                        <asp:TextBox ID="txtNewPass" CssClass="px-2" TextMode="Password" runat="server"></asp:TextBox>
                     </div>
                 </div>
 
-                <!--Repeat Pass-->
-                <div class="edit-section">
-                    <div class="edit-label">Repeat Password</div>
+                <!--Confirm Pass-->
+                <div class="edit-section mt-2">
+                    <div class="edit-label">Confirm Password</div>
                     <div>
-                        <asp:TextBox ID="Textbox2" CssClass="px-2" TextMode="Password" runat="server" Text=""></asp:TextBox>
+                        <asp:TextBox ID="txtConfirmPass" CssClass="px-2" TextMode="Password" runat="server"></asp:TextBox>
                     </div>
                 </div>
             </div>

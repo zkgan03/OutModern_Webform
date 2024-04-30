@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Web.UI;
 
 namespace OutModern.src.Admin.Utils
 {
@@ -25,6 +28,49 @@ namespace OutModern.src.Admin.Utils
             Regex priceRegrex = new Regex(@"^[0-9]+(\.[0-9]{0,2})?$");
 
             return decimal.TryParse(price, out decimal _) && priceRegrex.IsMatch(price);
+        }
+
+        public static bool IsEmailExist(string email)
+        {
+            int row = 0;
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
+            {
+                con.Open();
+                string sqlQuery =
+                    "SELECT AdminId " +
+                    "FROM Admin " +
+                    "WHERE AdminEmail = @AdminEmail ";
+
+                using (SqlCommand cmd = new SqlCommand(sqlQuery, con))
+                {
+                    cmd.Parameters.AddWithValue("@AdminEmail", email);
+                    row = cmd.ExecuteNonQuery();
+                }
+            }
+
+            return row > 0;
+        }
+
+        public static bool IsEmailExist(string email, string adminId)
+        {
+            int row = 0;
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
+            {
+                con.Open();
+                string sqlQuery =
+                    "SELECT AdminId " +
+                    "FROM Admin " +
+                    "WHERE AdminEmail = @AdminEmail AND AdminId != @AdminId";
+
+                using (SqlCommand cmd = new SqlCommand(sqlQuery, con))
+                {
+                    cmd.Parameters.AddWithValue("@AdminEmail", email);
+                    cmd.Parameters.AddWithValue("@AdminId", adminId);
+                    row = cmd.ExecuteNonQuery();
+                }
+            }
+
+            return row > 0;
         }
 
     }

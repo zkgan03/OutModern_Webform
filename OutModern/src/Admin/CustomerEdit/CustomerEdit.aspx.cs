@@ -39,7 +39,10 @@ namespace OutModern.src.Admin.CustomerEdit
 
         protected void Page_LoadComplete(object sender, EventArgs e)
         {
-            initCustomerDetails();
+            if (!Page.IsPostBack)
+            {
+                initCustomerDetails();
+            }
         }
 
         private void initCustomerDetails()
@@ -190,8 +193,45 @@ namespace OutModern.src.Admin.CustomerEdit
                 || string.IsNullOrEmpty(customerPhoneNo))
             {
                 lblUpdateStatus.Text = "**Please fill in all the fields";
+                Page.ClientScript
+                        .RegisterClientScriptBlock(GetType(), "Update Failed",
+                        "document.addEventListener('DOMContentLoaded', ()=> alert('Please fill in all the fields'));", true);
                 return;
             }
+
+            //check email format
+            if (!StringUtil.EmailUtil.IsValidEmail(customerEmail))
+            {
+                lblUpdateStatus.Text = "**Invalid Email Format";
+                Page.ClientScript
+                        .RegisterClientScriptBlock(GetType(), "Update Failed", "document.addEventListener('DOMContentLoaded', ()=>alert('Invalid Email Format'));", true);
+                return;
+            }
+
+            //get original email
+            DataTable data = getCustomer();
+            string originalEmail = data.Rows[0]["CustomerEmail"].ToString();
+
+            //check email duplication
+            if (StringUtil.EmailUtil.IsDuplicateEmail(customerEmail) && customerEmail != originalEmail)
+            {
+                lblUpdateStatus.Text = "**Email already exists";
+                Page.ClientScript
+                        .RegisterClientScriptBlock(GetType(),
+                        "Update Failed", "document.addEventListener('DOMContentLoaded', ()=>alert('Email already exists'));", true);
+                return;
+            }
+
+            //check phone number format
+            if (!StringUtil.PhoneUtil.IsValidPhoneNumber(customerPhoneNo))
+            {
+                lblUpdateStatus.Text = "**Invalid Phone Number Format";
+                Page.ClientScript
+                        .RegisterClientScriptBlock(GetType(), "Update Failed", "document.addEventListener('DOMContentLoaded', ()=> alert('Invalid Phone Number Format'));", true);
+                return;
+            }
+
+
 
             int affectedRow = updateCustomer(customerFullName, customerUsername, customerEmail, customerPhoneNo, statusId);
 

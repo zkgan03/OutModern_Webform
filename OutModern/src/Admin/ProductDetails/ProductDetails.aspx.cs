@@ -226,8 +226,6 @@ namespace OutModern.src.Admin.ProductDetails
         {
             DataTable data = new DataTable();
 
-
-
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();

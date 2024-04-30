@@ -138,7 +138,8 @@
                                 ID="txtProdDescription"
                                 TextMode="MultiLine"
                                 CssClass="edit-item w-full resize-none h-36"
-                                runat="server"></asp:TextBox>
+                                runat="server">
+                            </asp:TextBox>
                         </div>
                     </div>
                 </div>
@@ -151,35 +152,28 @@
             <div id="variation-form">
                 <div class="text-2xl font-[600]">Variation</div>
 
-                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-                    <ContentTemplate>
-                        <!--Size and quantity-->
-                        <div class="flex mt-4 items-center">
-                            <!--Size selection-->
-                            <div>
-                                <div class="font-[600]">Size</div>
-                                <div>
-                                    <asp:DropDownList AutoPostBack="true" ID="ddlSize" runat="server" OnSelectedIndexChanged="ddlSize_SelectedIndexChanged"></asp:DropDownList>
-                                </div>
-                            </div>
-                            <div class="ml-7 mr-2">
-                                <div class="font-[600]">Quantity</div>
-                                <div>
-                                    <asp:TextBox CssClass="w-16" TextMode="Number" ID="txtProdQuantity" runat="server"></asp:TextBox>
-                                </div>
-                            </div>
-                            <div class="self-end mr-2">
-                                <asp:Button CssClass="button" ID="btnUpdateQuantity" OnClick="btnUpdateQuantity_Click" runat="server" Text="Set" />
-                            </div>
-                            <div class="opacity-50 mt-4 self-end">
-                                <asp:Label ID="lblSetStatus" runat="server"></asp:Label>
-                            </div>
+                <!--Size and quantity-->
+                <div class="flex mt-4 items-center">
+                    <!--Size selection-->
+                    <div>
+                        <div class="font-[600]">Size</div>
+                        <div>
+                            <asp:DropDownList AutoPostBack="true" ID="ddlSize" runat="server" OnSelectedIndexChanged="ddlSize_SelectedIndexChanged"></asp:DropDownList>
                         </div>
-                    </ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="ddlSize" EventName="SelectedIndexChanged" />
-                    </Triggers>
-                </asp:UpdatePanel>
+                    </div>
+                    <div class="ml-7 mr-2">
+                        <div class="font-[600]">Quantity</div>
+                        <div>
+                            <asp:TextBox CssClass="w-16" TextMode="Number" ID="txtProdQuantity" runat="server"></asp:TextBox>
+                        </div>
+                    </div>
+                    <div class="self-end mr-2">
+                        <asp:Button CssClass="button" ID="btnUpdateQuantity" OnClick="btnUpdateQuantity_Click" runat="server" Text="Set" />
+                    </div>
+                    <div class="opacity-50 mt-4 self-end">
+                        <asp:Label ID="lblSetStatus" runat="server"></asp:Label>
+                    </div>
+                </div>
 
                 <!--Colors-->
                 <div class=" mt-4">
@@ -192,108 +186,101 @@
                         <asp:Label ID="lblAddColorStatus" runat="server" CssClass="opacity-50"></asp:Label>
                     </div>
 
-                    <asp:UpdatePanel ID="UpdatePanel3" runat="server">
-                        <ContentTemplate>
-                            <!--Color selection-->
-                            <div class="flex gap-3 items-center mt-5">
-                                <asp:Repeater ID="repeaterColors" OnItemCommand="repeaterColors_ItemCommand" runat="server">
-                                    <ItemTemplate>
-                                        <div class="flex items-center gap-2 bg-gray-100 p-1 rounded">
-                                            <asp:LinkButton
-                                                data-colorId='<%# Eval("ColorId") %>'
-                                                CommandName="ChangeColor"
-                                                CommandArgument='<%#Eval("ColorId") %>'
-                                                ID="lbColor" runat="server"
-                                                Style='<%# "background-color: #" + Eval("HexColor") +";" %>'
-                                                CssClass='<%# "color-varient" + (ViewState["ColorId"].ToString() == Eval("ColorId").ToString() ? " active" : "") %>'>
-                                            </asp:LinkButton>
-                                            <asp:LinkButton ID="lbRemoveProdColor"
-                                                OnClientClick="return confirm('Are you sure you want remove this color?');"
-                                                CommandName="DeleteColor"
-                                                CommandArgument='<%#Eval("ColorId") %>'
-                                                CssClass="text-red-500 hover:opacity-50" runat="server">                                                    
-                                                <i class="fa-solid fa-xmark"></i>
-                                            </asp:LinkButton>
-                                        </div>
 
-                                    </ItemTemplate>
-                                    <FooterTemplate>
-                                        <asp:Label ID="lblColorEmpty" CssClass="text-red-500" runat="server"
-                                            Visible='<%# ((Repeater)Container.NamingContainer).Items.Count == 0 %>'
-                                            Text="**No Color added** </br> **Add color in order to add an Image**" />
-                                    </FooterTemplate>
-                                </asp:Repeater>
-                                <asp:Label ID="lblDeleteColorStatus" runat="server" CssClass="opacity-50"></asp:Label>
-                            </div>
-                            </div>
-                        </ContentTemplate>
-                        <Triggers>
-                            <asp:AsyncPostBackTrigger ControlID="repeaterColors" EventName="ItemCommand" />
-                        </Triggers>
-                    </asp:UpdatePanel>
+                    <!--Color selection-->
+                    <div class="flex gap-3 items-center mt-5">
+                        <asp:Repeater ID="repeaterColors" OnItemCommand="repeaterColors_ItemCommand" runat="server">
+                            <itemtemplate>
+                                <div class="flex items-center gap-2 bg-gray-100 p-1 rounded">
+                                    <asp:LinkButton
+                                        data-colorId='<%# Eval("ColorId") %>'
+                                        CommandName="ChangeColor"
+                                        CommandArgument='<%#Eval("ColorId") %>'
+                                        ID="lbColor" runat="server"
+                                        Style='<%# "background-color: #" + Eval("HexColor") +";" %>'
+                                        CssClass='<%# "color-varient" + (ViewState["ColorId"].ToString() == Eval("ColorId").ToString() ? " active" : "") %>'>
+                                    </asp:LinkButton>
+                                    <asp:LinkButton ID="lbRemoveProdColor"
+                                        OnClientClick="return confirm('Are you sure you want remove this color?');"
+                                        CommandName="DeleteColor"
+                                        CommandArgument='<%#Eval("ColorId") %>'
+                                        CssClass="text-red-500 hover:opacity-50" runat="server">
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </asp:LinkButton>
+                                </div>
 
-
-                    <!-- Images -->
-                    <div class="mt-5 ">
-                        <div class="flex items-center gap-7">
-                            <div class="font-[600]">Image : </div>
-                        </div>
-                        <div>
-                            <asp:Label ID="lblAddImgStatus" CssClass="ml-5 opacity-50" runat="server"></asp:Label>
-                        </div>
-                        <div class="flex items-center">
-                            <asp:UpdatePanel ID="UpdatePanel2" runat="server">
-                                <ContentTemplate>
-                                    <!-- Repeater images-->
-                                    <div class="flex flex-wrap gap-2 items-center">
-                                        <asp:Repeater ID="repeaterImages" runat="server" OnItemCommand="repeaterImages_ItemCommand">
-                                            <ItemTemplate>
-                                                <div class="relative">
-                                                    <asp:LinkButton
-                                                        CssClass="block absolute font top-1 right-1 text-red-500 leading-5 hover:opacity-50"
-                                                        ID="lbDeleteImg" runat="server"
-                                                        OnClientClick="return confirm('Are you sure you want remove this image?');"
-                                                        CommandArgument='<%# Eval("path") %>'
-                                                        CommandName="DeleteImage">
-                                                            <i class="fa-solid fa-xmark fa-lg"></i>
-                                                    </asp:LinkButton>
-
-                                                    <div>
-                                                        <asp:Image ID="imgProd" runat="server" Width="10em" Height="10em"
-                                                            CssClass="product-img object-cover"
-                                                            ImageUrl='<%# Eval("path") %>' />
-                                                    </div>
-                                                </div>
-                                            </ItemTemplate>
-                                            <FooterTemplate>
-                                                <asp:Label ID="lblNoImg" CssClass="text-red-500" runat="server"
-                                                    Visible='<%# ((Repeater)Container.NamingContainer).Items.Count == 0 %>'
-                                                    Text="**No Image added**" />
-                                            </FooterTemplate>
-                                        </asp:Repeater>
-                                    </div>
-                                </ContentTemplate>
-                            </asp:UpdatePanel>
-                            <% if (repeaterColors.Items.Count > 0)
-                                { %>
-                            <div class="add-image">
-                                <asp:FileUpload ID="fileImgUpload"
-                                    AllowMultiple="true"
-                                    CssClass="hidden"
-                                    runat="server" accept=".png,.jpg,.jpeg,.webp" />
-                                <i class="fa-regular fa-plus"></i>
-                                <asp:Button ID="btnAddImage" CssClass="hidden"
-                                    runat="server" OnClick="btnAddImage_Click" />
-                            </div>
-                            <% }%>
-                        </div>
-
-
+                            </itemtemplate>
+                            <footertemplate>
+                                <asp:Label ID="lblColorEmpty" CssClass="text-red-500" runat="server"
+                                    Visible='<%# ((Repeater)Container.NamingContainer).Items.Count == 0 %>'
+                                    Text="**No Color added** </br> **Add color in order to add an Image**" />
+                            </footertemplate>
+                        </asp:Repeater>
+                        <asp:Label ID="lblDeleteColorStatus" runat="server" CssClass="opacity-50"></asp:Label>
                     </div>
                 </div>
 
+
+
+                <!-- Images -->
+                <div class="mt-5 ">
+                    <div class="flex items-center gap-7">
+                        <div class="font-[600]">Image : </div>
+                    </div>
+                    <div>
+                        <asp:Label ID="lblAddImgStatus" CssClass="ml-5 opacity-50" runat="server"></asp:Label>
+                    </div>
+                    <div class="flex items-center">
+
+                        <!-- Repeater images-->
+                        <div class="flex flex-wrap gap-2 items-center">
+                            <asp:Repeater ID="repeaterImages" runat="server" OnItemCommand="repeaterImages_ItemCommand">
+                                <itemtemplate>
+                                    <div class="relative">
+                                        <asp:LinkButton
+                                            CssClass="block absolute font top-1 right-1 text-red-500 leading-5 hover:opacity-50"
+                                            ID="lbDeleteImg" runat="server"
+                                            OnClientClick="return confirm('Are you sure you want remove this image?');"
+                                            CommandArgument='<%# Eval("path") %>'
+                                            CommandName="DeleteImage">
+                                            <i class="fa-solid fa-xmark fa-lg"></i>
+                                        </asp:LinkButton>
+
+                                        <div>
+                                            <asp:Image ID="imgProd" runat="server" Width="10em" Height="10em"
+                                                CssClass="product-img object-cover"
+                                                ImageUrl='<%# Eval("path") %>' />
+                                        </div>
+                                    </div>
+                                </itemtemplate>
+                                <footertemplate>
+                                    <asp:Label ID="lblNoImg" CssClass="text-red-500" runat="server"
+                                        Visible='<%# ((Repeater)Container.NamingContainer).Items.Count == 0 %>'
+                                        Text="**No Image added**" />
+                                </footertemplate>
+                            </asp:Repeater>
+                        </div>
+
+                        <% if (repeaterColors.Items.Count > 0)
+                                { %>
+                        <div class="add-image">
+                            <asp:FileUpload ID="fileImgUpload"
+                                AllowMultiple="true"
+                                CssClass="hidden"
+                                runat="server" accept=".png,.jpg,.jpeg,.webp" />
+                            <i class="fa-regular fa-plus"></i>
+                            <asp:Button ID="btnAddImage" CssClass="hidden"
+                                runat="server" OnClick="btnAddImage_Click" />
+                        </div>
+                        <% }%>
+                    </div>
+
+
+                </div>
             </div>
+
         </div>
+    </div>
 
     </div>
     <script>
