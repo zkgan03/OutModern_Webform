@@ -32,12 +32,12 @@ namespace OutModern.src.Client.Products
     public partial class Products : System.Web.UI.Page
     {
         string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        private List<Product> productList = new List<Product>();   
+        private List<Product> productList = new List<Product>();
+        private List<Product> searchResults = new List<Product>();
         private List<string> selectedCategories = new List<string>();
         private List<string> selectedColors = new List<string>();
         private string selectedRating;
-        private decimal? minPrice;
-        private decimal? maxPrice;
+        private decimal? minPrice, maxPrice;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -45,10 +45,11 @@ namespace OutModern.src.Client.Products
                 string searchQuery = Session["SearchQuery"] as string;
                 if (!string.IsNullOrEmpty(searchQuery))
                 {
-                    List<Product> searchResults = GetProductsInfo(searchQuery);
+                    searchResults = GetProductsInfo(searchQuery);
                     BindProducts(searchResults);
-                    Session["SearchQuery"] = null; // Clear the search query from session
-                } else
+                    Session["SearchQuery"] = null;
+                    Session["SearchResults"] = searchResults; // Store searchResults in Session
+                }else
                 {
                     selectedRating = string.Empty;
                     selectedCategories.Clear();
@@ -60,20 +61,26 @@ namespace OutModern.src.Client.Products
                 }             
             } else
             {
-                productList = GetProductsInfo();
+                searchResults = Session["SearchResults"] as List<Product>; // Retrieve searchResults from Session
+                if (searchResults == null)
+                {
+                    productList = GetProductsInfo(); // searchResults is null, use productList instead
+                    BindProducts(productList);
+                }
                 selectedRating = rbRatings.SelectedValue;
                 updateCategoryList();
                 updateMinAndMaxPrice();
                 updateColorList();
+                BindProducts(searchResults);
             }
         }
 
-     
         private void BindProducts(List<Product> products)
         {
             ProductRepeater.DataSource = products;
             ProductRepeater.DataBind();
             lblTotalProducts.Text = ProductRepeater.Items.Count.ToString() + " Products Found";
+
         }
 
         private List<Product> GetProductsInfo(string searchQuery = "")
@@ -231,15 +238,16 @@ namespace OutModern.src.Client.Products
         private void FilterProducts()
         {
             List<Product> filteredProducts;
+            List<Product> sourceList = Session["SearchResults"] as List<Product> ?? productList;
 
             if (string.IsNullOrEmpty(selectedRating))
             {
-                filteredProducts = productList;
+                filteredProducts = sourceList;
             }
             else
             {
                 int selectedRatingValue = int.Parse(selectedRating.Substring(0, 1));
-                filteredProducts = productList.Where(p => p.OverallRatings >= selectedRatingValue).ToList();
+                filteredProducts = sourceList.Where(p => p.OverallRatings >= selectedRatingValue).ToList();
             }
 
             if (selectedCategories.Count > 0)
@@ -328,6 +336,7 @@ namespace OutModern.src.Client.Products
             txtMaxPrice.Text = "";
             minPrice = null;
             maxPrice = null;
+            Session["SearchResults"] = null;
             FilterProducts();
         }
 
