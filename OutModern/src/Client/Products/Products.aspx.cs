@@ -24,6 +24,7 @@ namespace OutModern.src.Client.Products
         public int TotalReview { get; set; }
         public decimal OverallRatings { get; set; }
         public int TotalSold { get; set; }
+        public List<string> AvailableColors { get; set; }
         public string productImageUrl1 { get; set; }
         public string productImageUrl2 { get; set; }
     }
@@ -33,6 +34,7 @@ namespace OutModern.src.Client.Products
         string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         private List<Product> productList = new List<Product>();   
         private List<string> selectedCategories = new List<string>();
+        private List<string> selectedColors = new List<string>();
         private string selectedRating;
         private decimal? minPrice;
         private decimal? maxPrice;
@@ -42,14 +44,17 @@ namespace OutModern.src.Client.Products
             {
                 selectedRating = string.Empty;
                 selectedCategories.Clear();
+                selectedColors.Clear(); 
                 productList = GetProductsInfo();
                 BindProducts(productList);
-                FilterProducts();
+                chkColorSelection.DataBind();
+                chkColorSelection.ClearSelection();
             }
             productList = GetProductsInfo();
             selectedRating = rbRatings.SelectedValue;
             updateCategoryList();
             updateMinAndMaxPrice();
+            updateColorList();
         }
         private void BindProducts(List<Product> products)
         {
@@ -81,6 +86,7 @@ namespace OutModern.src.Client.Products
                             decimal totalRating = (decimal)reader["TotalRating"];
                             product.OverallRatings = product.TotalReview != 0 ? Math.Round((totalRating / (decimal)product.TotalReview), 1) : 0;
                             product.TotalSold = GetTotalSold(product.ProductId);
+                            product.AvailableColors = GetAvailableColors(product.ProductId);
                             List<string> imagePaths = GetProductImages(product.ProductId);
                             // Check if imagePaths is null or empty
                             if (imagePaths == null || imagePaths.Count == 0)
@@ -147,6 +153,35 @@ namespace OutModern.src.Client.Products
             return imagePaths;
         }
 
+        protected List<string> GetAvailableColors(int productId)
+        {
+            List<string> availableColors = new List<string>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sqlQuery = @"SELECT DISTINCT c.ColorId, c.HexColor
+                            FROM ProductDetail pd
+                            INNER JOIN Color c ON pd.ColorId = c.ColorId
+                            WHERE pd.ProductId = @ProductId ORDER BY c.ColorId";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@ProductId", productId);
+                    connection.Open();
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string hexColor = reader["HexColor"].ToString();
+                            availableColors.Add(hexColor);
+                        }
+                    }
+                }
+            }
+            return availableColors;
+        }
+
         private List<Product> SortProducts(List<Product> products, string sortExpression)
         {
             switch (sortExpression)
@@ -181,6 +216,11 @@ namespace OutModern.src.Client.Products
             if (selectedCategories.Count > 0)
             {
                 filteredProducts = filteredProducts.Where(p => selectedCategories.Contains(p.ProductCategory)).ToList();
+            }
+
+            if (selectedColors.Count > 0)
+            {
+                filteredProducts = filteredProducts.Where(p => p.AvailableColors.Any(c => selectedColors.Contains(c))).ToList();
             }
 
             if (minPrice.HasValue || maxPrice.HasValue)
@@ -253,6 +293,8 @@ namespace OutModern.src.Client.Products
             CategoryCheckBoxList.ClearSelection();
             ddlSort.SelectedIndex = 0;
             rbRatings.ClearSelection();
+            selectedColors.Clear();
+            chkColorSelection.ClearSelection();
             txtMinPrice.Text = "";
             txtMaxPrice.Text = "";
             minPrice = null;
@@ -286,6 +328,39 @@ namespace OutModern.src.Client.Products
             else
             {
                 maxPrice = null;
+            }
+        }
+
+        protected void chkColorSelection_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            updateColorList();
+            FilterProducts();  
+        }
+
+        private void updateColorList()
+        {
+            selectedColors.Clear(); // Clear the existing selected categories
+            foreach (ListItem item in chkColorSelection.Items)
+            {
+                if (item.Selected)
+                {
+                    selectedColors.Add(item.Value);
+                }
+            }
+        }
+
+        protected void ProductRepeater_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                Product product = (Product)e.Item.DataItem;
+                Repeater colorRepeater = (Repeater)e.Item.FindControl("ColorRepeater");
+
+                if (product.AvailableColors != null && product.AvailableColors.Count > 0)
+                {
+                    colorRepeater.DataSource = product.AvailableColors;
+                    colorRepeater.DataBind();
+                }
             }
         }
     }

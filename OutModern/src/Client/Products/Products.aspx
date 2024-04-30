@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/src/Client/ClientMaster/Client.Master" AutoEventWireup="true" CodeBehind="Products.aspx.cs" Inherits="OutModern.src.Client.Products.Products" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/src/Client/ClientMaster/Client.Master" AutoEventWireup="true" CodeBehind="Products.aspx.cs" Inherits="OutModern.src.Client.Products.Products" EnableViewState %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style>
@@ -8,19 +8,12 @@
 
         .radio-no-bullet input[type="radio"]:checked + label {
             background-color: #ebebeb;
-            border-radius: 5px;
-            font-weight: 500;
+            border-radius: 4px;
+            font-weight: 600;
         }
 
         .radio-no-bullet input[type="radio"] + label {
             cursor: pointer;
-        }
-
-        .colorGrp input[type="radio"],
-        .sizeGrp input[type="radio"] {
-            position: absolute;
-            opacity: 0;
-            pointer-events: none;
         }
 
         .checkbox-list label {
@@ -34,6 +27,16 @@
 
         .button-list label {
             margin-left: 6px;
+        }
+
+        .colorGrp input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .selectedColor {
+            box-shadow: 0 0 0 2px whitesmoke, 0 0 0 4px black;
         }
     </style>
 </asp:Content>
@@ -87,12 +90,12 @@
                         </div>
                         <ul class="pb-5 pl-5 pt-2">
                             <li class="list-none">
-                                <asp:TextBox class="text-center" Type="Number" ID="txtMinPrice" runat="server" Style="width: 45%;border: 1px solid rgba(0, 0, 0, .26);border-radius: .125rem;" placeholder="Min Price"></asp:TextBox>
+                                <asp:TextBox class="text-center" Type="Number" ID="txtMinPrice" runat="server" Style="width: 45%; border: 1px solid rgba(0, 0, 0, .26); border-radius: .125rem;" placeholder="Min Price"></asp:TextBox>
                                 -
-                                <asp:TextBox class="text-center" Type="Number" placeholder="Max Price" ID="txtMaxPrice" runat="server" Style="width: 45%;border: 1px solid rgba(0, 0, 0, .26);border-radius: .125rem;"></asp:TextBox>
+                                <asp:TextBox class="text-center" Type="Number" placeholder="Max Price" ID="txtMaxPrice" runat="server" Style="width: 45%; border: 1px solid rgba(0, 0, 0, .26); border-radius: .125rem;"></asp:TextBox>
                             </li>
                             <li class="mt-5 flex list-none items-center">
-                                <asp:Button ID="btnPriceFilter" runat="server" Text="Apply" CssClass="w-11/12 cursor-pointer bg-black p-2.5 text-center text-white" OnClick="btnPriceFilter_Click"  />
+                                <asp:Button ID="btnPriceFilter" runat="server" Text="Apply" CssClass="w-11/12 cursor-pointer bg-black p-2.5 text-center text-white" OnClick="btnPriceFilter_Click" />
                             </li>
                         </ul>
                     </li>
@@ -160,11 +163,20 @@
                     </li>
                     <li class="list-none border-b border-gray-300">
                         <div class="p-5 hover:bg-[#f8efd6] hover:cursor-pointer hover:[transition:0.3s]" onclick="openSortList();invertIcon(this)">
-                            Colors<i class="fa fa-caret-down !font-black float-right"></i>
+                            Colors Filtering<i class="fa fa-caret-down !font-black float-right"></i>
                         </div>
                         <ul class="w-4/5 pl-5">
-                            <li class="radio-no-bullet flex list-none flex-wrap gap-3.5 pb-5 pl-5 pt-2">
-                                Color Filtering
+                            <li class="radio-no-bullet flex list-none flex-wrap gap-4 pb-5 pl-5">
+                                <asp:CheckBoxList ID="chkColorSelection" runat="server" CssClass="checkbox-list" AutoPostBack="true" OnSelectedIndexChanged="chkColorSelection_SelectedIndexChanged">
+                                    <asp:ListItem Text="Black" Value="000000"></asp:ListItem>
+                                    <asp:ListItem Text="White" Value="FFFFFF"></asp:ListItem>
+                                    <asp:ListItem Text="Blue" Value="0000FF"></asp:ListItem>
+                                    <asp:ListItem Text="Beige" Value="F5F5DC"></asp:ListItem>
+                                    <asp:ListItem Text="Navy" Value="000080"></asp:ListItem>
+                                    <asp:ListItem Text="Light Gray" Value="D3D3D3"></asp:ListItem>
+                                    <asp:ListItem Text="Red" Value="FF0000"></asp:ListItem>
+                                    <asp:ListItem Text="Dark Olive Green" Value="556B2F"></asp:ListItem>
+                                </asp:CheckBoxList>
                             </li>
                         </ul>
                     </li>
@@ -176,7 +188,7 @@
             <div class="ml-5 mr-8 w-4/5 py-4">
                 <div class="grid-cols-1 grid gap-x-6 gap-y-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 3xl:grid-cols-5">
                     <!-- Product 1 -->
-                    <asp:Repeater ID="ProductRepeater" runat="server">
+                    <asp:Repeater ID="ProductRepeater" runat="server" OnItemDataBound="ProductRepeater_ItemDataBound">
                         <ItemTemplate>
                             <div onclick='<%# Eval("productID", "window.location.href = \"/src/Client/ProductDetails/ProductDetails.aspx?ProductId={0}\";") %>' class="cursor-pointer bg-white rounded-lg shadow-md overflow-hidden hover:bg-yellow-100 hover:shadow-md hover:-translate-x-2 hover:-translate-y-2 transition duration-100 z-0">
                                 <asp:Image ImageUrl='<%# Eval("productImageUrl1", "{0}") %>' ID="Image1" runat="server" class="w-full h-100 object-cover bg-gray-200 hover:cursor-pointer" Style="transition: transform 0.5s ease-in-out;"
@@ -187,13 +199,20 @@
                                         <asp:Label class="text-xl font-bold text-gray-800 hover:cursor-pointer hover:underline" ID="lblName" runat="server">
                                             <%# Eval("ProductName") %>
                                         </asp:Label></h2>
+                                    <div class="colorGrp mb-2 inline-flex gap-2">
+                                        <asp:Repeater ID="ColorRepeater" runat="server">
+                                            <ItemTemplate>
+                                                <span class="border-opacity-10 h-6 w-6 rounded-full border border-gray-600" style='<%# "background-color:#" + Container.DataItem %>'></span>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+                                    </div>
                                     <p class="mb-2">
                                         <asp:Label ID="lblPrice" class="text-xl font-bold text-gray-700" runat="server">
                                             RM<%# Eval("UnitPrice") %>
                                         </asp:Label>
                                     </p>
                                     <p class="mb-2">
-                                       <span class="font-bold text-gray-600"><%# Eval("TotalSold").ToString() == "0" ? "No Sold" : Eval("TotalSold") + " Sold" %></span>
+                                        <span class="font-bold text-gray-600"><%# Eval("TotalSold").ToString() == "0" ? "No Sold" : Eval("TotalSold") + " Sold" %></span>
                                     </p>
                                     <div class="mb-2 flex items-center">
                                         <%# GenerateStars(Convert.ToDouble(Eval("OverallRatings"))) %>
