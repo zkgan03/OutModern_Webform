@@ -15,13 +15,13 @@ namespace OutModern.src.Admin.CustomerEdit
     {
 
         /// <summary>
-        /// lbDiscard control.
+        /// lblUpdateStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lbDiscard;
+        protected global::System.Web.UI.WebControls.Label lblUpdateStatus;
 
         /// <summary>
         /// lbUpdate control.
@@ -33,13 +33,13 @@ namespace OutModern.src.Admin.CustomerEdit
         protected global::System.Web.UI.WebControls.LinkButton lbUpdate;
 
         /// <summary>
-        /// lblId control.
+        /// lblCustomerId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblId;
+        protected global::System.Web.UI.WebControls.Label lblCustomerId;
 
         /// <summary>
         /// txtFullName control.
@@ -69,13 +69,13 @@ namespace OutModern.src.Admin.CustomerEdit
         protected global::System.Web.UI.WebControls.DropDownList ddlStatus;
 
         /// <summary>
-        /// txtPrice control.
+        /// txtEmail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPrice;
+        protected global::System.Web.UI.WebControls.TextBox txtEmail;
 
         /// <summary>
         /// txtPhoneNo control.

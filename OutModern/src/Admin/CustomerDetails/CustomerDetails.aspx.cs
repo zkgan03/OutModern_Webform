@@ -1,7 +1,9 @@
 ﻿using OutModern.src.Admin.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -15,6 +17,7 @@ namespace OutModern.src.Admin.CustomerDetails
 
         protected static readonly string OrderDetails = "OrderDetails";
         protected static readonly string CustomerEdit = "CustomerEdit";
+        private string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
         // Side menu urls
         protected Dictionary<string, string> urls = new Dictionary<string, string>()
@@ -22,116 +25,74 @@ namespace OutModern.src.Admin.CustomerDetails
             { OrderDetails , "~/src/Admin/OrderDetails/OrderDetails.aspx" },
             { CustomerEdit , "~/src/Admin/CustomerEdit/CustomerEdit.aspx" }
         };
+        protected string customerId;
+
         protected void Page_Load(object sender, EventArgs e)
         {
+            customerId = Request.QueryString["CustomerId"];
+            if (customerId == null)
+            {
+                Response.Redirect("~/src/ErrorPages/404.aspx");
+            }
+
             if (!IsPostBack)
             {
-                rptAddress.DataSource = GenerateDummyAddresses();
+                initCustomerDetails();
+
+                rptAddress.DataSource = getAddresses();
                 rptAddress.DataBind();
 
-                lvOrders.DataSource = GetOrders();
+                lvOrders.DataSource = getOrders();
                 lvOrders.DataBind();
                 Page.DataBind();
             }
         }
 
-        protected void lvOrders_PagePropertiesChanged(object sender, EventArgs e)
+        private void initCustomerDetails()
         {
-            lvOrders.DataSource = GetOrders();
-            lvOrders.DataBind();
-        }
-
-        private DataTable GenerateDummyAddresses()
-        {
-            DataTable dt = new DataTable();
-            dt.Columns.Add("AddressName", typeof(string));
-            dt.Columns.Add("AddressLine", typeof(string));
-            dt.Columns.Add("PostalCode", typeof(string));
-            dt.Columns.Add("City", typeof(string));
-            dt.Columns.Add("State", typeof(string));
-            dt.Columns.Add("Country", typeof(string));
-
-            // Add some dummy rows
-            for (int i = 0; i < 2; i++)
+            DataTable data = getCustomer();
+            if (data.Rows.Count == 0)
             {
-                dt.Rows.Add("Address " + i, "123 Fake Street " + i, "12345", "Anytown", "CA", "USA");
+                Response.Redirect("~/src/ErrorPages/404.aspx");
             }
+            DataRow row = data.Rows[0];
 
-            return dt;
-        }
+            lblCustomerId.Text = row["CustomerId"].ToString();
+            lblFullName.Text = row["CustomerFullName"].ToString();
+            lblUsername.Text = row["CustomerUsername"].ToString();
+            lblEmail.Text = row["CustomerEmail"].ToString();
+            lblPhoneNo.Text = row["CustomerPhoneNumber"].ToString();
 
-        //dummy data
-        protected DataTable GetOrders()
-        {
-            DataTable dtOrders = new DataTable();
-            dtOrders.Columns.AddRange(new DataColumn[] {
-                new DataColumn("OrderId", typeof(int)),
-                new DataColumn("ProductDetails", typeof(DataTable)),
-                new DataColumn("OrderDateTime", typeof(DateTime)),
-                new DataColumn("SubTotal", typeof(decimal)),
-                new DataColumn("OrderStatus", typeof(string))
-              });
-
-            // Generate 5 dummy orders with random statuses
-            string[] orderStatuses = { "Order Placed", "Shipped", "Cancelled", "Received" };
-            for (int i = 0; i < 20; i++)
-            {
-                DataRow drOrder = dtOrders.NewRow();
-                drOrder["OrderId"] = i + 1;
-
-                // Nested DataTable for products
-                DataTable dtProducts = new DataTable();
-                dtProducts.Columns.AddRange(new DataColumn[] {
-                   new DataColumn("ProductName", typeof(string)),
-                   new DataColumn("Quantity", typeof(int))
-                  });
-                dtProducts.Rows.Add("Product A", 2);
-                dtProducts.Rows.Add("Product B", 1);
-
-                drOrder["ProductDetails"] = dtProducts;
-                drOrder["OrderDateTime"] = DateTime.Now.AddDays(-i);
-                drOrder["SubTotal"] = 10.00m * (i + 1);
-                drOrder["OrderStatus"] = orderStatuses[i % orderStatuses.Length];
-
-                dtOrders.Rows.Add(drOrder);
-            }
-
-            return dtOrders;
-        }
-
-        protected void lvOrders_ItemDataBound(object sender, ListViewItemEventArgs e)
-        {
-            if (e.Item.ItemType != ListViewItemType.DataItem) return;
-
-
-            DataRowView rowView = (DataRowView)e.Item.DataItem;
-            HtmlGenericControl statusSpan = (HtmlGenericControl)e.Item.FindControl("orderStatus");
-            string status = rowView["OrderStatus"].ToString();
-
+            string status = row["UserStatusName"].ToString();
+            lblStatus.Text = status;
             switch (status)
             {
-                case "Order Placed":
-                    statusSpan.Attributes["class"] += " order-placed";
+                case "Activated":
+                    lblStatus.CssClass += " bg-green-300";
                     break;
-                case "Shipped":
-                    statusSpan.Attributes["class"] += " shipped";
+                case "Locked":
+                    lblStatus.CssClass += " bg-amber-300";
                     break;
-                case "Cancelled":
-                    statusSpan.Attributes["class"] += " cancelled";
-                    break;
-                case "Received":
-                    statusSpan.Attributes["class"] += " received";
+                case "Deleted":
+                    lblStatus.CssClass += " bg-red-300";
                     break;
                 default:
-                    // Handle cases where status doesn't match any of the above
                     break;
             }
+
         }
 
         //search logic
         public void FilterListView(string searchTerm)
         {
-            lvOrders.DataSource = FilterDataTable(GetOrders(), searchTerm);
+            string sortExpression = ViewState["SortExpression"]?.ToString();
+
+            lvOrders.DataSource = FilterDataTable(
+                    sortExpression == null ?
+                    getOrders() :
+                    getOrders(sortExpression, SortDirections[sortExpression]),
+                    searchTerm
+                );
             lvOrders.DataBind();
         }
 
@@ -162,6 +123,205 @@ namespace OutModern.src.Admin.CustomerDetails
             }
 
             return filteredDataTable;
+        }
+
+
+        //store each column sorting state into viewstate
+        private Dictionary<string, string> SortDirections
+        {
+            get
+            {
+                if (ViewState["SortDirections"] == null)
+                {
+                    ViewState["SortDirections"] = new Dictionary<string, string>();
+                }
+                return (Dictionary<string, string>)ViewState["SortDirections"];
+            }
+            set
+            {
+                ViewState["SortDirections"] = value;
+            }
+        }
+
+        // Toggle Sorting
+        private void toggleSortDirection(string columnName)
+        {
+            if (!SortDirections.ContainsKey(columnName))
+            {
+                SortDirections[columnName] = "ASC";
+            }
+            else
+            {
+                SortDirections[columnName] = SortDirections[columnName] == "ASC" ? "DESC" : "ASC";
+            }
+        }
+
+        //
+        //DB operation
+        //
+
+        //Get customer details
+        private DataTable getCustomer()
+        {
+            DataTable data = new DataTable();
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                string sqlQuery =
+                    "Select CustomerId, CustomerFullName, CustomerUsername, CustomerEmail, CustomerPhoneNumber, UserStatusName " +
+                    "FROM Customer, UserStatus " +
+                    "Where Customer.CustomerStatusId = UserStatus.UserStatusId " +
+                    "AND CustomerId = @customerId ";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@customerId", customerId);
+
+                    data.Load(command.ExecuteReader());
+                }
+            }
+
+            return data;
+        }
+
+        //Get address
+        private DataTable getAddresses()
+        {
+            DataTable data = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                string sqlQuery =
+                    "Select AddressName, AddressLine, State, PostalCode, Country " +
+                    "From Address, Customer " +
+                    "WHERE Address.CustomerId = Customer.CustomerId " +
+                    "AND Customer.CustomerId = @customerId ";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@customerId", customerId);
+                    data.Load(command.ExecuteReader());
+                }
+            }
+
+            return data;
+        }
+
+        //dummy data
+        protected DataTable getOrders(string sortExpression = null, string sortDirection = "ASC")
+        {
+            DataTable data = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                string sqlQuery =
+                    "Select OrderId, OrderDateTime, Total, OrderStatusName " +
+                    "From [Order], Customer, OrderStatus " +
+                    "Where [Order].CustomerId = Customer.CustomerId " +
+                    "AND [Order].OrderStatusId = OrderStatus.OrderStatusId " +
+                    "AND Customer.CustomerId = @customerId ";
+
+                if (!string.IsNullOrEmpty(sortExpression))
+                {
+                    sqlQuery += "ORDER BY " + sortExpression + " " + sortDirection;
+                }
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@customerId", customerId);
+                    data.Load(command.ExecuteReader());
+                }
+            }
+
+            // Data to product ordered in each row
+            data.Columns.Add("ProductDetails", typeof(DataTable));
+            foreach (DataRow row in data.Rows)
+            {
+                row["ProductDetails"] = getProductOrdered(row["OrderId"].ToString());
+            }
+
+            return data;
+        }
+
+        private DataTable getProductOrdered(string orderId)
+        {
+            DataTable data = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                string sqlQuery =
+                    "Select Product.ProductName, OrderItem.Quantity " +
+                    "FROM [Order], OrderItem, ProductDetail, Product " +
+                    "WHERE [Order].OrderId = OrderItem.OrderId " +
+                    "AND OrderItem.ProductDetailId = ProductDetail.ProductDetailId " +
+                    "AND ProductDetail.ProductId = Product.ProductId " +
+                    "AND [Order].OrderId = @orderId;";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@orderId", orderId);
+                    data.Load(command.ExecuteReader());
+                }
+            }
+
+
+            return data;
+        }
+
+        //
+        //Page Events
+        //
+        protected void lvOrders_PagePropertiesChanged(object sender, EventArgs e)
+        {
+            string sortExpression = ViewState["SortExpression"]?.ToString();
+            lvOrders.DataSource =
+                sortExpression == null ?
+                getOrders() :
+                getOrders(sortExpression, SortDirections[sortExpression]);
+            lvOrders.DataBind();
+        }
+
+        protected void lvOrders_ItemDataBound(object sender, ListViewItemEventArgs e)
+        {
+            if (e.Item.ItemType != ListViewItemType.DataItem) return;
+
+
+            DataRowView rowView = (DataRowView)e.Item.DataItem;
+            HtmlGenericControl statusSpan = (HtmlGenericControl)e.Item.FindControl("orderStatus");
+            string status = rowView["OrderStatusName"].ToString();
+
+            switch (status)
+            {
+                case "Order Placed":
+                    statusSpan.Attributes["class"] += " order-placed";
+                    break;
+                case "Shipped":
+                    statusSpan.Attributes["class"] += " shipped";
+                    break;
+                case "Cancelled":
+                    statusSpan.Attributes["class"] += " cancelled";
+                    break;
+                case "Received":
+                    statusSpan.Attributes["class"] += " received";
+                    break;
+                default:
+                    // Handle cases where status doesn't match any of the above
+                    break;
+            }
+        }
+
+        protected void lvOrders_Sorting(object sender, ListViewSortEventArgs e)
+        {
+            toggleSortDirection(e.SortExpression); // Toggle sorting direction for the clicked column
+
+            ViewState["SortExpression"] = e.SortExpression; // used for retain the sorting
+
+            // Re-bind the ListView with sorted data
+            lvOrders.DataSource = getOrders(e.SortExpression, SortDirections[e.SortExpression]);
+            lvOrders.DataBind();
         }
     }
 }

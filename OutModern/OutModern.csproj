@@ -117,6 +117,7 @@
     <Compile Include="src\Admin\ProductReviewReply\ProductReviewReply.aspx.designer.cs">
       <DependentUpon>ProductReviewReply.aspx</DependentUpon>
     </Compile>
+    <Compile Include="src\Admin\Util\ValidationUtils.cs" />
     <Compile Include="src\Client\Cart\Cart.aspx.cs">
       <DependentUpon>Cart.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

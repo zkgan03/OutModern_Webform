@@ -279,7 +279,10 @@
 
                                 </td>
                                 <td style="border: 1px solid black; padding: 1em;">
-                                    <asp:HyperLink ID="hlReply" CssClass="review-reply-btn" runat="server" NavigateUrl='<%#urls[ProductReviewReply] +"?ReviewId=" + Eval("ReviewId") %>'>Reply</asp:HyperLink>
+                                    <asp:HyperLink ID="hlReply" CssClass="review-reply-btn" runat="server" 
+                                        NavigateUrl='<%#urls[ProductReviewReply] +"?ReviewId=" + Eval("ReviewId")+"&ProductId=" + productId %>'>
+                                        Reply
+                                    </asp:HyperLink>
                                 </td>
                             </tr>
                         </ItemTemplate>

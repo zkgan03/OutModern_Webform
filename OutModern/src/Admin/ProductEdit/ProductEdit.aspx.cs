@@ -12,6 +12,8 @@ using System.Runtime.InteropServices;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices.ComTypes;
+using System.Text.RegularExpressions;
+using OutModern.src.Admin.Utils;
 
 namespace OutModern.src.Admin.ProductEdit
 {
@@ -24,11 +26,15 @@ namespace OutModern.src.Admin.ProductEdit
         };
 
         private string productId;
-        private string ConnectionStirng = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        private string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             productId = Request.QueryString["ProductId"];
+            if (productId == null)
+            {
+                Response.Redirect("~/src/ErrorPages/404.aspx");
+            }
 
             if (!IsPostBack)
             {
@@ -40,12 +46,18 @@ namespace OutModern.src.Admin.ProductEdit
         {
             if (!IsPostBack)
             {
-                initProductInfo(getProductInfo()); //bind data in loadcomplete, else the ddl will rebind in page load
+                initProductInfo(); //bind data in loadcomplete, else the ddl will rebind in page load
             }
         }
 
-        private void initProductInfo(DataTable productData)
+        private void initProductInfo()
         {
+            DataTable productData = getProductInfo();
+            if (productData.Rows.Count == 0)
+            {
+                Response.Redirect("~/src/ErrorPages/404.aspx");
+            }
+
             DataRow data = productData.Rows[0];
             lblProdId.Text = data["ProductId"].ToString();
             txtProdName.Text = data["ProductName"].ToString();
@@ -75,17 +87,7 @@ namespace OutModern.src.Admin.ProductEdit
             ddlSize.DataBind();
 
             //bind color to add color in with ddl
-            DataTable colorNotAdded = getNotAddedColors();
-            ddlColorAdd.DataSource = colorNotAdded;
-            ddlColorAdd.DataValueField = "ColorId";
-            ddlColorAdd.DataTextField = "ColorName";
-            ddlColorAdd.DataBind();
-            ListItemCollection itemCollection = ddlColorAdd.Items;
-            for (int i = 0; i < itemCollection.Count; i++)
-            {
-                itemCollection[i].Attributes
-                    .Add("data-hex", colorNotAdded.Rows[i]["HexColor"].ToString());
-            }
+            bindColorDropDownList();
 
             //bind color available for product
             repeaterColors.DataSource = getProdColors();
@@ -122,7 +124,6 @@ namespace OutModern.src.Admin.ProductEdit
             lblAddColorStatus.Text = "";
             lblAddImgStatus.Text = "";
             lblDeleteColorStatus.Text = "";
-            lblUpdateProductStatus.Text = "";
         }
 
         //select color style changing
@@ -146,6 +147,22 @@ namespace OutModern.src.Admin.ProductEdit
             repeaterImages.DataSource = getImages(ViewState["ColorId"].ToString());
             repeaterImages.DataBind();
         }
+        private void bindColorDropDownList()
+        {
+            //bind color to add color in with ddl
+            DataTable colorNotAdded = getNotAddedColors();
+            ddlColorAdd.DataSource = colorNotAdded;
+            ddlColorAdd.DataValueField = "ColorId";
+            ddlColorAdd.DataTextField = "ColorName";
+            ddlColorAdd.DataBind();
+
+            ListItemCollection itemCollection = ddlColorAdd.Items;
+            for (int i = 0; i < itemCollection.Count; i++)
+            {
+                itemCollection[i].Attributes
+                    .Add("data-hex", colorNotAdded.Rows[i]["HexColor"].ToString());
+            }
+        }
 
         //
         //DB operation
@@ -156,7 +173,7 @@ namespace OutModern.src.Admin.ProductEdit
         {
             DataTable data = new DataTable();
 
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
 
@@ -185,7 +202,7 @@ namespace OutModern.src.Admin.ProductEdit
         private DataTable getProductInfo()
         {
             DataTable data = new DataTable();
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
 
@@ -226,7 +243,7 @@ namespace OutModern.src.Admin.ProductEdit
         {
             DataTable data = new DataTable();
 
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 string sqlQuery =
@@ -246,7 +263,7 @@ namespace OutModern.src.Admin.ProductEdit
         {
             DataTable data = new DataTable();
 
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 string sqlQuery =
@@ -266,7 +283,7 @@ namespace OutModern.src.Admin.ProductEdit
         {
             DataTable data = new DataTable();
 
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 string sqlQuery =
@@ -295,7 +312,7 @@ namespace OutModern.src.Admin.ProductEdit
         {
             DataTable data = new DataTable();
 
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 string sqlQuery =
@@ -325,7 +342,7 @@ namespace OutModern.src.Admin.ProductEdit
         {
             DataTable data = new DataTable();
 
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
 
@@ -355,7 +372,7 @@ namespace OutModern.src.Admin.ProductEdit
         private int updateQuantity(string sizeId, string colorId, string quantity)
         {
             int affectedRow = 0;
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 string sqlQuery =
@@ -382,7 +399,7 @@ namespace OutModern.src.Admin.ProductEdit
         {
             int affectedRow = 0;
 
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
 
@@ -418,7 +435,7 @@ namespace OutModern.src.Admin.ProductEdit
         {
             int affectedRow = 0;
 
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
 
@@ -482,7 +499,7 @@ namespace OutModern.src.Admin.ProductEdit
         {
             int affectedRow = 0;
 
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
 
@@ -508,7 +525,7 @@ namespace OutModern.src.Admin.ProductEdit
         {
             int affectedRow = 0;
 
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 string sqlQuery =
@@ -536,7 +553,7 @@ namespace OutModern.src.Admin.ProductEdit
         {
             int affectedRow = 0;
 
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 string sqlQuery =
@@ -560,16 +577,57 @@ namespace OutModern.src.Admin.ProductEdit
         //
         protected void lbUpdate_Click(object sender, EventArgs e)
         {
-            string productName = txtProdName.Text;
+            string productName = txtProdName.Text.Trim();
             string productCategory = ddlCategory.SelectedValue.ToString();
-            string unitPrice = txtPrice.Text;
+            string unitPrice = txtPrice.Text.Trim();
             string statusId = ddlStatus.SelectedValue.ToString();
-            string productDescription = txtProdDescription.Text;
+            string productDescription = txtProdDescription.Text.Trim();
 
             // TODO : validation
+            //check nulls
+            if (string.IsNullOrEmpty(productName)
+                || string.IsNullOrEmpty(productDescription)
+                || string.IsNullOrEmpty(productCategory)
+                || string.IsNullOrEmpty(unitPrice))
+            {
+                Page.ClientScript
+                    .RegisterStartupScript(GetType(),
+                    "Update Failed",
+                    "document.addEventListener('DOMContentLoaded', ()=>alert('Please Fill in All Fields'));",
+                    true);
+                return;
+            }
+
+            // check if price is decimal, with only 2 decimal places
+            // restrict to 2 decimal places
+            if (!ValidationUtils.IsValidPrice(unitPrice))
+            {
+                Page.ClientScript
+                    .RegisterStartupScript(GetType(),
+                    "Update Failed",
+                    "document.addEventListener('DOMContentLoaded', ()=>alert('Please Enter a Valid Price, with at most 2 decimal places'));",
+                    true);
+                return;
+            }
 
             int affectedRow = updateProductInfo(productName, productDescription, productCategory, unitPrice, statusId);
-            lblUpdateProductStatus.Text = affectedRow > 0 ? "*Update Success !" : "*Failed to Update, Please Try Again..";
+            if (affectedRow > 0)
+            {
+                //register page js
+                Page.ClientScript.RegisterStartupScript(GetType(),
+                                "Update Success",
+                                 $"document.addEventListener('DOMContentLoaded', ()=>alert('Product Info Updated Successfully'));",
+                                 true);
+            }
+            else
+            {
+                //register page js
+                Page.ClientScript.RegisterStartupScript(GetType(),
+                    "Update Failed",
+                    $"document.addEventListener('DOMContentLoaded', ()=>alert('Failed to Update Product Info'));", true);
+            }
+
+            bindColorDropDownList();
         }
 
         protected void repeaterColors_ItemCommand(object source, RepeaterCommandEventArgs e)
@@ -591,20 +649,7 @@ namespace OutModern.src.Admin.ProductEdit
                     "*Deleted Successfully" : "*Failed to Delete, Please Try Again Later";
                 string vsColorId = ViewState["ColorId"].ToString();
 
-
-                //bind color to add color in with ddl
-                DataTable colorNotAdded = getNotAddedColors();
-                ddlColorAdd.DataSource = colorNotAdded;
-                ddlColorAdd.DataValueField = "ColorId";
-                ddlColorAdd.DataTextField = "ColorName";
-                ddlColorAdd.DataBind();
-
-                ListItemCollection itemCollection = ddlColorAdd.Items;
-                for (int i = 0; i < itemCollection.Count; i++)
-                {
-                    itemCollection[i].Attributes
-                        .Add("data-hex", colorNotAdded.Rows[i]["HexColor"].ToString());
-                }
+                bindColorDropDownList();
 
                 //rebind color
                 repeaterColors.DataSource = getProdColors();
@@ -653,6 +698,11 @@ namespace OutModern.src.Admin.ProductEdit
                 else
                 {
                     lblAddImgStatus.Text = "*Image Failed to Delete, Please Try Again later...";
+                    Page.ClientScript
+                        .RegisterStartupScript(GetType(),
+                            "Delete Failed",
+                            "document.addEventListener('DOMContentLoaded', ()=>alert('Failed to Delete Image, Please Try Again Later'));",
+                            true);
                 }
 
 
@@ -661,17 +711,7 @@ namespace OutModern.src.Admin.ProductEdit
                 repeaterImages.DataBind();
 
                 //bind color to add color in with ddl
-                DataTable colorNotAdded = getNotAddedColors();
-                ddlColorAdd.DataSource = colorNotAdded;
-                ddlColorAdd.DataValueField = "ColorId";
-                ddlColorAdd.DataTextField = "ColorName";
-                ddlColorAdd.DataBind();
-                ListItemCollection itemCollection = ddlColorAdd.Items;
-                for (int i = 0; i < itemCollection.Count; i++)
-                {
-                    itemCollection[i].Attributes
-                        .Add("data-hex", colorNotAdded.Rows[i]["HexColor"].ToString());
-                }
+                bindColorDropDownList();
             }
         }
 
@@ -693,11 +733,25 @@ namespace OutModern.src.Admin.ProductEdit
             string colorId = ViewState["ColorId"].ToString();
             string quantity = txtProdQuantity.Text;
 
+            //check nulls
+            if (string.IsNullOrEmpty(quantity))
+            {
+                lblSetStatus.Text = "**Please Enter a Quantity!";
+                return;
+            }
+
             // TODO : validation
+            // check if quantity is integer
+            if (!int.TryParse(quantity, out int _))
+            {
+                lblSetStatus.Text = "**Please Enter a Valid Quantity!";
+                return;
+            }
 
             int affectedRow = updateQuantity(sizeId, colorId, quantity);
             clearStatusText();
-            lblSetStatus.Text = affectedRow > 0 ? "*Set Quantity Sucessfully !" : "*Failed To Set Quantity, Please Try Again..";
+            lblSetStatus.Text = affectedRow > 0 ? "**Set Quantity Sucessfully !" : "**Failed To Set Quantity, Please Try Again..";
+
         }
 
         protected void btnAddColor_Click(object sender, EventArgs e)
@@ -708,17 +762,7 @@ namespace OutModern.src.Admin.ProductEdit
             lblAddColorStatus.Text = affectedRow > 0 ? "*Insert Successfully" : "*Failed To Insert, Please Try Again..";
 
             //bind color to add color in with ddl
-            DataTable colorNotAdded = getNotAddedColors();
-            ddlColorAdd.DataSource = colorNotAdded;
-            ddlColorAdd.DataValueField = "ColorId";
-            ddlColorAdd.DataTextField = "ColorName";
-            ddlColorAdd.DataBind();
-            ListItemCollection itemCollection = ddlColorAdd.Items;
-            for (int i = 0; i < itemCollection.Count; i++)
-            {
-                itemCollection[i].Attributes
-                    .Add("data-hex", colorNotAdded.Rows[i]["HexColor"].ToString());
-            }
+            bindColorDropDownList();
 
             //rebind color
             repeaterColors.DataSource = getProdColors();
@@ -773,17 +817,7 @@ namespace OutModern.src.Admin.ProductEdit
             repeaterImages.DataBind();
 
             //bind color to add color in with ddl
-            DataTable colorNotAdded = getNotAddedColors();
-            ddlColorAdd.DataSource = colorNotAdded;
-            ddlColorAdd.DataValueField = "ColorId";
-            ddlColorAdd.DataTextField = "ColorName";
-            ddlColorAdd.DataBind();
-            ListItemCollection itemCollection = ddlColorAdd.Items;
-            for (int i = 0; i < itemCollection.Count; i++)
-            {
-                itemCollection[i].Attributes
-                    .Add("data-hex", colorNotAdded.Rows[i]["HexColor"].ToString());
-            }
+            bindColorDropDownList();
         }
 
 

@@ -79,5 +79,30 @@ namespace OutModern.src.Admin.AdminMaster
         {
             lblServerTime.Text = DateTime.Now.ToString();
         }
+
+        // add query string to the sitemap url dynamically
+        protected void sitemapAdmin_ItemDataBound(object sender, SiteMapNodeItemEventArgs e)
+        {
+            // Check if the current node is a SiteMapNode
+            if (e.Item.ItemType == SiteMapNodeItemType.PathSeparator ||
+                e.Item.ItemType == SiteMapNodeItemType.Current)
+            {
+                return;
+            }
+
+            // Retrieve the current page's query string
+            string currentPageQueryString = HttpContext.Current.Request.QueryString.ToString();
+
+            // If the current page has a query string
+            if (!string.IsNullOrEmpty(currentPageQueryString))
+            {
+                // Generate the dynamic query string for the next page
+                string dynamicQueryString = currentPageQueryString;
+
+                // Find the hyperlink control in the current item and modify its NavigateUrl
+                HyperLink link = (HyperLink)e.Item.Controls[0]; // Assuming the hyperlink control is the first control in the item
+                link.NavigateUrl += "?" + dynamicQueryString;
+            }
+        }
     }
 }

@@ -69,7 +69,7 @@
         <div class="border p-5 border-black rounded">
             <div class="">
                 <!-- Prod Desc -->
-                <div class="flex gap-10 justify-between">
+                <div class="flex items-center justify-between">
                     <div class="text-2xl font-bold ">Edit Product</div>
                     <asp:LinkButton
                         OnClick="lbUpdate_Click"
@@ -218,8 +218,8 @@
 
                                     </ItemTemplate>
                                     <FooterTemplate>
-                                        <asp:Label ID="lblColorEmpty" CssClass="text-red-500" runat="server" 
-                                            Visible='<%# ((Repeater)Container.NamingContainer).Items.Count == 0 %>' 
+                                        <asp:Label ID="lblColorEmpty" CssClass="text-red-500" runat="server"
+                                            Visible='<%# ((Repeater)Container.NamingContainer).Items.Count == 0 %>'
                                             Text="**No Color added** </br> **Add color in order to add an Image**" />
                                     </FooterTemplate>
                                 </asp:Repeater>

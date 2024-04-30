@@ -28,7 +28,7 @@ namespace OutModern.src.Admin.Products
             { ProductDetails , "~/src/Admin/ProductDetails/ProductDetails.aspx" },
         };
 
-        private string ConnectionStirng = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        private string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
 
         protected void Page_Load(object sender, EventArgs e)
@@ -41,6 +41,7 @@ namespace OutModern.src.Admin.Products
 
             }
         }
+
         //store each column sorting state into viewstate
         private Dictionary<string, string> SortDirections
         {
@@ -71,11 +72,14 @@ namespace OutModern.src.Admin.Products
             }
         }
 
+        //
+        //db operation
+        //
         private DataTable getProducts(string sortExpression = null, string sortDirection = "ASC")
         {
             DataTable data = new DataTable();
 
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 string sqlQuery =
@@ -119,7 +123,7 @@ namespace OutModern.src.Admin.Products
         {
             DataTable data = new DataTable();
 
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
 
@@ -140,6 +144,9 @@ namespace OutModern.src.Admin.Products
             return data;
         }
 
+        //
+        //Page event
+        //
         protected void lvProducts_ItemDataBound(object sender, ListViewItemEventArgs e)
         {
             if (e.Item.ItemType == ListViewItemType.DataItem)

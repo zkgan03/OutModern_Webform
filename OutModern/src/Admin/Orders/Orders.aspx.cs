@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -25,61 +27,181 @@ namespace OutModern.src.Admin.Orders
             {OrderAdd, "~/src/Admin/OrderAdd/OrderAdd.aspx" }
         };
 
+        private string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                lvOrders.DataSource = GetOrders();
+                lvOrders.DataSource = getOrders();
                 lvOrders.DataBind();
             }
         }
-
-        protected void lvOrders_PagePropertiesChanged(object sender, EventArgs e)
+        //search logic
+        public void FilterListView(string searchTerm)
         {
-            lvOrders.DataSource = GetOrders();
+            lvOrders.DataSource = FilterDataTable(getOrders(), searchTerm);
             lvOrders.DataBind();
         }
 
-
-        //dummy data
-        protected DataTable GetOrders()
+        private DataTable FilterDataTable(DataTable dataTable, string searchTerm)
         {
-            DataTable dtOrders = new DataTable();
-            dtOrders.Columns.AddRange(new DataColumn[] {
-                new DataColumn("OrderId", typeof(int)),
-                new DataColumn("CustomerName", typeof(string)),
-                new DataColumn("ProductDetails", typeof(DataTable)),
-                new DataColumn("OrderDateTime", typeof(DateTime)),
-                new DataColumn("SubTotal", typeof(decimal)),
-                new DataColumn("OrderStatus", typeof(string))
-              });
+            // Escape single quotes for safety
+            string safeSearchTerm = searchTerm.Replace("'", "''");
 
-            // Generate 5 dummy orders with random statuses
-            string[] orderStatuses = { "Order Placed", "Shipped", "Cancelled", "Received" };
-            for (int i = 0; i < 5; i++)
+            // Build the filter expression with relevant fields
+            string expression = string.Format(
+                "Convert(OrderId, 'System.String') LIKE '%{0}%' OR " +
+                "CustomerName LIKE '%{0}%' OR " +
+                "Convert(OrderDateTime, 'System.String') LIKE '%{0}%' OR " +
+                "Convert(Total, 'System.String') LIKE '%{0}%' OR " +
+                "OrderStatus LIKE '%{0}%'",
+                safeSearchTerm);
+
+            // Filter the rows
+            DataRow[] filteredRows = dataTable.Select(expression);
+
+            // Create a new DataTable for the filtered results
+            DataTable filteredDataTable = dataTable.Clone();
+
+            // Import the filtered rows
+            foreach (DataRow row in filteredRows)
             {
-                DataRow drOrder = dtOrders.NewRow();
-                drOrder["OrderId"] = i + 1;
-                drOrder["CustomerName"] = $"Customer {i + 1}";
-
-                // Nested DataTable for products
-                DataTable dtProducts = new DataTable();
-                dtProducts.Columns.AddRange(new DataColumn[] {
-                   new DataColumn("ProductName", typeof(string)),
-                   new DataColumn("Quantity", typeof(int))
-                  });
-                dtProducts.Rows.Add("Product A", 2);
-                dtProducts.Rows.Add("Product B", 1);
-
-                drOrder["ProductDetails"] = dtProducts;
-                drOrder["OrderDateTime"] = DateTime.Now.AddDays(-i);
-                drOrder["SubTotal"] = 10.00m * (i + 1);
-                drOrder["OrderStatus"] = orderStatuses[i % orderStatuses.Length];
-
-                dtOrders.Rows.Add(drOrder);
+                filteredDataTable.ImportRow(row);
             }
 
-            return dtOrders;
+            return filteredDataTable;
+        }
+
+
+        //store each column sorting state into viewstate
+        private Dictionary<string, string> SortDirections
+        {
+            get
+            {
+                if (ViewState["SortDirections"] == null)
+                {
+                    ViewState["SortDirections"] = new Dictionary<string, string>();
+                }
+                return (Dictionary<string, string>)ViewState["SortDirections"];
+            }
+            set
+            {
+                ViewState["SortDirections"] = value;
+            }
+        }
+
+        // Toggle Sorting
+        private void toggleSortDirection(string columnName)
+        {
+            if (!SortDirections.ContainsKey(columnName))
+            {
+                SortDirections[columnName] = "ASC";
+            }
+            else
+            {
+                SortDirections[columnName] = SortDirections[columnName] == "ASC" ? "DESC" : "ASC";
+            }
+        }
+
+        //
+        // DB Operation
+        //
+
+        //Get all orders
+        protected DataTable getOrders(string sortExpression = null, string sortDirection = "ASC")
+        {
+            DataTable data = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                string sqlQuery =
+                    "Select OrderId, CustomerFullName as CustomerName, OrderDateTime, Total, OrderStatusName " +
+                    "FROM [Order], OrderStatus, Customer " +
+                    "WHERE [Order].OrderStatusId = OrderStatus.OrderStatusId " +
+                    "AND [Order].CustomerId = Customer.CustomerId ";
+
+                if (!string.IsNullOrEmpty(sortExpression))
+                {
+                    sqlQuery += "ORDER BY " + sortExpression + " " + sortDirection;
+                }
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    data.Load(command.ExecuteReader());
+                }
+
+                data.Columns.Add("ProductDetails", typeof(DataTable));
+                foreach (DataRow row in data.Rows)
+                {
+                    row["ProductDetails"] = getProductOrdered(row["OrderId"].ToString());
+                }
+            }
+
+            return data;
+        }
+
+        //get the product Ordered for a particular order
+        private DataTable getProductOrdered(string orderId)
+        {
+            DataTable data = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                string sqlQuery =
+                    "Select Product.ProductName, OrderItem.Quantity " +
+                    "FROM [Order], OrderItem, ProductDetail, Product " +
+                    "WHERE [Order].OrderId = OrderItem.OrderId " +
+                    "AND OrderItem.ProductDetailId = ProductDetail.ProductDetailId " +
+                    "AND ProductDetail.ProductId = Product.ProductId " +
+                    "AND [Order].OrderId = @orderId;";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@orderId", orderId);
+                    data.Load(command.ExecuteReader());
+                }
+            }
+
+            return data;
+        }
+
+        // update the order status based on the order id
+        private int updateOrderStatus(string orderId, string orderStatusName)
+        {
+            int affectedRows = 0;
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                string sqlQuery = "UPDATE [Order] " +
+                    "SET [Order].OrderStatusId = OrderStatus.OrderStatusId " +
+                    "FROM [Order], OrderStatus " +
+                    "WHERE OrderId = @orderId AND OrderStatus.OrderStatusName = @orderStatusName";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@orderId", orderId);
+                    command.Parameters.AddWithValue("@orderStatusName", orderStatusName);
+                    affectedRows = command.ExecuteNonQuery();
+                }
+            }
+            return affectedRows;
+        }
+
+
+        //
+        //Page Event
+        //
+        protected void lvOrders_PagePropertiesChanged(object sender, EventArgs e)
+        {
+            string sortExpression = ViewState["SortExpression"]?.ToString();
+            lvOrders.DataSource =
+                sortExpression == null ?
+                getOrders() :
+                getOrders(sortExpression, SortDirections[sortExpression]);
+            lvOrders.DataBind();
         }
 
         protected void lvOrders_ItemDataBound(object sender, ListViewItemEventArgs e)
@@ -89,7 +211,7 @@ namespace OutModern.src.Admin.Orders
 
             DataRowView rowView = (DataRowView)e.Item.DataItem;
             HtmlGenericControl statusSpan = (HtmlGenericControl)e.Item.FindControl("orderStatus");
-            string status = rowView["OrderStatus"].ToString();
+            string status = rowView["OrderStatusName"].ToString();
 
             switch (status)
             {
@@ -109,46 +231,63 @@ namespace OutModern.src.Admin.Orders
                     // Handle cases where status doesn't match any of the above
                     break;
             }
-
-
-
         }
 
-        //search logic
-        public void FilterListView(string searchTerm)
+        protected void lvOrders_Sorting(object sender, ListViewSortEventArgs e)
         {
-            lvOrders.DataSource = FilterDataTable(GetOrders(), searchTerm);
+            toggleSortDirection(e.SortExpression); // Toggle sorting direction for the clicked column
+
+            ViewState["SortExpression"] = e.SortExpression; // used for retain the sorting
+
+            // Re-bind the ListView with sorted data
+            lvOrders.DataSource = getOrders(e.SortExpression, SortDirections[e.SortExpression]);
             lvOrders.DataBind();
         }
 
-        private DataTable FilterDataTable(DataTable dataTable, string searchTerm)
+        protected void lvOrders_ItemCommand(object sender, ListViewCommandEventArgs e)
         {
-            // Escape single quotes for safety
-            string safeSearchTerm = searchTerm.Replace("'", "''");
 
-            // Build the filter expression with relevant fields
-            string expression = string.Format(
-                "Convert(OrderId, 'System.String') LIKE '%{0}%' OR " +
-                "CustomerName LIKE '%{0}%' OR " +
-                "Convert(OrderDateTime, 'System.String') LIKE '%{0}%' OR " +
-                "Convert(SubTotal, 'System.String') LIKE '%{0}%' OR " +
-                "OrderStatus LIKE '%{0}%'",
-                safeSearchTerm);
-
-            // Filter the rows
-            DataRow[] filteredRows = dataTable.Select(expression);
-
-            // Create a new DataTable for the filtered results
-            DataTable filteredDataTable = dataTable.Clone();
-
-            // Import the filtered rows
-            foreach (DataRow row in filteredRows)
+            if (e.CommandName == "ToShipped" || e.CommandName == "ToCancel" || e.CommandName == "ToPlaced")
             {
-                filteredDataTable.ImportRow(row);
+                // Update order status based on the command
+                string orderId = e.CommandArgument.ToString();
+                string orderStatus = getStatusBasedOnCommand(e.CommandName);
+                int affectedRow = updateOrderStatus(orderId, orderStatus);
+
+                if (affectedRow > 0)
+                {
+                    lblStatusUpdataMsg.CssClass += " text-green-600";
+                    lblStatusUpdataMsg.Text = $"Order id={orderId}, status updated successfully";
+                }
+                else
+                {
+                    lblStatusUpdataMsg.CssClass += " text-red-600";
+                    lblStatusUpdataMsg.Text = $"Order id={orderId}, failed to update order status...";
+                }
             }
 
-            return filteredDataTable;
+            string sortExpression = ViewState["SortExpression"]?.ToString();
+            lvOrders.DataSource =
+                sortExpression == null ?
+                getOrders() :
+                getOrders(sortExpression, SortDirections[sortExpression]);
+            lvOrders.DataBind();
         }
 
+        // helper method to get the status based on the command
+        private string getStatusBasedOnCommand(string commandName)
+        {
+            switch (commandName)
+            {
+                case "ToShipped":
+                    return "Shipped";
+                case "ToCancel":
+                    return "Cancelled";
+                case "ToPlaced":
+                    return "Order Placed";
+                default:
+                    return null;
+            }
+        }
     }
 }

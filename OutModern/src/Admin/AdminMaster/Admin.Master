@@ -249,7 +249,7 @@
 
                         <!-- Site Map -->
                         <div class="ml-1">
-                            <asp:SiteMapPath Enabled="false" ID="sitemapAdmin" runat="server" SiteMapProvider="adminSiteMap">
+                            <asp:SiteMapPath OnItemDataBound="sitemapAdmin_ItemDataBound" ID="sitemapAdmin" runat="server" SiteMapProvider="adminSiteMap">
                             </asp:SiteMapPath>
                         </div>
                     </div>

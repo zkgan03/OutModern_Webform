@@ -55,6 +55,7 @@
             <asp:ListView
                 OnItemDataBound="lvCustomers_ItemDataBound"
                 OnPagePropertiesChanged="lvCustomers_PagePropertiesChanged"
+                OnSorting="lvCustomers_Sorting"
                 ID="lvCustomers"
                 runat="server">
                 <LayoutTemplate>
@@ -62,38 +63,38 @@
                         <thead>
                             <tr class="data-table-head">
                                 <th class="active">
-                                    <asp:LinkButton ID="lbId" runat="server">
+                                    <asp:LinkButton ID="lbCustomerId" runat="server" CommandName="Sort" CommandArgument="CustomerId">
                              ID
                              <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
-                                    <asp:LinkButton ID="lbCustomerName" runat="server">
+                                    <asp:LinkButton ID="lbCustomerName" runat="server" CommandName="Sort" CommandArgument="CustomerFullname">
                              Customer Name
                              <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
-                                    <asp:LinkButton ID="lbOrderDateTime" runat="server">
+                                    <asp:LinkButton ID="lbUsername" runat="server" CommandName="Sort" CommandArgument="CustomerUsername">
                               Username
                               <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
-                                    <asp:LinkButton ID="lbProductOrdered" runat="server">
+                                    <asp:LinkButton ID="lbProductOrdered" runat="server" CommandName="Sort" CommandArgument="CustomerEmail">
                               Email
                               <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
 
                                 <th>
-                                    <asp:LinkButton ID="lbSubtotal" runat="server">
+                                    <asp:LinkButton ID="lbSubtotal" runat="server" CommandName="Sort" CommandArgument="CustomerPhoneNumber">
                              Phone No
                              <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
-                                    <asp:LinkButton ID="lbOrderStatus" runat="server">
+                                    <asp:LinkButton ID="lbOrderStatus" runat="server" CommandName="Sort" CommandArgument="UserStatusName">
                              Status
                              <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
@@ -108,15 +109,15 @@
 
                 </LayoutTemplate>
                 <ItemTemplate>
-                    <tr onclick="window.location='<%# Page.ResolveClientUrl(urls[CustomerDetails] + "?id=" +  Eval("CustomerId") )%>'">
+                    <tr onclick="window.location='<%# Page.ResolveClientUrl(urls[CustomerDetails] + "?CustomerId=" +  Eval("CustomerId") )%>'">
                         <td><%# Eval("CustomerId") %></td>
-                        <td><%# Eval("CustomerName") %></td>
+                        <td><%# Eval("CustomerFullname") %></td>
                         <td><%# Eval("CustomerUsername") %></td>
                         <td><%# Eval("CustomerEmail") %></td>
                         <td><%# Eval("CustomerPhoneNumber") %></td>
                         <td><span runat="server" id="userStatus" class="user-status"><%# Eval("UserStatusName") %></span></td>
                         <td>
-                            <asp:HyperLink ID="hlEdit" runat="server" CssClass="button" NavigateUrl='<%#urls[CustomerEdit] +"?id=" +Eval("CustomerId") %>'>
+                            <asp:HyperLink ID="hlEdit" runat="server" CssClass="button" NavigateUrl='<%#urls[CustomerEdit] +"?CustomerId=" +Eval("CustomerId") %>'>
                         <i class="fa-regular fa-pen-to-square"></i>
                             </asp:HyperLink>
                         </td>

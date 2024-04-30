@@ -1,6 +1,9 @@
-﻿using System;
+﻿using OutModern.src.Admin.Staffs;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -13,22 +16,84 @@ namespace OutModern.src.Admin.Customers
     {
         protected static readonly string CustomerDetails = "CustomerDetails";
         protected static readonly string CustomerEdit = "CustomerEdit";
-
-        // Side menu urls
         protected Dictionary<string, string> urls = new Dictionary<string, string>()
         {
             { CustomerDetails , "~/src/Admin/CustomerDetails/CustomerDetails.aspx" },
             { CustomerEdit, "~/src/Admin/CustomerEdit/CustomerEdit.aspx"}
         };
+
+        private string ConnectionStirng = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                lvCustomers.DataSource = GetCustomers();
+                lvCustomers.DataSource = getCustomers();
                 lvCustomers.DataBind();
             }
         }
+        //store each column sorting state into viewstate
+        private Dictionary<string, string> SortDirections
+        {
+            get
+            {
+                if (ViewState["SortDirections"] == null)
+                {
+                    ViewState["SortDirections"] = new Dictionary<string, string>();
+                }
+                return (Dictionary<string, string>)ViewState["SortDirections"];
+            }
+            set
+            {
+                ViewState["SortDirections"] = value;
+            }
+        }
 
+        // Toggle Sorting
+        private void toggleSortDirection(string columnName)
+        {
+            if (!SortDirections.ContainsKey(columnName))
+            {
+                SortDirections[columnName] = "ASC";
+            }
+            else
+            {
+                SortDirections[columnName] = SortDirections[columnName] == "ASC" ? "DESC" : "ASC";
+            }
+        }
+
+
+        //
+        //DB operation
+        //
+        protected DataTable getCustomers(string sortExpression = null, string sortDirection = "ASC")
+        {
+            DataTable data = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            {
+                connection.Open();
+                string sqlQuery =
+                    "Select CustomerId, CustomerFullName, CustomerUsername, CustomerEmail, CustomerPhoneNumber, UserStatusName " +
+                    "FROM Customer, UserStatus " +
+                    "Where Customer.CustomerStatusId = UserStatus.UserStatusId ";
+
+                if (!string.IsNullOrEmpty(sortExpression))
+                {
+                    sqlQuery += "ORDER BY " + sortExpression + " " + sortDirection;
+                }
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    data.Load(command.ExecuteReader());
+                }
+            }
+
+            return data;
+        }
+
+        //
+        //Page event
+        //
         protected void lvCustomers_ItemDataBound(object sender, ListViewItemEventArgs e)
         {
             if (e.Item.ItemType != ListViewItemType.DataItem) return;
@@ -57,41 +122,22 @@ namespace OutModern.src.Admin.Customers
 
         protected void lvCustomers_PagePropertiesChanged(object sender, EventArgs e)
         {
-            lvCustomers.DataSource = GetCustomers();
+            string sortExpression = ViewState["SortExpression"]?.ToString();
+            lvCustomers.DataSource = sortExpression == null ?
+                getCustomers() :
+                getCustomers(sortExpression, SortDirections[sortExpression]);
             lvCustomers.DataBind();
         }
 
-        //Dummy data
-        protected DataTable GetCustomers()
+        protected void lvCustomers_Sorting(object sender, ListViewSortEventArgs e)
         {
-            DataTable dtCustomers = new DataTable();
-            dtCustomers.Columns.AddRange(new DataColumn[] {
-                new DataColumn("CustomerId", typeof(int)),
-                new DataColumn("CustomerName", typeof(string)),
-                new DataColumn("CustomerUsername", typeof(string)),
-                new DataColumn("CustomerEmail", typeof(string)),
-                new DataColumn("CustomerPhoneNumber", typeof(string)),
-                new DataColumn("UserStatusName", typeof(string))
-              });
+            toggleSortDirection(e.SortExpression); // Toggle sorting direction for the clicked column
 
-            // Generate 10 dummy customers with random statuses
-            string[] statuses = { "Activated", "Deleted", "Locked" };
-            Random random = new Random();
+            ViewState["SortExpression"] = e.SortExpression; // used for retain the sorting
 
-            for (int i = 0; i < 10; i++)
-            {
-                DataRow drCustomer = dtCustomers.NewRow();
-                drCustomer["CustomerId"] = i + 1; // Assuming CustomerId starts from 1
-                drCustomer["CustomerName"] = $"Customer {i + 1}";
-                drCustomer["CustomerUsername"] = $"username{i + 1}";
-                drCustomer["CustomerEmail"] = $"customer{i + 1}@example.com";
-                drCustomer["CustomerPhoneNumber"] = $"0123-456-78{i}";
-                drCustomer["UserStatusName"] = statuses[random.Next(statuses.Length)];
-
-                dtCustomers.Rows.Add(drCustomer);
-            }
-
-            return dtCustomers;
+            // Re-bind the ListView with sorted data
+            lvCustomers.DataSource = getCustomers(e.SortExpression, SortDirections[e.SortExpression]);
+            lvCustomers.DataBind();
         }
     }
 }

@@ -31,7 +31,7 @@
                     Total Customer
                 </div>
                 <div class="text">
-                    <asp:Label ID="lblTotalCustomer" runat="server" Text="120 000"></asp:Label>
+                    <asp:Label ID="lblTotalCustomer" runat="server"></asp:Label>
                 </div>
             </div>
             <div class="dashboard-item">
@@ -39,7 +39,7 @@
                     New Customer
                 </div>
                 <div class="text">
-                    <asp:Label ID="lblNewCustomer" runat="server" Text="12"></asp:Label>
+                    <asp:Label ID="lblNewCustomer" runat="server" Text="hvnt implement"></asp:Label>
                 </div>
             </div>
         </div>
@@ -48,18 +48,18 @@
         <div class="dashboard-item-container">
             <div class="dashboard-item">
                 <div class="title">
-                    This month Orders
+                    This Month Orders
                 </div>
                 <div class="text">
-                    <asp:Label ID="lblMonthOrders" runat="server" Text="12 000"></asp:Label>
+                    <asp:Label ID="lblMonthOrders" runat="server"></asp:Label>
                 </div>
             </div>
             <div class="dashboard-item">
                 <div class="title">
-                    New Orders
+                    Today New Orders
                 </div>
                 <div class="text">
-                    <asp:Label ID="Label2" runat="server" Text="45"></asp:Label>
+                    <asp:Label ID="lblNewOrders" runat="server" ></asp:Label>
                 </div>
             </div>
         </div>
@@ -68,10 +68,10 @@
         <div class="dashboard-item-container">
             <div class="dashboard-item">
                 <div class="title">
-                    This month Cancelled
+                    This Month Cancelled
                 </div>
                 <div class="text">
-                    <asp:Label ID="Label1" runat="server" Text="120"></asp:Label>
+                    <asp:Label ID="lblMonthCancelled" runat="server" ></asp:Label>
                 </div>
             </div>
             <div class="dashboard-item">
@@ -79,7 +79,7 @@
                     Today Cancelled
                 </div>
                 <div class="text">
-                    <asp:Label ID="Label3" runat="server" Text="3"></asp:Label>
+                    <asp:Label ID="lblTodayCancelled" runat="server"></asp:Label>
                 </div>
             </div>
         </div>
@@ -88,10 +88,10 @@
         <div class="dashboard-item-container">
             <div class="dashboard-item">
                 <div class="title">
-                    New Review
+                    Today New Review
                 </div>
                 <div class="text">
-                    <asp:Label ID="Label4" runat="server" Text="12"></asp:Label>
+                    <asp:Label ID="lblTodayReviews" runat="server"></asp:Label>
                 </div>
             </div>
             <div class="dashboard-item">
@@ -99,7 +99,7 @@
                     Overall Rating
                 </div>
                 <div class="text">
-                    <asp:Label ID="Label5" runat="server" Text="4.9"></asp:Label>
+                    <asp:Label ID="lblOverallRating" runat="server"></asp:Label>
                 </div>
             </div>
         </div>

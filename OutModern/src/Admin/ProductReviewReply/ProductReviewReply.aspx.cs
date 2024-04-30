@@ -13,11 +13,15 @@ namespace OutModern.src.Admin.ProductReviewReply
     public partial class ProductReviewReply : System.Web.UI.Page
     {
         private string reviewId;
-        private string ConnectionStirng = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        private string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             reviewId = Request.QueryString["ReviewId"];
+            if (reviewId == null)
+            {
+                Response.Redirect("~/src/ErrorPages/404.aspx");
+            }
 
             if (!IsPostBack)
             {
@@ -29,8 +33,12 @@ namespace OutModern.src.Admin.ProductReviewReply
         private void initReview()
         {
             DataTable data = getReview();
-            DataRow row = data.Rows[0];
+            if (data.Rows.Count == 0)
+            {
+                Response.Redirect("~/src/ErrorPages/404.aspx");
+            }
 
+            DataRow row = data.Rows[0];
             lblColor.Text = row["ReviewColor"].ToString();
             lblCustomerName.Text = row["CustomerName"].ToString();
             lblCustomerReview.Text = row["ReviewText"].ToString();
@@ -50,7 +58,7 @@ namespace OutModern.src.Admin.ProductReviewReply
         {
             DataTable data = new DataTable();
 
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 string sqlQuery =
@@ -76,7 +84,7 @@ namespace OutModern.src.Admin.ProductReviewReply
             // Create a new DataTable to hold the dummy data
             DataTable data = new DataTable();
 
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 //ReplyTextReplyTimeAdminRoleAdminName
                 connection.Open();
@@ -98,65 +106,30 @@ namespace OutModern.src.Admin.ProductReviewReply
         }
 
         // insert reply given in db
-        private int upsertReply(string replyTextGiven, string adminId)
+        private int insertReply(string replyTextGiven, string adminId)
         {
             int affectedRow = 0;
 
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
 
-                int replynum = 0;
-                string checkPreviousReply =
-                    "Select * from " +
-                    "ReviewReply " +
-                    "WHERE ReviewId = @reviewId AND AdminId = @adminId";
+                string sqlQuery =
+                    "INSERT into ReviewReply " +
+                    "(ReviewId, AdminId, DateTime, Reply) " +
+                    "values (@reviewId, @adminId, GETDATE(), @replyTextGiven);";
 
-                using (SqlCommand command = new SqlCommand(checkPreviousReply, connection))
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
                     command.Parameters.AddWithValue("@reviewId", reviewId);
                     command.Parameters.AddWithValue("@adminId", adminId);
+                    command.Parameters.AddWithValue("@replyTextGiven", replyTextGiven);
 
-                    replynum = int.Parse(command.ExecuteScalar().ToString());
+                    affectedRow = command.ExecuteNonQuery();
                 }
-
-                if (replynum > 0)
-                {
-                    string sqlQuery =
-                        "Update ReviewReply " +
-                        "SET DateTime = GETDATE(), Reply = @replyTextGiven " +
-                        "WHERE ReviewId = @reviewId AND AdminId = @adminId;";
-
-                    using (SqlCommand command = new SqlCommand(sqlQuery, connection))
-                    {
-                        command.Parameters.AddWithValue("@reviewId", reviewId);
-                        command.Parameters.AddWithValue("@adminId", adminId);
-                        command.Parameters.AddWithValue("@replyTextGiven", replyTextGiven);
-
-                        affectedRow = command.ExecuteNonQuery();
-                    }
-
-                }
-                else
-                {
-                    string sqlQuery =
-                        "INSERT into ReviewReply " +
-                        "(ReviewId, AdminId, DateTime, Reply) " +
-                        "values (@reviewId, @adminId, GETDATE(), @replyTextGiven);";
-
-                    using (SqlCommand command = new SqlCommand(sqlQuery, connection))
-                    {
-                        command.Parameters.AddWithValue("@reviewId", reviewId);
-                        command.Parameters.AddWithValue("@adminId", adminId);
-                        command.Parameters.AddWithValue("@replyTextGiven", replyTextGiven);
-
-                        affectedRow = command.ExecuteNonQuery();
-                    }
-                }
-
             }
-
             return affectedRow;
+
         }
 
         //
@@ -166,14 +139,15 @@ namespace OutModern.src.Admin.ProductReviewReply
         {
             // TODO:  validation, no trim(), check no empty
             string replyTextGiven = txtReply.Text.Trim();
-            string adminId = "1"; // dummy data
 
             if (replyTextGiven == "")
             {
                 lblSendStatus.Text = "*Please Enter Some Text...";
+                return;
             }
 
-            int affectedRow = upsertReply(replyTextGiven, adminId);
+            string adminId = "1"; // dummy data
+            int affectedRow = insertReply(replyTextGiven, adminId);
             if (affectedRow > 0)
             {
                 lblSendStatus.Text = "*Send Successfully";

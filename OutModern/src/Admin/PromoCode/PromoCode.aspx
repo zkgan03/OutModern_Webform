@@ -46,50 +46,56 @@
                 </Fields>
             </asp:DataPager>
 
+            <asp:Label ID="lblMsg" runat="server"
+                CssClass="block my-5"
+                Text="**" Visible="false"></asp:Label>
+
             <asp:ListView
                 OnItemInserting="lvPromoCodes_ItemInserting"
                 OnItemCanceling="lvPromoCodes_ItemCanceling"
                 OnItemEditing="lvPromoCodes_ItemEditing"
+                OnItemUpdating="lvPromoCodes_ItemUpdating"
                 OnItemCommand="lvPromoCodes_ItemCommand"
                 OnPagePropertiesChanged="lvPromoCodes_PagePropertiesChanged"
-                DataKeyNames="PromoId"
+                DataKeyNames="PromoId, PromoCode"
+                OnSorting="lvPromoCodes_Sorting"
                 ID="lvPromoCodes" runat="server">
                 <LayoutTemplate>
                     <table id="data-table" style="width: 100%; text-align: center;">
                         <thead>
                             <tr class="data-table-head">
                                 <th class="active">
-                                    <asp:LinkButton ID="lbId" runat="server">
+                                    <asp:LinkButton ID="lbId" runat="server" CommandName="Sort" CommandArgument="PromoId">
                                      ID
                                      <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
-                                    <asp:LinkButton ID="lbCode" runat="server">
+                                    <asp:LinkButton ID="lbCode" runat="server" CommandName="Sort" CommandArgument="PromoCode">
                                      Code
                                      <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
-                                    <asp:LinkButton ID="lbDiscountRate" runat="server">
+                                    <asp:LinkButton ID="lbDiscountRate" runat="server" CommandName="Sort" CommandArgument="DiscountRate">
                                       Discount Rate (%)
                                       <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
-                                    <asp:LinkButton ID="lbStartDate" runat="server">
+                                    <asp:LinkButton ID="lbStartDate" runat="server" CommandName="Sort" CommandArgument="StartDate">
                                      Start Date
                                      <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
-                                    <asp:LinkButton ID="lbEndDate" runat="server">
+                                    <asp:LinkButton ID="lbEndDate" runat="server" CommandName="Sort" CommandArgument="EndDate">
                                      End Date
                                      <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
-                                    <asp:LinkButton ID="lbQuantity" runat="server" CommandName="Edit">
+                                    <asp:LinkButton ID="lbQuantity" runat="server" CommandName="Sort" CommandArgument="Quantity">
                                      Quantity
                                      <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
@@ -106,7 +112,7 @@
                     <tr>
                         <td><%# Eval("PromoId") %></td>
                         <td><%# Eval("PromoCode") %></td>
-                        <td><%# Eval("DiscountRate", "{0:P1}") %></td>
+                        <td><%# Eval("DiscountRate") %></td>
                         <td><%# Eval("StartDate", "{0:dd/MM/yyyy </br> h:mm tt}") %></td>
                         <td><%# Eval("EndDate","{0:dd/MM/yyyy </br> h:mm tt}") %></td>
                         <td><%# Eval("Quantity") %></td>
@@ -120,7 +126,7 @@
                 <InsertItemTemplate>
                     <tr class="bg-green-100">
                         <td>
-                            <asp:Label ID="lblNewPromoId" runat="server" Text="12"></asp:Label>
+                            <asp:Label ID="lblNewPromoId" runat="server" Text="-"></asp:Label>
                         </td>
                         <td>
                             <asp:TextBox CssClass="w-28 px-2" ID="txtAddPromoCode" runat="server"></asp:TextBox>
@@ -146,13 +152,13 @@
                 <EditItemTemplate>
                     <tr class="bg-amber-100">
                         <td>
-                            <asp:Label ID="lblNewPromoId" runat="server" Text='<%# Eval("PromoId") %>'></asp:Label>
+                            <asp:Label ID="lblPromoId" runat="server" Text='<%# Eval("PromoId") %>'></asp:Label>
                         </td>
                         <td>
                             <asp:TextBox CssClass="w-28 px-2" ID="txtAddPromoCode" runat="server" Text='<%# Eval("PromoCode") %>'></asp:TextBox>
                         </td>
                         <td>
-                            <asp:TextBox CssClass="w-14 px-2" ID="txtAddDiscountRate" runat="server" Text='<%# Eval("DiscountRate", "{0:P1}") %>'></asp:TextBox>
+                            <asp:TextBox CssClass="w-14 px-2" ID="txtAddDiscountRate" runat="server" Text='<%# Eval("DiscountRate") %>'></asp:TextBox>
                         </td>
                         <td>
                             <asp:TextBox CssClass="w-fit px-2" ID="txtStartDate" runat="server" TextMode="DateTimeLocal"

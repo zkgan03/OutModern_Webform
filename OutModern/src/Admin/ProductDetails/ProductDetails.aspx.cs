@@ -15,8 +15,8 @@ namespace OutModern.src.Admin.ProductDetails
         protected static readonly string ProductEdit = "ProductEdit";
         protected static readonly string ProductReviewReply = "ProductReviewReply";
 
-        private string ConnectionStirng = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        private string productId;
+        private string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        protected string productId;
 
 
         // Side menu urls
@@ -29,16 +29,14 @@ namespace OutModern.src.Admin.ProductDetails
         protected void Page_Load(object sender, EventArgs e)
         {
             productId = Request.QueryString["ProductId"];
+            if (productId == null)
+            {
+                Response.Redirect("~/src/ErrorPages/404.aspx");
+            }
 
             if (!IsPostBack)
             {
-                if (productId == null)
-                {
-                    Response.StatusCode = 404;
-                    return;
-                }
-
-                initProductInfo(getProductInfo());
+                initProductInfo();
 
                 // bind ddl of size
                 ddlSize.DataSource = getSizes();
@@ -69,8 +67,13 @@ namespace OutModern.src.Admin.ProductDetails
 
         }
 
-        private void initProductInfo(DataTable productData)
+        private void initProductInfo()
         {
+            DataTable productData = getProductInfo();
+            if (productData.Rows.Count == 0)
+            {
+                Response.Redirect("~/src/ErrorPages/404.aspx");
+            }
             DataRow data = productData.Rows[0];
 
             lblProductId.Text = data["ProductId"].ToString();
@@ -85,7 +88,7 @@ namespace OutModern.src.Admin.ProductDetails
         private DataTable getProductInfo()
         {
             DataTable data = new DataTable();
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
 
@@ -109,7 +112,7 @@ namespace OutModern.src.Admin.ProductDetails
         {
             DataTable data = new DataTable();
 
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
 
@@ -134,7 +137,7 @@ namespace OutModern.src.Admin.ProductDetails
         {
             DataTable data = new DataTable();
 
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
 
@@ -165,7 +168,7 @@ namespace OutModern.src.Admin.ProductDetails
         {
             DataTable data = new DataTable();
 
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
 
@@ -194,7 +197,7 @@ namespace OutModern.src.Admin.ProductDetails
         {
             DataTable data = new DataTable();
 
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
 
@@ -225,7 +228,7 @@ namespace OutModern.src.Admin.ProductDetails
 
 
 
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 string sqlQuery =
@@ -257,7 +260,7 @@ namespace OutModern.src.Admin.ProductDetails
             // Create a new DataTable to hold the dummy data
             DataTable data = new DataTable();
 
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 //ReplyTextReplyTimeAdminRoleAdminName
                 connection.Open();

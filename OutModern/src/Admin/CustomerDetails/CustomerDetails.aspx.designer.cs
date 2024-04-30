@@ -60,13 +60,13 @@ namespace OutModern.src.Admin.CustomerDetails
         protected global::System.Web.UI.WebControls.Label lblUsername;
 
         /// <summary>
-        /// lblId control.
+        /// lblCustomerId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblId;
+        protected global::System.Web.UI.WebControls.Label lblCustomerId;
 
         /// <summary>
         /// lblEmail control.
@@ -78,13 +78,13 @@ namespace OutModern.src.Admin.CustomerDetails
         protected global::System.Web.UI.WebControls.Label lblEmail;
 
         /// <summary>
-        /// Label2 control.
+        /// lblPhoneNo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label2;
+        protected global::System.Web.UI.WebControls.Label lblPhoneNo;
 
         /// <summary>
         /// rptAddress control.

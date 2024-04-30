@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Configuration;
 using System.Web.Configuration;
+using OutModern.src.Admin.Utils;
 
 namespace OutModern.src.Admin.ProductAdd
 {
@@ -22,7 +23,7 @@ namespace OutModern.src.Admin.ProductAdd
 
         };
 
-        private string ConnectionStirng = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        private string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -49,7 +50,7 @@ namespace OutModern.src.Admin.ProductAdd
         {
             DataTable data = new DataTable();
 
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 string sqlQuery =
@@ -85,7 +86,7 @@ namespace OutModern.src.Admin.ProductAdd
         {
             int prodId = 0;
 
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 string sqlQuery =
@@ -115,13 +116,37 @@ namespace OutModern.src.Admin.ProductAdd
         //
         protected void lbAdd_Click(object sender, EventArgs e)
         {
-            string productName = txtProdName.Text;
-            string productDescription = txtProdDescription.Text;
+            string productName = txtProdName.Text.Trim();
+            string productDescription = txtProdDescription.Text.Trim();
             string category = ddlCategory.SelectedValue;
-            string price = txtPrice.Text;
+            string price = txtPrice.Text.Trim();
             string statusId = ddlStatus.SelectedValue;
 
             // TODO : validation
+            //check nulls
+            if (string.IsNullOrEmpty(productName)
+                || string.IsNullOrEmpty(productDescription)
+                || string.IsNullOrEmpty(category)
+                || string.IsNullOrEmpty(price))
+            {
+                Page.ClientScript
+                    .RegisterStartupScript(GetType(),
+                            "Failed to Add",
+                            $"document.addEventListener('DOMContentLoaded', ()=> alert('Please fill in all Fields to Proceed'));",
+                            true);
+
+                return;
+            }
+
+            if (!ValidationUtils.IsValidPrice(price))
+            {
+                Page.ClientScript
+                    .RegisterStartupScript(GetType(),
+                            "Failed to Add",
+                        $"document.addEventListener('DOMContentLoaded', ()=> alert('Please Enter a Valid Price, with at most 2 decimal places'));",
+                        true);
+                return;
+            };
 
             int id = insertProduct(productName, productDescription, category, price, statusId);
 

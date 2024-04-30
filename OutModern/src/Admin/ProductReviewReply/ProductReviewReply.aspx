@@ -61,11 +61,11 @@
             <div class="mt-2 overflow-hidden">
                 <asp:TextBox ID="txtReply" TextMode="MultiLine" runat="server"
                     CssClass="resize-none w-full h-32 leading-5 border border-black p-2 rounded"
-                    PlaceHolder="Write your reply here...&#10;&#10;NOTE : This will update your previous reply"></asp:TextBox>
+                    PlaceHolder="Write your reply here..."></asp:TextBox>
                 <div class="float-right">
                     <asp:Label ID="lblSendStatus" CssClass="opacity-50" runat="server"></asp:Label>
                     <asp:Button ID="btnReplySend"
-                        CssClass="text-white p-1 hover:cursor-pointer hover:opacity-50 bg-gray-400"
+                        CssClass="text-white p-1 h-10 w-14 hover:cursor-pointer hover:opacity-50 bg-gray-400"
                         OnClick="btnReplySend_Click"
                         runat="server" Text="Send" />
                 </div>

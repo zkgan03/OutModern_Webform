@@ -27,46 +27,17 @@ namespace OutModern.src.Admin.Staffs
             { StaffDetails , "~/src/Admin/StaffDetails/StaffDetails.aspx" },
         };
 
-        private string ConnectionStirng = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        private string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                lvStaffs.DataSource = GetStaffs();
+                lvStaffs.DataSource = getStaffs();
                 lvStaffs.DataBind();
 
                 Page.DataBind();
             }
-        }
-
-        // Get Staffs
-        private DataTable GetStaffs(string sortExpression = null, string sortDirection = "ASC")
-        {
-            DataTable data = new DataTable();
-
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
-            {
-                connection.Open();
-                string sqlQuery =
-                    "SELECT Admin.AdminId, Admin.AdminFullName AS AdminName, Admin.AdminUsername, Admin.AdminEmail, Admin.AdminPhoneNo, UserStatus.UserStatusName AS AdminStatus, AdminRole.AdminRoleName AS AdminRole " +
-                    "FROM Admin " +
-                    "INNER JOIN UserStatus ON Admin.AdminStatusId = UserStatus.UserStatusId " +
-                    "INNER JOIN AdminRole ON Admin.AdminRoleId = AdminRole.AdminRoleId ";
-
-                if (!string.IsNullOrEmpty(sortExpression))
-                {
-                    sqlQuery += "ORDER BY " + sortExpression + " " + sortDirection;
-                }
-
-                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
-                {
-                    data.Load(command.ExecuteReader());
-                }
-            }
-
-
-            return data;
         }
 
         //store each column sorting state into viewstate
@@ -99,6 +70,39 @@ namespace OutModern.src.Admin.Staffs
             }
         }
 
+        //
+        //DB opration
+        //
+
+        // Get Staffs
+        private DataTable getStaffs(string sortExpression = null, string sortDirection = "ASC")
+        {
+            DataTable data = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                string sqlQuery =
+                    "SELECT Admin.AdminId, Admin.AdminFullName AS AdminName, Admin.AdminUsername, Admin.AdminEmail, Admin.AdminPhoneNo, UserStatus.UserStatusName AS AdminStatus, AdminRole.AdminRoleName AS AdminRole " +
+                    "FROM Admin " +
+                    "INNER JOIN UserStatus ON Admin.AdminStatusId = UserStatus.UserStatusId " +
+                    "INNER JOIN AdminRole ON Admin.AdminRoleId = AdminRole.AdminRoleId ";
+
+                if (!string.IsNullOrEmpty(sortExpression))
+                {
+                    sqlQuery += "ORDER BY " + sortExpression + " " + sortDirection;
+                }
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    data.Load(command.ExecuteReader());
+                }
+            }
+
+
+            return data;
+        }
+
 
         //update staff
         private int updateStaff(
@@ -112,7 +116,7 @@ namespace OutModern.src.Admin.Staffs
         {
             int numberRowEffected = 0;
 
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
 
                 connection.Open();
@@ -157,7 +161,7 @@ namespace OutModern.src.Admin.Staffs
         {
             int numberRowEffected = 0;
 
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
 
                 connection.Open();
@@ -184,12 +188,12 @@ namespace OutModern.src.Admin.Staffs
 
 
         //get all admin role for ddl
-        private DataTable GetAdminRoles()
+        private DataTable getAdminRoles()
         {
             DataTable data = new DataTable();
 
 
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 string sqlQuery =
@@ -207,11 +211,11 @@ namespace OutModern.src.Admin.Staffs
 
 
         //get all admin status (user status) for ddl
-        private DataTable GetStatus()
+        private DataTable getAdminStatus()
         {
             DataTable data = new DataTable();
 
-            using (SqlConnection connection = new SqlConnection(ConnectionStirng))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 string sqlQuery =
@@ -232,7 +236,7 @@ namespace OutModern.src.Admin.Staffs
         //Search Bar Method
         public void FilterListView(string searchTerm)
         {
-            lvStaffs.DataSource = FilterDataTable(GetStaffs(), searchTerm);
+            lvStaffs.DataSource = FilterDataTable(getStaffs(), searchTerm);
             lvStaffs.DataBind();
         }
 
@@ -270,6 +274,7 @@ namespace OutModern.src.Admin.Staffs
 
         //
         // Events in page
+        //
         protected void lvStaffs_PagePropertiesChanged(object sender, EventArgs e)
         {
             lvStaffs.InsertItemPosition = InsertItemPosition.None;
@@ -278,8 +283,8 @@ namespace OutModern.src.Admin.Staffs
             string sortExpression = ViewState["SortExpression"]?.ToString();
             lvStaffs.DataSource =
                 sortExpression == null ?
-                GetStaffs() :
-                GetStaffs(sortExpression, SortDirections[sortExpression]);
+                getStaffs() :
+                getStaffs(sortExpression, SortDirections[sortExpression]);
             lvStaffs.DataBind();
         }
 
@@ -290,20 +295,20 @@ namespace OutModern.src.Admin.Staffs
 
             string sortExpression = ViewState["SortExpression"]?.ToString();
             lvStaffs.DataSource = sortExpression == null ?
-                GetStaffs() :
-                GetStaffs(sortExpression, SortDirections[sortExpression]);
+                getStaffs() :
+                getStaffs(sortExpression, SortDirections[sortExpression]);
             lvStaffs.DataBind();
 
             // bind data source for Role ddl
             DropDownList ddlAddRole = lvStaffs.InsertItem.FindControl("ddlAddRole") as DropDownList;
-            ddlAddRole.DataSource = GetAdminRoles();
+            ddlAddRole.DataSource = getAdminRoles();
             ddlAddRole.DataValueField = "AdminRoleId";
             ddlAddRole.DataTextField = "AdminRoleName";
             ddlAddRole.DataBind();
 
             // bind data source for Status ddl
             DropDownList ddlAddStatus = lvStaffs.InsertItem.FindControl("ddlAddStatus") as DropDownList;
-            ddlAddStatus.DataSource = GetStatus();
+            ddlAddStatus.DataSource = getAdminStatus();
             ddlAddStatus.DataValueField = "UserStatusId";
             ddlAddStatus.DataTextField = "UserStatusName";
             ddlAddStatus.DataBind();
@@ -316,14 +321,17 @@ namespace OutModern.src.Admin.Staffs
             string sortExpression = ViewState["SortExpression"]?.ToString();
             lvStaffs.DataSource =
                 sortExpression == null ?
-                GetStaffs() :
-                GetStaffs(sortExpression, SortDirections[sortExpression]);
+                getStaffs() :
+                getStaffs(sortExpression, SortDirections[sortExpression]);
             lvStaffs.DataBind();
         }
 
         protected void lvStaffs_ItemEditing(object sender, ListViewEditEventArgs e)
         {
-            DataTable staffs = GetStaffs();
+            string sortExpression = ViewState["SortExpression"]?.ToString();
+            DataTable staffs = sortExpression == null ?
+                getStaffs() :
+                getStaffs(sortExpression, SortDirections[sortExpression]);
 
             int currentRowIndex = e.NewEditIndex + dpBottomStaffs.StartRowIndex;
             DataRow oriRow = staffs.Rows[currentRowIndex]; // get ori value to show as default value in ddl
@@ -335,7 +343,7 @@ namespace OutModern.src.Admin.Staffs
 
             // bind data source for Role ddl
             DropDownList ddlEditRole = lvStaffs.Items[e.NewEditIndex].FindControl("ddlEditRole") as DropDownList;
-            ddlEditRole.DataSource = GetAdminRoles();
+            ddlEditRole.DataSource = getAdminRoles();
             ddlEditRole.DataValueField = "AdminRoleId";
             ddlEditRole.DataTextField = "AdminRoleName";
             ddlEditRole.DataBind();
@@ -347,7 +355,7 @@ namespace OutModern.src.Admin.Staffs
 
             // bind data source for Status ddl
             DropDownList ddlEditStatus = lvStaffs.Items[e.NewEditIndex].FindControl("ddlEditStatus") as DropDownList;
-            ddlEditStatus.DataSource = GetStatus();
+            ddlEditStatus.DataSource = getAdminStatus();
             ddlEditStatus.DataValueField = "UserStatusId";
             ddlEditStatus.DataTextField = "UserStatusName";
             ddlEditStatus.DataBind();
@@ -372,12 +380,22 @@ namespace OutModern.src.Admin.Staffs
             DropDownList ddlAddStatus = (DropDownList)item.FindControl("ddlAddStatus");
 
             // Get the values from the controls
-            string addAdminName = txtAddAdminName.Text;
-            string addAdminUsername = txtAddAdminUsername.Text;
+            string addAdminName = txtAddAdminName.Text.Trim();
+            string addAdminUsername = txtAddAdminUsername.Text.Trim();
             string addRole = ddlAddRole.SelectedValue;
-            string addAdminEmail = txtAddAdminEmail.Text;
-            string addAdminPhoneNo = txtAddAdminPhoneNo.Text;
+            string addAdminEmail = txtAddAdminEmail.Text.Trim();
+            string addAdminPhoneNo = txtAddAdminPhoneNo.Text.Trim();
             string addStatus = ddlAddStatus.SelectedValue;
+
+            //check nulls
+            if (string.IsNullOrEmpty(addAdminName) || string.IsNullOrEmpty(addAdminUsername) || string.IsNullOrEmpty(addRole) || string.IsNullOrEmpty(addAdminEmail) || string.IsNullOrEmpty(addAdminPhoneNo) || string.IsNullOrEmpty(addStatus))
+            {
+                Page.ClientScript.RegisterStartupScript(GetType(), "alert",
+                        "document.addEventListener('DOMContentLoaded', ()=> alert('Please fill in all fields'))",
+                        true);
+                return;
+            }
+
 
             int noOfRowAffected = insertStaff(addAdminName, addAdminUsername, addRole, addAdminEmail, addAdminPhoneNo, addStatus);
 
@@ -388,7 +406,7 @@ namespace OutModern.src.Admin.Staffs
                     true);
 
                 lvStaffs.InsertItemPosition = InsertItemPosition.None;
-                lvStaffs.DataSource = GetStaffs();
+                lvStaffs.DataSource = getStaffs();
                 lvStaffs.DataBind();
             }
         }
@@ -426,7 +444,7 @@ namespace OutModern.src.Admin.Staffs
                     true);
 
                 lvStaffs.EditIndex = -1;
-                lvStaffs.DataSource = GetStaffs();
+                lvStaffs.DataSource = getStaffs();
                 lvStaffs.DataBind();
             }
         }
@@ -464,16 +482,16 @@ namespace OutModern.src.Admin.Staffs
         {
             toggleSortDirection(e.SortExpression); // Toggle sorting direction for the clicked column
 
-
             ViewState["SortExpression"] = e.SortExpression; // used for retain the sorting
 
             // Re-bind the ListView with sorted data
-            lvStaffs.DataSource = GetStaffs(e.SortExpression, SortDirections[e.SortExpression]);
+            lvStaffs.DataSource = getStaffs(e.SortExpression, SortDirections[e.SortExpression]);
             lvStaffs.DataBind();
         }
 
         protected void lvStaffs_ItemCommand(object sender, ListViewCommandEventArgs e)
         {
+
         }
     }
 }
