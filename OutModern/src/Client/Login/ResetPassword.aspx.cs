@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StringUtil;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -35,9 +36,9 @@ namespace OutModern.src.Client.Login
 
                             using (SqlCommand updateCommand = new SqlCommand(updatePasswd, sqlConnection))
                             {
-                                //String hashedPassword = StringUtil.PasswordHandler.hashingPassword(newPassword);
+                                String hashedPassword = PasswordUtil.HashPassword(newPassword);
 
-                                updateCommand.Parameters.AddWithValue("@Password", newPassword);
+                                updateCommand.Parameters.AddWithValue("@Password", hashedPassword);
                                 updateCommand.Parameters.AddWithValue("@CustId", custId);
 
                                 int rowsAffected = updateCommand.ExecuteNonQuery();

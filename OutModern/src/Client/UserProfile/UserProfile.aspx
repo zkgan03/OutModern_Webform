@@ -61,55 +61,59 @@
 
                             </div>
 
+                            <asp:Label ID="lbl_custId" runat="server" Visible="false"></asp:Label>
+
                             <div class="borderLine"></div>
 
                             <div class="bigBox">
                                 <div class="boxItem">
                                     <span class="labelData">Username</span>
-                                    <asp:Label ID="lbl_up_username" runat="server" Text="Prochoros" class="data"></asp:Label>
+                                    <asp:Label ID="lbl_up_username" runat="server" class="data"></asp:Label>
                                 </div>
 
                                 <div class="boxItem">
                                     <span class="labelData">Fullname</span>
-                                    <asp:Label ID="lbl_up_fullname" runat="server" Text="Prochoros Robert" class="data"></asp:Label>
+                                    <asp:Label ID="lbl_up_fullname" runat="server" class="data"></asp:Label>
                                 </div>
 
                                 <div class="boxItem">
                                     <span class="labelData">Email</span>
-                                    <asp:Label ID="lbl_up_email" runat="server" Text="Prochoros@gmail.com" class="data"></asp:Label>
+                                    <asp:Label ID="lbl_up_email" runat="server" class="data"></asp:Label>
                                 </div>
 
                                 <div class="boxItem">
                                     <span class="labelData">Phone Number</span>
-                                    <asp:Label ID="lbl_up_phoneNumber" runat="server" Text="0123456789" class="data"></asp:Label>
+                                    <asp:Label ID="lbl_up_phoneNumber" runat="server" class="data"></asp:Label>
                                 </div>
 
                                 <div class="boxItem">
                                     <span class="labelData">Address Name</span>
-                                    <asp:DropDownList ID="ddl_address_name" runat="server" class="ddl_address">
-                                        <asp:ListItem class="data">Home</asp:ListItem>
-                                        <asp:ListItem class="data">Office</asp:ListItem>
-                                    </asp:DropDownList>
+                                    <asp:DropDownList ID="ddl_address_name" runat="server" class="ddl_address" DataSourceID="SqlDataSource1" AutoPostBack="True" DataTextField="AddressName" DataValueField="AddressName"></asp:DropDownList>
+                                    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT [AddressName] FROM [Address] WHERE ([CustomerId] = @CustomerId)">
+                                        <SelectParameters>
+                                            <asp:ControlParameter ControlID="lbl_custId" Name="CustomerId" PropertyName="Text" Type="Int32" />
+                                        </SelectParameters>
+                                    </asp:SqlDataSource>
                                 </div>
 
                                 <div class="boxItem">
                                     <span class="labelData">Address</span>
-                                    <asp:Label ID="lbl_addressLine" runat="server" Text="67, Jln Madrasah, Gombak Setia, 53100 Kuala Lumpur, Malaysia" class="data"></asp:Label>
+                                    <asp:Label ID="lbl_addressLine" runat="server" class="data"></asp:Label>
                                 </div>
 
                                 <div class="boxItem">
                                     <span class="labelData">Country</span>
-                                    <asp:Label ID="lbl_country" runat="server" Text="Malaysia" class="data"></asp:Label>
+                                    <asp:Label ID="lbl_country" runat="server" class="data"></asp:Label>
                                 </div>
 
                                 <div class="boxItem">
                                     <span class="labelData">State</span>
-                                    <asp:Label ID="lbl_state" runat="server" Text="Kuala Lumpur" class="data"></asp:Label>
+                                    <asp:Label ID="lbl_state" runat="server" class="data"></asp:Label>
                                 </div>
 
                                 <div class="boxItem">
                                     <span class="labelData">Postal Code</span>
-                                    <asp:Label ID="lbl_postaCode" runat="server" Text="53100" class="data"></asp:Label>
+                                    <asp:Label ID="lbl_postaCode" runat="server" class="data"></asp:Label>
                                 </div>
                             </div>
 

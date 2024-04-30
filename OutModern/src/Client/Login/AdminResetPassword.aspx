@@ -36,6 +36,8 @@
                 <asp:Button ID="btn_reset_password" runat="server" class="RPButton" Text="Reset" CssClass="bg-black hover:bg-gray-700" Style="width: 100%; border-radius: 10px; padding: 10px; font-family: sans-serif; color: white; font-weight: bold; border: 1px solid #f5f5f5; margin-top: 10px; cursor: pointer;" OnClick="btn_reset_password_Click"/>
             </div>
 
+            <asp:Label ID="lblMessage" runat="server"></asp:Label>
+
         </div>
     </form>
 </body>
