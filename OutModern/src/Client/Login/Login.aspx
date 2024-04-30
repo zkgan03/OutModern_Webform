@@ -69,10 +69,6 @@
                     <!-- Error Message-->
                     <asp:Label ID="ErrMsg" runat="server" Style="color: red"></asp:Label>
 
-                    <div class="loginBoxItem1">
-                        <asp:CheckBox ID="chkbox_login" runat="server" Text="&nbsp;Keep me logged in" class="chkLogin" />
-                    </div>
-
                     <div class="loginBoxButton">
                         <asp:Button ID="btn_login" runat="server" Text="Log In" CssClass="bg-black hover:bg-gray-700" Style="width: 100%; border-radius: 10px; padding: 10px; font-family: sans-serif; color: white; font-weight: bold; border: 1px solid #f5f5f5; margin-top: 10px; cursor: pointer;" OnClick="btn_login_Click" />
                     </div>

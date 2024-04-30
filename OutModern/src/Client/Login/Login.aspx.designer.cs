@@ -60,15 +60,6 @@ namespace OutModern.src.Client.Login
         protected global::System.Web.UI.WebControls.Label ErrMsg;
 
         /// <summary>
-        /// chkbox_login control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkbox_login;
-
-        /// <summary>
         /// btn_login control.
         /// </summary>
         /// <remarks>
