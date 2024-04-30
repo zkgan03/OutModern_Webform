@@ -42,20 +42,33 @@ namespace OutModern.src.Client.Products
         {
             if (!IsPostBack)
             {
-                selectedRating = string.Empty;
-                selectedCategories.Clear();
-                selectedColors.Clear(); 
+                string searchQuery = Session["SearchQuery"] as string;
+                if (!string.IsNullOrEmpty(searchQuery))
+                {
+                    List<Product> searchResults = GetProductsInfo(searchQuery);
+                    BindProducts(searchResults);
+                    Session["SearchQuery"] = null; // Clear the search query from session
+                } else
+                {
+                    selectedRating = string.Empty;
+                    selectedCategories.Clear();
+                    selectedColors.Clear();
+                    productList = GetProductsInfo();
+                    BindProducts(productList);
+                    chkColorSelection.DataBind();
+                    chkColorSelection.ClearSelection();
+                }             
+            } else
+            {
                 productList = GetProductsInfo();
-                BindProducts(productList);
-                chkColorSelection.DataBind();
-                chkColorSelection.ClearSelection();
+                selectedRating = rbRatings.SelectedValue;
+                updateCategoryList();
+                updateMinAndMaxPrice();
+                updateColorList();
             }
-            productList = GetProductsInfo();
-            selectedRating = rbRatings.SelectedValue;
-            updateCategoryList();
-            updateMinAndMaxPrice();
-            updateColorList();
         }
+
+     
         private void BindProducts(List<Product> products)
         {
             ProductRepeater.DataSource = products;
@@ -63,15 +76,30 @@ namespace OutModern.src.Client.Products
             lblTotalProducts.Text = ProductRepeater.Items.Count.ToString() + " Products Found";
         }
 
-        private List<Product> GetProductsInfo()
+        private List<Product> GetProductsInfo(string searchQuery = "")
         {
             List<Product> products = new List<Product>();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sqlQuery = "SELECT p.ProductId, p.ProductName, p.UnitPrice, p.ProductCategory, COUNT(r.ReviewId) AS TotalReview, SUM(r.Rating) AS TotalRating FROM Product p INNER JOIN ProductDetail pd ON p.ProductId = pd.ProductId LEFT JOIN Review r ON pd.ProductDetailId = r.ProductDetailId GROUP BY p.ProductId, p.ProductName, p.UnitPrice, p.ProductCategory;";
+                string sqlQuery = "SELECT p.ProductId, p.ProductName, p.UnitPrice, p.ProductCategory, COUNT(r.ReviewId) AS TotalReview, SUM(r.Rating) AS TotalRating FROM Product p INNER JOIN ProductDetail pd ON p.ProductId = pd.ProductId LEFT JOIN Review r ON pd.ProductDetailId = r.ProductDetailId";
+
+                // Adjust the query if a search query is provided
+                if (!string.IsNullOrEmpty(searchQuery))
+                {
+                    sqlQuery += " WHERE p.ProductName LIKE '%' + @SearchQuery + '%' OR p.ProductCategory LIKE '%' + @SearchQuery + '%'";
+                }
+
+                sqlQuery += " GROUP BY p.ProductId, p.ProductName, p.UnitPrice, p.ProductCategory;";
+
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
+                    // Add search query parameter if provided
+                    if (!string.IsNullOrEmpty(searchQuery))
+                    {
+                        command.Parameters.AddWithValue("@SearchQuery", searchQuery);
+                    }
+
                     connection.Open();
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -104,6 +132,7 @@ namespace OutModern.src.Client.Products
             }
             return products;
         }
+
 
         private int GetTotalSold(int productId)
         {

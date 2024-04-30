@@ -8,8 +8,8 @@
 
         .radio-no-bullet input[type="radio"]:checked + label {
             background-color: #ebebeb;
-            border-radius: 4px;
-            font-weight: 600;
+            border-radius: 5px;
+            font-weight: 500;
         }
 
         .radio-no-bullet input[type="radio"] + label {
@@ -165,8 +165,8 @@
                         <div class="p-5 hover:bg-[#f8efd6] hover:cursor-pointer hover:[transition:0.3s]" onclick="openSortList();invertIcon(this)">
                             Colors Filtering<i class="fa fa-caret-down !font-black float-right"></i>
                         </div>
-                        <ul class="w-4/5 pl-5">
-                            <li class="radio-no-bullet flex list-none flex-wrap gap-4 pb-5 pl-5">
+                        <ul class="pl-5">
+                            <li class="radio-no-bullet pb-5 pl-5">
                                 <asp:CheckBoxList ID="chkColorSelection" runat="server" CssClass="checkbox-list" AutoPostBack="true" OnSelectedIndexChanged="chkColorSelection_SelectedIndexChanged">
                                     <asp:ListItem Text="Black" Value="000000"></asp:ListItem>
                                     <asp:ListItem Text="White" Value="FFFFFF"></asp:ListItem>
