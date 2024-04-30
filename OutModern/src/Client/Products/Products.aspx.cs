@@ -47,7 +47,7 @@ namespace OutModern.src.Client.Products
                 {
                     searchResults = GetProductsInfo(searchQuery);
                     BindProducts(searchResults);
-                    Session["SearchQuery"] = null;
+                    Session.Remove("SearchQuery");
                     Session["SearchResults"] = searchResults; // Store searchResults in Session
                 }else
                 {
@@ -80,7 +80,6 @@ namespace OutModern.src.Client.Products
             ProductRepeater.DataSource = products;
             ProductRepeater.DataBind();
             lblTotalProducts.Text = ProductRepeater.Items.Count.ToString() + " Products Found";
-
         }
 
         private List<Product> GetProductsInfo(string searchQuery = "")
@@ -238,7 +237,7 @@ namespace OutModern.src.Client.Products
         private void FilterProducts()
         {
             List<Product> filteredProducts;
-            List<Product> sourceList = Session["SearchResults"] as List<Product> ?? productList;
+            List<Product> sourceList = Session["SearchResults"] as List<Product> ?? GetProductsInfo();
 
             if (string.IsNullOrEmpty(selectedRating))
             {
@@ -325,6 +324,7 @@ namespace OutModern.src.Client.Products
 
         protected void btnReset_Click(object sender, EventArgs e)
         {
+            Session.Remove("SearchResults");
             selectedRating = string.Empty;
             selectedCategories.Clear();
             CategoryCheckBoxList.ClearSelection();
@@ -336,7 +336,6 @@ namespace OutModern.src.Client.Products
             txtMaxPrice.Text = "";
             minPrice = null;
             maxPrice = null;
-            Session["SearchResults"] = null;
             FilterProducts();
         }
 
@@ -348,25 +347,8 @@ namespace OutModern.src.Client.Products
 
         private void updateMinAndMaxPrice()
         {
-            decimal minPriceValue, maxPriceValue;
-
-            if (decimal.TryParse(txtMinPrice.Text, out minPriceValue))
-            {
-                minPrice = minPriceValue;
-            }
-            else
-            {
-                minPrice = null;
-            }
-
-            if (decimal.TryParse(txtMaxPrice.Text, out maxPriceValue))
-            {
-                maxPrice = maxPriceValue;
-            }
-            else
-            {
-                maxPrice = null;
-            }
+            minPrice = decimal.TryParse(txtMinPrice.Text, out decimal minPriceValue) ? minPriceValue : (decimal?)null;
+            maxPrice = decimal.TryParse(txtMaxPrice.Text, out decimal maxPriceValue) ? maxPriceValue : (decimal?)null;
         }
 
         protected void chkColorSelection_SelectedIndexChanged(object sender, EventArgs e)
