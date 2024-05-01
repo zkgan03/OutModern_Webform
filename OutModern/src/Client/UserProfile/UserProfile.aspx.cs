@@ -82,10 +82,7 @@ namespace OutModern.src.Client.Profile
                         addressReader.Close();
                     }
 
-                    conn.Close();
-
                 }
-            }
             catch (Exception ex)
             {
                 Response.Write(ex.Message);
