@@ -98,9 +98,6 @@ namespace OutModern.src.Client.Cart
         }
 
 
-
-
-
         protected void btnDecrement_Click(object sender, EventArgs e)
         {
             LinkButton btnDecrement = (LinkButton)sender;
@@ -288,6 +285,8 @@ namespace OutModern.src.Client.Cart
 
             if (promoCode != null)
             {
+                Session["PromoCode"] = promoCode;
+
                 // Update the UI with the discount rate
                 lblDiscountRate.Text = $"({promoCode.DiscountRate}%)";
 

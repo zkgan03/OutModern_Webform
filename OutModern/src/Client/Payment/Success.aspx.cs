@@ -1,4 +1,5 @@
-﻿using OutModern.src.Client.Shipping;
+﻿using OutModern.src.Client.Cart;
+using OutModern.src.Client.Shipping;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -22,6 +23,7 @@ namespace OutModern.src.Client.Payment
         int customerId = 1;
         protected void Page_Load(object sender, EventArgs e)
         {
+            PromoTable promoCode = null;
             if (!IsPostBack)
             {
                 // Check if the status parameter indicates success
@@ -29,24 +31,30 @@ namespace OutModern.src.Client.Payment
                 if (status == "success")
                 {
                     // Retrieve the selected address from the session
-                    Address selectedAddress = Session["SelectedAddressPayment"] as Address;
+                    Address selectedAddress = Session["SelectedAddressPayment2"] as Address;
                     PaymentInfo paymentInfo = Session["PaymentInfo"] as PaymentInfo;
+                    if (Session["PromoCode3"] != null)
+                    {
+                        // Retrieve the selected address from the session
+                        promoCode = Session["PromoCode3"] as PromoTable;
+                    }
 
+                    decimal grandTotal = (decimal)Session["GrandTotal"];
                     // Perform the database operation to insert data
-                    InsertDataIntoDatabase(selectedAddress, paymentInfo);
+                    InsertDataIntoDatabase(selectedAddress, paymentInfo, grandTotal, promoCode);
                 }
             }
 
         }
 
-        private void InsertDataIntoDatabase(Address selectedAddress, PaymentInfo paymentInfo)
+        private void InsertDataIntoDatabase(Address selectedAddress, PaymentInfo paymentInfo, decimal grandTotal, PromoTable promoCode)
         {
             List<CartItem> cartItems = GetCartItems(customerId);
 
             if (cartItems != null && cartItems.Count > 0)
             {
                 // Create a new order
-                int orderId = CreateOrder(selectedAddress.AddressId, GetPaymentMethodId(paymentInfo));
+                int orderId = CreateOrder(selectedAddress.AddressId, GetPaymentMethodId(paymentInfo), promoCode.PromoId);
 
                 // Add cart items to order items
                 foreach (var cartItem in cartItems)
@@ -55,7 +63,7 @@ namespace OutModern.src.Client.Payment
                     UpdateProductDetailQuantity(cartItem.ProductDetailId, cartItem.Quantity);
                 }
 
-                UpdateOrderSubtotal();
+                UpdateOrderTotal(grandTotal);
 
                 // Clear the cart (optional)
                 ClearCart(customerId);
@@ -63,12 +71,12 @@ namespace OutModern.src.Client.Payment
 
         }
 
-        private void UpdateOrderSubtotal()
+        private void UpdateOrderTotal(decimal grandTotal)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 string query = "UPDATE [dbo].[Order] " +
-                               "SET Subtotal = (SELECT SUM(P.UnitPrice * OI.Quantity) " +
+                               "SET Total = @GrandTotal " +
                                               "FROM OrderItem OI " +
                                               "INNER JOIN ProductDetail PD ON OI.ProductDetailId = PD.ProductDetailId " +
                                               "INNER JOIN Product P ON PD.ProductId = P.ProductId " +
@@ -76,6 +84,7 @@ namespace OutModern.src.Client.Payment
                                "WHERE CustomerId = @CustomerId";
                 SqlCommand cmd = new SqlCommand(query, con);
                 cmd.Parameters.AddWithValue("@CustomerId", customerId);
+                cmd.Parameters.AddWithValue("@GrandTotal", grandTotal);
 
                 con.Open();
                 cmd.ExecuteNonQuery();
@@ -158,26 +167,39 @@ namespace OutModern.src.Client.Payment
             return cartItems;
         }
 
-        private int CreateOrder(int addressId, int paymentMethodId)
+        private int CreateOrder(int addressId, int paymentMethodId, int? promoId)
         {
             int orderId = 0;
 
             // Insert data into the Order table
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = "INSERT INTO [dbo].[Order] (CustomerId, AddressId, PaymentMethodId, PromoId, PaymentDatetime, OrderDatetime, Subtotal, OrderStatusId) VALUES (@CustomerId, @AddressId, @PaymentMethodId, @PromoId, @PaymentDatetime, @OrderDatetime, @Subtotal, @OrderStatusId); SELECT SCOPE_IDENTITY();";
+                string query = "INSERT INTO [dbo].[Order] (CustomerId, AddressId, PaymentMethodId, PromoId, PaymentDatetime, OrderDatetime, Total, OrderStatusId) VALUES (@CustomerId, @AddressId, @PaymentMethodId, @PromoId, @PaymentDatetime, @OrderDatetime, @Total, @OrderStatusId); SELECT SCOPE_IDENTITY();";
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@CustomerId", customerId);
                 command.Parameters.AddWithValue("@AddressId", addressId);
                 command.Parameters.AddWithValue("@PaymentMethodId", paymentMethodId);
-                command.Parameters.AddWithValue("@PromoId", DBNull.Value); // Provide the value for PromoId
+                if (promoId.HasValue)
+                {
+                    command.Parameters.AddWithValue("@PromoId", promoId); // Provide the value for PromoId
+                }
+                else
+                {
+                    command.Parameters.AddWithValue("@PromoId", DBNull.Value); // Provide the value for PromoId
+                }
+
                 command.Parameters.AddWithValue("@PaymentDatetime", DateTime.Now);
                 command.Parameters.AddWithValue("@OrderDatetime", DateTime.Now);
-                command.Parameters.AddWithValue("@Subtotal", 0); // You might need to calculate subtotal here
+                command.Parameters.AddWithValue("@Total", 0); // You might need to calculate subtotal here
                 command.Parameters.AddWithValue("@OrderStatusId", 1); // Replace 1 with the actual OrderStatusId
 
                 connection.Open();
                 orderId = Convert.ToInt32(command.ExecuteScalar());
+
+                if (promoId.HasValue)
+                {
+                    UpdatePromoCodeQuantity(promoId.Value);
+                }
             }
 
             return orderId;
@@ -198,6 +220,20 @@ namespace OutModern.src.Client.Payment
                 command.ExecuteNonQuery();
                 connection.Close();
 
+            }
+        }
+
+        private void UpdatePromoCodeQuantity(int promoId)
+        {
+            // Decrease the quantity for the given promoId by 1 in the database
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "UPDATE PromoCode SET Quantity = Quantity - 1 WHERE PromoId = @PromoId AND Quantity > 0";
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@PromoId", promoId);
+
+                connection.Open();
+                command.ExecuteNonQuery();
             }
         }
 
@@ -255,7 +291,9 @@ namespace OutModern.src.Client.Payment
             if (!IsPostBack)
             {
                 Session.Remove("PaymentInfo");
-                Session.Remove("SelectedAddressPayment");
+                Session.Remove("SelectedAddressPayment2");
+                Session.Remove("PromoCode3");
+                Session.Remove("GrandTotal");
             }
 
         }

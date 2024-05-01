@@ -1,4 +1,6 @@
 ﻿using OutModern.src.Admin.Customers;
+using OutModern.src.Admin.PromoCode;
+using OutModern.src.Client.Cart;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -32,6 +34,22 @@ namespace OutModern.src.Client.Shipping
         int customerId = 1;
         protected void Page_Load(object sender, EventArgs e)
         {
+
+
+            PromoTable promoCode = Session["PromoCode"] as PromoTable;
+            Session["PromoCode2"] = Session["PromoCode"];
+            if (promoCode != null)
+            {
+
+                UpdateDiscount(promoCode);
+
+            }
+            else
+            {
+
+                ResetDiscountLabel();
+            }
+
             BindCartItems();
             BindAddresses();
             UpdateSubtotalandGrandTotalLabel();
@@ -42,6 +60,12 @@ namespace OutModern.src.Client.Shipping
             if (!IsPostBack)
             {
                 Session.Remove("SelectedAddress");
+            }
+
+            if (HttpContext.Current.Session.IsNewSession)
+            {
+          
+                Session.Remove("PromoCode");
             }
 
         }
@@ -116,6 +140,93 @@ namespace OutModern.src.Client.Shipping
                     lblTotal.Text = "RM0.00";
                 }
             }
+        }
+
+        private void ResetDiscountLabel()
+        {
+            lblDiscountRate.Text = "(0%)";
+            lblDiscount.Text = "RM0.00"; // Set it to the default state
+        }
+        protected void UpdateDiscount(PromoTable promoCode)
+        {
+
+            if (promoCode != null)
+            {
+
+                // Update the UI with the discount rate
+                lblDiscountRate.Text = $"({promoCode.DiscountRate}%)";
+
+                decimal subtotal = GetCartSubtotal(customerId);
+                // Calculate the discount amount
+                decimal discountAmount = subtotal * ((decimal)promoCode.DiscountRate / 100);
+
+                // Update the UI with the discount amount
+                lblDiscount.Text = $"RM{discountAmount.ToString("N2")}";
+            }
+            else
+            {
+                lblDiscountRate.Text = "(Invalid code)";
+                // lblDiscount.Text = "RM0.00";
+            }
+
+            UpdateSubtotalandGrandTotalLabel();
+        }
+
+        private decimal GetCartSubtotal(int customerId)
+        {
+            decimal subtotal = 0;
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "SELECT Subtotal FROM Cart WHERE CustomerId = @CustomerId";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@CustomerId", customerId);
+
+                con.Open();
+                object result = cmd.ExecuteScalar();
+
+                if (result != null && result != DBNull.Value)
+                {
+                    subtotal = Convert.ToDecimal(result);
+                }
+
+                con.Close();
+            }
+
+            return subtotal;
+        }
+
+        private PromoTable GetPromoCode(string discountCode)
+        {
+            PromoTable promoCode = null;
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "SELECT * FROM PromoCode WHERE PromoCode = @DiscountCode";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@DiscountCode", discountCode);
+
+                con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    promoCode = new PromoTable
+                    {
+                        PromoId = reader.GetInt32(reader.GetOrdinal("PromoId")),
+                        PromoCode = reader.GetString(reader.GetOrdinal("PromoCode")),
+                        StartDate = reader.GetDateTime(reader.GetOrdinal("StartDate")),
+                        EndDate = reader.GetDateTime(reader.GetOrdinal("EndDate")),
+                        DiscountRate = reader.GetInt32(reader.GetOrdinal("DiscountRate")),
+                        Quantity = reader.GetInt32(reader.GetOrdinal("Quantity"))
+                    };
+                }
+
+                reader.Close();
+                con.Close();
+            }
+
+            return promoCode;
         }
 
         //REMEMBER CHANGE CUSTOMER ID 

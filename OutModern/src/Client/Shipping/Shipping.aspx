@@ -362,11 +362,11 @@
                         <asp:Label ID="lblItemPrice" runat="server" CssClass="text-gray-500" Text="itemprice"></asp:Label>
                     </div>
 
-                    <div class="flex flex-wrap justify-between">
-                        <span>Discount</span>
+                    <div class="mb-2 ml-6 mr-6 flex flex-wrap justify-between">
+                        <span class="text-gray-500">Discount</span>
                         <div>
-                            <asp:Label ID="lblDiscountRate" runat="server" CssClass="text-gray-700" Text="(0%)"></asp:Label>
-                            <asp:Label ID="lblDiscount" runat="server" CssClass="text-gray-700" Text="RM0.00"></asp:Label>
+                            <asp:Label ID="lblDiscountRate" runat="server" CssClass="text-gray-500" Text="(0%)"></asp:Label>
+                            <asp:Label ID="lblDiscount" runat="server" CssClass="text-gray-500" Text="RM0.00"></asp:Label>
                         </div>
                     </div>
 

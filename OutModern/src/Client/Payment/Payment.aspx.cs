@@ -1,4 +1,6 @@
 ﻿using OutModern.src.Admin.Customers;
+using OutModern.src.Admin.PromoCode;
+using OutModern.src.Client.Cart;
 using OutModern.src.Client.Shipping;
 using System;
 using System.Collections.Generic;
@@ -37,14 +39,41 @@ namespace OutModern.src.Client.Payment
                 {
                     // Retrieve the selected address from the session
                     Address selectedAddress = Session["SelectedAddressPayment"] as Address;
+                    Session["SelectedAddressPayment2"] = Session["SelectedAddressPayment"];
+
+                    Session.Remove("SelectedAddressPayment");
 
                 }
 
+            }
 
+            PromoTable promoCode = Session["PromoCode2"] as PromoTable;
+            Session["PromoCode3"] = Session["PromoCode2"];
+            if (promoCode != null)
+            {
+
+                UpdateDiscount(promoCode);
+
+            }
+            else
+            {
+
+                ResetDiscountLabel();
             }
 
             BindCartItems();
             UpdateSubtotalandGrandTotalLabel();
+        }
+
+        protected void Page_Unload(object sender, EventArgs e)
+        {
+            if (HttpContext.Current.Session.IsNewSession)
+            {
+
+                Session.Remove("PromoCode2");
+            }
+
+
         }
 
         private void BindCartItems()
@@ -99,6 +128,8 @@ namespace OutModern.src.Client.Payment
                     decimal discount = decimal.Parse(lblDiscount.Text.Replace("RM", ""));
                     decimal grandTotal = subtotal + deliveryCost - discount;
 
+                    Session["GrandTotal"] = grandTotal;
+
                     lblTotal.Text = $"RM{grandTotal.ToString("N2")}";
                 }
                 else
@@ -109,9 +140,38 @@ namespace OutModern.src.Client.Payment
             }
         }
 
-        private decimal GetTotal()
+        private void ResetDiscountLabel()
         {
-            decimal grandTotal = 0;
+            lblDiscountRate.Text = "(0%)";
+            lblDiscount.Text = "RM0.00"; // Set it to the default state
+        }
+        protected void UpdateDiscount(PromoTable promoCode)
+        {
+
+            if (promoCode != null)
+            {
+
+                // Update the UI with the discount rate
+                lblDiscountRate.Text = $"({promoCode.DiscountRate}%)";
+
+                decimal subtotal = GetCartSubtotal(customerId);
+                // Calculate the discount amount
+                decimal discountAmount = subtotal * ((decimal)promoCode.DiscountRate / 100);
+
+                // Update the UI with the discount amount
+                lblDiscount.Text = $"RM{discountAmount.ToString("N2")}";
+            }
+            else
+            {
+                lblDiscountRate.Text = "(Invalid code)";
+                // lblDiscount.Text = "RM0.00";
+            }
+
+        }
+
+        private decimal GetCartSubtotal(int customerId)
+        {
+            decimal subtotal = 0;
 
             using (SqlConnection con = new SqlConnection(connectionString))
             {
@@ -121,27 +181,22 @@ namespace OutModern.src.Client.Payment
 
                 con.Open();
                 object result = cmd.ExecuteScalar();
+
+                if (result != null && result != DBNull.Value)
+                {
+                    subtotal = Convert.ToDecimal(result);
+                }
+
                 con.Close();
-
-                // Check if the result is not null
-                if (result != null)
-                {
-                    decimal subtotal = Convert.ToDecimal(result);
-                    lblItemPrice.Text = $"RM{subtotal.ToString("N2")}";
-
-                    decimal deliveryCost = decimal.Parse(lblDeliveryCost.Text.Replace("RM", ""));
-                    grandTotal = subtotal + deliveryCost;
-
-                    lblTotal.Text = $"RM{grandTotal.ToString("N2")}";
-                }
-                else
-                {
-                    // If subtotal is null, display 0.00
-                    lblTotal.Text = "RM0.00";
-                }
-
-                
             }
+
+            return subtotal;
+        }
+
+        private decimal GetTotal()
+        {
+            decimal grandTotal = decimal.Parse(lblTotal.Text.Replace("RM", ""));
+            
 
             return grandTotal;
         }
