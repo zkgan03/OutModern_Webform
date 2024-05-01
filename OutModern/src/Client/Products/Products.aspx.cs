@@ -122,7 +122,7 @@ namespace OutModern.src.Client.Products
                             product.UnitPrice = (decimal)reader["UnitPrice"];
                             product.ProductCategory = reader["ProductCategory"].ToString();
                             product.TotalReview = (int)reader["TotalReview"];
-                            decimal totalRating = (decimal)reader["TotalRating"];
+                            decimal totalRating = !reader.IsDBNull(reader.GetOrdinal("TotalRating")) ? (decimal)reader["TotalRating"] : 0;
                             product.OverallRatings = product.TotalReview != 0 ? Math.Round((totalRating / (decimal)product.TotalReview), 1) : 0;
                             product.TotalSold = GetTotalSold(product.ProductId);
                             product.AvailableColors = GetAvailableColors(product.ProductId);
@@ -174,7 +174,7 @@ namespace OutModern.src.Client.Products
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string imageQuery = @"SELECT DISTINCT Path FROM ProductImage WHERE ProductDetailId IN (SELECT ProductDetailId FROM ProductDetail WHERE ProductId = @ProductId)";
+                string imageQuery = @"SELECT DISTINCT PI.Path, PD.ColorId FROM ProductImage PI INNER JOIN ProductDetail PD ON PI.ProductDetailId = PD.ProductDetailId WHERE PD.ProductId = @ProductId ORDER BY PD.ColorId;";
 
                 using (SqlCommand command = new SqlCommand(imageQuery, connection))
                 {

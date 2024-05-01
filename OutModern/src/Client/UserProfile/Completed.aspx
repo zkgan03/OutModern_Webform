@@ -75,7 +75,7 @@
                             </div>    
                         </div>
                         <div class="box4">
-                            <asp:Button ID="btnComment" runat="server" Text="Comment" CssClass="bg-black hover:bg-gray-700" Style="font-family: sans-serif; color: white; font-size: 1rem; font-weight: bold; border-radius: 1.25rem; padding: 0.625rem 1.25rem; margin-left: 0.625rem; cursor: pointer;" />
+                            <asp:Button ID="btnComment" OnClick="btnComment_Click" runat="server" Text="Comment" CssClass="bg-black hover:bg-gray-700" Style="font-family: sans-serif; color: white; font-size: 1rem; font-weight: bold; border-radius: 1.25rem; padding: 0.625rem 1.25rem; margin-left: 0.625rem; cursor: pointer;" />
                         </div>
                     </div>
 
