@@ -50,44 +50,101 @@ namespace OutModern.src.Client.Profile
                         }
 
                         reader.Close();
+                    }
+                    // Get selected address name from dropdown
+                    string selectedAddressName = ddl_address_name.SelectedValue;
 
-                        // Get selected address name from dropdown
-                        string selectedAddressName = ddl_address_name.SelectedValue;
+                    // Get address data (assuming only one address per customer)
+                    string addressQuery = "SELECT * FROM Address WHERE CustomerId = @custId AND AddressName = @addressName";
+                    SqlCommand addressCmd = new SqlCommand(addressQuery, conn);
+                    addressCmd.Parameters.AddWithValue("@custId", custID);
 
-                        // Get address data (assuming only one address per customer)
-                        string addressQuery = "SELECT * FROM Address WHERE CustomerId = @custId AND AddressName = @addressName";
-                        SqlCommand addressCmd = new SqlCommand(addressQuery, conn);
-                        addressCmd.Parameters.AddWithValue("@custId", custID);
+                    if (!string.IsNullOrEmpty(selectedAddressName)) // Check if a selection is made
+                    {
                         addressCmd.Parameters.AddWithValue("@addressName", selectedAddressName);
-
-                        SqlDataReader addressReader = addressCmd.ExecuteReader();
-
-                        if (addressReader.HasRows)
-                        {
-                            addressReader.Read(); // Read the first row (assuming only one address)
-
-                            lbl_addressLine.Text = addressReader["AddressLine"].ToString();
-                            lbl_country.Text = addressReader["Country"].ToString();
-                            lbl_state.Text = addressReader["State"].ToString();
-                            lbl_postaCode.Text = addressReader["PostalCode"].ToString();
-                        }
-                        else
-                        {
-                            // Handle case where no address is found for the selected name
-                            lbl_addressLine.Text = "N/A";
-                            lbl_country.Text = "N/A";
-                            lbl_state.Text = "N/A";
-                            lbl_postaCode.Text = "N/A";
-                        }
-                        addressReader.Close();
                     }
 
+                    SqlDataReader addressReader = addressCmd.ExecuteReader();
+
+                    if (addressReader.HasRows)
+                    {
+                        addressReader.Read(); // Read the first row (assuming only one address)
+
+                        lbl_addressLine.Text = addressReader["AddressLine"].ToString();
+                        lbl_country.Text = addressReader["Country"].ToString();
+                        lbl_state.Text = addressReader["State"].ToString();
+                        lbl_postaCode.Text = addressReader["PostalCode"].ToString();
+                    }
+                    else
+                    {
+                        // Handle case where no address is found for the selected name
+                        lbl_addressLine.Text = "N/A";
+                        lbl_country.Text = "N/A";
+                        lbl_state.Text = "N/A";
+                        lbl_postaCode.Text = "N/A";
+                    }
+                    addressReader.Close();
+                    conn.Close();
                 }
+
+            }
             catch (Exception ex)
             {
                 Response.Write(ex.Message);
             }
+
+            // Restore selected address from ViewState (if available on postback)
+            if (!IsPostBack)
+            {
+                string selectedValue = (string)ViewState["SelectedAddress"];
+                if (!string.IsNullOrEmpty(selectedValue))
+                {
+                    ddl_address_name.SelectedValue = selectedValue;
+                }
+            }
         }
+
+        //protected void ddl_address_name_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    int custID = int.Parse(Request.Cookies["CustID"].Value);
+        //    string selectedValue = ddl_address_name.SelectedValue;
+
+        //    ViewState["SelectedAddress"] = selectedValue; // Store selected value in ViewState
+
+        //    using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
+        //    {
+        //        conn.Open();
+
+        //        // Get address data based on the selected address name
+        //        string addressQuery = "SELECT * FROM Address WHERE CustomerId = @custId AND AddressName = @addressName";
+        //        SqlCommand addressCmd = new SqlCommand(addressQuery, conn);
+        //        addressCmd.Parameters.AddWithValue("@custId", custID);
+        //        addressCmd.Parameters.AddWithValue("@addressName", selectedValue);
+
+        //        SqlDataReader addressReader = addressCmd.ExecuteReader();
+
+        //        if (addressReader.HasRows)
+        //        {
+        //            addressReader.Read(); // Read the first row (assuming only one address)
+
+        //            lbl_addressLine.Text = addressReader["AddressLine"].ToString();
+        //            lbl_country.Text = addressReader["Country"].ToString();
+        //            lbl_state.Text = addressReader["State"].ToString();
+        //            lbl_postaCode.Text = addressReader["PostalCode"].ToString();
+        //        }
+        //        else
+        //        {
+        //            // Handle case where no address is found for the selected name
+        //            lbl_addressLine.Text = "N/A";
+        //            lbl_country.Text = "N/A";
+        //            lbl_state.Text = "N/A";
+        //            lbl_postaCode.Text = "N/A";
+        //        }
+
+        //        addressReader.Close();
+        //        conn.Close();
+        //    }
+        //}
 
         protected void btn_edit_profile_Click(object sender, EventArgs e)
         {
