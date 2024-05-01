@@ -16,12 +16,12 @@ namespace OutModern.src.Client.Profile
         protected void Page_Load(object sender, EventArgs e)
         {
             int custID = int.Parse(Request.Cookies["CustID"].Value);
-
             lbl_custId.Text = custID.ToString();
 
+            if (!IsPostBack)
+            {
             try
             {
-
                 using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
                 {
                     conn.Open();
@@ -48,48 +48,45 @@ namespace OutModern.src.Client.Profile
                         {
                             lbl_up_phoneNumber.Text = reader["CustomerPhoneNumber"].ToString();
                         }
-
                         reader.Close();
+                        }
 
-                        // Get selected address name from dropdown
-                        string selectedAddressName = ddl_address_name.SelectedValue;
 
-                        // Get address data (assuming only one address per customer)
-                        string addressQuery = "SELECT * FROM Address WHERE CustomerId = @custId AND AddressName = @addressName";
+                        // get address name for dropdownlist for customer
+                        string addressQuery = "SELECT * FROM Address WHERE CustomerId = @custId";
                         SqlCommand addressCmd = new SqlCommand(addressQuery, conn);
                         addressCmd.Parameters.AddWithValue("@custId", custID);
-                        addressCmd.Parameters.AddWithValue("@addressName", selectedAddressName);
 
-                        SqlDataReader addressReader = addressCmd.ExecuteReader();
+                        DataTable data = new DataTable();
+                        data.Load(addressCmd.ExecuteReader());
 
-                        if (addressReader.HasRows)
+                        if (data.Rows.Count == 0)
                         {
-                            addressReader.Read(); // Read the first row (assuming only one address)
-
-                            lbl_addressLine.Text = addressReader["AddressLine"].ToString();
-                            lbl_country.Text = addressReader["Country"].ToString();
-                            lbl_state.Text = addressReader["State"].ToString();
-                            lbl_postaCode.Text = addressReader["PostalCode"].ToString();
-                        }
-                        else
-                        {
-                            // Handle case where no address is found for the selected name
                             lbl_addressLine.Text = "N/A";
                             lbl_country.Text = "N/A";
                             lbl_state.Text = "N/A";
                             lbl_postaCode.Text = "N/A";
                         }
-                        addressReader.Close();
-                    }
+                        else
+                        {
+                            lbl_addressLine.Text = data.Rows[0]["AddressLine"].ToString();
+                            lbl_country.Text = data.Rows[0]["Country"].ToString();
+                            lbl_state.Text = data.Rows[0]["State"].ToString();
+                            lbl_postaCode.Text = data.Rows[0]["PostalCode"].ToString();
 
-                    conn.Close();
-
+                            ddl_address_name.DataSource = data;
+                            ddl_address_name.DataTextField = "AddressName";
+                            ddl_address_name.DataValueField = "AddressName";
+                            ddl_address_name.DataBind();
                 }
             }
+                }
             catch (Exception ex)
             {
                 Response.Write(ex.Message);
             }
+        }
+
         }
 
         protected void btn_edit_profile_Click(object sender, EventArgs e)
@@ -135,6 +132,45 @@ namespace OutModern.src.Client.Profile
 
             // Redirect to login page
             Response.Redirect("~/src/Client/Login/Login.aspx");
+        }
+
+        protected void ddl_address_name_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
+            {
+                conn.Open();
+                // Get selected address name from dropdown
+                string selectedAddressName = ddl_address_name.SelectedValue;
+
+                string custID = Request.Cookies["CustID"].Value;
+
+                // Get address data (assuming only one address per customer)
+                string addressQuery = "SELECT * FROM Address WHERE CustomerId = @custId AND AddressName = @addressName";
+                SqlCommand addressCmd = new SqlCommand(addressQuery, conn);
+                addressCmd.Parameters.AddWithValue("@custId", custID);
+                addressCmd.Parameters.AddWithValue("@addressName", selectedAddressName);
+
+                SqlDataReader addressReader = addressCmd.ExecuteReader();
+
+                if (addressReader.HasRows)
+                {
+                    addressReader.Read(); // Read the first row (assuming only one address)
+
+                    lbl_addressLine.Text = addressReader["AddressLine"].ToString();
+                    lbl_country.Text = addressReader["Country"].ToString();
+                    lbl_state.Text = addressReader["State"].ToString();
+                    lbl_postaCode.Text = addressReader["PostalCode"].ToString();
+                }
+                else
+                {
+                    // Handle case where no address is found for the selected name
+                    lbl_addressLine.Text = "N/A";
+                    lbl_country.Text = "N/A";
+                    lbl_state.Text = "N/A";
+                    lbl_postaCode.Text = "N/A";
+                }
+                addressReader.Close();
+            }
         }
     }
 }
