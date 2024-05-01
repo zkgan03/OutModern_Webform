@@ -77,9 +77,14 @@ namespace OutModern.src.Client.Products
 
         private void BindProducts(List<Product> products)
         {
+            noProductsFound.Visible = false;
             ProductRepeater.DataSource = products;
             ProductRepeater.DataBind();
             lblTotalProducts.Text = ProductRepeater.Items.Count.ToString() + " Products Found";
+            if (ProductRepeater.Items.Count == 0)
+            {
+                noProductsFound.Visible = true;
+            }
         }
 
         private List<Product> GetProductsInfo(string searchQuery = "")

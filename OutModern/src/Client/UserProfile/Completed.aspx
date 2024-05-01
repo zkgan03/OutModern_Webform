@@ -72,7 +72,10 @@
                         <div class="box3">
                             <div class="box2small2">
                                 <asp:Label ID="lbl_product_price" runat="server" Text="RM49.99" class="box2_product_price"></asp:Label>
-                            </div>
+                            </div>    
+                        </div>
+                        <div class="box4">
+                            <asp:Button ID="btnComment" runat="server" Text="Comment" CssClass="bg-black hover:bg-gray-700" Style="font-family: sans-serif; color: white; font-size: 1rem; font-weight: bold; border-radius: 1.25rem; padding: 0.625rem 1.25rem; margin-left: 0.625rem; cursor: pointer;" />
                         </div>
                     </div>
 

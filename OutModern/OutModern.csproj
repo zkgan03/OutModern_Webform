@@ -133,6 +133,13 @@
     <Compile Include="src\Client\Cart\Cart.aspx.designer.cs">
       <DependentUpon>Cart.aspx</DependentUpon>
     </Compile>
+    <Compile Include="src\Client\Comment\Comment.aspx.cs">
+      <DependentUpon>Comment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\Comment\Comment.aspx.designer.cs">
+      <DependentUpon>Comment.aspx</DependentUpon>
+    </Compile>
     <Compile Include="src\Client\Login\AdminForgetPassword.aspx.cs">
       <DependentUpon>AdminForgetPassword.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -682,6 +689,7 @@
     <Content Include="src\Client\Cart\Cart.aspx" />
     <Content Include="src\Client\ClientMaster\css\ClientMaster.css" />
     <Content Include="src\Client\ClientMaster\js\ClientMaster.js" />
+    <Content Include="src\Client\Comment\Comment.aspx" />
     <Content Include="src\Client\Home\Home.aspx" />
     <Compile Include="src\Admin\AdminMaster\Admin.Master.cs">
       <DependentUpon>Admin.Master</DependentUpon>

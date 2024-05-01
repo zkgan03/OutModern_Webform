@@ -337,7 +337,7 @@
             </div>
         </div>
     </div>
-     <div class="mx-auto mt-5 w-4/5 rounded-lg p-4 shadow-lg">
+     <div class="mx-auto mb-10 mt-5 w-4/5 rounded-lg p-4 shadow-lg">
         <div class="w-full">
             <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                 <ContentTemplate>
