@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Net.Mail;
+using System.Net;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -13,6 +17,8 @@ namespace OutModern.src.Client.ClientMaster
         protected string aboutUrl = "#";
         protected string feedbackUrl = "#";
         protected string cartUrl = "#";
+        int customerId = 1;
+        string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -36,16 +42,35 @@ namespace OutModern.src.Client.ClientMaster
         protected void lBtnSearch_Click(object sender, EventArgs e)
         {
             string searchQuery = txtSearch.Text.Trim();
-            if (DetectSQLInjection(searchQuery))
+            if (DetectSQLInjection(searchQuery) || DetectXSS(searchQuery) )
             {
+                LockUserAccount(); // if detected update user status to "Locked" and clear the login session
+                return;
             }
-
-            if (DetectXSS(searchQuery))
-            {
-            }
-
             Session["SearchQuery"] = searchQuery;  // Pass the search query to content pages
             Response.Redirect("~/src/Client/Products/Products.aspx");
+        }
+
+        private void LockUserAccount()
+        {
+            // Define the update query
+            string updateQuery = "UPDATE Customer SET CustomerStatusId = 2 WHERE CustomerId = @customerId;";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(updateQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@customerId", customerId);
+                    connection.Open();
+                    int rowsAffected = command.ExecuteNonQuery();
+                    if (rowsAffected > 0) // Customer status updated successfully
+                    {
+                        HttpContext.Current.Session.Clear(); // Remove session and redirect to home page
+                        HttpContext.Current.Session.Abandon();
+                        HttpContext.Current.Response.Redirect("~/src/Client/Home/Home.aspx", true);                 
+                    }
+                }
+            }
         }
 
         private bool DetectSQLInjection(string input)
