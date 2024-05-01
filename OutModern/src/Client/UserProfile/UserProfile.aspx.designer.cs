@@ -105,15 +105,6 @@ namespace OutModern.src.Client.Profile
         protected global::System.Web.UI.WebControls.DropDownList ddl_address_name;
 
         /// <summary>
-        /// SqlDataSource1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSource1;
-
-        /// <summary>
         /// lbl_addressLine control.
         /// </summary>
         /// <remarks>
@@ -166,5 +157,14 @@ namespace OutModern.src.Client.Profile
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btn_dlt_acc;
+
+        /// <summary>
+        /// btn_chg_pwd control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btn_chg_pwd;
     }
 }

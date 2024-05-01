@@ -28,20 +28,28 @@
             if (registered === 'true') {
                 alert("Registration successful! You can now login.");
             }
+
+            // Check if the password has been changed successfully
+            var passwordChanged = '<%= Session["PasswordChanged"] %>';
+            if (passwordChanged === 'True') {
+                alert("Password changed successfully! You can now login.");
+            // Reset the session variable to avoid displaying the message again on subsequent page loads
+    '<%= Session["PasswordChanged"] = null %>';
+            }
         };
     </script>
 
-    <script>
+<%--    <script>
         window.onload = function () {
             // Check if the password has been changed successfully
             var passwordChanged = '<%= Session["PasswordChanged"] %>';
             if (passwordChanged === 'True') {
                 alert("Password changed successfully! You can now login.");
-                // Reset the session variable to avoid displaying the message again on subsequent page loads
+            // Reset the session variable to avoid displaying the message again on subsequent page loads
                 '<%= Session["PasswordChanged"] = null %>';
             }
         };
-    </script>
+    </script>--%>
 </head>
 <body>
     <form id="form1" runat="server">

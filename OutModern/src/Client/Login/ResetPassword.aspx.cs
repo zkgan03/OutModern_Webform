@@ -18,6 +18,9 @@ namespace OutModern.src.Client.Login
 
         protected void btn_reset_password_Click(object sender, EventArgs e)
         {
+            //Reset message
+            lblMessage.Text = "";
+
             string conn = System.Configuration.ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
             string custId = Session["CustomerId"] as string;
             if (custId != null)
@@ -62,6 +65,10 @@ namespace OutModern.src.Client.Login
                     {
                         lblMessage.Text = "An error occurred: " + ex.Message;
                     }
+                }
+                else
+                {
+                    lblMessage.Text = "New Password and Re-enter New Password are not same";
                 }
             }
             else

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -16,44 +17,47 @@ namespace OutModern.src.Client.Profile
         protected void Page_Load(object sender, EventArgs e)
         {
             int custID = int.Parse(Request.Cookies["CustID"].Value);
-            lbl_custId.Text = custID.ToString();
 
             if (!IsPostBack)
             {
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
+                try
                 {
-                    conn.Open();
-                    //use parameterized query to prevent sql injection
-                    string query = "SELECT * FROM [Customer] WHERE CustomerId = @custId";
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@custId", custID);
-
-                    SqlDataReader reader = cmd.ExecuteReader();
-
-                    if (reader.HasRows) // Check if there are any results
+                    ////For show the customer profile
+                    using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
                     {
-                        reader.Read(); // Read the first row
+                        conn.Open();
+                        //use parameterized query to prevent sql injection
+                        string query = "SELECT * FROM [Customer] WHERE CustomerId = @custId";
+                        SqlCommand cmd = new SqlCommand(query, conn);
+                        cmd.Parameters.AddWithValue("@custId", custID);
 
-                        lbl_up_username.Text = reader["CustomerUsername"].ToString();
-                        lbl_up_fullname.Text = reader["CustomerFullname"].ToString();
-                        lbl_up_email.Text = reader["CustomerEmail"].ToString();
+                        SqlDataReader reader = cmd.ExecuteReader();
 
-                        if (reader["CustomerPhoneNumber"].ToString() == "")
+                        if (reader.HasRows) // Check if there are any results
                         {
-                            lbl_up_phoneNumber.Text = "-";
-                        }
-                        else
-                        {
-                            lbl_up_phoneNumber.Text = reader["CustomerPhoneNumber"].ToString();
-                        }
-                        reader.Close();
+                            reader.Read(); // Read the first row
+
+                            //left box display
+                            lbl_username.Text = reader["CustomerUsername"].ToString();
+
+                            lbl_up_username.Text = reader["CustomerUsername"].ToString();
+                            lbl_up_fullname.Text = reader["CustomerFullname"].ToString();
+                            lbl_up_email.Text = reader["CustomerEmail"].ToString();
+
+                            if (reader["CustomerPhoneNumber"].ToString() == "")
+                            {
+                                lbl_up_phoneNumber.Text = "-";
+                            }
+                            else
+                            {
+                                lbl_up_phoneNumber.Text = reader["CustomerPhoneNumber"].ToString();
+                            }
+                            reader.Close();
                         }
 
 
-                        // get address name for dropdownlist for customer
-                        string addressQuery = "SELECT * FROM Address WHERE CustomerId = @custId";
+                        //// get address name for dropdownlist for customer
+                        string addressQuery = "SELECT * FROM Address WHERE CustomerId = @custId And isDeleted = 0";
                         SqlCommand addressCmd = new SqlCommand(addressQuery, conn);
                         addressCmd.Parameters.AddWithValue("@custId", custID);
 
@@ -74,18 +78,22 @@ namespace OutModern.src.Client.Profile
                             lbl_state.Text = data.Rows[0]["State"].ToString();
                             lbl_postaCode.Text = data.Rows[0]["PostalCode"].ToString();
 
+                            //if no change selection
+                            Session["AddressName"] = ddl_address_name.SelectedValue;
+
                             ddl_address_name.DataSource = data;
                             ddl_address_name.DataTextField = "AddressName";
                             ddl_address_name.DataValueField = "AddressName";
                             ddl_address_name.DataBind();
+                        }
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Response.Write(ex.Message);
                 }
             }
-                }
-            catch (Exception ex)
-            {
-                Response.Write(ex.Message);
-            }
-        }
 
         }
 
@@ -105,6 +113,12 @@ namespace OutModern.src.Client.Profile
         {
             // Redirect to Edit User Profile page
             Response.Redirect("UserProfile.aspx");
+        }
+
+        protected void btn_chg_pwd_Click(object sender, EventArgs e)
+        {
+            // Redirect to login page
+            Response.Redirect("~/src/Client/UserProfile/ChangePassword.aspx");
         }
 
         protected void btn_dlt_acc_Click(object sender, EventArgs e)
@@ -160,6 +174,9 @@ namespace OutModern.src.Client.Profile
                     lbl_country.Text = addressReader["Country"].ToString();
                     lbl_state.Text = addressReader["State"].ToString();
                     lbl_postaCode.Text = addressReader["PostalCode"].ToString();
+
+                    //if change selection
+                    Session["AddressName"] = ddl_address_name.SelectedValue;
                 }
                 else
                 {

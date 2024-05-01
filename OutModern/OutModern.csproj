@@ -223,6 +223,13 @@
     <Compile Include="src\Client\UserProfile\Cancelled.aspx.designer.cs">
       <DependentUpon>Cancelled.aspx</DependentUpon>
     </Compile>
+    <Compile Include="src\Client\UserProfile\ChangePassword.aspx.cs">
+      <DependentUpon>ChangePassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\ChangePassword.aspx.designer.cs">
+      <DependentUpon>ChangePassword.aspx</DependentUpon>
+    </Compile>
     <Compile Include="src\Client\UserProfile\Completed.aspx.cs">
       <DependentUpon>Completed.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -281,9 +288,7 @@
     </Compile>
     <Compile Include="src\Util\StringUtil.cs" />
     <Content Include="App_Data\OutModern.mdf" />
-    <Content Include="App_Data\OutModern_log.ldf">
-      <DependentUpon>OutModern.mdf</DependentUpon>
-    </Content>
+    <Content Include="App_Data\OutModern_log.ldf" />
     <Content Include="favicon\android-chrome-192x192.png" />
     <Content Include="favicon\android-chrome-512x512.png" />
     <Content Include="favicon\apple-touch-icon.png" />
@@ -807,7 +812,9 @@
     <Content Include="src\Client\Products\Products.aspx" />
     <Content Include="src\Client\Shipping\Shipping.aspx" />
     <Content Include="src\Client\UserProfile\Cancelled.aspx" />
+    <Content Include="src\Client\UserProfile\ChangePassword.aspx" />
     <Content Include="src\Client\UserProfile\Completed.aspx" />
+    <Content Include="src\Client\UserProfile\css\ChangePassword.css" />
     <Content Include="src\Client\UserProfile\css\MyOrder.css" />
     <Content Include="src\Client\UserProfile\css\UserProfile.css" />
     <Content Include="src\Client\UserProfile\EditUserProfile.aspx" />
