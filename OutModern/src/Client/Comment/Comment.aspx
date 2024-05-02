@@ -1,28 +1,6 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/src/Client/ClientMaster/Client.Master"  AutoEventWireup="true" CodeBehind="Comment.aspx.cs" Inherits="OutModern.src.Client.Comment.Comment" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <style>
-        .success-message {
-    background-color: #4CAF50; /* Green */
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1000;
-}
-
-/* Optional: Add animation for the message */
-.success-message.show {
-    animation: slideIn 0.5s ease-in-out;
-}
-
-@keyframes slideIn {
-    0% { transform: translateY(100%); }
-    100% { transform: translateY(0); }
-}
-    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="comment-container mb-10 mt-10 flex items-center justify-center" style="min-height:600px;">
@@ -58,7 +36,7 @@
                     <asp:TextBox ID="txtComment" runat="server" TextMode="MultiLine" Rows="5" Placeholder="Enter your comment here" CssClass="w-full rounded-md border-gray-400 p-2 focus:border-indigo-500 focus:ring-indigo-500"></asp:TextBox>
                     <asp:Label ID="lblMessage" runat="server" Text="Please fill in your comment" Visible="false" CssClass="text-sm text-red-500"></asp:Label>                   
                 </div>
-                <asp:Button ID="btnSubmitComment" OnClick="btnSubmitComment_Click" runat="server" Text="Submit Comment" CssClass="mt-2 rounded-md bg-black px-4 py-2 font-bold text-white hover:bg-indigo-600" />
+                <asp:Button ID="btnSubmitComment" OnClick="btnSubmitComment_Click" runat="server" Text="Submit Comment" CssClass="mt-2 cursor-pointer rounded-md bg-black px-4 py-2 font-bold text-white hover:bg-indigo-600" />
             </div>
         </div>
         <div id="commentMessage" class="modal z-10 fixed inset-0 flex items-center justify-center overflow-y-auto" runat="server" visible="false">

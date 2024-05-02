@@ -106,11 +106,11 @@
                         <ul class="pl-5" id="">
                             <li class="list-none pb-2.5 pl-5">
                                 <asp:CheckBoxList ID="CategoryCheckBoxList" runat="server" CssClass="checkbox-list" AutoPostBack="true" OnSelectedIndexChanged="CategoryCheckBoxList_SelectedIndexChanged">
-                                    <asp:ListItem Text="Hoodie" Value="Hoodie"></asp:ListItem>
-                                    <asp:ListItem Text="Short" Value="Short"></asp:ListItem>
-                                    <asp:ListItem Text="Sweater" Value="Sweater"></asp:ListItem>
-                                    <asp:ListItem Text="TeeShirt" Value="TeeShirt"></asp:ListItem>
-                                    <asp:ListItem Text="Trouser" Value="Trouser"></asp:ListItem>
+                                    <asp:ListItem Text="Hoodies" Value="Hoodies"></asp:ListItem>
+                                    <asp:ListItem Text="Shorts" Value="Shorts"></asp:ListItem>
+                                    <asp:ListItem Text="Sweaters" Value="Sweaters"></asp:ListItem>
+                                    <asp:ListItem Text="TeeShirts" Value="TeeShirts"></asp:ListItem>
+                                    <asp:ListItem Text="Trousers" Value="Trousers"></asp:ListItem>
                                 </asp:CheckBoxList>
                             </li>
                         </ul>
@@ -230,7 +230,8 @@
                         </svg>
                         <h2 class="mb-4 text-2xl font-bold text-gray-800">No Products Found</h2>
                         <p class="mb-8 text-gray-600">We couldn't find any products matching your search criteria.</p>
-                        <asp:Button ID="Button1" OnClick="btnReset_Click" runat="server" CssClass="inline-block cursor-pointer rounded bg-black px-4 py-2 font-bold text-white hover:bg-indigo-600" Text="Shop All Products / Reset Filters"/>
+                        <asp:LinkButton ID="lbtnReset"  OnClick="lbtnReset_Click" runat="server" CssClass="inline-block cursor-pointer rounded bg-black px-4 py-2 font-bold text-white hover:bg-indigo-600">Shop All Products / Reset Filters</asp:LinkButton>
+
                     </div>
                 </div>
             </div>
@@ -258,7 +259,7 @@
         function changeImage(image, imageUrl) {
             setTimeout(function () {
                 image.src = imageUrl;
-            }, 200);
+            }, 300);
         }
     </script>
 </asp:Content>

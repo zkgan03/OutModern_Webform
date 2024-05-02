@@ -14,6 +14,7 @@ using static OutModern.src.Admin.Products.Products;
 
 namespace OutModern.src.Client.Products
 {
+    [Serializable]
     public class Product
     {
         public int ProductId { get; set; }
@@ -42,14 +43,14 @@ namespace OutModern.src.Client.Products
         {
             if (!IsPostBack)
             {
-                string searchQuery = Session["SearchQuery"] as string;
+                string searchQuery = Request.QueryString["search"];
                 if (!string.IsNullOrEmpty(searchQuery))
                 {
                     searchResults = GetProductsInfo(searchQuery);
                     BindProducts(searchResults);
-                    Session.Remove("SearchQuery");
-                    Session["SearchResults"] = searchResults; // Store searchResults in Session
-                }else
+                    ViewState["SearchResults"] = searchResults;
+                }
+                else
                 {
                     selectedRating = string.Empty;
                     selectedCategories.Clear();
@@ -61,7 +62,7 @@ namespace OutModern.src.Client.Products
                 }             
             } else
             {
-                searchResults = Session["SearchResults"] as List<Product>; // Retrieve searchResults from Session
+                searchResults = ViewState["SearchResults"] as List<Product>; // Retrieve searchResults from ViewState
                 if (searchResults == null)
                 {
                     productList = GetProductsInfo(); // searchResults is null, use productList instead
@@ -242,7 +243,7 @@ namespace OutModern.src.Client.Products
         private void FilterProducts()
         {
             List<Product> filteredProducts;
-            List<Product> sourceList = Session["SearchResults"] as List<Product> ?? GetProductsInfo();
+            List<Product> sourceList = ViewState["SearchResults"] as List<Product> ?? GetProductsInfo();
 
             if (string.IsNullOrEmpty(selectedRating))
             {
@@ -329,7 +330,6 @@ namespace OutModern.src.Client.Products
 
         protected void btnReset_Click(object sender, EventArgs e)
         {
-            Session.Remove("SearchResults");
             selectedRating = string.Empty;
             selectedCategories.Clear();
             CategoryCheckBoxList.ClearSelection();
@@ -372,6 +372,11 @@ namespace OutModern.src.Client.Products
                     selectedColors.Add(item.Value);
                 }
             }
+        }
+
+        protected void lbtnReset_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/src/Client/Products/Products.aspx");
         }
 
         protected void ProductRepeater_ItemDataBound(object sender, RepeaterItemEventArgs e)

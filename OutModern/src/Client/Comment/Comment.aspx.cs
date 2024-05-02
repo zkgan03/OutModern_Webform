@@ -38,7 +38,7 @@ namespace OutModern.src.Client.Comment
                         if (reader.Read())
                         {
                             lblProductName.Text  = reader["ProductName"].ToString();
-                            lblProductPrice.Text = "RM" + ((decimal)reader["UnitPrice"]).ToString();
+                            lblProductPrice.Text = "RM " + ((decimal)reader["UnitPrice"]).ToString();
                             lblProductColour.Text = "Color: " + reader["ColorName"].ToString();
                             lblProductSize.Text = "Size: " + reader["SizeName"].ToString() + " Size";
                             imgProduct.ImageUrl = reader["ImagePath"] != DBNull.Value ? reader["ImagePath"].ToString() : null;
@@ -59,7 +59,6 @@ namespace OutModern.src.Client.Comment
             {
                 decimal rating = Convert.ToDecimal(selectedRating);
                 // Insert the review into the database
-                string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
                 string sqlQuery = @"INSERT INTO Review (CustomerId, ProductDetailId, Rating, ReviewDateTime, ReviewDescription)
                             VALUES (@CustomerId, @ProductDetailId, @Rating, @ReviewDateTime, @ReviewDescription)";
 

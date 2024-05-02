@@ -45,8 +45,12 @@ namespace OutModern.src.Client.ClientMaster
                 LockUserAccount(); // if detected update user status to "Locked" and clear the login session
                 return;
             }
-            Session["SearchQuery"] = searchQuery;  // Pass the search query to content pages
-            Response.Redirect("~/src/Client/Products/Products.aspx");
+            // Construct the URL with the search query as a query string parameter
+            string redirectUrl = $"~/src/Client/Products/Products.aspx?search={searchQuery}";
+
+            // Redirect to the Products page with the search query
+            Response.Redirect(redirectUrl, false);
+
         }
 
         private void LockUserAccount()
