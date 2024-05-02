@@ -185,7 +185,7 @@
                                         <FooterTemplate>
                                             <asp:Label ID="lblNoColor" CssClass="text-red-500" runat="server"
                                                 Visible='<%# ((Repeater)Container.NamingContainer).Items.Count == 0 %>'
-                                                Text="**No Color added**" />
+                                                Text="**No Color added, please go to edit page to add color and set quantity**" />
                                         </FooterTemplate>
                                     </asp:Repeater>
                                 </div>

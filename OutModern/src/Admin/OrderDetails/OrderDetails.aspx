@@ -25,14 +25,17 @@
                             <div class="flex gap-2 flex-row-reverse">
                                 <asp:Button ID="btnReturnToPlaced"
                                     CssClass="button bg-gray-100 text-black"
+                                    OnClientClick="return confirm('Are you sure you want to return this order to placed?');"
                                     OnClick="btnReturnToPlaced_Click"
                                     runat="server" Text="Return to Placed" />
                                 <asp:Button ID="btnCancel"
                                     CssClass="button bg-red-500"
+                                    OnClientClick="return confirm('Are you sure you want to cancel this order?');"
                                     OnClick="btnCancel_Click"
                                     runat="server" Text="Cancel" />
                                 <asp:Button ID="btnShipped"
                                     CssClass="button bg-green-500 text-white"
+                                    OnClientClick="return confirm('Are you sure you want to mark this order as shipped?');"
                                     OnClick="btnShipped_Click"
                                     runat="server" Text="Shipped" />
                             </div>

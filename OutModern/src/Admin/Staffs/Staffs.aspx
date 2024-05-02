@@ -56,11 +56,11 @@
         <div class="mt-2">
             <!--Pagination-->
             <asp:DataPager ID="dpTopStaffs" class="pagination" runat="server" PagedControlID="lvStaffs">
-                <fields>
+                <Fields>
                     <asp:NextPreviousPagerField ButtonType="Button" ShowFirstPageButton="False" ShowNextPageButton="False" ShowPreviousPageButton="True" PreviousPageText="<" />
                     <asp:NumericPagerField CurrentPageLabelCssClass="active" ButtonCount="10" />
                     <asp:NextPreviousPagerField ButtonType="Button" ShowLastPageButton="False" ShowNextPageButton="True" ShowPreviousPageButton="False" NextPageText=">" />
-                </fields>
+                </Fields>
             </asp:DataPager>
 
             <asp:ListView
@@ -74,50 +74,43 @@
                 OnPagePropertiesChanged="lvStaffs_PagePropertiesChanged"
                 DataKeyNames="AdminId"
                 ID="lvStaffs" runat="server">
-                <layouttemplate>
+                <LayoutTemplate>
                     <table id="data-table" style="width: 100%; text-align: center;">
                         <thead>
                             <tr class="data-table-head">
                                 <th class="active">
                                     <asp:LinkButton ID="lbId" runat="server" CommandName="Sort" CommandArgument="AdminId">
                                         ID
-                                     <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
                                     <asp:LinkButton ID="lbName" runat="server" CommandName="Sort" CommandArgument="AdminName">
                                         Name
-                                     <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
                                     <asp:LinkButton ID="lbUsername" runat="server" CommandName="Sort" CommandArgument="AdminUsername">
                                         Username
-                                      <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
                                     <asp:LinkButton ID="lbRole" runat="server" CommandName="Sort" CommandArgument="AdminRole">
                                         Role
-                                     <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
                                     <asp:LinkButton ID="lbEmail" runat="server" CommandName="Sort" CommandArgument="AdminEmail">
                                         Email
-                                     <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
                                     <asp:LinkButton ID="lbPhoneNo" runat="server" CommandName="Sort" CommandArgument="AdminPhoneNo">
                                         Phone No
-                                     <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
                                     <asp:LinkButton ID="lbStatus" runat="server" CommandName="Sort" CommandArgument="AdminStatus">
                                         Status
-                                     <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>Action</th>
@@ -128,8 +121,8 @@
                         </tbody>
                     </table>
 
-                </layouttemplate>
-                <itemtemplate>
+                </LayoutTemplate>
+                <ItemTemplate>
                     <tr>
                         <td><%# Eval("AdminId") %></td>
                         <td><%# Eval("AdminName") %></td>
@@ -139,13 +132,14 @@
                         <td><%# Eval("AdminPhoneNo") %></td>
                         <td><span runat="server" id="userStatus" class="user-status"><%# Eval("AdminStatus") %></span></td>
                         <td>
-                            <asp:LinkButton ID="lbEdit" runat="server" CssClass="button" CommandName="Edit">
+                            <asp:LinkButton ID="lbEdit" runat="server"
+                                CssClass="button" CommandName="Edit">
                                 <i class="fa-regular fa-pen-to-square"></i>
                             </asp:LinkButton>
                         </td>
                     </tr>
-                </itemtemplate>
-                <insertitemtemplate>
+                </ItemTemplate>
+                <InsertItemTemplate>
                     <tr class="bg-green-100">
                         <td>
                             <asp:Label ID="lblNewAdminId" runat="server" Text="-"></asp:Label>
@@ -171,15 +165,18 @@
                             </asp:DropDownList>
                         </td>
                         <td>
-                            <asp:Button UseSubmitBehavior="false" CssClass="button bg-green-500" ID="btnAdd" runat="server" Text="Add"
-                               
+                            <asp:Button CssClass="button bg-green-500" ID="btnAdd" runat="server"
+                                OnClientClick="return confirm('Are you sure you want to add this record?');"
+                                Text="Add"
                                 CommandName="Insert" />
-                            <asp:Button UseSubmitBehavior="false" ID="btnCancel" CssClass="button bg-red-500 mt-2"
+                            <asp:Button ID="btnCancel"
+                                OnClientClick="return confirm('Are you sure you want to discard to add?');"
+                                CssClass="button bg-red-500 mt-2"
                                 runat="server" CommandName="Cancel" Text="Cancel" />
                         </td>
                     </tr>
-                </insertitemtemplate>
-                <edititemtemplate>
+                </InsertItemTemplate>
+                <EditItemTemplate>
                     <tr class="bg-amber-100">
                         <td>
                             <asp:Label ID="lblAdminId" runat="server" Text='<%# Eval("AdminId") %>'></asp:Label>
@@ -205,20 +202,32 @@
                             </asp:DropDownList>
                         </td>
                         <td>
-                            <asp:Button UseSubmitBehavior="false" CssClass="button bg-green-500" ID="btnUpdate" runat="server" Text="Update" CommandName="Update" />
-                            <asp:Button UseSubmitBehavior="false" ID="btnCancel" CssClass="button bg-red-500 mt-2" runat="server" CommandName="Cancel" Text="Cancel" />
+                            <asp:Button CssClass="button bg-green-500" ID="btnUpdate"
+                                OnClientClick="return confirm('Are you sure you want to update this record?');"
+                                runat="server" Text="Update"
+                                CommandArgument="none"
+                                CommandName="Update" />
+                            <asp:Button
+                                OnClientClick="return confirm('Are you sure you want to discard to update?');"
+                                ID="btnCancel" CssClass="button bg-red-500 mt-2" runat="server"
+                                CommandName="Cancel"
+                                CommandArgument="none"
+                                Text="Cancel" />
                         </td>
                     </tr>
-                </edititemtemplate>
+                </EditItemTemplate>
+                <EmptyDataTemplate>
+                    No data..
+                </EmptyDataTemplate>
             </asp:ListView>
 
             <!--Pagination-->
             <asp:DataPager ID="dpBottomStaffs" class="pagination" runat="server" PageSize="10" PagedControlID="lvStaffs">
-                <fields>
+                <Fields>
                     <asp:NextPreviousPagerField ButtonType="Button" ShowFirstPageButton="False" ShowNextPageButton="False" ShowPreviousPageButton="True" PreviousPageText="<" />
                     <asp:NumericPagerField CurrentPageLabelCssClass="active" ButtonCount="10" />
                     <asp:NextPreviousPagerField ButtonType="Button" ShowLastPageButton="False" ShowNextPageButton="True" ShowPreviousPageButton="False" NextPageText=">" />
-                </fields>
+                </Fields>
             </asp:DataPager>
 
         </div>

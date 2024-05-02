@@ -20,11 +20,13 @@ namespace OutModern.src.Admin.Setting
 
         protected void Page_Load(object sender, EventArgs e)
         {
+
             //dummy data for admin id in session
             Session["AdminId"] = 1;
             //retrieve admin id from session
             adminId = Convert.ToInt32(Session["AdminId"]);
 
+            Session["MenuCategory"] = null;
             if (!IsPostBack)
             {
                 DataTable adminData = getAdminData();

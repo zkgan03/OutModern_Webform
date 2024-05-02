@@ -94,14 +94,5 @@ namespace OutModern.src.Admin.CustomerEdit
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rptAddresses;
-
-        /// <summary>
-        /// btnResetPassword control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnResetPassword;
     }
 }

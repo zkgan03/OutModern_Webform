@@ -46,6 +46,8 @@ namespace OutModern.src.Admin.ProductEdit
         {
             if (!IsPostBack)
             {
+                Session["MenuCategory"] = "Products";
+
                 initProductInfo(); //bind data in loadcomplete, else the ddl will rebind in page load
             }
         }
@@ -725,6 +727,7 @@ namespace OutModern.src.Admin.ProductEdit
 
         protected void btnUpdateQuantity_Click(object sender, EventArgs e)
         {
+            bindColorDropDownList();
 
             if (ViewState["ColorId"] == null)
             {
@@ -753,7 +756,7 @@ namespace OutModern.src.Admin.ProductEdit
 
             int affectedRow = updateQuantity(sizeId, colorId, quantity);
             clearStatusText();
-            if(affectedRow > 0)
+            if (affectedRow > 0)
             {
                 lblSetStatus.Text = "**Set Quantity Sucessfully !";
                 Page.ClientScript.RegisterClientScriptBlock(GetType(),

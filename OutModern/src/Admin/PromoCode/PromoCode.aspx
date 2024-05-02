@@ -67,37 +67,31 @@
                                 <th class="active">
                                     <asp:LinkButton ID="lbId" runat="server" CommandName="Sort" CommandArgument="PromoId">
                                      ID
-                                     <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
                                     <asp:LinkButton ID="lbCode" runat="server" CommandName="Sort" CommandArgument="PromoCode">
                                      Code
-                                     <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
                                     <asp:LinkButton ID="lbDiscountRate" runat="server" CommandName="Sort" CommandArgument="DiscountRate">
                                       Discount Rate (%)
-                                      <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
                                     <asp:LinkButton ID="lbStartDate" runat="server" CommandName="Sort" CommandArgument="StartDate">
                                      Start Date
-                                     <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
                                     <asp:LinkButton ID="lbEndDate" runat="server" CommandName="Sort" CommandArgument="EndDate">
                                      End Date
-                                     <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
                                     <asp:LinkButton ID="lbQuantity" runat="server" CommandName="Sort" CommandArgument="Quantity">
                                      Quantity
-                                     <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>Action</th>
@@ -177,10 +171,13 @@
                         </td>
                     </tr>
                 </EditItemTemplate>
+                <EmptyDataTemplate>
+                    No data..
+                </EmptyDataTemplate>
             </asp:ListView>
 
             <!--Pagination-->
-            <asp:DataPager ID="dpBottomPromoCodes" class="pagination" runat="server" PageSize="4" PagedControlID="lvPromoCodes">
+            <asp:DataPager ID="dpBottomPromoCodes" class="pagination" runat="server" PageSize="10" PagedControlID="lvPromoCodes">
                 <Fields>
                     <asp:NextPreviousPagerField ButtonType="Button" ShowFirstPageButton="False" ShowNextPageButton="False" ShowPreviousPageButton="True" PreviousPageText="<" />
                     <asp:NumericPagerField CurrentPageLabelCssClass="active" ButtonCount="10" />

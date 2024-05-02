@@ -8,11 +8,9 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using OutModern.src.Admin.Interfaces;
-
 namespace OutModern.src.Admin.Orders
 {
-    public partial class Orders : System.Web.UI.Page, IFilter
+    public partial class Orders : System.Web.UI.Page
     {
 
         protected static readonly string OrderDetails = "OrderDetails";
@@ -31,19 +29,35 @@ namespace OutModern.src.Admin.Orders
 
         protected void Page_Load(object sender, EventArgs e)
         {
+
             if (!IsPostBack)
             {
-                lvOrders.DataSource = getOrders();
+                Session["MenuCategory"] = "Orders";
+
+                lvOrders.DataSource = orderDataSource();
                 lvOrders.DataBind();
+
+                Page.DataBind();
             }
         }
-        //search logic
-        public void FilterListView(string searchTerm)
+
+        //choose to load data source
+        private DataTable orderDataSource(string sortExpression = null, string sortDirection = "ASC")
         {
-            lvOrders.DataSource = FilterDataTable(getOrders(), searchTerm);
-            lvOrders.DataBind();
+            //get the search term
+            string searchTerms = Request.QueryString["q"];
+
+            if (searchTerms != null)
+            {
+                ((TextBox)Master.FindControl("txtSearch")).Text = searchTerms;
+                return FilterDataTable(getOrders(sortExpression, sortDirection), searchTerms);
+            }
+
+            else return getOrders(sortExpression, sortDirection);
         }
 
+
+        //search logic
         private DataTable FilterDataTable(DataTable dataTable, string searchTerm)
         {
             // Escape single quotes for safety
@@ -55,7 +69,7 @@ namespace OutModern.src.Admin.Orders
                 "CustomerName LIKE '%{0}%' OR " +
                 "Convert(OrderDateTime, 'System.String') LIKE '%{0}%' OR " +
                 "Convert(Total, 'System.String') LIKE '%{0}%' OR " +
-                "OrderStatus LIKE '%{0}%'",
+                "OrderStatusName LIKE '%{0}%'",
                 safeSearchTerm);
 
             // Filter the rows
@@ -75,7 +89,7 @@ namespace OutModern.src.Admin.Orders
 
 
         //store each column sorting state into viewstate
-        private Dictionary<string, string> SortDirections
+        protected Dictionary<string, string> SortDirections
         {
             get
             {
@@ -199,16 +213,21 @@ namespace OutModern.src.Admin.Orders
             string sortExpression = ViewState["SortExpression"]?.ToString();
             lvOrders.DataSource =
                 sortExpression == null ?
-                getOrders() :
-                getOrders(sortExpression, SortDirections[sortExpression]);
+                orderDataSource() :
+                orderDataSource(sortExpression, SortDirections[sortExpression]);
             lvOrders.DataBind();
         }
 
         protected void lvOrders_ItemDataBound(object sender, ListViewItemEventArgs e)
         {
-            if (e.Item.ItemType != ListViewItemType.DataItem) return;
+            if (e.Item.ItemType == ListViewItemType.DataItem)
+            {
+                setOrderStatusDesign(e);
+            }
+        }
 
-
+        private void setOrderStatusDesign(ListViewItemEventArgs e)
+        {
             DataRowView rowView = (DataRowView)e.Item.DataItem;
             HtmlGenericControl statusSpan = (HtmlGenericControl)e.Item.FindControl("orderStatus");
             string status = rowView["OrderStatusName"].ToString();
@@ -235,18 +254,17 @@ namespace OutModern.src.Admin.Orders
 
         protected void lvOrders_Sorting(object sender, ListViewSortEventArgs e)
         {
+            // Toggle sorting direction
             toggleSortDirection(e.SortExpression); // Toggle sorting direction for the clicked column
-
             ViewState["SortExpression"] = e.SortExpression; // used for retain the sorting
 
             // Re-bind the ListView with sorted data
-            lvOrders.DataSource = getOrders(e.SortExpression, SortDirections[e.SortExpression]);
+            lvOrders.DataSource = orderDataSource(e.SortExpression, SortDirections[e.SortExpression]);
             lvOrders.DataBind();
         }
 
         protected void lvOrders_ItemCommand(object sender, ListViewCommandEventArgs e)
         {
-
             if (e.CommandName == "ToShipped" || e.CommandName == "ToCancel" || e.CommandName == "ToPlaced")
             {
                 // Update order status based on the command
@@ -265,12 +283,33 @@ namespace OutModern.src.Admin.Orders
                     lblStatusUpdataMsg.Text = $"Order id={orderId}, failed to update order status...";
                 }
             }
+            else if (e.CommandName == "sort")
+            {
+                LinkButton lb = (LinkButton)e.CommandSource;
+
+                //remove all css of lb available
+
+
+
+                //toggle css of lb
+                if (lb.CssClass.Contains("sort-asc"))
+                {
+                    lb.CssClass = lb.CssClass.Replace("sort-asc", "sort-desc");
+                }
+                else
+                {
+                    lb.CssClass = lb.CssClass.Replace("sort-desc", "sort-asc");
+                }
+
+            }
+
+
 
             string sortExpression = ViewState["SortExpression"]?.ToString();
             lvOrders.DataSource =
                 sortExpression == null ?
-                getOrders() :
-                getOrders(sortExpression, SortDirections[sortExpression]);
+                orderDataSource() :
+                orderDataSource(sortExpression, SortDirections[sortExpression]);
             lvOrders.DataBind();
         }
 

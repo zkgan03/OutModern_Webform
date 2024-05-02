@@ -136,7 +136,7 @@
             <!--Customer's Order details-->
             <div class="mt-10">
                 <div class="flex items-center justify-between ">
-                    <div class="text-xl font-[600]">Orders Made (123)</div>
+                    <div class="text-xl font-[600]">Orders Made (<asp:Label ID="lblOrderMade" CssClass="text-xl font-[600]" runat="server" Text="Label"></asp:Label>)</div>
                     <div class="mt-2 status-list flex gap-5 mr-10">
                         <asp:LinkButton ID="LinkButton1" runat="server">
                         All
@@ -183,28 +183,23 @@
                                         <th class="active">
                                             <asp:LinkButton ID="lbId" runat="server" CommandName="Sort" CommandArgument="OrderId">
                                              ID
-                                             <i class="fa-solid fa-arrow-up"></i>
                                             </asp:LinkButton>
                                         </th>
                                         <th>
                                             <asp:LinkButton ID="lbOrderDateTime" runat="server" CommandName="Sort" CommandArgument="OrderDateTime">
                                                   Order Date
-                                                  <i class="fa-solid fa-arrow-up"></i>
                                             </asp:LinkButton>
                                         </th>
                                         <th>Product Ordered
                                         </th>
-
                                         <th>
                                             <asp:LinkButton ID="lblTotal" runat="server" CommandName="Sort" CommandArgument="Total">
                                              Total
-                                             <i class="fa-solid fa-arrow-up"></i>
                                             </asp:LinkButton>
                                         </th>
                                         <th>
                                             <asp:LinkButton ID="lbOrderStatus" runat="server" CommandName="Sort" CommandArgument="OrderStatusName">
                                              Order Status
-                                             <i class="fa-solid fa-arrow-up"></i>
                                             </asp:LinkButton>
                                         </th>
                                     </tr>
@@ -230,6 +225,9 @@
                                 <td><span runat="server" id="orderStatus" class="order-status"><%# Eval("OrderStatusName") %></span></td>
                             </tr>
                         </ItemTemplate>
+                        <EmptyDataTemplate>
+                            No data..
+                        </EmptyDataTemplate>
                     </asp:ListView>
 
                     <!--Pagination-->

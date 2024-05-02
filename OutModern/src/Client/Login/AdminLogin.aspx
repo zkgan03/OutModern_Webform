@@ -58,7 +58,9 @@
                     <asp:Label ID="ErrMsg" runat="server" Style="color: red"></asp:Label>
 
                     <div class="loginBoxButton">
-                        <asp:Button ID="btn_login" runat="server" class="loginButton" Text="Log In" CssClass="bg-black hover:bg-gray-700" Style="width: 100%; border-radius: 10px; padding: 10px; font-family: sans-serif; color: white; font-weight: bold; border: 1px solid #f5f5f5; margin-top: 10px; cursor: pointer;" OnClick="btn_login_Click" />
+                        <asp:Button ID="btn_login" runat="server" class="loginButton" 
+                            Text="Log In" CssClass="bg-black hover:bg-gray-700" 
+                            Style="width: 100%; border-radius: 10px; padding: 10px; font-family: sans-serif; color: white; font-weight: bold; border: 1px solid #f5f5f5; margin-top: 10px; cursor: pointer;" OnClick="btn_login_Click" />
                     </div>
 
                     <div style="padding-top: 0.312vw; padding-bottom: 2.604vw;">
