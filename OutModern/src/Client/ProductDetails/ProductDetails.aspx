@@ -22,14 +22,14 @@
         <div class="flex w-full">
             <asp:UpdatePanel ID="UpdatePanel2" runat="server">
                 <ContentTemplate>
-                    <div class="flex">
-                        <div class="ml-10 flex w-2/5 flex-wrap items-center justify-center">
-                            <div class="min-w-[320px] w-4/5">
+                    <div class="flex w-full">
+                        <div class="ml-10 flex w-2/5 flex-wrap items-center justify-center" style="min-width: 570px;">
+                            <div class="w-4/5">
                                 <div id="myModal" class="image-modal">
                                     <span class="close-modal" onclick="closeModal()">&times;</span>
                                     <img src="" class="image-modal-content" id="modal-img">
                                 </div>
-                                <div class="relative max-w-7xl bg-gray-300 bg-opacity-50" style="max-width: 1200px" id="image-container">
+                                <div class="relative max-w-7xl bg-gray-300 bg-opacity-50" id="image-container">
                                     <asp:Image ID="mainImage1" CssClass="slides" runat="server"
                                         ImageUrl=""
                                         Style="width: 100%; cursor: pointer" onclick="modal(this.src)" />
@@ -60,7 +60,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="mx-auto mr-10 flex w-3/5 flex-col py-2">
+                        <div class="mx-auto mr-10 flex w-3/5 flex-col py-2" style="min-width: 60%;">
                             <div class="w-4/5">
                                 <h1 class="mb-2">
                                     <asp:Label ID="lblProdName" runat="server" Text="Label" class="text-4xl font-bold text-black">

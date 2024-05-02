@@ -272,6 +272,13 @@
     <Compile Include="src\Client\UserProfile\UserProfile.aspx.designer.cs">
       <DependentUpon>UserProfile.aspx</DependentUpon>
     </Compile>
+    <Compile Include="src\Client\UserProfile\UserReivew.aspx.cs">
+      <DependentUpon>UserReivew.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\UserReivew.aspx.designer.cs">
+      <DependentUpon>UserReivew.aspx</DependentUpon>
+    </Compile>
     <Compile Include="src\ErrorPages\403.aspx.cs">
       <DependentUpon>403.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -830,6 +837,7 @@
     <Content Include="src\Client\UserProfile\ToReceive.aspx" />
     <Content Include="src\Client\UserProfile\ToShip.aspx" />
     <Content Include="src\Client\UserProfile\UserProfile.aspx" />
+    <Content Include="src\Client\UserProfile\UserReivew.aspx" />
     <Content Include="src\ErrorPages\403.aspx" />
     <Content Include="src\ErrorPages\404.aspx" />
     <Content Include="src\ErrorPages\500.aspx" />

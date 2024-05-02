@@ -88,6 +88,7 @@ namespace OutModern.src.Client.Comment
         protected void BtnOk_Click(object sender, EventArgs e)
         {
             commentMessage.Visible = false;
+            Response.Redirect("~/src/Client/UserProfile/UserReivew.aspx");
         }
     }
 }
