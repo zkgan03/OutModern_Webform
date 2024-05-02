@@ -23,23 +23,25 @@ namespace OutModern.src.Client.Payment
         int customerId = 1;
         protected void Page_Load(object sender, EventArgs e)
         {
-            PromoTable promoCode = null;
+            
             if (!IsPostBack)
             {
                 // Check if the status parameter indicates success
                 string status = Request.QueryString["status"];
                 if (status == "success")
                 {
+                    PromoTable promoCode = null;
                     // Retrieve the selected address from the session
                     Address selectedAddress = Session["SelectedAddressPayment2"] as Address;
                     PaymentInfo paymentInfo = Session["PaymentInfo"] as PaymentInfo;
-                    if (Session["PromoCode3"] != null)
+                    if (Session["PromoCode"] != null)
                     {
                         // Retrieve the selected address from the session
-                        promoCode = Session["PromoCode3"] as PromoTable;
+                        promoCode = Session["PromoCode"] as PromoTable;
                     }
 
                     decimal grandTotal = (decimal)Session["GrandTotal"];
+                    Session.Remove("GrandTotal");
                     // Perform the database operation to insert data
                     InsertDataIntoDatabase(selectedAddress, paymentInfo, grandTotal, promoCode);
                 }
@@ -54,7 +56,7 @@ namespace OutModern.src.Client.Payment
             if (cartItems != null && cartItems.Count > 0)
             {
                 // Create a new order
-                int orderId = CreateOrder(selectedAddress.AddressId, GetPaymentMethodId(paymentInfo), promoCode.PromoId);
+                int orderId = CreateOrder(selectedAddress.AddressId, GetPaymentMethodId(paymentInfo), promoCode.PromoId, grandTotal);
 
                 // Add cart items to order items
                 foreach (var cartItem in cartItems)
@@ -63,33 +65,10 @@ namespace OutModern.src.Client.Payment
                     UpdateProductDetailQuantity(cartItem.ProductDetailId, cartItem.Quantity);
                 }
 
-                UpdateOrderTotal(grandTotal);
-
                 // Clear the cart (optional)
                 ClearCart(customerId);
             }
 
-        }
-
-        private void UpdateOrderTotal(decimal grandTotal)
-        {
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                string query = "UPDATE [dbo].[Order] " +
-                               "SET Total = @GrandTotal " +
-                                              "FROM OrderItem OI " +
-                                              "INNER JOIN ProductDetail PD ON OI.ProductDetailId = PD.ProductDetailId " +
-                                              "INNER JOIN Product P ON PD.ProductId = P.ProductId " +
-                                              "WHERE OI.OrderId = [Order].OrderId) " +
-                               "WHERE CustomerId = @CustomerId";
-                SqlCommand cmd = new SqlCommand(query, con);
-                cmd.Parameters.AddWithValue("@CustomerId", customerId);
-                cmd.Parameters.AddWithValue("@GrandTotal", grandTotal);
-
-                con.Open();
-                cmd.ExecuteNonQuery();
-                con.Close();
-            }
         }
 
         private int GetPaymentMethodId(PaymentInfo paymentInfo)
@@ -167,7 +146,7 @@ namespace OutModern.src.Client.Payment
             return cartItems;
         }
 
-        private int CreateOrder(int addressId, int paymentMethodId, int? promoId)
+        private int CreateOrder(int addressId, int paymentMethodId, int? promoId, decimal grandTotal)
         {
             int orderId = 0;
 
@@ -190,7 +169,7 @@ namespace OutModern.src.Client.Payment
 
                 command.Parameters.AddWithValue("@PaymentDatetime", DateTime.Now);
                 command.Parameters.AddWithValue("@OrderDatetime", DateTime.Now);
-                command.Parameters.AddWithValue("@Total", 0); // You might need to calculate subtotal here
+                command.Parameters.AddWithValue("@Total", grandTotal); // You might need to calculate subtotal here
                 command.Parameters.AddWithValue("@OrderStatusId", 1); // Replace 1 with the actual OrderStatusId
 
                 connection.Open();
@@ -293,7 +272,7 @@ namespace OutModern.src.Client.Payment
                 Session.Remove("PaymentInfo");
                 Session.Remove("SelectedAddressPayment2");
                 Session.Remove("PromoCode3");
-                Session.Remove("GrandTotal");
+                
             }
 
         }

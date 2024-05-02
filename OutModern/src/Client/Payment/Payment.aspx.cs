@@ -47,20 +47,6 @@ namespace OutModern.src.Client.Payment
 
             }
 
-            PromoTable promoCode = Session["PromoCode2"] as PromoTable;
-            Session["PromoCode3"] = Session["PromoCode2"];
-            if (promoCode != null)
-            {
-
-                UpdateDiscount(promoCode);
-
-            }
-            else
-            {
-
-                ResetDiscountLabel();
-            }
-
             BindCartItems();
             UpdateSubtotalandGrandTotalLabel();
         }
@@ -121,14 +107,32 @@ namespace OutModern.src.Client.Payment
                 // Check if the result is not null
                 if (result != null)
                 {
+                    decimal discountAmount = 0;
                     decimal subtotal = Convert.ToDecimal(result);
                     lblItemPrice.Text = $"RM{subtotal.ToString("N2")}";
 
                     decimal deliveryCost = decimal.Parse(lblDeliveryCost.Text.Replace("RM", ""));
-                    decimal discount = decimal.Parse(lblDiscount.Text.Replace("RM", ""));
-                    decimal grandTotal = subtotal + deliveryCost - discount;
 
-                    Session["GrandTotal"] = grandTotal;
+                    PromoTable promoCode = Session["PromoCode"] as PromoTable;
+
+                    if (promoCode != null)
+                    {
+                        // Update the UI with the discount rate
+                        lblDiscountRate.Text = $"({promoCode.DiscountRate}%)";
+
+                        // Calculate the discount amount
+                        discountAmount = subtotal * ((decimal)promoCode.DiscountRate / 100);
+
+                        // Update the UI with the discount amount
+                        lblDiscount.Text = $"RM{discountAmount.ToString("N2")}";
+                    }
+                    else
+                    {
+                        lblDiscountRate.Text = "(- 0%)";
+                        lblDiscount.Text = "RM0.00";
+                    }
+
+                    decimal grandTotal = subtotal + deliveryCost - discountAmount;
 
                     lblTotal.Text = $"RM{grandTotal.ToString("N2")}";
                 }
@@ -196,7 +200,7 @@ namespace OutModern.src.Client.Payment
         private decimal GetTotal()
         {
             decimal grandTotal = decimal.Parse(lblTotal.Text.Replace("RM", ""));
-            
+            Session["GrandTotal"] = grandTotal;
 
             return grandTotal;
         }
@@ -244,6 +248,8 @@ namespace OutModern.src.Client.Payment
                 {
                     return; // Prevent further processing if there are validation errors
                 }
+
+                decimal totalAmount = GetTotal();
 
                 // Retrieve credit card information from form fields
                 paymentMethod = "Credit Card";

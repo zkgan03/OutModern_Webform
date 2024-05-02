@@ -29,10 +29,15 @@ namespace OutModern.src.Client.Cart
         int customerId = 1; // REMEMBER TO CHANGE ID
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                Session["PromoCode"] = null;
+                
+                
+            }
 
             UpdateSubtotalandGrandTotalLabel();
             BindCartItems();
-
         }
 
         private void UpdateSubtotalandGrandTotalLabel()
@@ -50,12 +55,32 @@ namespace OutModern.src.Client.Cart
                 // Check if the result is not null
                 if (result != null)
                 {
+                    decimal discountAmount = 0;
                     decimal subtotal = Convert.ToDecimal(result);
                     lblSubtotal.Text = $"RM{subtotal.ToString("N2")}";
 
                     decimal deliveryCost = decimal.Parse(lblDeliveryCost.Text.Replace("RM", ""));
-                    decimal discount = decimal.Parse(lblDiscount.Text.Replace("RM", ""));
-                    decimal grandTotal = subtotal + deliveryCost - discount;
+
+                    PromoTable promoCode = Session["PromoCode"] as PromoTable;
+
+                    if(promoCode  != null)
+                    {
+                        // Update the UI with the discount rate
+                        lblDiscountRate.Text = $"({promoCode.DiscountRate}%)";
+
+                        // Calculate the discount amount
+                        discountAmount = subtotal * ((decimal)promoCode.DiscountRate / 100);
+
+                        // Update the UI with the discount amount
+                        lblDiscount.Text = $"RM{discountAmount.ToString("N2")}";
+                    }
+                    else
+                    {
+                        lblDiscountRate.Text = "(- 0%)";
+                        lblDiscount.Text = "RM0.00";
+                    }
+
+                    decimal grandTotal = subtotal + deliveryCost - discountAmount;
 
                     lblGrandTotal.Text = $"RM{grandTotal.ToString("N2")}";
                 }
@@ -122,8 +147,8 @@ namespace OutModern.src.Client.Cart
 
                 UpdateQuantityInDatabase(productDetailId, currentQuantity, customerId);
 
-                Response.Redirect(Request.RawUrl);
-
+                UpdateSubtotalandGrandTotalLabel();
+                BindCartItems();
             }
             else
             {
@@ -158,7 +183,8 @@ namespace OutModern.src.Client.Cart
 
                 UpdateQuantityInDatabase(productDetailId, currentQuantity, customerId);
 
-                Response.Redirect(Request.RawUrl);
+                UpdateSubtotalandGrandTotalLabel();
+                BindCartItems();
             }
             else
             {
