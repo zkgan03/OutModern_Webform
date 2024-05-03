@@ -96,6 +96,7 @@ namespace OutModern.src.Client.Profile
             }
 
         }
+        }
 
         protected void btn_edit_profile_Click(object sender, EventArgs e)
         {
