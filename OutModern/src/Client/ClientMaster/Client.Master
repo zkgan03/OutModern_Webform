@@ -106,6 +106,64 @@
                 width: 130px; /* Adjust as needed for even smaller screens */
             }
         }
+
+        /*Table style*/
+        #data-table {
+            @apply border-spacing-5 border-collapse text-center drop-shadow-md bg-white;
+        }
+
+            #data-table .button {
+                @apply px-2 cursor-pointer hover:opacity-50 text-white;
+            }
+
+            #data-table tr {
+                @apply border-b border-black;
+            }
+
+            .data-table-head th{
+                @apply text-white;
+            }
+
+            #data-table thead {
+                @apply z-50 sticky top-14 bg-gray-950 text-white;
+            }
+
+                #data-table thead th {
+                    @apply p-1;
+                }
+
+                    #data-table thead th > * {
+                        @apply text-opacity-50 cursor-pointer hover:bg-gray-100 hover:text-gray-950 p-1 rounded;
+                    }
+
+                    #data-table thead th.active {
+                        @apply text-opacity-100;
+                    }
+
+                        #data-table thead th.active i {
+                            @apply visible;
+                        }
+
+                    #data-table thead th a.sort-asc i {
+                        @apply rotate-0;
+                    }
+
+                    #data-table thead th a.sort-desc i {
+                        @apply rotate-180;
+                    }
+
+
+                    #data-table thead th i {
+                        @apply invisible;
+                    }
+
+            #data-table tbody tr {
+                @apply hover:bg-[#DBF0ED] cursor-pointer;
+            }
+
+            #data-table tbody td {
+                @apply p-2;
+            }
     </style>
 
     <!-- your head -->
@@ -179,7 +237,8 @@
                                         <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink8" NavigateUrl="~/src/Client/Login/SignUp.aspx" runat="server">Sign Up</asp:HyperLink>
                                     </li>
                                     <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink9" NavigateUrl="~/src/Client/Login/Login.aspx" Visible="false" runat="server">Log Out</asp:HyperLink> <!--if havent log in cannot see-->
+                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink9" NavigateUrl="~/src/Client/Login/Login.aspx" Visible="false" runat="server">Log Out</asp:HyperLink>
+                                        <!--if havent log in cannot see-->
                                     </li>
                                 </ul>
                             </div>
