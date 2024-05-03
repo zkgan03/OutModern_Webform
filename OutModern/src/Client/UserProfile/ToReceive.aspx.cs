@@ -13,6 +13,14 @@ namespace OutModern.src.Client.UserProfile
 {
     public partial class ToReceive : System.Web.UI.Page
     {
+        protected static readonly string CompletedDetails2 = "CompletedDetails2";
+
+        // Side menu urls
+        protected Dictionary<string, string> urls = new Dictionary<string, string>()
+        {
+            { CompletedDetails2 , "~/src/Client/UserProfile/CompletedDetails2.aspx" }
+        };
+
         private string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -73,6 +81,23 @@ namespace OutModern.src.Client.UserProfile
                 {
                     Response.Write(ex.Message);
                 }
+            }
+        }
+
+        //store each column sorting state into viewstate
+        protected Dictionary<string, string> SortDirections
+        {
+            get
+            {
+                if (ViewState["SortDirections"] == null)
+                {
+                    ViewState["SortDirections"] = new Dictionary<string, string>();
+                }
+                return (Dictionary<string, string>)ViewState["SortDirections"];
+            }
+            set
+            {
+                ViewState["SortDirections"] = value;
             }
         }
 
@@ -163,40 +188,7 @@ namespace OutModern.src.Client.UserProfile
             return affectedRows;
         }
 
-        protected void lvOrders_ItemDataBound(object sender, ListViewItemEventArgs e)
-        {
-            if (e.Item.ItemType != ListViewItemType.DataItem) return;
-
-
-            DataRowView rowView = (DataRowView)e.Item.DataItem;
-            HtmlGenericControl statusSpan = (HtmlGenericControl)e.Item.FindControl("orderStatus");
-            string status = rowView["OrderStatusName"].ToString();
-
-            ////
-            if (statusSpan != null)
-            {
-
-                switch (status)
-                {
-                    case "Order Placed":
-                        statusSpan.Attributes["class"] += " order-placed";
-                        break;
-                    case "Shipped":
-                        statusSpan.Attributes["class"] += " shipped";
-                        break;
-                    case "Cancelled":
-                        statusSpan.Attributes["class"] += " cancelled";
-                        break;
-                    case "Received":
-                        statusSpan.Attributes["class"] += " received";
-                        break;
-                    default:
-                        // Handle cases where status doesn't match any of the above
-                        break;
-                }
-
-            }
-        }
+        
 
         protected void lvOrders_ItemCommand(object sender, ListViewCommandEventArgs e)
         {

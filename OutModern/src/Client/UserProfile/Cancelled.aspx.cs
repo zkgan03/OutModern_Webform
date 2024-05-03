@@ -13,6 +13,14 @@ namespace OutModern.src.Client.UserProfile
 {
     public partial class Cancelled : System.Web.UI.Page
     {
+        protected static readonly string CompletedDetails2 = "CompletedDetails2";
+
+        // Side menu urls
+        protected Dictionary<string, string> urls = new Dictionary<string, string>()
+        {
+            { CompletedDetails2 , "~/src/Client/UserProfile/CompletedDetails2.aspx" }
+        };
+
         private string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -73,6 +81,23 @@ namespace OutModern.src.Client.UserProfile
                 {
                     Response.Write(ex.Message);
                 }
+            }
+        }
+
+        //store each column sorting state into viewstate
+        protected Dictionary<string, string> SortDirections
+        {
+            get
+            {
+                if (ViewState["SortDirections"] == null)
+                {
+                    ViewState["SortDirections"] = new Dictionary<string, string>();
+                }
+                return (Dictionary<string, string>)ViewState["SortDirections"];
+            }
+            set
+            {
+                ViewState["SortDirections"] = value;
             }
         }
 

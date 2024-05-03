@@ -14,6 +14,13 @@ namespace OutModern.src.Client.UserProfile
 {
     public partial class ToShip : System.Web.UI.Page
     {
+        protected static readonly string CompletedDetails2 = "CompletedDetails2";
+
+        // Side menu urls
+        protected Dictionary<string, string> urls = new Dictionary<string, string>()
+        {
+            { CompletedDetails2 , "~/src/Client/UserProfile/CompletedDetails2.aspx" }
+        };
 
         private string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
@@ -76,71 +83,22 @@ namespace OutModern.src.Client.UserProfile
             
         }
 
-        ////search logic
-        //public void FilterListView(string searchTerm)
-        //{
-        //    lvOrders.DataSource = FilterDataTable(getOrders(), searchTerm);
-        //    lvOrders.DataBind();
-        //}
-
-        //private DataTable FilterDataTable(DataTable dataTable, string searchTerm)
-        //{
-        //    // Escape single quotes for safety
-        //    string safeSearchTerm = searchTerm.Replace("'", "''");
-
-        //    // Build the filter expression with relevant fields
-        //    string expression = string.Format(
-        //        "Convert(OrderId, 'System.String') LIKE '%{0}%' OR " +
-        //        "CustomerName LIKE '%{0}%' OR " +
-        //        "Convert(OrderDateTime, 'System.String') LIKE '%{0}%' OR " +
-        //        "Convert(Total, 'System.String') LIKE '%{0}%' OR " +
-        //        "OrderStatus LIKE '%{0}%'",
-        //        safeSearchTerm);
-
-        //    // Filter the rows
-        //    DataRow[] filteredRows = dataTable.Select(expression);
-
-        //    // Create a new DataTable for the filtered results
-        //    DataTable filteredDataTable = dataTable.Clone();
-
-        //    // Import the filtered rows
-        //    foreach (DataRow row in filteredRows)
-        //    {
-        //        filteredDataTable.ImportRow(row);
-        //    }
-
-        //    return filteredDataTable;
-        //}
-
-        ////store each column sorting state into viewstate
-        //private Dictionary<string, string> SortDirections
-        //{
-        //    get
-        //    {
-        //        if (ViewState["SortDirections"] == null)
-        //        {
-        //            ViewState["SortDirections"] = new Dictionary<string, string>();
-        //        }
-        //        return (Dictionary<string, string>)ViewState["SortDirections"];
-        //    }
-        //    set
-        //    {
-        //        ViewState["SortDirections"] = value;
-        //    }
-        //}
-
-        //// Toggle Sorting
-        //private void toggleSortDirection(string columnName)
-        //{
-        //    if (!SortDirections.ContainsKey(columnName))
-        //    {
-        //        SortDirections[columnName] = "ASC";
-        //    }
-        //    else
-        //    {
-        //        SortDirections[columnName] = SortDirections[columnName] == "ASC" ? "DESC" : "ASC";
-        //    }
-        //}
+        //store each column sorting state into viewstate
+        protected Dictionary<string, string> SortDirections
+        {
+            get
+            {
+                if (ViewState["SortDirections"] == null)
+                {
+                    ViewState["SortDirections"] = new Dictionary<string, string>();
+                }
+                return (Dictionary<string, string>)ViewState["SortDirections"];
+            }
+            set
+            {
+                ViewState["SortDirections"] = value;
+            }
+        }
 
         //
         // DB Operation
@@ -232,65 +190,6 @@ namespace OutModern.src.Client.UserProfile
             }
             return affectedRows;
         }
-
-        //
-        //Page Event
-        //
-        //protected void lvOrders_PagePropertiesChanged(object sender, EventArgs e)
-        //{
-        //    string sortExpression = ViewState["SortExpression"]?.ToString();
-        //    lvOrders.DataSource =
-        //        sortExpression == null ?
-        //        getOrders() :
-        //        getOrders(sortExpression, SortDirections[sortExpression]);
-        //    lvOrders.DataBind();
-        //}
-
-        //protected void lvOrders_ItemDataBound(object sender, ListViewItemEventArgs e)
-        //{
-        //    if (e.Item.ItemType != ListViewItemType.DataItem) return;
-
-
-        //    DataRowView rowView = (DataRowView)e.Item.DataItem;
-        //    HtmlGenericControl statusSpan = (HtmlGenericControl)e.Item.FindControl("orderStatus");
-        //    string status = rowView["OrderStatusName"].ToString();
-
-        //    ////
-        //    if (statusSpan != null)
-        //    {
-
-        //        switch (status)
-        //        {
-        //            case "Order Placed":
-        //                statusSpan.Attributes["class"] += " order-placed";
-        //                break;
-        //            case "Shipped":
-        //                statusSpan.Attributes["class"] += " shipped";
-        //                break;
-        //            case "Cancelled":
-        //                statusSpan.Attributes["class"] += " cancelled";
-        //                break;
-        //            case "Received":
-        //                statusSpan.Attributes["class"] += " received";
-        //                break;
-        //            default:
-        //                // Handle cases where status doesn't match any of the above
-        //                break;
-        //        }
-
-        //    }
-        //}
-
-        //protected void lvOrders_Sorting(object sender, ListViewSortEventArgs e)
-        //{
-        //    toggleSortDirection(e.SortExpression); // Toggle sorting direction for the clicked column
-
-        //    ViewState["SortExpression"] = e.SortExpression; // used for retain the sorting
-
-        //    // Re-bind the ListView with sorted data
-        //    lvOrders.DataSource = getOrders(e.SortExpression, SortDirections[e.SortExpression]);
-        //    lvOrders.DataBind();
-        //}
 
         protected void lvOrders_ItemCommand(object sender, ListViewCommandEventArgs e)
         {

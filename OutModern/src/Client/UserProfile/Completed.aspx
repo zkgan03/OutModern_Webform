@@ -74,47 +74,6 @@
                 </div>
 
 
-                <%--<!-- Repeater here-->
-                <div class="boxRightBottom">
-
-
-                    <div class="repeater_items">
-                        <div class="box1">
-                            <asp:Image ID="img_items" runat="server" ImageUrl="~/images/product-img/hoodies/black-Hoodie/unisex-heavy-blend-hoodie-black-front-60e815eedacd3.png" class="box2_product_img" />
-                        </div>
-
-                        <div class="box2">
-                            <div class="box2small1">
-                                <asp:Label ID="lbl_product_name" runat="server" Text="Unisex Heavy Hoodie" class="box2_product_name"></asp:Label>
-                            </div>
-
-                            <div class="box2small">
-                                <asp:Label ID="lbl_product_colour" runat="server" Text="Colour: Black" class="box2_product_colour"></asp:Label>
-                            </div>
-
-                            <div class="box2small">
-                                <asp:Label ID="lbl_product_size" runat="server" Text="Size: L" class="box2_product_size"></asp:Label>
-                            </div>
-
-                            <div class="box2small">
-                                <asp:Label ID="lbl_product_quantity" runat="server" Text="Quantity: 1" class="box2_product_quantity"></asp:Label>
-                            </div>
-
-                        </div>
-
-                        <div class="box3">
-                            <div class="box2small2">
-                                <asp:Label ID="lbl_product_price" runat="server" Text="RM49.99" class="box2_product_price"></asp:Label>
-                            </div>
-                        </div>
-                        <div class="box4">
-                            <asp:Button ID="btnComment" runat="server" Text="Comment" CssClass="bg-black hover:bg-gray-700" Style="font-family: sans-serif; color: white; font-size: 1rem; font-weight: bold; border-radius: 1.25rem; padding: 0.625rem 1.25rem; margin-left: 0.625rem; cursor: pointer;" />
-                        </div>
-
-                    </div>
-
-                </div>--%>
-
 
                 <asp:Label ID="lblStatusUpdataMsg" runat="server"
                     CssClass="block my-5 text-green-600"></asp:Label>
@@ -138,7 +97,7 @@
 
                     </LayoutTemplate>
                     <ItemTemplate>
-                        <tr>
+                        <tr onclick="window.location='<%# Page.ResolveClientUrl(urls[CompletedDetails] + "?OrderId=" +  Eval("OrderId") )%>'">
                             <td><%# Eval("OrderDateTime", "{0:dd/MM/yyyy </br> h:mm tt}") %></td>
                             <td>
                                 <asp:Repeater ID="rptProducts" DataSource='<%# Eval("ProductDetails") %>' runat="server">
@@ -154,8 +113,6 @@
                         No data..
                     </EmptyDataTemplate>
                 </asp:ListView>
-
-
 
 
             </div>

@@ -236,12 +236,33 @@
     <Compile Include="src\Client\UserProfile\ChangePassword.aspx.designer.cs">
       <DependentUpon>ChangePassword.aspx</DependentUpon>
     </Compile>
+    <Compile Include="src\Client\UserProfile\Comment.aspx.cs">
+      <DependentUpon>Comment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\Comment.aspx.designer.cs">
+      <DependentUpon>Comment.aspx</DependentUpon>
+    </Compile>
     <Compile Include="src\Client\UserProfile\Completed.aspx.cs">
       <DependentUpon>Completed.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="src\Client\UserProfile\Completed.aspx.designer.cs">
       <DependentUpon>Completed.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\CompletedDetails.aspx.cs">
+      <DependentUpon>CompletedDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\CompletedDetails.aspx.designer.cs">
+      <DependentUpon>CompletedDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\CompletedDetails2.aspx.cs">
+      <DependentUpon>CompletedDetails2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\CompletedDetails2.aspx.designer.cs">
+      <DependentUpon>CompletedDetails2.aspx</DependentUpon>
     </Compile>
     <Compile Include="src\Client\UserProfile\DeleteAddress.aspx.cs">
       <DependentUpon>DeleteAddress.aspx</DependentUpon>
@@ -830,7 +851,10 @@
     <Content Include="src\Client\UserProfile\AddAddress.aspx" />
     <Content Include="src\Client\UserProfile\Cancelled.aspx" />
     <Content Include="src\Client\UserProfile\ChangePassword.aspx" />
+    <Content Include="src\Client\UserProfile\Comment.aspx" />
     <Content Include="src\Client\UserProfile\Completed.aspx" />
+    <Content Include="src\Client\UserProfile\CompletedDetails.aspx" />
+    <Content Include="src\Client\UserProfile\CompletedDetails2.aspx" />
     <Content Include="src\Client\UserProfile\css\ChangePassword.css" />
     <Content Include="src\Client\UserProfile\css\MyOrder.css" />
     <Content Include="src\Client\UserProfile\css\UserProfile.css" />
@@ -859,7 +883,6 @@
     <Folder Include="images\product_img\1\" />
     <Folder Include="images\product_img\2\" />
     <Folder Include="images\product_img\3\" />
-    <Folder Include="src\Admin\AdminLogin\" />
     <Folder Include="src\Client\Home\css\" />
     <Folder Include="src\Client\Home\js\" />
   </ItemGroup>
