@@ -31,8 +31,11 @@ namespace OutModern.src.Admin.CustomerEdit
             {
                 Response.Redirect("~/src/ErrorPages/404.aspx");
             }
+
             if (!Page.IsPostBack)
             {
+                Session["MenuCategory"] = "Customers";
+
                 Page.DataBind();
             }
         }
@@ -246,13 +249,6 @@ namespace OutModern.src.Admin.CustomerEdit
             }
 
         }
-
-        protected void btnResetPassword_Click(object sender, EventArgs e)
-        {
-            // not yet implemented
-
-        }
-
         protected void rptAddresses_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
 

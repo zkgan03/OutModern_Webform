@@ -9,12 +9,11 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using OutModern.src.Admin.Interfaces;
 
 
 namespace OutModern.src.Admin.Staffs
 {
-    public partial class Staffs : System.Web.UI.Page, IFilter
+    public partial class Staffs : System.Web.UI.Page
     {
 
         protected static readonly string StaffEdit = "StaffEdit";
@@ -31,14 +30,39 @@ namespace OutModern.src.Admin.Staffs
 
         protected void Page_Load(object sender, EventArgs e)
         {
+
             if (!IsPostBack)
             {
-                lvStaffs.DataSource = getStaffs();
+                string adminRole = Session["AdminRole"]?.ToString();
+                if (adminRole != "Manager")
+                {
+                    Response.Redirect("~/src/ErrorPages/403.aspx");
+                }
+
+                Session["MenuCategory"] = "Staffs";
+
+                lvStaffs.DataSource = staffDataSource();
                 lvStaffs.DataBind();
 
                 Page.DataBind();
             }
         }
+
+        //choose to load data source
+        private DataTable staffDataSource(string sortExpression = null, string sortDirection = "ASC")
+        {
+            //get the search term
+            string searchTerms = Request.QueryString["q"];
+
+            if (searchTerms != null)
+            {
+                ((TextBox)Master.FindControl("txtSearch")).Text = searchTerms;
+                return FilterDataTable(getStaffs(sortExpression, sortDirection), searchTerms);
+            }
+
+            else return getStaffs(sortExpression, sortDirection);
+        }
+
 
         //store each column sorting state into viewstate
         private Dictionary<string, string> SortDirections
@@ -237,12 +261,6 @@ namespace OutModern.src.Admin.Staffs
 
 
         //Search Bar Method
-        public void FilterListView(string searchTerm)
-        {
-            lvStaffs.DataSource = FilterDataTable(getStaffs(), searchTerm);
-            lvStaffs.DataBind();
-        }
-
         private DataTable FilterDataTable(DataTable dataTable, string searchTerm)
         {
             // Escape single quotes for safety
@@ -286,8 +304,8 @@ namespace OutModern.src.Admin.Staffs
             string sortExpression = ViewState["SortExpression"]?.ToString();
             lvStaffs.DataSource =
                 sortExpression == null ?
-                getStaffs() :
-                getStaffs(sortExpression, SortDirections[sortExpression]);
+                staffDataSource() :
+                staffDataSource(sortExpression, SortDirections[sortExpression]);
             lvStaffs.DataBind();
         }
 
@@ -298,8 +316,8 @@ namespace OutModern.src.Admin.Staffs
 
             string sortExpression = ViewState["SortExpression"]?.ToString();
             lvStaffs.DataSource = sortExpression == null ?
-                getStaffs() :
-                getStaffs(sortExpression, SortDirections[sortExpression]);
+                staffDataSource() :
+                staffDataSource(sortExpression, SortDirections[sortExpression]);
             lvStaffs.DataBind();
 
             // bind data source for Role ddl
@@ -324,8 +342,8 @@ namespace OutModern.src.Admin.Staffs
             string sortExpression = ViewState["SortExpression"]?.ToString();
             lvStaffs.DataSource =
                 sortExpression == null ?
-                getStaffs() :
-                getStaffs(sortExpression, SortDirections[sortExpression]);
+                staffDataSource() :
+                staffDataSource(sortExpression, SortDirections[sortExpression]);
             lvStaffs.DataBind();
         }
 
@@ -333,8 +351,8 @@ namespace OutModern.src.Admin.Staffs
         {
             string sortExpression = ViewState["SortExpression"]?.ToString();
             DataTable staffs = sortExpression == null ?
-                getStaffs() :
-                getStaffs(sortExpression, SortDirections[sortExpression]);
+                staffDataSource() :
+                staffDataSource(sortExpression, SortDirections[sortExpression]);
 
             int currentRowIndex = e.NewEditIndex + dpBottomStaffs.StartRowIndex;
             DataRow oriRow = staffs.Rows[currentRowIndex]; // get ori value to show as default value in ddl
@@ -411,6 +429,18 @@ namespace OutModern.src.Admin.Staffs
                 return;
             }
 
+            //check email duplicate
+            if (Utils.ValidationUtils.IsEmailExist(addAdminEmail))
+            {
+                Page.ClientScript
+                    .RegisterStartupScript(GetType(),
+                            "Add Failed",
+                            "document.addEventListener('DOMContentLoaded', ()=>alert('Email already exist'));",
+                            true);
+
+                return;
+            }
+
             //check phone
             if (!StringUtil.PhoneUtil.IsValidPhoneNumber(addAdminPhoneNo))
             {
@@ -430,12 +460,8 @@ namespace OutModern.src.Admin.Staffs
 
             if (noOfRowAffected > 0)
             {
-                Page.ClientScript.RegisterStartupScript(GetType(), "alert",
-                    $"document.addEventListener('DOMContentLoaded', ()=> alert('You has added Staff >> Name: {addAdminName}'))",
-                    true);
-
                 lvStaffs.InsertItemPosition = InsertItemPosition.None;
-                lvStaffs.DataSource = getStaffs();
+                lvStaffs.DataSource = staffDataSource();
                 lvStaffs.DataBind();
             }
         }
@@ -494,6 +520,18 @@ namespace OutModern.src.Admin.Staffs
                 return;
             }
 
+            //check email duplicate
+            if (Utils.ValidationUtils.IsEmailExist(updatedAdminEmail, adminId))
+            {
+                Page.ClientScript
+                    .RegisterStartupScript(GetType(),
+                        "Update Failed",
+                        "document.addEventListener('DOMContentLoaded', ()=>alert('Email already exist'));",
+                        true);
+
+                return;
+            }
+
             //check phone
             if (!StringUtil.PhoneUtil.IsValidPhoneNumber(updatedAdminPhoneNo))
             {
@@ -510,12 +548,8 @@ namespace OutModern.src.Admin.Staffs
 
             if (noOfRowAffected > 0)
             {
-                Page.ClientScript.RegisterStartupScript(GetType(), "alert",
-                    $"document.addEventListener('DOMContentLoaded', ()=> alert('You had updated Staff >> ID: {adminId}, Name: {updatedAdminName}'))",
-                    true);
-
                 lvStaffs.EditIndex = -1;
-                lvStaffs.DataSource = getStaffs();
+                lvStaffs.DataSource = staffDataSource();
                 lvStaffs.DataBind();
             }
         }
@@ -556,7 +590,7 @@ namespace OutModern.src.Admin.Staffs
             ViewState["SortExpression"] = e.SortExpression; // used for retain the sorting
 
             // Re-bind the ListView with sorted data
-            lvStaffs.DataSource = getStaffs(e.SortExpression, SortDirections[e.SortExpression]);
+            lvStaffs.DataSource = staffDataSource(e.SortExpression, SortDirections[e.SortExpression]);
             lvStaffs.DataBind();
         }
 

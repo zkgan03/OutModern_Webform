@@ -168,7 +168,9 @@
                         </div>
                     </div>
                     <div class="self-end mr-2">
-                        <asp:Button CssClass="button" ID="btnUpdateQuantity" OnClick="btnUpdateQuantity_Click" runat="server" Text="Set" />
+                        <asp:Button CssClass="button"
+                            OnClientClick="return confirm('Are you sure you want to update the quantity?');"
+                            ID="btnUpdateQuantity" OnClick="btnUpdateQuantity_Click" runat="server" Text="Set" />
                     </div>
                     <div class="opacity-50 mt-4 self-end">
                         <asp:Label ID="lblSetStatus" runat="server"></asp:Label>
@@ -190,7 +192,7 @@
                     <!--Color selection-->
                     <div class="flex gap-3 items-center mt-5">
                         <asp:Repeater ID="repeaterColors" OnItemCommand="repeaterColors_ItemCommand" runat="server">
-                            <itemtemplate>
+                            <ItemTemplate>
                                 <div class="flex items-center gap-2 bg-gray-100 p-1 rounded">
                                     <asp:LinkButton
                                         data-colorId='<%# Eval("ColorId") %>'
@@ -209,12 +211,12 @@
                                     </asp:LinkButton>
                                 </div>
 
-                            </itemtemplate>
-                            <footertemplate>
+                            </ItemTemplate>
+                            <FooterTemplate>
                                 <asp:Label ID="lblColorEmpty" CssClass="text-red-500" runat="server"
                                     Visible='<%# ((Repeater)Container.NamingContainer).Items.Count == 0 %>'
                                     Text="**No Color added** </br> **Add color in order to add an Image**" />
-                            </footertemplate>
+                            </FooterTemplate>
                         </asp:Repeater>
                         <asp:Label ID="lblDeleteColorStatus" runat="server" CssClass="opacity-50"></asp:Label>
                     </div>
@@ -235,7 +237,7 @@
                         <!-- Repeater images-->
                         <div class="flex flex-wrap gap-2 items-center">
                             <asp:Repeater ID="repeaterImages" runat="server" OnItemCommand="repeaterImages_ItemCommand">
-                                <itemtemplate>
+                                <ItemTemplate>
                                     <div class="relative">
                                         <asp:LinkButton
                                             CssClass="block absolute font top-1 right-1 text-red-500 leading-5 hover:opacity-50"
@@ -252,17 +254,17 @@
                                                 ImageUrl='<%# Eval("path") %>' />
                                         </div>
                                     </div>
-                                </itemtemplate>
-                                <footertemplate>
+                                </ItemTemplate>
+                                <FooterTemplate>
                                     <asp:Label ID="lblNoImg" CssClass="text-red-500" runat="server"
                                         Visible='<%# ((Repeater)Container.NamingContainer).Items.Count == 0 %>'
                                         Text="**No Image added**" />
-                                </footertemplate>
+                                </FooterTemplate>
                             </asp:Repeater>
                         </div>
 
                         <% if (repeaterColors.Items.Count > 0)
-                                { %>
+                            { %>
                         <div class="add-image">
                             <asp:FileUpload ID="fileImgUpload"
                                 AllowMultiple="true"

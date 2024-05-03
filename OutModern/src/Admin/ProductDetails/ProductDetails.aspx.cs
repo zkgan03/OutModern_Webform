@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OutModern.src.Admin.Orders;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -19,7 +20,6 @@ namespace OutModern.src.Admin.ProductDetails
         protected string productId;
 
 
-        // Side menu urls
         protected Dictionary<string, string> urls = new Dictionary<string, string>()
         {
             { ProductEdit , "~/src/Admin/ProductEdit/ProductEdit.aspx" },
@@ -36,6 +36,8 @@ namespace OutModern.src.Admin.ProductDetails
 
             if (!IsPostBack)
             {
+                Session["MenuCategory"] = "Products";
+
                 initProductInfo();
 
                 // bind ddl of size
@@ -57,8 +59,12 @@ namespace OutModern.src.Admin.ProductDetails
                     new DataTable();
                 repeaterImg.DataBind();
 
+                //overall rating
+                double overallRating = getOverallRating();
+                lblOverallRating.Text = overallRating == 0 ? "..." : overallRating.ToString("0.0");
+
                 //init reviews
-                lvReviews.DataSource = getReviewList();
+                lvReviews.DataSource = reviewDataSource();
                 lvReviews.DataBind();
 
                 Page.DataBind();
@@ -83,6 +89,56 @@ namespace OutModern.src.Admin.ProductDetails
             lblStatus.Text = data["ProductStatusName"].ToString();
             lblProductDesription.Text = data["ProductDescription"].ToString();
         }
+
+        //choose to load data source
+        private DataTable reviewDataSource(string sortExpression = null, string sortDirection = "ASC")
+        {
+            //get the search term
+            string searchTerms = Request.QueryString["q"];
+
+            if (searchTerms != null)
+            {
+                ((TextBox)Master.FindControl("txtSearch")).Text = searchTerms;
+                return FilterDataTable(getReviewList(), searchTerms);
+            }
+
+            else return getReviewList();
+        }
+
+
+        //search logic
+        private DataTable FilterDataTable(DataTable dataTable, string searchTerm)
+        {
+            // Escape single quotes for safety
+            string safeSearchTerm = searchTerm.Replace("'", "''");
+
+            // Build the filter expression with relevant fields
+            string expression = string.Format(
+                "Convert(OrderId, 'System.String') LIKE '%{0}%' OR " +
+                "CustomerName LIKE '%{0}%' OR " +
+                "Convert(OrderDateTime, 'System.String') LIKE '%{0}%' OR " +
+                "Convert(Total, 'System.String') LIKE '%{0}%' OR " +
+                "OrderStatusName LIKE '%{0}%'",
+                safeSearchTerm);
+
+            // Filter the rows
+            DataRow[] filteredRows = dataTable.Select(expression);
+
+            // Create a new DataTable for the filtered results
+            DataTable filteredDataTable = dataTable.Clone();
+
+            // Import the filtered rows
+            foreach (DataRow row in filteredRows)
+            {
+                filteredDataTable.ImportRow(row);
+            }
+
+            return filteredDataTable;
+        }
+
+        //
+        //db
+        //
 
         // Get the products info
         private DataTable getProductInfo()
@@ -280,6 +336,35 @@ namespace OutModern.src.Admin.ProductDetails
             return data;
         }
 
+        private double getOverallRating()
+        {
+            double rating = 0;
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                string sqlQuery =
+                    "Select AVG(Rating) as OverallRating " +
+                    "From Review r, ProductDetail pd, Product p " +
+                    "Where r.ProductDetailId = pd.ProductDetailId " +
+                    "AND pd.ProductId = p.ProductId " +
+                    "AND pd.ProductId = @productId;";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@productId", productId);
+                    if (command.ExecuteScalar() != DBNull.Value)
+                    {
+                        rating = double.Parse(command.ExecuteScalar().ToString());
+                    }
+                }
+            }
+
+            return rating;
+        }
+
+        //
+        //events
+        //
         private void setQuantity()
         {
             if (ViewState["ColorId"] == null) return;
@@ -293,11 +378,9 @@ namespace OutModern.src.Admin.ProductDetails
 
         protected void lvReviews_PagePropertiesChanged(object sender, EventArgs e)
         {
-            lvReviews.DataSource = getReviewList();
+            lvReviews.DataSource = reviewDataSource();
             lvReviews.DataBind();
         }
-
-
 
         protected void repeaterColors_ItemCommand(object source, System.Web.UI.WebControls.RepeaterCommandEventArgs e)
         {

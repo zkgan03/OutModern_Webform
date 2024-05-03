@@ -24,13 +24,13 @@ namespace OutModern.src.Admin.Dashboard
         protected global::System.Web.UI.WebControls.Label lblTotalCustomer;
 
         /// <summary>
-        /// lblNewCustomer control.
+        /// lblTotalStaff control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblNewCustomer;
+        protected global::System.Web.UI.WebControls.Label lblTotalStaff;
 
         /// <summary>
         /// lblMonthOrders control.
@@ -49,24 +49,6 @@ namespace OutModern.src.Admin.Dashboard
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblNewOrders;
-
-        /// <summary>
-        /// lblMonthCancelled control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMonthCancelled;
-
-        /// <summary>
-        /// lblTodayCancelled control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTodayCancelled;
 
         /// <summary>
         /// lblTodayReviews control.

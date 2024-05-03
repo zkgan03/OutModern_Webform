@@ -188,14 +188,5 @@
 
             </div>
         </div>
-
-        <!--Reset Password button-->
-        <div class="mt-10">
-            <asp:Button ID="btnResetPassword"
-                CssClass="button bg-red-600"
-                runat="server"
-                OnClientClick="return confirm('Are you absolutely sure you want to reset the customer password?\n\nThis action cannot be undone and may have serious consequences!')"
-                Text="Reset Customer's Password" />
-        </div>
     </div>
 </asp:Content>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -13,12 +14,23 @@ namespace OutModern.src.Admin.Dashboard
     public partial class Dashboard : System.Web.UI.Page
     {
         protected string lineData;
+        protected string salesByCategoryData;
         private string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            string adminRole = Session["AdminRole"]?.ToString();
+            if (adminRole != "Manager")
+            {
+                Response.Redirect("~/src/ErrorPages/403.aspx");
+            }
 
-            initPageData();
+            if (!IsPostBack)
+            {
+                Session["MenuCategory"] = "Dashboard";
+                initPageData();
+            }
+
         }
 
         private void initPageData()
@@ -26,40 +38,57 @@ namespace OutModern.src.Admin.Dashboard
             string formatIntegerString = "# ##0";
 
             lblTotalCustomer.Text = getTotalCustomer().ToString(formatIntegerString);
+            lblTotalStaff.Text = getTotalStaff().ToString(formatIntegerString);
             lblMonthOrders.Text = getMonthOrders().ToString(formatIntegerString);
             lblNewOrders.Text = getTodayOrders().ToString(formatIntegerString);
-            lblMonthCancelled.Text = getMonthCancelled().ToString(formatIntegerString);
-            lblTodayCancelled.Text = getTodayCancelled().ToString(formatIntegerString);
-            lblTodayCancelled.Text = getTodayCancelled().ToString(formatIntegerString);
+            //lblMonthCancelled.Text = getMonthCancelled().ToString(formatIntegerString);
+            //lblTodayCancelled.Text = getTodayCancelled().ToString(formatIntegerString);
             lblTodayReviews.Text = getTodayReviews().ToString(formatIntegerString);
 
             lblOverallRating.Text = getOverallRating().ToString("0.0");
 
-            PopulateSalesChart();
+            populateSalesChart();
+            populateSalesByCategoryChart();
         }
-        private void PopulateSalesChart()
+
+        private void populateSalesByCategoryChart()
         {
-            DataTable data = new DataTable();
-            data.Columns.Add("Date", typeof(long)); // Change to long for milliseconds since epoch
-            data.Columns.Add("Sales", typeof(decimal));
 
-            Random random = new Random();
-            DateTime endDate = DateTime.Now; // Today
-            DateTime startDate = endDate.AddMonths(-11); // Start date 12 months ago
+            DataTable data = getCategorySales();
 
-            for (DateTime date = startDate; date.CompareTo(endDate) <= 0; date = date.AddMonths(1))
+            //prepare data for highchart
+            salesByCategoryData = "[";
+            foreach (DataRow row in data.Rows)
             {
-                long timestamp = (long)date.ToUniversalTime().Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds; // Convert to milliseconds since epoch
-                decimal sales = random.Next(100, 1000) + (decimal)random.NextDouble();
-                data.Rows.Add(timestamp, sales);
+                salesByCategoryData += "{name: '" + row["ProductCategory"] + "', y: " + row["Total"] + "},";
             }
+            salesByCategoryData = salesByCategoryData.TrimEnd(',') + "]";
+        }
 
+        private void populateSalesChart()
+        {
+
+            DataTable data = getSalesData();
+
+            //prepare data for highchart
             lineData = "[";
             foreach (DataRow row in data.Rows)
             {
-                lineData += "[" + row["Date"] + "," + row["Sales"] + "],";
+                string dateString = row["Month"].ToString() + "/" + row["Year"].ToString();
+                // Parse the string to a DateTime object
+                DateTime dateTime = DateTime.ParseExact(dateString, "M/yyyy", CultureInfo.InvariantCulture);
+
+                // Convert to the beginning of the month
+                dateTime = new DateTime(dateTime.Year, dateTime.Month, 1);
+
+                // Convert DateTime to Unix timestamp in milliseconds
+                DateTimeOffset dateTimeOffset = new DateTimeOffset(dateTime);
+                long unixDateTime = dateTimeOffset.ToUnixTimeMilliseconds();
+
+                lineData += "[" + unixDateTime + "," + row["Total"] + "],";
+
             }
-            lineData = lineData.Remove(lineData.Length - 1) + "]";
+            lineData = lineData.TrimEnd(',') + "]";
         }
 
         //
@@ -73,11 +102,36 @@ namespace OutModern.src.Admin.Dashboard
 
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
-
                 connection.Open();
                 string sqlQuery =
                     "Select COUNT(CustomerId) as Total " +
-                    "FROM Customer ";
+                    "FROM Customer, UserStatus " +
+                    "WHERE UserStatus.UserStatusId = Customer.CustomerStatusId " +
+                    "AND UserStatusName = 'Activated'";
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    total = int.Parse(command.ExecuteScalar().ToString());
+                }
+
+            }
+
+            return total;
+        }
+
+        //get total staffs which is activated
+        private int getTotalStaff()
+        {
+            int total = 0;
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+
+                connection.Open();
+                string sqlQuery =
+                    "Select COUNT(AdminId) as Total " +
+                    "FROM Admin, UserStatus " +
+                    "WHERE UserStatus.UserStatusId = Admin.AdminStatusId " +
+                    "AND UserStatusName = 'Activated'";
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
                     total = int.Parse(command.ExecuteScalar().ToString());
@@ -138,55 +192,55 @@ namespace OutModern.src.Admin.Dashboard
             return total;
         }
 
-        // get this month orders which is cancelled 
-        private int getMonthCancelled()
-        {
-            int total = 0;
+        //// get this month orders which is cancelled 
+        //private int getMonthCancelled()
+        //{
+        //    int total = 0;
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
-            {
-                connection.Open();
-                string sqlQuery =
-                    "Select COUNT(OrderId) as Total " +
-                    "FROM [Order], OrderStatus " +
-                    "WHERE MONTH(OrderDatetime) = MONTH(GETDATE()) " +
-                    "AND YEAR(OrderDatetime) = YEAR(GETDATE()) " +
-                    "AND OrderStatus.OrderStatusId = [Order].OrderStatusId " +
-                    "AND OrderStatusName = 'Cancelled' ";
+        //    using (SqlConnection connection = new SqlConnection(ConnectionString))
+        //    {
+        //        connection.Open();
+        //        string sqlQuery =
+        //            "Select COUNT(OrderId) as Total " +
+        //            "FROM [Order], OrderStatus " +
+        //            "WHERE MONTH(OrderDatetime) = MONTH(GETDATE()) " +
+        //            "AND YEAR(OrderDatetime) = YEAR(GETDATE()) " +
+        //            "AND OrderStatus.OrderStatusId = [Order].OrderStatusId " +
+        //            "AND OrderStatusName = 'Cancelled' ";
 
-                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
-                {
-                    total = int.Parse(command.ExecuteScalar().ToString());
-                }
+        //        using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+        //        {
+        //            total = int.Parse(command.ExecuteScalar().ToString());
+        //        }
 
-            }
+        //    }
 
-            return total;
-        }
+        //    return total;
+        //}
 
-        // get today orders which is cancelled 
-        private int getTodayCancelled()
-        {
-            int total = 0;
+        //// get today orders which is cancelled 
+        //private int getTodayCancelled()
+        //{
+        //    int total = 0;
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
-            {
-                connection.Open();
-                string sqlQuery =
-                    "Select COUNT(OrderId) as Total " +
-                    "FROM [Order], OrderStatus " +
-                    "WHERE CONVERT(date, OrderDateTime) = CONVERT(date, GETDATE()) " +
-                    "AND OrderStatus.OrderStatusId = [Order].OrderStatusId " +
-                    "AND OrderStatusName != 'Cancelled' ";
+        //    using (SqlConnection connection = new SqlConnection(ConnectionString))
+        //    {
+        //        connection.Open();
+        //        string sqlQuery =
+        //            "Select COUNT(OrderId) as Total " +
+        //            "FROM [Order], OrderStatus " +
+        //            "WHERE CONVERT(date, OrderDateTime) = CONVERT(date, GETDATE()) " +
+        //            "AND OrderStatus.OrderStatusId = [Order].OrderStatusId " +
+        //            "AND OrderStatusName != 'Cancelled' ";
 
-                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
-                {
-                    total = int.Parse(command.ExecuteScalar().ToString());
-                }
-            }
+        //        using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+        //        {
+        //            total = int.Parse(command.ExecuteScalar().ToString());
+        //        }
+        //    }
 
-            return total;
-        }
+        //    return total;
+        //}
 
         //get total reviews given to all product
         private int getTodayReviews()
@@ -199,7 +253,9 @@ namespace OutModern.src.Admin.Dashboard
                 connection.Open();
                 string sqlQuery =
                     "Select COUNT(ReviewId) as Total " +
-                    "FROM Review ";
+                    "FROM Review " +
+                    "WHERE CONVERT(date, ReviewDateTime) = CONVERT(date, GETDATE()) ";
+
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
                     total = int.Parse(command.ExecuteScalar().ToString());
@@ -229,6 +285,59 @@ namespace OutModern.src.Admin.Dashboard
 
             return average;
         }
+
+        // get sales data for the last 12 months from db, calculate the sum of total price for each month
+        private DataTable getSalesData()
+        {
+            DataTable data = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                string sqlQuery =
+                    "Select TOP 12 MONTH(OrderDateTime) as Month, YEAR(OrderDateTime) as Year, SUM(Total) as Total " +
+                    "FROM [Order], OrderStatus " +
+                    "WHERE OrderStatusName = 'Received' AND OrderStatus.OrderStatusID = [Order].OrderStatusID " +
+                    "GROUP BY MONTH(OrderDateTime), YEAR(OrderDateTime) " +
+                    "ORDER BY YEAR(OrderDateTime) desc, MONTH(OrderDateTime) desc;";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    data.Load(command.ExecuteReader());
+                }
+            }
+
+            return data;
+        }
+
+        // total sales for each of the category
+        private DataTable getCategorySales()
+        {
+            DataTable data = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                string sqlQuery =
+                    "Select ProductCategory, Sum(Total) As Total " +
+                    "FROM [Order], OrderItem, Product, OrderStatus, ProductDetail " +
+                    "WHERE OrderItem.OrderID = [Order].OrderID " +
+                    "AND OrderStatus.OrderStatusID = [Order].OrderStatusID " +
+                    "AND ProductDetail.ProductDetailID = OrderItem.ProductDetailID " +
+                    "AND Product.ProductID = ProductDetail.ProductID " +
+                    "AND OrderStatusName = 'Received' " +
+                    "Group By ProductCategory " +
+                    "Order By ProductCategory ";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    data.Load(command.ExecuteReader());
+                }
+            }
+
+            return data;
+        }
+
 
     }
 }

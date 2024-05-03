@@ -1,4 +1,5 @@
-﻿using OutModern.src.Admin.Staffs;
+﻿using OutModern.src.Admin.Orders;
+using OutModern.src.Admin.Staffs;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -25,12 +26,63 @@ namespace OutModern.src.Admin.Customers
         private string ConnectionStirng = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
+            
             if (!IsPostBack)
             {
-                lvCustomers.DataSource = getCustomers();
+                Session["MenuCategory"] = "Customers";
+
+                lvCustomers.DataSource = cusDataSource();
                 lvCustomers.DataBind();
             }
         }
+
+        //choose to load data source
+        private DataTable cusDataSource(string sortExpression = null, string sortDirection = "ASC")
+        {
+            //get the search term
+            string searchTerms = Request.QueryString["q"];
+
+            if (searchTerms != null)
+            {
+                ((TextBox)Master.FindControl("txtSearch")).Text = searchTerms;
+                return FilterDataTable(getCustomers(sortExpression, sortDirection), searchTerms);
+            }
+
+            else return getCustomers(sortExpression, sortDirection);
+        }
+
+        //search logic
+        private DataTable FilterDataTable(DataTable dataTable, string searchTerm)
+        {
+            // Escape single quotes for safety
+            string safeSearchTerm = searchTerm.Replace("'", "''");
+
+            // Build the filter expression with relevant fields
+            string expression = string.Format(
+                "Convert(CustomerId, 'System.String') LIKE '%{0}%' OR " +
+                "CustomerFullName LIKE '%{0}%' OR " +
+                "CustomerUsername LIKE '%{0}%' OR " +
+                "CustomerEmail LIKE '%{0}%' OR " +
+                "CustomerPhoneNumber LIKE '%{0}%' OR " +
+                "UserStatusName LIKE '%{0}%' ",
+                safeSearchTerm);
+
+            // Filter the rows
+            DataRow[] filteredRows = dataTable.Select(expression);
+
+            // Create a new DataTable for the filtered results
+            DataTable filteredDataTable = dataTable.Clone();
+
+            // Import the filtered rows
+            foreach (DataRow row in filteredRows)
+            {
+                filteredDataTable.ImportRow(row);
+            }
+
+            return filteredDataTable;
+        }
+
+
         //store each column sorting state into viewstate
         private Dictionary<string, string> SortDirections
         {
@@ -124,8 +176,8 @@ namespace OutModern.src.Admin.Customers
         {
             string sortExpression = ViewState["SortExpression"]?.ToString();
             lvCustomers.DataSource = sortExpression == null ?
-                getCustomers() :
-                getCustomers(sortExpression, SortDirections[sortExpression]);
+                cusDataSource() :
+                cusDataSource(sortExpression, SortDirections[sortExpression]);
             lvCustomers.DataBind();
         }
 
@@ -136,7 +188,7 @@ namespace OutModern.src.Admin.Customers
             ViewState["SortExpression"] = e.SortExpression; // used for retain the sorting
 
             // Re-bind the ListView with sorted data
-            lvCustomers.DataSource = getCustomers(e.SortExpression, SortDirections[e.SortExpression]);
+            lvCustomers.DataSource = cusDataSource(e.SortExpression, SortDirections[e.SortExpression]);
             lvCustomers.DataBind();
         }
     }

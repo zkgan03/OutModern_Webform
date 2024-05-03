@@ -65,38 +65,32 @@
                                 <th class="active">
                                     <asp:LinkButton ID="lbCustomerId" runat="server" CommandName="Sort" CommandArgument="CustomerId">
                              ID
-                             <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
                                     <asp:LinkButton ID="lbCustomerName" runat="server" CommandName="Sort" CommandArgument="CustomerFullname">
                              Customer Name
-                             <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
                                     <asp:LinkButton ID="lbUsername" runat="server" CommandName="Sort" CommandArgument="CustomerUsername">
                               Username
-                              <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
                                     <asp:LinkButton ID="lbProductOrdered" runat="server" CommandName="Sort" CommandArgument="CustomerEmail">
                               Email
-                              <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
 
                                 <th>
                                     <asp:LinkButton ID="lbSubtotal" runat="server" CommandName="Sort" CommandArgument="CustomerPhoneNumber">
                              Phone No
-                             <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
                                     <asp:LinkButton ID="lbOrderStatus" runat="server" CommandName="Sort" CommandArgument="UserStatusName">
                              Status
-                             <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>Action</th>
@@ -123,10 +117,13 @@
                         </td>
                     </tr>
                 </ItemTemplate>
+                <EmptyDataTemplate>
+                    No data..
+                </EmptyDataTemplate>
             </asp:ListView>
 
             <!--Pagination-->
-            <asp:DataPager ID="dpBottomCustomers" class="pagination" runat="server" PageSize="4" PagedControlID="lvCustomers">
+            <asp:DataPager ID="dpBottomCustomers" class="pagination" runat="server" PageSize="10" PagedControlID="lvCustomers">
                 <Fields>
                     <asp:NextPreviousPagerField ButtonType="Button" ShowFirstPageButton="False" ShowNextPageButton="False" ShowPreviousPageButton="True" PreviousPageText="<" />
                     <asp:NumericPagerField CurrentPageLabelCssClass="active" ButtonCount="10" />

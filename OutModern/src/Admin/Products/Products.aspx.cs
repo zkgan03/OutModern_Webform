@@ -9,13 +9,12 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using OutModern.src.Admin.Interfaces;
 using OutModern.src.Admin.Staffs;
 
 
 namespace OutModern.src.Admin.Products
 {
-    public partial class Products : System.Web.UI.Page, IFilter
+    public partial class Products : System.Web.UI.Page
     {
         protected static readonly string ProductEdit = "ProductEdit";
         protected static readonly string ProductAdd = "ProductAdd";
@@ -33,14 +32,35 @@ namespace OutModern.src.Admin.Products
 
         protected void Page_Load(object sender, EventArgs e)
         {
+
+
             if (!IsPostBack)
             {
-                lvProducts.DataSource = getProducts();
+                Session["MenuCategory"] = "Products";
+
+                lvProducts.DataSource = staffDataSource();
                 lvProducts.DataBind();
+
                 Page.DataBind();
 
             }
         }
+
+        //choose to load data source
+        private DataTable staffDataSource(string sortExpression = null, string sortDirection = "ASC")
+        {
+            //get the search term
+            string searchTerms = Request.QueryString["q"];
+
+            if (searchTerms != null)
+            {
+                ((TextBox)Master.FindControl("txtSearch")).Text = searchTerms;
+                return FilterDataTable(getProducts(sortExpression, sortDirection), searchTerms);
+            }
+
+            else return getProducts(sortExpression, sortDirection);
+        }
+
 
         //store each column sorting state into viewstate
         private Dictionary<string, string> SortDirections
@@ -70,6 +90,35 @@ namespace OutModern.src.Admin.Products
             {
                 SortDirections[columnName] = SortDirections[columnName] == "ASC" ? "DESC" : "ASC";
             }
+        }
+
+        //search logic
+        private DataTable FilterDataTable(DataTable dataTable, string searchTerm)
+        {
+            string safeSearchTerm = searchTerm.Replace("'", "''");
+
+            // Build filter expression with product fields
+            string expression = string.Format(
+                "Convert(ProductId, 'System.String') LIKE '%{0}%' OR " +
+                "ProductName LIKE '%{0}%' OR " +
+                "ProductCategory LIKE '%{0}%' OR " +
+                "Convert(UnitPrice, 'System.String') LIKE '%{0}%' OR " +
+                "ProductStatusName LIKE '%{0}%' ",
+                safeSearchTerm);
+
+            // Filter the rows
+            DataRow[] filteredRows = dataTable.Select(expression);
+
+            // Create a new DataTable for the filtered results
+            DataTable filteredDataTable = dataTable.Clone();
+
+            // Import the filtered rows
+            foreach (DataRow row in filteredRows)
+            {
+                filteredDataTable.ImportRow(row);
+            }
+
+            return filteredDataTable;
         }
 
         //
@@ -180,7 +229,7 @@ namespace OutModern.src.Admin.Products
         protected void lvProducts_PagePropertiesChanged(object sender, EventArgs e)
         {
             string sortExpression = ViewState["SortExpression"]?.ToString();
-            lvProducts.DataSource = sortExpression == null ? getProducts() : getProducts(sortExpression, SortDirections[sortExpression]);
+            lvProducts.DataSource = sortExpression == null ? staffDataSource() : staffDataSource(sortExpression, SortDirections[sortExpression]);
             lvProducts.DataBind();
         }
 
@@ -189,39 +238,7 @@ namespace OutModern.src.Admin.Products
 
         }
 
-        public void FilterListView(string searchTerm)
-        {
-            lvProducts.DataSource = FilterDataTable(getProducts(), searchTerm);
-            dpBottomProducts.SetPageProperties(0, dpBottomProducts.MaximumRows, false);
-            lvProducts.DataBind();
-        }
-        private DataTable FilterDataTable(DataTable dataTable, string searchTerm)
-        {
-            string safeSearchTerm = searchTerm.Replace("'", "''");
 
-            // Build filter expression with product fields
-            string expression = string.Format(
-                "Convert(ProductId, 'System.String') LIKE '%{0}%' OR " +
-                "ProductName LIKE '%{0}%' OR " +
-                "ProductCategory LIKE '%{0}%' OR " +
-                "Convert(UnitPrice, 'System.String') LIKE '%{0}%' OR " +
-                "Status LIKE '%{0}%' OR " +
-                safeSearchTerm);
-
-            // Filter the rows
-            DataRow[] filteredRows = dataTable.Select(expression);
-
-            // Create a new DataTable for the filtered results
-            DataTable filteredDataTable = dataTable.Clone();
-
-            // Import the filtered rows
-            foreach (DataRow row in filteredRows)
-            {
-                filteredDataTable.ImportRow(row);
-            }
-
-            return filteredDataTable;
-        }
 
         protected void lvProducts_Sorting(object sender, ListViewSortEventArgs e)
         {
@@ -231,7 +248,7 @@ namespace OutModern.src.Admin.Products
             ViewState["SortExpression"] = e.SortExpression; // used for retain the sorting
 
             // Re-bind the ListView with sorted data
-            lvProducts.DataSource = getProducts(e.SortExpression, SortDirections[e.SortExpression]);
+            lvProducts.DataSource = staffDataSource(e.SortExpression, SortDirections[e.SortExpression]);
             lvProducts.DataBind();
         }
     }

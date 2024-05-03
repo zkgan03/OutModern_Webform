@@ -102,7 +102,6 @@
     <Compile Include="src\Admin\CustomerEdit\CustomerEdit.aspx.designer.cs">
       <DependentUpon>CustomerEdit.aspx</DependentUpon>
     </Compile>
-    <Compile Include="src\Admin\Interfaces\IFilter.cs" />
     <Compile Include="src\Admin\OrderDetails\OrderDetails.aspx.cs">
       <DependentUpon>OrderDetails.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -860,6 +859,7 @@
     <Folder Include="images\product_img\1\" />
     <Folder Include="images\product_img\2\" />
     <Folder Include="images\product_img\3\" />
+    <Folder Include="src\Admin\AdminLogin\" />
     <Folder Include="src\Client\Home\css\" />
     <Folder Include="src\Client\Home\js\" />
   </ItemGroup>

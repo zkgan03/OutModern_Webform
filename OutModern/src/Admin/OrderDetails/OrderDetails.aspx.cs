@@ -30,12 +30,13 @@ namespace OutModern.src.Admin.OrderDetails
         protected void Page_Load(object sender, EventArgs e)
         {
             orderId = Request.QueryString["OrderId"];
-            if(orderId == null)
+            if (orderId == null)
             {
                 Response.Redirect("~/src/ErrorPages/404.aspx");
             }
             if (!IsPostBack)
             {
+                Session["MenuCategory"] = "Orders";
 
                 initPageData();
 
@@ -47,7 +48,7 @@ namespace OutModern.src.Admin.OrderDetails
         {
             // All Product ordered
             DataTable productOrdered = getProductOrdered();
-            if(productOrdered.Rows.Count == 0)
+            if (productOrdered.Rows.Count == 0)
             {
                 Response.Redirect("~/src/ErrorPages/404.aspx");
             }

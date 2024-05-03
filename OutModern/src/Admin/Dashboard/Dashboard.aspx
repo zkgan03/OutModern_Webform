@@ -10,7 +10,7 @@
             }
 
                 .dashboard-item-container .dashboard-item {
-                    @apply bg-gray-200 drop-shadow rounded-2xl p-4 mt-4;
+                    @apply bg-gray-100 drop-shadow rounded-2xl p-4 mt-4;
                 }
 
                     .dashboard-item-container .dashboard-item .text > * {
@@ -36,10 +36,10 @@
             </div>
             <div class="dashboard-item">
                 <div class="title">
-                    New Customer
+                    Total Staff
                 </div>
                 <div class="text">
-                    <asp:Label ID="lblNewCustomer" runat="server" Text="hvnt implement"></asp:Label>
+                    <asp:Label ID="lblTotalStaff" runat="server" Text="hvnt implement"></asp:Label>
                 </div>
             </div>
         </div>
@@ -59,19 +59,19 @@
                     Today New Orders
                 </div>
                 <div class="text">
-                    <asp:Label ID="lblNewOrders" runat="server" ></asp:Label>
+                    <asp:Label ID="lblNewOrders" runat="server"></asp:Label>
                 </div>
             </div>
         </div>
 
-        <!-- Cancelled -->
+<%--        <!-- Cancelled -->
         <div class="dashboard-item-container">
             <div class="dashboard-item">
                 <div class="title">
                     This Month Cancelled
                 </div>
                 <div class="text">
-                    <asp:Label ID="lblMonthCancelled" runat="server" ></asp:Label>
+                    <asp:Label ID="lblMonthCancelled" runat="server"></asp:Label>
                 </div>
             </div>
             <div class="dashboard-item">
@@ -82,7 +82,7 @@
                     <asp:Label ID="lblTodayCancelled" runat="server"></asp:Label>
                 </div>
             </div>
-        </div>
+        </div>--%>
 
         <!-- Review Pending Reply -->
         <div class="dashboard-item-container">
@@ -119,12 +119,21 @@
 
         (() => {
 
+            // Data for line chart
+            let lineData = <%= lineData %>; // Replace with your generated data array
+
+            console.log(lineData)
+
             Highcharts.chart('sales-chart', {
                 chart: {
                     type: 'line' // Set chart type as line
                 },
                 title: {
                     text: 'Sales In One Year' // Chart title
+                },
+                tooltip: {
+                    valueSuffix: '',
+                    valuePrefix: 'RM '
                 },
                 xAxis: {
                     title: { // Label for X-axis
@@ -145,7 +154,7 @@
                 },
                 series: [{ // Define data series
                     name: 'Sales', // Series name
-                    data: <%= lineData %> // Replace with your generated data array
+                    data: lineData// Replace with your generated data array
                 }]
             });
 
@@ -153,6 +162,9 @@
 
         // Pie chart, sales for each category
         (() => {
+
+            const salesByCategory = <%= salesByCategoryData %>; // Replace with your generated data array
+
             Highcharts.chart('sales-chart-category', {
                 chart: {
                     type: 'pie', // Set chart type as line
@@ -161,8 +173,10 @@
                     text: 'Total Sales By Category' // Chart title
                 },
                 tooltip: {
-                    valueSuffix: '%'
-                }, plotOptions: {
+                    valueSuffix: '',
+                    valuePrefix: 'RM '
+                },
+                plotOptions: {
                     series: {
                         allowPointSelect: true,
                         cursor: 'pointer',
@@ -188,14 +202,9 @@
                     }
                 },
                 series: [{ // Define data series
-                    name: 'Sold',
+                    name: 'Sales',
                     colorByPoint: true,
-                    data: [
-                        { name: "Hoodie", y: 14 },
-                        { name: "Shorts", y: 38 },
-                        { name: "Sweater", y: 24 },
-                        { name: "Tee Shirt", y: 26 },
-                    ]// Replace with your generated data array
+                    data: salesByCategory// Replace with your generated data array
                 }]
             });
         })();

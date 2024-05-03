@@ -1,5 +1,4 @@
-﻿using OutModern.src.Admin.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -12,7 +11,7 @@ using System.Web.UI.WebControls;
 
 namespace OutModern.src.Admin.CustomerDetails
 {
-    public partial class CustomerDetails : System.Web.UI.Page, IFilter
+    public partial class CustomerDetails : System.Web.UI.Page
     {
 
         protected static readonly string OrderDetails = "OrderDetails";
@@ -35,14 +34,19 @@ namespace OutModern.src.Admin.CustomerDetails
                 Response.Redirect("~/src/ErrorPages/404.aspx");
             }
 
+
             if (!IsPostBack)
             {
+                Session["MenuCategory"] = "Customers";
+
                 initCustomerDetails();
+
+                lblOrderMade.Text = getTotalOrderMade().ToString();
 
                 rptAddress.DataSource = getAddresses();
                 rptAddress.DataBind();
 
-                lvOrders.DataSource = getOrders();
+                lvOrders.DataSource = orderDataSource();
                 lvOrders.DataBind();
                 Page.DataBind();
             }
@@ -82,20 +86,23 @@ namespace OutModern.src.Admin.CustomerDetails
 
         }
 
-        //search logic
-        public void FilterListView(string searchTerm)
+        //choose to load data source
+        private DataTable orderDataSource(string sortExpression = null, string sortDirection = "ASC")
         {
-            string sortExpression = ViewState["SortExpression"]?.ToString();
+            //get the search term
+            string searchTerms = Request.QueryString["q"];
 
-            lvOrders.DataSource = FilterDataTable(
-                    sortExpression == null ?
-                    getOrders() :
-                    getOrders(sortExpression, SortDirections[sortExpression]),
-                    searchTerm
-                );
-            lvOrders.DataBind();
+            if (searchTerms != null)
+            {
+                ((TextBox)Master.FindControl("txtSearch")).Text = searchTerms;
+                return FilterDataTable(getOrders(sortExpression, sortDirection), searchTerms);
+            }
+
+            else return getOrders(sortExpression, sortDirection);
         }
 
+
+        //search logic
         private DataTable FilterDataTable(DataTable dataTable, string searchTerm)
         {
             // Escape single quotes for safety
@@ -104,10 +111,9 @@ namespace OutModern.src.Admin.CustomerDetails
             // Build the filter expression with relevant fields
             string expression = string.Format(
                 "Convert(OrderId, 'System.String') LIKE '%{0}%' OR " +
-                "CustomerName LIKE '%{0}%' OR " +
                 "Convert(OrderDateTime, 'System.String') LIKE '%{0}%' OR " +
-                "Convert(SubTotal, 'System.String') LIKE '%{0}%' OR " +
-                "OrderStatus LIKE '%{0}%'",
+                "Convert(Total, 'System.String') LIKE '%{0}%' OR " +
+                "OrderStatusName LIKE '%{0}%'",
                 safeSearchTerm);
 
             // Filter the rows
@@ -271,6 +277,30 @@ namespace OutModern.src.Admin.CustomerDetails
             return data;
         }
 
+        private int getTotalOrderMade()
+        {
+            int totalOrder = 0;
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                string sqlQuery =
+                    "Select Count(OrderId) as TotalOrder " +
+                    "From [Order] " +
+                    "Where CustomerId = @customerId ";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@customerId", customerId);
+                    if (command.ExecuteScalar() != DBNull.Value)
+                    {
+                        totalOrder = int.Parse(command.ExecuteScalar().ToString());
+                    }
+                }
+            }
+
+            return totalOrder;
+        }
         //
         //Page Events
         //
@@ -279,8 +309,8 @@ namespace OutModern.src.Admin.CustomerDetails
             string sortExpression = ViewState["SortExpression"]?.ToString();
             lvOrders.DataSource =
                 sortExpression == null ?
-                getOrders() :
-                getOrders(sortExpression, SortDirections[sortExpression]);
+                orderDataSource() :
+                orderDataSource(sortExpression, SortDirections[sortExpression]);
             lvOrders.DataBind();
         }
 
@@ -320,7 +350,7 @@ namespace OutModern.src.Admin.CustomerDetails
             ViewState["SortExpression"] = e.SortExpression; // used for retain the sorting
 
             // Re-bind the ListView with sorted data
-            lvOrders.DataSource = getOrders(e.SortExpression, SortDirections[e.SortExpression]);
+            lvOrders.DataSource = orderDataSource(e.SortExpression, SortDirections[e.SortExpression]);
             lvOrders.DataBind();
         }
     }

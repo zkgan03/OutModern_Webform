@@ -29,6 +29,8 @@ namespace OutModern.src.Admin.ProductAdd
         {
             if (!IsPostBack)
             {
+                Session["MenuCategory"] = "Products";
+
                 ddlCategory.DataSource = getProductCategory();
                 ddlCategory.DataValueField = "ProductCategory";
                 ddlCategory.DataTextField = "ProductCategory";

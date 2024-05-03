@@ -32,7 +32,7 @@ namespace OutModern.src.Admin.Utils
 
         public static bool IsEmailExist(string email)
         {
-            int row = 0;
+            int exist = 0;
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
             {
                 con.Open();
@@ -44,16 +44,18 @@ namespace OutModern.src.Admin.Utils
                 using (SqlCommand cmd = new SqlCommand(sqlQuery, con))
                 {
                     cmd.Parameters.AddWithValue("@AdminEmail", email);
-                    row = cmd.ExecuteNonQuery();
+                    if (cmd.ExecuteScalar() != null)
+                    {
+                        exist = 1;
+                    }
                 }
             }
 
-            return row > 0;
+            return exist != 0;
         }
-
         public static bool IsEmailExist(string email, string adminId)
         {
-            int row = 0;
+            int exist = 0;
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
             {
                 con.Open();
@@ -66,12 +68,14 @@ namespace OutModern.src.Admin.Utils
                 {
                     cmd.Parameters.AddWithValue("@AdminEmail", email);
                     cmd.Parameters.AddWithValue("@AdminId", adminId);
-                    row = cmd.ExecuteNonQuery();
+                    if (cmd.ExecuteScalar() != null)
+                    {
+                        exist = 1;
+                    }
                 }
             }
 
-            return row > 0;
+            return exist != 0;
         }
-
     }
 }

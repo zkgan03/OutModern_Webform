@@ -1,5 +1,4 @@
-﻿using OutModern.src.Admin.Interfaces;
-using OutModern.src.Admin.Staffs;
+﻿using OutModern.src.Admin.Staffs;
 using OutModern.src.Admin.Utils;
 using System;
 using System.Collections.Generic;
@@ -14,7 +13,7 @@ using System.Web.UI.WebControls;
 
 namespace OutModern.src.Admin.PromoCode
 {
-    public partial class PromoCode : System.Web.UI.Page, IFilter
+    public partial class PromoCode : System.Web.UI.Page
     {
         private string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
@@ -22,10 +21,27 @@ namespace OutModern.src.Admin.PromoCode
         {
             if (!IsPostBack)
             {
-                lvPromoCodes.DataSource = getPromoCodes();
+                Session["MenuCategory"] = "PromoCode";
+                lvPromoCodes.DataSource = promoDataSource();
                 lvPromoCodes.DataBind();
             }
         }
+
+        //choose to load data source
+        private DataTable promoDataSource(string sortExpression = null, string sortDirection = "ASC")
+        {
+            //get the search term
+            string searchTerms = Request.QueryString["q"];
+
+            if (searchTerms != null)
+            {
+                ((TextBox)Master.FindControl("txtSearch")).Text = searchTerms;
+                return FilterDataTable(getPromoCodes(sortExpression, sortDirection), searchTerms);
+            }
+
+            else return getPromoCodes(sortExpression, sortDirection);
+        }
+
 
         //store each column sorting state into viewstate
         private Dictionary<string, string> SortDirections
@@ -55,12 +71,6 @@ namespace OutModern.src.Admin.PromoCode
             {
                 SortDirections[columnName] = SortDirections[columnName] == "ASC" ? "DESC" : "ASC";
             }
-        }
-
-        public void FilterListView(string searchTerm)
-        {
-            lvPromoCodes.DataSource = FilterDataTable(getPromoCodes(), searchTerm);
-            lvPromoCodes.DataBind();
         }
 
         private DataTable FilterDataTable(DataTable dataTable, string searchTerm)
@@ -216,8 +226,8 @@ namespace OutModern.src.Admin.PromoCode
             string sortExpression = ViewState["SortExpression"]?.ToString();
             lvPromoCodes.DataSource =
                 sortExpression == null ?
-                getPromoCodes() :
-                getPromoCodes(sortExpression, SortDirections[sortExpression]);
+                promoDataSource() :
+                promoDataSource(sortExpression, SortDirections[sortExpression]);
             lvPromoCodes.InsertItemPosition = InsertItemPosition.FirstItem;
             lvPromoCodes.EditIndex = -1;
             lvPromoCodes.DataBind();
@@ -230,8 +240,8 @@ namespace OutModern.src.Admin.PromoCode
             string sortExpression = ViewState["SortExpression"]?.ToString();
             lvPromoCodes.DataSource =
                 sortExpression == null ?
-                getPromoCodes() :
-                getPromoCodes(sortExpression, SortDirections[sortExpression]);
+                promoDataSource() :
+                promoDataSource(sortExpression, SortDirections[sortExpression]);
             lvPromoCodes.DataBind();
         }
 
@@ -249,8 +259,8 @@ namespace OutModern.src.Admin.PromoCode
 
             lvPromoCodes.DataSource =
                 sortExpression == null ?
-                getPromoCodes() :
-                getPromoCodes(sortExpression, SortDirections[sortExpression]);
+                promoDataSource() :
+                promoDataSource(sortExpression, SortDirections[sortExpression]);
             lvPromoCodes.DataBind();
         }
 
@@ -261,8 +271,8 @@ namespace OutModern.src.Admin.PromoCode
             string sortExpression = ViewState["SortExpression"]?.ToString();
             lvPromoCodes.DataSource =
                 sortExpression == null ?
-                getPromoCodes() :
-                getPromoCodes(sortExpression, SortDirections[sortExpression]);
+                promoDataSource() :
+                promoDataSource(sortExpression, SortDirections[sortExpression]);
             lvPromoCodes.DataBind();
         }
 
@@ -380,8 +390,8 @@ namespace OutModern.src.Admin.PromoCode
                 string sortExpression = ViewState["SortExpression"]?.ToString();
                 lvPromoCodes.DataSource =
                     sortExpression == null ?
-                    getPromoCodes() :
-                    getPromoCodes(sortExpression, SortDirections[sortExpression]);
+                    promoDataSource() :
+                    promoDataSource(sortExpression, SortDirections[sortExpression]);
                 lvPromoCodes.DataBind();
             }
         }
@@ -393,7 +403,7 @@ namespace OutModern.src.Admin.PromoCode
             ViewState["SortExpression"] = e.SortExpression; // used for retain the sorting
 
             // Re-bind the ListView with sorted data
-            lvPromoCodes.DataSource = getPromoCodes(e.SortExpression, SortDirections[e.SortExpression]);
+            lvPromoCodes.DataSource = promoDataSource(e.SortExpression, SortDirections[e.SortExpression]);
             lvPromoCodes.DataBind();
         }
 
@@ -504,8 +514,8 @@ namespace OutModern.src.Admin.PromoCode
                 string sortExpression = ViewState["SortExpression"]?.ToString();
                 lvPromoCodes.DataSource =
                     sortExpression == null ?
-                    getPromoCodes() :
-                    getPromoCodes(sortExpression, SortDirections[sortExpression]);
+                    promoDataSource() :
+                    promoDataSource(sortExpression, SortDirections[sortExpression]);
                 lvPromoCodes.DataBind();
             }
         }

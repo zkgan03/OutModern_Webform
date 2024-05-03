@@ -25,6 +25,7 @@ namespace OutModern.src.Admin.ProductReviewReply
 
             if (!IsPostBack)
             {
+                Session["MenuCategory"] = "Products";
                 initReview();
                 Page.DataBind();
             }

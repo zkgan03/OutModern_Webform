@@ -53,14 +53,13 @@
             <asp:DataPager ID="dpTopOrders" class="pagination" runat="server" PagedControlID="lvOrders">
                 <Fields>
                     <asp:NextPreviousPagerField ButtonType="Button" ShowFirstPageButton="False" ShowNextPageButton="False" ShowPreviousPageButton="True" PreviousPageText="<" />
-                    <asp:NumericPagerField CurrentPageLabelCssClass="active" ButtonCount="10" />
+                    <asp:NumericPagerField CurrentPageLabelCssClass="active" />
                     <asp:NextPreviousPagerField ButtonType="Button" ShowLastPageButton="False" ShowNextPageButton="True" ShowPreviousPageButton="False" NextPageText=">" />
                 </Fields>
             </asp:DataPager>
 
-            <asp:Label ID="lblStatusUpdataMsg" runat="server" 
-                CssClass="block my-5 text-green-600"
-                ></asp:Label>
+            <asp:Label ID="lblStatusUpdataMsg" runat="server"
+                CssClass="block my-5 text-green-600"></asp:Label>
 
             <asp:ListView
                 OnItemDataBound="lvOrders_ItemDataBound"
@@ -76,19 +75,16 @@
                                 <th class="active">
                                     <asp:LinkButton ID="lbId" runat="server" CommandName="Sort" CommandArgument="OrderId">
                                      ID
-                                     <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
                                     <asp:LinkButton ID="lbCustomerName" runat="server" CommandName="Sort" CommandArgument="CustomerFullName">
                                      Customer Name
-                                     <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
                                     <asp:LinkButton ID="lbOrderDateTime" runat="server" CommandName="Sort" CommandArgument="OrderDateTime">
                                       Order Date
-                                      <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>Product Ordered
@@ -97,13 +93,11 @@
                                 <th>
                                     <asp:LinkButton ID="lbTotal" runat="server" CommandName="Sort" CommandArgument="Total">
                                      Total
-                                     <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
-                                    <asp:LinkButton ID="lbOrderStatus" runat="server">
+                                    <asp:LinkButton ID="lbOrderStatus" runat="server" CommandName="Sort" CommandArgument="OrderStatusName">
                                      Order Status
-                                     <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>Update Status</th>
@@ -134,6 +128,7 @@
                             <asp:LinkButton
                                 Visible='<%# Eval("OrderStatusName").ToString() == "Order Placed" %>'
                                 CssClass="shipped-button bg-green-500 text-white"
+                                OnClientClick="return confirm('Are you sure you want to change the status to Shipped?');"
                                 CommandName="ToShipped"
                                 CommandArgument='<%# Eval("OrderId") %>'
                                 ID="lbStatusToShipped" runat="server">
@@ -146,6 +141,7 @@
                             <asp:LinkButton
                                 Visible='<%# Eval("OrderStatusName").ToString() == "Order Placed" %>'
                                 CssClass="shipped-button bg-red-500 text-white"
+                                OnClientClick="return confirm('Are you sure you want to cancel the order?'); event.stopPropagation();"
                                 CommandName="ToCancel"
                                 CommandArgument='<%# Eval("OrderId") %>'
                                 ID="lbStatusCancel" runat="server">
@@ -155,6 +151,7 @@
                             <asp:LinkButton
                                 Visible='<%# Eval("OrderStatusName").ToString() == "Shipped" ||  Eval("OrderStatusName").ToString() == "Cancelled"%>'
                                 CssClass="shipped-button"
+                                OnClientClick="return confirm('Are you sure you want to change the status to Received?');"
                                 CommandName="ToPlaced"
                                 CommandArgument='<%# Eval("OrderId") %>'
                                 ID="lbReturnToPlaced" runat="server">
@@ -171,7 +168,7 @@
             </asp:ListView>
 
             <!--Pagination-->
-            <asp:DataPager ID="dpBottomOrders" class="pagination" runat="server" PageSize="4" PagedControlID="lvOrders">
+            <asp:DataPager ID="dpBottomOrders" class="pagination" runat="server" PageSize="10" PagedControlID="lvOrders">
                 <Fields>
                     <asp:NextPreviousPagerField ButtonType="Button" ShowFirstPageButton="False" ShowNextPageButton="False" ShowPreviousPageButton="True" PreviousPageText="<" />
                     <asp:NumericPagerField CurrentPageLabelCssClass="active" ButtonCount="10" />
@@ -180,5 +177,16 @@
             </asp:DataPager>
         </div>
     </div>
+
+    <script>
+        //toggle the arrow up and down
+        document.querySelectorAll('.fa-arrow-up').forEach((el) => {
+            el.addEventListener('click', () => {
+                el.classList.toggle('fa-arrow-down');
+            });
+        })
+
+
+    </script>
 
 </asp:Content>
