@@ -6,6 +6,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 
 
@@ -522,6 +523,8 @@ namespace OutModern.src.Client.ProductDetails
                         }
                     }
                 }
+
+                Response.Redirect(Request.RawUrl);
             }
             else
             {
@@ -637,6 +640,7 @@ namespace OutModern.src.Client.ProductDetails
             }
             return productDetailId;
         }
+
 
     }
 }

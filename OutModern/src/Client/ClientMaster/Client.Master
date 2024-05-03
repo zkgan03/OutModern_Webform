@@ -118,7 +118,7 @@
 
             <!-- Ads -->
             <div class="nav-ads flex relative text-center bg-[#626262] h-10 text-white justify-center items-center">
-                Buy over RM100 to get free shipping now !
+                Use CODE2 before 16 May to get 15% discount!
                     <i class="fa-solid fa-xmark absolute top-[10px] right-[10px] cursor-pointer"
                         style="color: #ffffff; font-size: 20px;"></i>
             </div>

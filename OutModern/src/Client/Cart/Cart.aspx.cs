@@ -32,12 +32,10 @@ namespace OutModern.src.Client.Cart
             if (!IsPostBack)
             {
                 Session["PromoCode"] = null;
-
-
             }
-
-            UpdateSubtotalandGrandTotalLabel();
+            
             BindCartItems();
+            UpdateSubtotalandGrandTotalLabel();
         }
 
         private void UpdateSubtotalandGrandTotalLabel()
@@ -93,6 +91,88 @@ namespace OutModern.src.Client.Cart
         }
 
         private void BindCartItems()
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "SELECT CI.ProductDetailId, " +
+                               "PD.Quantity AS ProductQuantity " +
+                               "FROM CartItem CI " +
+                               "INNER JOIN ProductDetail PD ON CI.ProductDetailId = PD.ProductDetailId " +
+                               "WHERE CI.CartId = (SELECT CartId FROM Cart WHERE CustomerId = @CustomerId)";
+
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@CustomerId", customerId);
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+
+                con.Open();
+                da.Fill(dt);
+                con.Close();
+
+                // Iterate through the DataTable to check for invalid product details
+                List<int> invalidProductDetailIds = new List<int>();
+                foreach (DataRow row in dt.Rows)
+                {
+                    int productDetailId = Convert.ToInt32(row["ProductDetailId"]);
+                    int quantity = Convert.ToInt32(row["ProductQuantity"]);
+                    int productStatusId = GetProductStatusId(productDetailId);
+
+                    
+                    if (quantity == 0 || productStatusId == 2 || productStatusId == 3)
+                    {
+                        invalidProductDetailIds.Add(productDetailId);
+                    }
+                }
+
+                // Remove invalid cart items from the database
+                RemoveInvalidCartItems(invalidProductDetailIds);
+
+                // Rebind the cart items excluding the invalid ones
+                BindValidCartItems();
+            }
+        }
+
+        private int GetProductStatusId(int productDetailId)
+        {
+            int productStatusId = 0;
+            // Query the database to get the ProductStatusId for the given ProductDetailId
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "SELECT ProductStatusId FROM Product WHERE ProductId = (SELECT ProductId FROM ProductDetail WHERE ProductDetailId = @ProductDetailId)";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@ProductDetailId", productDetailId);
+
+                con.Open();
+                object result = cmd.ExecuteScalar();
+                if (result != null && result != DBNull.Value)
+                {
+                    productStatusId = Convert.ToInt32(result);
+                }
+                con.Close();
+            }
+            return productStatusId;
+        }
+
+        private void RemoveInvalidCartItems(List<int> invalidProductDetailIds)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                foreach (int productDetailId in invalidProductDetailIds)
+                {
+                    string query = "DELETE FROM CartItem WHERE ProductDetailId = @ProductDetailId";
+                    SqlCommand cmd = new SqlCommand(query, con);
+                    cmd.Parameters.AddWithValue("@ProductDetailId", productDetailId);
+                    cmd.ExecuteNonQuery();
+                }
+                con.Close();
+
+                UpdateCartSubtotal(customerId);
+            }
+        }
+
+        private void BindValidCartItems()
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
@@ -334,7 +414,7 @@ namespace OutModern.src.Client.Cart
                     else
                     {
                         // Code is valid but out of stock
-                        lblCodeError.Text = "Code is out of stock!";
+                        lblCodeError.Text = "Promo Code is out of stock!";
                     }
                 }
                 else
@@ -345,7 +425,7 @@ namespace OutModern.src.Client.Cart
             else
             {
                 // Code is invalid or expired
-                lblCodeError.Text = "Invalid Code!";
+                lblCodeError.Text = "Invalid Promo Code!";
             }
 
             UpdateSubtotalandGrandTotalLabel();
