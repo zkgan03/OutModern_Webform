@@ -38,8 +38,12 @@
             <!-- left column-->
             <div class="column1">
                 <div class="sectionLeft">
-                    <div class="leftBox">
+                    <%--<div class="leftBox">
                         <asp:Image ID="img_profile" runat="server" class="imgProfile" ImageUrl="~/images/login-img/login-background13.jpg" />
+                    </div>--%>
+
+                    <div class="leftBox">
+                        <asp:Image ID="img_profile" runat="server" Width="10em" Height="10em" CssClass="product-img object-cover" />
                     </div>
 
                     <div class="rightBox">
@@ -52,7 +56,7 @@
 
                         <asp:Button ID="btn_togo_profile" runat="server" class="button" Text="My Profile" OnClick="btn_togo_profile_Click" />
                         <asp:Button ID="btn_togo_my_order" runat="server" class="button" Text="My Order" OnClick="btn_togo_my_order_Click" />
-
+                        <asp:Button ID="btn_cmt_his" runat="server" class="button" Text="Comment History"/>
                     </div>
 
                 </div>
@@ -168,7 +172,7 @@
                 </asp:ListView>
 
 
-                
+
 
             </div>
 

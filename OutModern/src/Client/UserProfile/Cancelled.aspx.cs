@@ -58,6 +58,9 @@ namespace OutModern.src.Client.UserProfile
                             //left box display
                             lbl_username.Text = reader["CustomerUsername"].ToString();
 
+                            string profileImagePath = reader["ProfileImagePath"].ToString();
+                            img_profile.ImageUrl = profileImagePath;
+
                             reader.Close();
                         }
 

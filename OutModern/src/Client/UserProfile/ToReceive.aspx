@@ -4,32 +4,32 @@
     <link href="css/MyOrder.css" rel="stylesheet" />
 
     <style type="text/tailwindcss">
-    @layer components {
-        .order-status {
-            @apply rounded p-1;
+        @layer components {
+            .order-status {
+                @apply rounded p-1;
+            }
+
+                .order-status.order-placed {
+                    @apply bg-amber-300;
+                }
+
+                .order-status.shipped {
+                    @apply bg-green-100;
+                }
+
+                .order-status.cancelled {
+                    @apply bg-red-300;
+                }
+
+                .order-status.received {
+                    @apply bg-green-300;
+                }
+
+            .shipped-button {
+                @apply inline-block bg-gray-100 text-black mt-2 rounded p-1 border border-black hover:opacity-50;
+            }
         }
-
-            .order-status.order-placed {
-                @apply bg-amber-300;
-            }
-
-            .order-status.shipped {
-                @apply bg-green-100;
-            }
-
-            .order-status.cancelled {
-                @apply bg-red-300;
-            }
-
-            .order-status.received {
-                @apply bg-green-300;
-            }
-
-        .shipped-button {
-            @apply inline-block bg-gray-100 text-black mt-2 rounded p-1 border border-black hover:opacity-50;
-        }
-    }
-</style>
+    </style>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -38,8 +38,12 @@
             <!-- left column-->
             <div class="column1">
                 <div class="sectionLeft">
-                    <div class="leftBox">
+                    <%--<div class="leftBox">
                         <asp:Image ID="img_profile" runat="server" class="imgProfile" ImageUrl="~/images/login-img/login-background13.jpg" />
+                    </div>--%>
+
+                    <div class="leftBox">
+                        <asp:Image ID="img_profile" runat="server" Width="10em" Height="10em" CssClass="product-img object-cover" />
                     </div>
 
                     <div class="rightBox">
@@ -52,7 +56,7 @@
 
                         <asp:Button ID="btn_togo_profile" runat="server" class="button" Text="My Profile" OnClick="btn_togo_profile_Click" />
                         <asp:Button ID="btn_togo_my_order" runat="server" class="button" Text="My Order" OnClick="btn_togo_my_order_Click" />
-
+                        <asp:Button ID="btn_cmt_his" runat="server" class="button" Text="Comment History"/>
                     </div>
 
                 </div>

@@ -42,6 +42,9 @@ namespace OutModern.src.Client.UserProfile
                             txt_edit_username.Text = reader["CustomerUsername"].ToString();
                             txt_edit_fullname.Text = reader["CustomerFullname"].ToString();
 
+                            string profileImagePath = reader["ProfileImagePath"].ToString();
+                            img_profile.ImageUrl = profileImagePath;
+
                             if (reader["CustomerPhoneNumber"].ToString() == "")
                             {
                                 txt_edit_phone_number.Text = "-";
@@ -359,6 +362,64 @@ namespace OutModern.src.Client.UserProfile
         {
             // Redirect to User Profile page
             Response.Redirect("ToShip.aspx");
+        }
+
+        protected void btnUploadImage_Click(object sender, EventArgs e)
+        {
+            if (imgUpload.HasFile)
+            {
+                try
+                {
+                    // Get the uploaded file
+                    HttpPostedFile uploadedFile = imgUpload.PostedFile;
+
+                    // Define the file name and path
+                    string fileName = System.IO.Path.GetFileName(uploadedFile.FileName);
+
+                    // Create a directory for storing images, if not exists
+                    string savePath = Server.MapPath("~/images/profile-pics/"); // Ensure this directory exists
+                    if (!System.IO.Directory.Exists(savePath))
+                    {
+                        System.IO.Directory.CreateDirectory(savePath);
+                    }
+
+                    // Set the complete file path
+                    string filePath = System.IO.Path.Combine(savePath, fileName);
+
+                    // Save the file to the server
+                    uploadedFile.SaveAs(filePath);
+
+                    ////
+                    // Cache-buster to ensure the image is reloaded
+                    string imageUrlWithCacheBuster = "~/images/profile-pics/" + fileName + "?v=" + Guid.NewGuid().ToString();
+
+                    // Update the ProfileImagePath in the database
+                    int custID = int.Parse(Request.Cookies["CustID"].Value);
+                    using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
+                    {
+                        conn.Open();
+                        string updateQuery = "UPDATE Customer SET ProfileImagePath = @filePath WHERE CustomerId = @custId";
+                        SqlCommand cmd = new SqlCommand(updateQuery, conn);
+                        cmd.Parameters.AddWithValue("@filePath", "~/images/profile-pics/" + fileName); // Use a relative path for ASP.NET
+                        cmd.Parameters.AddWithValue("@custId", custID);
+
+                        cmd.ExecuteNonQuery(); // Execute the update
+                        conn.Close();
+                    }
+                    // Update the image to show the new uploaded one
+                    img_profile.ImageUrl = imageUrlWithCacheBuster;
+
+                    lblMessage.Text = "Image uploaded and profile updated successfully.";
+                }
+                catch (Exception ex)
+                {
+                    lblMessage.Text = "Error uploading image: " + ex.Message;
+                }
+            }
+            else
+            {
+                lblMessage.Text = "Please select an image to upload.";
+            }
         }
     }
 }

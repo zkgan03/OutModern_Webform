@@ -50,8 +50,14 @@
 
                 <div class="sectionLeft">
 
+                    <%--<div class="leftBox">
+                        <asp:Image ID="img_profile" runat="server" class="imgProfile" ImageUrl='<%# Eval("path") %>' />
+                    </div>--%>
+
+                    <%--Width="10em" Height="10em" CssClass="product-img object-cover"--%>
+
                     <div class="leftBox">
-                        <asp:Image ID="img_profile" runat="server" class="imgProfile" ImageUrl="~/images/login-img/login-background13.jpg" />
+                        <asp:Image ID="img_profile" runat="server" Width="10em" Height="10em" CssClass="product-img object-cover"/>
                     </div>
 
                     <div class="rightBox">
@@ -64,7 +70,8 @@
 
                         <asp:Button ID="btn_togo_profile" runat="server" class="button" Text="My Profile" OnClick="btn_togo_profile_Click" />
                         <asp:Button ID="btn_togo_my_order" runat="server" class="button" Text="My Order" OnClick="btn_togo_my_order_Click" />
-
+                        <asp:Button ID="btn_cmt_his" runat="server" class="button" Text="Comment History"/>
+                    
                     </div>
 
                 </div>
@@ -177,7 +184,7 @@
                     </div>
 
                     <div>
-                        <asp:Button ID="btn_dlt_address" runat="server" class="EPButton1" Text="Delete Address" CssClass="bg-gray-500 hover:bg-black" Style="float: right; width: 20%; margin-top: 1vh; margin-left: 1vh; margin-bottom: 4vh; padding: 0.5rem 1rem; font-weight: bold; border: 1px solid #f5f5f5; cursor: pointer; color: whitesmoke; border-radius: 1rem;" OnClick="btn_dlt_address_Click"/>
+                        <asp:Button ID="btn_dlt_address" runat="server" class="EPButton1" Text="Delete Address" CssClass="bg-gray-500 hover:bg-black" Style="float: right; width: 20%; margin-top: 1vh; margin-left: 1vh; margin-bottom: 4vh; padding: 0.5rem 1rem; font-weight: bold; border: 1px solid #f5f5f5; cursor: pointer; color: whitesmoke; border-radius: 1rem;" OnClick="btn_dlt_address_Click" />
                     </div>
 
                     <div>

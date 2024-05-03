@@ -50,6 +50,10 @@ namespace OutModern.src.Client.Profile
                                 lbl_up_username.Text = reader["CustomerUsername"].ToString();
                                 lbl_up_fullname.Text = reader["CustomerFullname"].ToString();
                                 lbl_up_email.Text = reader["CustomerEmail"].ToString();
+                                //img_profile.ImageUrl = reader["ProfileImagePath"].ToString();
+
+                                string profileImagePath = reader["ProfileImagePath"].ToString();
+                                img_profile.ImageUrl = profileImagePath;
 
                                 if (reader["CustomerPhoneNumber"].ToString() == "")
                                 {
@@ -59,6 +63,7 @@ namespace OutModern.src.Client.Profile
                                 {
                                     lbl_up_phoneNumber.Text = reader["CustomerPhoneNumber"].ToString();
                                 }
+
                                 reader.Close();
                             }
 
@@ -101,6 +106,7 @@ namespace OutModern.src.Client.Profile
                         Response.Write(ex.Message);
                     }
                 }
+
             }
         }
 
