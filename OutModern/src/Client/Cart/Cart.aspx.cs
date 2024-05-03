@@ -26,11 +26,19 @@ namespace OutModern.src.Client.Cart
     public partial class Cart : System.Web.UI.Page
     {
         string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        int customerId = 1; // REMEMBER TO CHANGE ID
+        int customerId;// REMEMBER TO CHANGE ID
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
+                if (Session["CUSTID"] != null)
+                {
+                    customerId = (int)Session["CUSTID"];
+                }
+                else
+                {
+                    Response.Redirect("~/src/Client/Login/Login.aspx");
+                }
                 Session["PromoCode"] = null;
             }
             

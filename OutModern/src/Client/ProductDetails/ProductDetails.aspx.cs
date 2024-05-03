@@ -15,12 +15,21 @@ namespace OutModern.src.Client.ProductDetails
     public partial class ProductDetails : System.Web.UI.Page
     {
         string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        int customerId = 1; // REMEMBER TO CHANGE ID
+        int customerId; // REMEMBER TO CHANGE ID
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
+                if (Session["CUSTID"] != null)
+                {
+                    customerId = (int)Session["CUSTID"];
+                }
+                else
+                {
+                    customerId = 0;
+                }
+
                 GetProductInfo();
                 ColorRepeater.DataBind();
                 SizeRepeater.DataBind();

@@ -31,7 +31,7 @@ namespace OutModern.src.Client.Shipping
     {
 
         string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        int customerId = 1;
+        int customerId;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -50,8 +50,18 @@ namespace OutModern.src.Client.Shipping
                     Response.Redirect("~/src/Client/Cart/Cart.aspx");
                 }
 
-
                 Session["CartToShipping"] = false;
+
+
+                if (Session["CUSTID"] != null)
+                {
+                    customerId = (int)Session["CUSTID"];
+                }
+                else
+                {
+                    Response.Redirect("~/src/Client/Login/Login.aspx");
+                }
+
                 Session["SelectedAddress"] = null;
             }
 

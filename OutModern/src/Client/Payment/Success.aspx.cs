@@ -20,7 +20,7 @@ namespace OutModern.src.Client.Payment
     public partial class Success : System.Web.UI.Page
     {
         string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        int customerId = 1;
+        int customerId;
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -39,7 +39,17 @@ namespace OutModern.src.Client.Payment
                     Response.Redirect("~/src/Client/Cart/Cart.aspx");
                 }
 
+
                 Session["PaymentToSuccess"] = false;
+
+                if (Session["CUSTID"] != null)
+                {
+                    customerId = (int)Session["CUSTID"];
+                }
+                else
+                {
+                    Response.Redirect("~/src/Client/Login/Login.aspx");
+                }
 
                 // Check if the status parameter indicates success
                 string status = Request.QueryString["status"];
