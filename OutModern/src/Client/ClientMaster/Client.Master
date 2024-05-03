@@ -120,50 +120,50 @@
                 @apply border-b border-black;
             }
 
-            .data-table-head th{
-                @apply text-white;
+        .data-table-head th {
+            @apply text-white;
+        }
+
+        #data-table thead {
+            @apply z-50 sticky top-14 bg-gray-950 text-white;
+        }
+
+            #data-table thead th {
+                @apply p-1;
             }
 
-            #data-table thead {
-                @apply z-50 sticky top-14 bg-gray-950 text-white;
-            }
-
-                #data-table thead th {
-                    @apply p-1;
+                #data-table thead th > * {
+                    @apply text-opacity-50 cursor-pointer hover:bg-gray-100 hover:text-gray-950 p-1 rounded;
                 }
 
-                    #data-table thead th > * {
-                        @apply text-opacity-50 cursor-pointer hover:bg-gray-100 hover:text-gray-950 p-1 rounded;
+                #data-table thead th.active {
+                    @apply text-opacity-100;
+                }
+
+                    #data-table thead th.active i {
+                        @apply visible;
                     }
 
-                    #data-table thead th.active {
-                        @apply text-opacity-100;
-                    }
+                #data-table thead th a.sort-asc i {
+                    @apply rotate-0;
+                }
 
-                        #data-table thead th.active i {
-                            @apply visible;
-                        }
-
-                    #data-table thead th a.sort-asc i {
-                        @apply rotate-0;
-                    }
-
-                    #data-table thead th a.sort-desc i {
-                        @apply rotate-180;
-                    }
+                #data-table thead th a.sort-desc i {
+                    @apply rotate-180;
+                }
 
 
-                    #data-table thead th i {
-                        @apply invisible;
-                    }
+                #data-table thead th i {
+                    @apply invisible;
+                }
 
-            #data-table tbody tr {
-                @apply hover:bg-[#DBF0ED] cursor-pointer;
-            }
+        #data-table tbody tr {
+            @apply hover:bg-[#DBF0ED] cursor-pointer;
+        }
 
-            #data-table tbody td {
-                @apply p-2;
-            }
+        #data-table tbody td {
+            @apply p-2;
+        }
     </style>
 
     <!-- your head -->
@@ -224,25 +224,53 @@
 
                             <div class="drop-down max-w-xs">
                                 <ul>
-                                    <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink5" NavigateUrl="~/src/Client/UserProfile/UserProfile.aspx" runat="server">My Profile</asp:HyperLink>
-                                    </li>
-                                    <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink6" NavigateUrl="~/src/Client/UserProfile/ToShip.aspx" runat="server">My Order</asp:HyperLink>
-                                    </li>
+                                    <%if (Session["CUSTID"]?.ToString() == null)
+                                        {%>
                                     <li>
                                         <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink7" NavigateUrl="~/src/Client/Login/Login.aspx" runat="server">Log In</asp:HyperLink>
                                     </li>
                                     <li>
                                         <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink8" NavigateUrl="~/src/Client/Login/SignUp.aspx" runat="server">Sign Up</asp:HyperLink>
                                     </li>
+                                    <%}%>
+
+                                    <%if (Session["CUSTID"]?.ToString() != null)
+                                        {%>
                                     <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink9" NavigateUrl="~/src/Client/Login/Login.aspx" Visible="false" runat="server">Log Out</asp:HyperLink>
-                                        <!--if havent log in cannot see-->
+                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink5" NavigateUrl="~/src/Client/UserProfile/UserProfile.aspx" runat="server">My Profile</asp:HyperLink>
                                     </li>
+                                    <li>
+                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink6" NavigateUrl="~/src/Client/UserProfile/ToShip.aspx" runat="server">My Order</asp:HyperLink>
+                                    </li>
+
+                                    <li>
+                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink9" NavigateUrl="~/src/Client/Login/Login.aspx" runat="server">Log Out</asp:HyperLink>
+                                    </li>
+                                    <%}%>
                                 </ul>
                             </div>
 
+
+                            <%--<div class="drop-down max-w-xs">
+                                <ul>
+                                    <li>
+                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink1" NavigateUrl="~/src/Client/UserProfile/UserProfile.aspx" runat="server">My Profile</asp:HyperLink>
+                                    </li>
+                                    <li>
+                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink2" NavigateUrl="~/src/Client/UserProfile/ToShip.aspx" runat="server">My Order</asp:HyperLink>
+                                    </li>
+                                    <li>
+                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink3" NavigateUrl="~/src/Client/Login/Login.aspx" runat="server">Log In</asp:HyperLink>
+                                    </li>
+                                    <li>
+                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink4" NavigateUrl="~/src/Client/Login/SignUp.aspx" runat="server">Sign Up</asp:HyperLink>
+                                    </li>
+                                    <li>
+                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink10" NavigateUrl="~/src/Client/Login/Login.aspx" Visible="false" runat="server">Log Out</asp:HyperLink>
+                                        <!--if havent log in cannot see-->
+                                    </li>
+                                </ul>
+                            </div>--%>
                         </div>
 
                     </div>
