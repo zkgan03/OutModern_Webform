@@ -36,6 +36,22 @@ namespace OutModern.src.Client.Shipping
         {
             if (!IsPostBack)
             {
+                try
+                {
+
+                    if (Session["CartToShipping"] == null || !(bool)Session["CartToShipping"])
+                    {
+                        Response.Redirect("~/src/Client/Cart/Cart.aspx");
+                    }
+                }
+                catch (NullReferenceException)
+                {
+                    // Handle the NullReferenceException by redirecting back to the cart page
+                    Response.Redirect("~/src/Client/Cart/Cart.aspx");
+                }
+
+
+                Session["CartToShipping"] = false;
                 Session["SelectedAddress"] = null;
             }
 
@@ -249,6 +265,7 @@ namespace OutModern.src.Client.Shipping
             {
                 // Store the selected address in a session variable
                 Session["SelectedAddressPayment"] = selectedAddress;
+                Session["ShippingToPayment"] = true;
 
                 // Redirect to the Payment.aspx page
                 Response.Redirect("../Payment/Payment.aspx");

@@ -23,9 +23,24 @@ namespace OutModern.src.Client.Payment
         int customerId = 1;
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+
             if (!IsPostBack)
             {
+                try
+                {
+                    if (!(bool)Session["PaymentToSuccess"] || Session["PaymentToSuccess"] == null)
+                    {
+                        Response.Redirect("~/src/Client/Cart/Cart.aspx");
+                    }
+                }
+                catch (NullReferenceException)
+                {
+                    // Handle the NullReferenceException by redirecting back to the cart page
+                    Response.Redirect("~/src/Client/Cart/Cart.aspx");
+                }
+
+                Session["PaymentToSuccess"] = false;
+
                 // Check if the status parameter indicates success
                 string status = Request.QueryString["status"];
                 if (status == "success")
@@ -44,6 +59,10 @@ namespace OutModern.src.Client.Payment
                     Session.Remove("GrandTotal");
                     // Perform the database operation to insert data
                     InsertDataIntoDatabase(selectedAddress, paymentInfo, grandTotal, promoCode);
+                }
+                else
+                {
+                    Response.Redirect("~/src/Client/Cart/Cart.aspx");
                 }
             }
 
@@ -272,7 +291,7 @@ namespace OutModern.src.Client.Payment
                 Session.Remove("PaymentInfo");
                 Session.Remove("SelectedAddressPayment2");
                 Session.Remove("PromoCode3");
-                
+
             }
 
         }

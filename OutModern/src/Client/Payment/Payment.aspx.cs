@@ -33,7 +33,20 @@ namespace OutModern.src.Client.Payment
         {
             if (!IsPostBack)
             {
+                try
+                {
+                    if (!(bool)Session["ShippingToPayment"] || Session["ShippingToPayment"] == null)
+                    {
+                        Response.Redirect("~/src/Client/Cart/Cart.aspx");
+                    }
+                }
+                catch (NullReferenceException)
+                {
+                    // Handle the NullReferenceException by redirecting back to the cart page
+                    Response.Redirect("~/src/Client/Cart/Cart.aspx");
+                }
 
+                Session["ShippingToPayment"] = false;
                 // Check if the selected address is stored in the session
                 if (Session["SelectedAddressPayment"] != null)
                 {
@@ -232,6 +245,8 @@ namespace OutModern.src.Client.Payment
                     CVV = null
                 };
                 Session["PaymentInfo"] = creditCardInfo;
+                Session["PaymentToSuccess"] = true;
+
                 // Redirect the user to PayPal
                 Response.Redirect(paypalSandboxURL);
 
@@ -272,7 +287,7 @@ namespace OutModern.src.Client.Payment
 
                 // Store credit card information into session variable
                 Session["PaymentInfo"] = creditCardInfo;
-
+                Session["PaymentToSuccess"] = true;
                 // Redirect or perform any other action after storing the payment information
                 Response.Redirect("../Payment/Success.aspx?status=success");
 

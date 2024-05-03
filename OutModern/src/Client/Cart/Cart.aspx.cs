@@ -508,6 +508,7 @@ namespace OutModern.src.Client.Cart
 
             if (!cartIsEmpty)
             {
+                Session["CartToShipping"] = true;
                 // Redirect to the Shipping page
                 Response.Redirect("~/src/Client/Shipping/Shipping.aspx");
             }
