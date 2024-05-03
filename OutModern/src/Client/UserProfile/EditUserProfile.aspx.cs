@@ -14,7 +14,9 @@ namespace OutModern.src.Client.UserProfile
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            int custID = int.Parse(Request.Cookies["CustID"].Value);
+            //int custID = int.Parse(Request.Cookies["CustID"].Value);
+            int custID = (int)Session["CUSTID"];
+
             string addressName = Session["AddressName"] as string;
 
             if (!IsPostBack)
@@ -130,7 +132,9 @@ namespace OutModern.src.Client.UserProfile
             postalCodeErrMsg.Text = "";
             lblMessage.Text = "";
 
-            int custID = int.Parse(Request.Cookies["CustID"].Value);
+            //int custID = int.Parse(Request.Cookies["CustID"].Value);
+            int custID = (int)Session["CUSTID"];
+
             string addressName = Session["AddressName"] as string;
             
             if (addressName == null || addressName == "")
@@ -394,7 +398,9 @@ namespace OutModern.src.Client.UserProfile
                     string imageUrlWithCacheBuster = "~/images/profile-pics/" + fileName + "?v=" + Guid.NewGuid().ToString();
 
                     // Update the ProfileImagePath in the database
-                    int custID = int.Parse(Request.Cookies["CustID"].Value);
+                    //int custID = int.Parse(Request.Cookies["CustID"].Value);
+                    int custID = (int)Session["CUSTID"];
+
                     using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
                     {
                         conn.Open();

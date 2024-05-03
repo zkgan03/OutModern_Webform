@@ -15,13 +15,15 @@ namespace OutModern.src.Client.UserProfile
         protected void Page_Load(object sender, EventArgs e)
         {
             int custID;
-            if (Request.Cookies["CustID"] == null)
+            //if (Request.Cookies["CustID"] == null)
+            if (Session["CUSTID"] == null)
             {
                 Response.Redirect("~/src/Client/Login/Login.aspx");
             }
             else
             {
-                custID = int.Parse(Request.Cookies["CustID"].Value);
+                //custID = int.Parse(Request.Cookies["CustID"].Value);
+                custID = (int)Session["CUSTID"];
 
                 if (!IsPostBack)
                 {
@@ -81,7 +83,9 @@ namespace OutModern.src.Client.UserProfile
                 // Get selected address name from dropdown
                 string selectedAddressName = ddl_address_name.SelectedValue;
 
-                string custID = Request.Cookies["CustID"].Value;
+                //string custID = Request.Cookies["CustID"].Value;
+                string custID = Session["CUSTID"].ToString();
+
 
                 // Get address data (assuming only one address per customer)
                 string addressQuery = "SELECT * FROM Address WHERE CustomerId = @custId AND AddressName = @addressName And isDeleted = 0";
@@ -117,7 +121,9 @@ namespace OutModern.src.Client.UserProfile
 
         protected void btn_add_address_Click(object sender, EventArgs e)
         {
-            int custID = int.Parse(Request.Cookies["CustID"].Value);
+            //int custID = int.Parse(Request.Cookies["CustID"].Value);
+            int custID = (int)Session["CUSTID"];
+
             string addressName = Session["AddressNameForDlt"] as string;
 
             try

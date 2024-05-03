@@ -15,18 +15,23 @@ namespace OutModern.src.Client.Login
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Delete specific cookies on login page load
-            string[] cookieNamesToDelete = new string[] { "LoggedIn", "CustID", "CustStatus" };
+            //// Delete specific cookies on login page load
+            //string[] cookieNamesToDelete = new string[] { "LoggedIn", "CustID", "CustStatus" };
 
-            foreach (string cookieName in cookieNamesToDelete)
-            {
-                HttpCookie cookieToDelete = Request.Cookies[cookieName];
-                if (cookieToDelete != null)
-                {
-                    cookieToDelete.Expires = DateTime.Now.AddDays(-1); // Set expiration to past date
-                    Response.Cookies.Add(cookieToDelete); // Re-add cookie with expired date
-                }
-            }
+            //foreach (string cookieName in cookieNamesToDelete)
+            //{
+            //    HttpCookie cookieToDelete = Request.Cookies[cookieName];
+            //    if (cookieToDelete != null)
+            //    {
+            //        cookieToDelete.Expires = DateTime.Now.AddDays(-1); // Set expiration to past date
+            //        Response.Cookies.Add(cookieToDelete); // Re-add cookie with expired date
+            //    }
+            //}
+
+            Session.Remove("LoggedIn");
+            Session.Remove("CUSTID");
+            Session.Remove("CustStatus");
+
         }
 
         protected void btn_login_Click(object sender, EventArgs e)
@@ -88,17 +93,26 @@ namespace OutModern.src.Client.Login
                                     }
                                     else
                                     {
-                                        HttpCookie loggedInCookie = new HttpCookie("LoggedIn", "true");
-                                        loggedInCookie.Expires = DateTime.Now.AddDays(30); // Set cookie expiration
-                                        Response.Cookies.Add(loggedInCookie);
+                                        //HttpCookie loggedInCookie = new HttpCookie("LoggedIn", "true");
+                                        //loggedInCookie.Expires = DateTime.Now.AddDays(30); // Set cookie expiration
+                                        //Response.Cookies.Add(loggedInCookie);
 
-                                        HttpCookie custIDCookie = new HttpCookie("CustID", customerID.ToString());
-                                        custIDCookie.Expires = DateTime.Now.AddDays(30);
-                                        Response.Cookies.Add(custIDCookie);
+                                        //HttpCookie custIDCookie = new HttpCookie("CustID", customerID.ToString());
+                                        //custIDCookie.Expires = DateTime.Now.AddDays(30);
+                                        //Response.Cookies.Add(custIDCookie);
 
-                                        HttpCookie custStatusCookie = new HttpCookie("CustStatus", customerStatus.ToString());
-                                        custStatusCookie.Expires = DateTime.Now.AddDays(30);
-                                        Response.Cookies.Add(custStatusCookie);
+                                        //HttpCookie custStatusCookie = new HttpCookie("CustStatus", customerStatus.ToString());
+                                        //custStatusCookie.Expires = DateTime.Now.AddDays(30);
+                                        //Response.Cookies.Add(custStatusCookie);
+
+                                        // Set session variable for logged-in status
+                                        Session["LoggedIn"] = true;
+
+                                        // Set session variable for customer ID
+                                        Session["CUSTID"] = customerID;
+
+                                        // Set session variable for customer status
+                                        Session["CustStatus"] = customerStatus;
 
                                         Response.Redirect("~/src/Client/Home/Home.aspx");
                                     }

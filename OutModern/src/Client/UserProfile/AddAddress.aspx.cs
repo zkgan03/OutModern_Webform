@@ -14,7 +14,8 @@ namespace OutModern.src.Client.UserProfile
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Request.Cookies["CustID"] == null)
+            //if (Request.Cookies["CustID"] == null)
+            if (Session["CUSTID"] == null)
             {
                 Response.Redirect("~/src/Client/Login/Login.aspx");
             }
@@ -42,7 +43,8 @@ namespace OutModern.src.Client.UserProfile
             string stateErr = "";
             string postalCodeLineErr = "";
 
-            int custID = int.Parse(Request.Cookies["CustID"].Value);
+            //int custID = int.Parse(Request.Cookies["CustID"].Value);
+            int custID = (int)Session["CUSTID"];
 
             //Validation
             //Address Line Validation

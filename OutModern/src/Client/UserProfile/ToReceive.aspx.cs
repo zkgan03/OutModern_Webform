@@ -26,13 +26,15 @@ namespace OutModern.src.Client.UserProfile
         protected void Page_Load(object sender, EventArgs e)
         {
             int custID;
-            if (Request.Cookies["CustID"] == null)
+            //if (Request.Cookies["CustID"] == null)
+            if (Session["CUSTID"] == null)
             {
                 Response.Redirect("~/src/Client/Login/Login.aspx");
             }
             else
             {
-                custID = int.Parse(Request.Cookies["CustID"].Value);
+                //custID = int.Parse(Request.Cookies["CustID"].Value);
+                custID = (int)Session["CUSTID"];
 
                 if (!IsPostBack)
                 {
@@ -104,7 +106,8 @@ namespace OutModern.src.Client.UserProfile
         //Get all orders
         protected DataTable getOrders(string sortExpression = null, string sortDirection = "ASC")
         {
-            int custID = int.Parse(Request.Cookies["CustID"].Value);
+            //int custID = int.Parse(Request.Cookies["CustID"].Value);
+            int custID = (int)Session["CUSTID"];
 
             DataTable data = new DataTable();
 

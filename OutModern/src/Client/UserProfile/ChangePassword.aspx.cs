@@ -13,7 +13,8 @@ namespace OutModern.src.Client.UserProfile
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Request.Cookies["CustID"] == null)
+            //if (Request.Cookies["CustID"] == null)
+            if (Session["CUSTID"] == null)
             {
                 Response.Redirect("~/src/Client/Login/Login.aspx");
             }
@@ -25,7 +26,8 @@ namespace OutModern.src.Client.UserProfile
             lblMessage.Text = "";
 
             string conn = System.Configuration.ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-            int custID = int.Parse(Request.Cookies["CustID"].Value);
+            //int custID = int.Parse(Request.Cookies["CustID"].Value);
+            int custID = (int)Session["CUSTID"];
 
             String newPassword = txt_new_password.Text;
             String retypePassword = txt_reenter_new_password.Text;
