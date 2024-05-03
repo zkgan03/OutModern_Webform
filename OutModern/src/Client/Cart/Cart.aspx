@@ -89,7 +89,11 @@
 
                     <div class="border-2 mb-2 flex items-center rounded-lg border-black">
                         <asp:TextBox runat="server" ID="txtDiscountCode" CssClass="w-full flex-grow rounded-lg px-4 py-4 text-sm outline-none" />
-                        <asp:Button runat="server" ID="btnApply" CssClass="right-0 cursor-pointer rounded-md bg-black px-6 py-4 text-sm text-white hover:bg-gray-800" Text="Apply" OnClick="btnApply_Click"/>
+                        <asp:Button runat="server" ID="btnApply" CssClass="right-0 cursor-pointer rounded-md bg-black px-6 py-4 text-sm text-white hover:bg-gray-800" Text="Apply" OnClick="btnApply_Click" />
+                    </div>
+
+                    <div class="flex flex-wrap justify-between">
+                            <asp:Label ID="lblCodeError" runat="server" CssClass="text-red-700" Text=""></asp:Label>
                     </div>
 
                     <div class="flex flex-wrap justify-between">

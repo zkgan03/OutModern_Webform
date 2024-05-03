@@ -32,8 +32,8 @@ namespace OutModern.src.Client.Cart
             if (!IsPostBack)
             {
                 Session["PromoCode"] = null;
-                
-                
+
+
             }
 
             UpdateSubtotalandGrandTotalLabel();
@@ -63,7 +63,7 @@ namespace OutModern.src.Client.Cart
 
                     PromoTable promoCode = Session["PromoCode"] as PromoTable;
 
-                    if(promoCode  != null)
+                    if (promoCode != null)
                     {
                         // Update the UI with the discount rate
                         lblDiscountRate.Text = $"({promoCode.DiscountRate}%)";
@@ -311,25 +311,57 @@ namespace OutModern.src.Client.Cart
 
             if (promoCode != null)
             {
-                Session["PromoCode"] = promoCode;
+                if (IsPromoCodeValid(promoCode))
+                {
 
-                // Update the UI with the discount rate
-                lblDiscountRate.Text = $"({promoCode.DiscountRate}%)";
+                    if (promoCode.Quantity > 0)
+                    {
+                        // Code is valid and in stock
+                        Session["PromoCode"] = promoCode;
 
-                decimal subtotal = GetCartSubtotal(customerId);
-                // Calculate the discount amount
-                decimal discountAmount = subtotal * ((decimal)promoCode.DiscountRate / 100);
+                        // Update the UI with the discount rate
+                        lblDiscountRate.Text = $"({promoCode.DiscountRate}%)";
 
-                // Update the UI with the discount amount
-                lblDiscount.Text = $"RM{discountAmount.ToString("N2")}";
+                        decimal subtotal = GetCartSubtotal(customerId);
+                        // Calculate the discount amount
+                        decimal discountAmount = subtotal * ((decimal)promoCode.DiscountRate / 100);
+
+                        // Update the UI with the discount amount
+                        lblDiscount.Text = $"RM{discountAmount.ToString("N2")}";
+
+                        lblCodeError.Text = "";
+                    }
+                    else
+                    {
+                        // Code is valid but out of stock
+                        lblCodeError.Text = "Code is out of stock!";
+                    }
+                }
+                else
+                {
+                    lblCodeError.Text = "Promo Code Expired!";
+                }
             }
             else
             {
-                lblDiscountRate.Text = "(Invalid code)";
-                // lblDiscount.Text = "RM0.00";
+                // Code is invalid or expired
+                lblCodeError.Text = "Invalid Code!";
             }
 
             UpdateSubtotalandGrandTotalLabel();
+        }
+
+        private bool IsPromoCodeValid(PromoTable promoCode)
+        {
+            // Check if the current date is within the promo code's validity period
+            if (DateTime.Now >= promoCode.StartDate && DateTime.Now <= promoCode.EndDate)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private PromoTable GetPromoCode(string discountCode)

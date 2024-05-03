@@ -60,6 +60,15 @@ namespace OutModern.src.Client.Cart
         protected global::System.Web.UI.WebControls.Button btnApply;
 
         /// <summary>
+        /// lblCodeError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCodeError;
+
+        /// <summary>
         /// lblDiscountRate control.
         /// </summary>
         /// <remarks>
