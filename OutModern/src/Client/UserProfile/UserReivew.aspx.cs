@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OutModern.src.Admin.Customers;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -19,11 +20,11 @@ namespace OutModern.src.Client.UserProfile
         {
             if(!IsPostBack)
             {
-                DataTable dtTop5Reviews = GetUserReviewHistory().AsEnumerable().Take(5).CopyToDataTable(); // Take only the first 5 rows
+                DataTable dtTop5Reviews = GetUserReviewHistory().AsEnumerable().Take(5).CopyToDataTable(); 
                 rptReviews.DataSource = dtTop5Reviews;
                 rptReviews.DataBind();
-                rptAllReviews.DataSource = GetUserReviewHistory();
-                rptAllReviews.DataBind();
+                lvReviews.DataSource = GetUserReviewHistory();
+                lvReviews.DataBind();
             } 
         }
 
@@ -48,6 +49,15 @@ namespace OutModern.src.Client.UserProfile
                 }
             }
             return reviewDataTable;
+        }
+
+        protected void lvReviews_PagePropertiesChanged(object sender, EventArgs e)
+        {
+            DataTable dtTop5Reviews = GetUserReviewHistory().AsEnumerable().Take(5).CopyToDataTable();
+            rptReviews.DataSource = dtTop5Reviews;
+            rptReviews.DataBind();
+            lvReviews.DataSource = GetUserReviewHistory();
+            lvReviews.DataBind();
         }
 
         protected string GenerateStars(double rating)

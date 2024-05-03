@@ -131,7 +131,17 @@
     height: 2.25rem; /* Equivalent to h-9 */
     width: 2.25rem; /* Equivalent to w-9 */
     border-radius: 9999px; /* Equivalent to rounded-full */
+    background-color: #cccccc; /* Add a light gray background color */
+    color: #999999; /* Add a slightly darker gray text color */
+    border: 1px solid #999999; /* Add a border with a darker gray color */
+    transition: opacity 0.3s ease; /* Add a smooth transition effect for opacity */
 }
+
+    /* Add a hover effect */
+    .buttonColorDisabled:hover {
+        opacity: 1; /* Make the button fully opaque on hover */
+    }
+
 
 .ratingStar i {
     border-radius: 0.5rem; /* rounded-lg */

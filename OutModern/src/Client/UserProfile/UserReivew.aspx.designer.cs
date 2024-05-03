@@ -24,12 +24,21 @@ namespace OutModern.src.Client.UserProfile
         protected global::System.Web.UI.WebControls.Repeater rptReviews;
 
         /// <summary>
-        /// rptAllReviews control.
+        /// lvReviews control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptAllReviews;
+        protected global::System.Web.UI.WebControls.ListView lvReviews;
+
+        /// <summary>
+        /// ddpReviews control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DataPager ddpReviews;
     }
 }
