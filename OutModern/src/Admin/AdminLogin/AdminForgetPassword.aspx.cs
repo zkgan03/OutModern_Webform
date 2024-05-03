@@ -50,7 +50,7 @@ namespace OutModern.src.Client.Login
 
                                 verificationMail.Subject = "Password Recovery from OutModern";
                                 verificationMail.Body = "<h3>Please click the button link below to verify that you are the user and proceed to password reset page.</h3><br><br>" +
-                                        "<a href=\"http://localhost:44338/src/Client/Login/AdminResetPassword.aspx\" style=\"color:white;border:1px solid black;background-color:black;padding: 15px 10px;\">Reset Password</a>";
+                                        "<a href=\"http://localhost:44338/src/Admin/AdminLogin/AdminResetPassword.aspx\" style=\"color:white;border:1px solid black;background-color:black;padding: 15px 10px;\">Reset Password</a>";
                                 verificationMail.IsBodyHtml = true;
 
                                 SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587);

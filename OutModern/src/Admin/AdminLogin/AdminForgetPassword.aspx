@@ -26,7 +26,7 @@
 
 
             <div class="FPBoxTitle">
-                <asp:HyperLink ID="hl_back_login" runat="server" class="FPBack" NavigateUrl="~/src/Client/Login/AdminLogin.aspx">< Back</asp:HyperLink>
+                <asp:HyperLink ID="hl_back_login" runat="server" class="FPBack" NavigateUrl="~/src/Admin/AdminLogin/AdminLogin.aspx">< Back</asp:HyperLink>
                 <div class="ml-0.5 mr-28 font-sans text-3xl text-black font-bold">Forget Password</div>
             </div>
 

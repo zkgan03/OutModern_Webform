@@ -16,86 +16,92 @@ namespace OutModern.src.Client.Profile
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            int custID = int.Parse(Request.Cookies["CustID"].Value);
-
-            if (!IsPostBack)
+            int custID;
+            if (Request.Cookies["CustID"] == null)
             {
-                try
+                Response.Redirect("~/src/Client/Login/Login.aspx");
+            }
+            else
+            {
+                custID = int.Parse(Request.Cookies["CustID"].Value);
+
+                if (!IsPostBack)
                 {
-                    ////For show the customer profile
-                    using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
+                    try
                     {
-                        conn.Open();
-                        //use parameterized query to prevent sql injection
-                        string query = "SELECT * FROM [Customer] WHERE CustomerId = @custId";
-                        SqlCommand cmd = new SqlCommand(query, conn);
-                        cmd.Parameters.AddWithValue("@custId", custID);
-
-                        SqlDataReader reader = cmd.ExecuteReader();
-
-                        if (reader.HasRows) // Check if there are any results
+                        ////For show the customer profile
+                        using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
                         {
-                            reader.Read(); // Read the first row
+                            conn.Open();
+                            //use parameterized query to prevent sql injection
+                            string query = "SELECT * FROM [Customer] WHERE CustomerId = @custId";
+                            SqlCommand cmd = new SqlCommand(query, conn);
+                            cmd.Parameters.AddWithValue("@custId", custID);
 
-                            //left box display
-                            lbl_username.Text = reader["CustomerUsername"].ToString();
+                            SqlDataReader reader = cmd.ExecuteReader();
 
-                            lbl_up_username.Text = reader["CustomerUsername"].ToString();
-                            lbl_up_fullname.Text = reader["CustomerFullname"].ToString();
-                            lbl_up_email.Text = reader["CustomerEmail"].ToString();
-
-                            if (reader["CustomerPhoneNumber"].ToString() == "")
+                            if (reader.HasRows) // Check if there are any results
                             {
-                                lbl_up_phoneNumber.Text = "-";
+                                reader.Read(); // Read the first row
+
+                                //left box display
+                                lbl_username.Text = reader["CustomerUsername"].ToString();
+
+                                lbl_up_username.Text = reader["CustomerUsername"].ToString();
+                                lbl_up_fullname.Text = reader["CustomerFullname"].ToString();
+                                lbl_up_email.Text = reader["CustomerEmail"].ToString();
+
+                                if (reader["CustomerPhoneNumber"].ToString() == "")
+                                {
+                                    lbl_up_phoneNumber.Text = "-";
+                                }
+                                else
+                                {
+                                    lbl_up_phoneNumber.Text = reader["CustomerPhoneNumber"].ToString();
+                                }
+                                reader.Close();
+                            }
+
+
+                            //// get address name for dropdownlist for customer
+                            string addressQuery = "SELECT * FROM Address WHERE CustomerId = @custId And isDeleted = 0";
+                            SqlCommand addressCmd = new SqlCommand(addressQuery, conn);
+                            addressCmd.Parameters.AddWithValue("@custId", custID);
+
+                            DataTable data = new DataTable();
+                            data.Load(addressCmd.ExecuteReader());
+
+                            if (data.Rows.Count == 0)
+                            {
+                                lbl_addressLine.Text = "N/A";
+                                lbl_country.Text = "N/A";
+                                lbl_state.Text = "N/A";
+                                lbl_postaCode.Text = "N/A";
                             }
                             else
                             {
-                                lbl_up_phoneNumber.Text = reader["CustomerPhoneNumber"].ToString();
+                                lbl_addressLine.Text = data.Rows[0]["AddressLine"].ToString();
+                                lbl_country.Text = data.Rows[0]["Country"].ToString();
+                                lbl_state.Text = data.Rows[0]["State"].ToString();
+                                lbl_postaCode.Text = data.Rows[0]["PostalCode"].ToString();
+
+                                //if no change selection
+                                Session["AddressName"] = ddl_address_name.SelectedValue;
+
+                                ddl_address_name.DataSource = data;
+                                ddl_address_name.DataTextField = "AddressName";
+                                ddl_address_name.DataValueField = "AddressName";
+                                ddl_address_name.DataBind();
                             }
-                            reader.Close();
+
                         }
-
-
-                        //// get address name for dropdownlist for customer
-                        string addressQuery = "SELECT * FROM Address WHERE CustomerId = @custId And isDeleted = 0";
-                        SqlCommand addressCmd = new SqlCommand(addressQuery, conn);
-                        addressCmd.Parameters.AddWithValue("@custId", custID);
-
-                        DataTable data = new DataTable();
-                        data.Load(addressCmd.ExecuteReader());
-
-                        if (data.Rows.Count == 0)
-                        {
-                            lbl_addressLine.Text = "N/A";
-                            lbl_country.Text = "N/A";
-                            lbl_state.Text = "N/A";
-                            lbl_postaCode.Text = "N/A";
-                        }
-                        else
-                        {
-                            lbl_addressLine.Text = data.Rows[0]["AddressLine"].ToString();
-                            lbl_country.Text = data.Rows[0]["Country"].ToString();
-                            lbl_state.Text = data.Rows[0]["State"].ToString();
-                            lbl_postaCode.Text = data.Rows[0]["PostalCode"].ToString();
-
-                            //if no change selection
-                            Session["AddressName"] = ddl_address_name.SelectedValue;
-
-                            ddl_address_name.DataSource = data;
-                            ddl_address_name.DataTextField = "AddressName";
-                            ddl_address_name.DataValueField = "AddressName";
-                            ddl_address_name.DataBind();
-                        }
-
+                    }
+                    catch (Exception ex)
+                    {
+                        Response.Write(ex.Message);
                     }
                 }
-                catch (Exception ex)
-                {
-                    Response.Write(ex.Message);
-                }
             }
-
-        }
         }
 
         protected void btn_edit_profile_Click(object sender, EventArgs e)
@@ -160,7 +166,7 @@ namespace OutModern.src.Client.Profile
                 string custID = Request.Cookies["CustID"].Value;
 
                 // Get address data (assuming only one address per customer)
-                string addressQuery = "SELECT * FROM Address WHERE CustomerId = @custId AND AddressName = @addressName";
+                string addressQuery = "SELECT * FROM Address WHERE CustomerId = @custId AND AddressName = @addressName And isDeleted = 0";
                 SqlCommand addressCmd = new SqlCommand(addressQuery, conn);
                 addressCmd.Parameters.AddWithValue("@custId", custID);
                 addressCmd.Parameters.AddWithValue("@addressName", selectedAddressName);
@@ -189,6 +195,16 @@ namespace OutModern.src.Client.Profile
                 }
                 addressReader.Close();
             }
+        }
+
+        protected void btn_add_address_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/src/Client/UserProfile/AddAddress.aspx");
+        }
+
+        protected void btn_dlt_address_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/src/Client/UserProfile/DeleteAddress.aspx");
         }
     }
 }

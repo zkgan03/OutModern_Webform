@@ -87,66 +87,21 @@ namespace OutModern.src.Client.UserProfile
         protected global::System.Web.UI.WebControls.Button btn_cancelled;
 
         /// <summary>
-        /// img_items control.
+        /// lblStatusUpdataMsg control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image img_items;
+        protected global::System.Web.UI.WebControls.Label lblStatusUpdataMsg;
 
         /// <summary>
-        /// lbl_product_name control.
+        /// lvOrders control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbl_product_name;
-
-        /// <summary>
-        /// lbl_product_colour control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbl_product_colour;
-
-        /// <summary>
-        /// lbl_product_size control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbl_product_size;
-
-        /// <summary>
-        /// lbl_product_quantity control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbl_product_quantity;
-
-        /// <summary>
-        /// lbl_product_price control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbl_product_price;
-
-        /// <summary>
-        /// btn_cancel_order control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn_cancel_order;
+        protected global::System.Web.UI.WebControls.ListView lvOrders;
     }
 }

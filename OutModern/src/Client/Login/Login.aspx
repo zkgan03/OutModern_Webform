@@ -21,12 +21,12 @@
 
     <!-- JavaScript code for displaying popup message -->
     <script>
-        window.onload = function () {
-            const urlParams = new URLSearchParams(window.location.search);
-            const registered = urlParams.get('registered');
-
-            if (registered === 'true') {
-                alert("Registration successful! You can now login.");
+            // Check if the profile has been changed successfully
+            var profileRegistered = '<%= Session["registered"] %>';
+            if (profileRegistered === 'True') {
+                alert("Sign Up successfully! Login Now!");
+            // Reset the session variable to avoid displaying the message again on subsequent page loads
+    '<%= Session["registered"] = null %>';
             }
 
             // Check if the password has been changed successfully
@@ -39,17 +39,6 @@
         };
     </script>
 
-<%--    <script>
-        window.onload = function () {
-            // Check if the password has been changed successfully
-            var passwordChanged = '<%= Session["PasswordChanged"] %>';
-            if (passwordChanged === 'True') {
-                alert("Password changed successfully! You can now login.");
-            // Reset the session variable to avoid displaying the message again on subsequent page loads
-                '<%= Session["PasswordChanged"] = null %>';
-            }
-        };
-    </script>--%>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -58,7 +47,7 @@
             <div class="column2">
 
                 <div class="topRightBox">
-                    <asp:HyperLink ID="hl_admin_login" runat="server" NavigateUrl="~/src/Client/Login/AdminLogin.aspx">
+                    <asp:HyperLink ID="hl_admin_login" runat="server" NavigateUrl="~/src/Admin/AdminLogin/AdminLogin.aspx">
                     <span class="hl_admin_login_text"><u>Login as Admin</u></span>
                     </asp:HyperLink>
                 </div>

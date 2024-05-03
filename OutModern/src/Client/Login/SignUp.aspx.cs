@@ -69,7 +69,7 @@ namespace OutModern.src.Client.Login
             {
                 passwordErr = "Password cannot be left empty.";
             }
-            else if (!System.Text.RegularExpressions.Regex.IsMatch(password, @"^(?!.*(?:123|ABC|(\w)\1{2}))(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\d\s]).{8,}$"))
+            else if (!System.Text.RegularExpressions.Regex.IsMatch(password, @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\d\s]).{8,}$"))
             {
                 passwordErr = "Password must be at least 8 characters long and contain at least 1 uppercase, 1 lowercase, 1 number and 1 special character.";
             }
@@ -141,9 +141,9 @@ namespace OutModern.src.Client.Login
                             }
                         }
 
-                        // Redirect to Login page
-                        Response.Redirect("Login.aspx?registered=true");
-
+                        //for show pop up message
+                        Session["registered"] = true;
+                        Response.Redirect("Login.aspx");
                     }
                 }
                 catch (Exception ex)

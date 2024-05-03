@@ -62,7 +62,7 @@
                     </div>
 
                     <div style="padding-top: 0.312vw; padding-bottom: 2.604vw;">
-                        <asp:HyperLink ID="hl_forget_password" runat="server" Style="font-family: sans-serif; font-size: 1.129rem; color: #94d4ca; cursor: pointer;" NavigateUrl="~/src/Client/Login/AdminForgetPassword.aspx">Forget Password</asp:HyperLink>
+                        <asp:HyperLink ID="hl_forget_password" runat="server" Style="font-family: sans-serif; font-size: 1.129rem; color: #94d4ca; cursor: pointer;" NavigateUrl="~/src/Admin/AdminLogin/AdminForgetPassword.aspx">Forget Password</asp:HyperLink>
                     </div>
 
                 </div>

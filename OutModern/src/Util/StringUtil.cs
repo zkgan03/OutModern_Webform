@@ -103,4 +103,32 @@ namespace StringUtil
         }
     }
 
+    public static class AddressUtil
+    {
+        public static bool IsDuplicateAddressName(string addressName)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
+                {
+                    conn.Open();
+                    string query = "SELECT * FROM [Address] WHERE AddressName = @addressname";
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@addressname", addressName);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        return true;
+                    }
+                    conn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle error
+            }
+            return false;
+        }
+    }
+
 }

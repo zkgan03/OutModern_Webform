@@ -20,6 +20,22 @@
             // Reset the session variable to avoid displaying the message again on subsequent page loads
     '<%= Session["PasswordChanged"] = null %>';
             }
+
+            // Check if the address has been added successfully
+            var addressAdded = '<%= Session["AddressAdded"] %>';
+            if (addressAdded === 'True') {
+                alert("Address Added successfully!");
+            // Reset the session variable to avoid displaying the message again on subsequent page loads
+            '<%= Session["AddressAdded"] = null %>';
+            }
+
+            // Check if the address has been delete successfully
+            var addressDeleted = '<%= Session["AddressDelete"] %>';
+            if (addressDeleted === 'True') {
+                alert("Address Deleted successfully!");
+            // Reset the session variable to avoid displaying the message again on subsequent page loads
+    '<%= Session["AddressDelete"] = null %>';
+            }
         };
 
     </script>
@@ -153,12 +169,21 @@
                     </div>
 
                     <div>
-                        <asp:Button ID="btn_dlt_acc" runat="server" class="EPButton1" Text="Delete Account" CssClass="bg-black hover:bg-red-400" Style="float: right; width: 20%; margin-top: 1vh; margin-bottom: 4vh; padding: 0.5rem 1rem; font-weight: bold; border: 1px solid #f5f5f5; cursor: pointer; color: whitesmoke; border-radius: 1rem;" OnClick="btn_dlt_acc_Click" />
+                        <asp:Button ID="btn_dlt_acc" runat="server" class="EPButton1" Text="Delete Account" CssClass="bg-black hover:bg-red-400" Style="float: right; width: 20%; margin-top: 1vh; margin-left: 1vh; margin-bottom: 4vh; padding: 0.5rem 1rem; font-weight: bold; border: 1px solid #f5f5f5; cursor: pointer; color: whitesmoke; border-radius: 1rem;" OnClick="btn_dlt_acc_Click" />
                     </div>
 
-                    <div class="delectAccount">
-                        <asp:Button ID="btn_chg_pwd" runat="server" class="EPButton1" Text="Change Password" CssClass="bg-gray-400 hover:bg-black" Style="float: right; width: 20%; margin-top: 1vh; margin-bottom: 4vh; padding: 0.5rem 1rem; font-weight: bold; border: 1px solid #f5f5f5; cursor: pointer; color: whitesmoke; border-radius: 1rem;" OnClick="btn_chg_pwd_Click" />
+                    <div>
+                        <asp:Button ID="btn_chg_pwd" runat="server" class="EPButton1" Text="Change Password" CssClass="bg-gray-500 hover:bg-black" Style="float: right; width: 22%; margin-top: 1vh; margin-left: 1vh; margin-bottom: 4vh; padding: 0.5rem 1rem; font-weight: bold; border: 1px solid #f5f5f5; cursor: pointer; color: whitesmoke; border-radius: 1rem;" OnClick="btn_chg_pwd_Click" />
                     </div>
+
+                    <div>
+                        <asp:Button ID="btn_dlt_address" runat="server" class="EPButton1" Text="Delete Address" CssClass="bg-gray-500 hover:bg-black" Style="float: right; width: 20%; margin-top: 1vh; margin-left: 1vh; margin-bottom: 4vh; padding: 0.5rem 1rem; font-weight: bold; border: 1px solid #f5f5f5; cursor: pointer; color: whitesmoke; border-radius: 1rem;" OnClick="btn_dlt_address_Click"/>
+                    </div>
+
+                    <div>
+                        <asp:Button ID="btn_add_address" runat="server" class="EPButton1" Text="Add Address" CssClass="bg-gray-500 hover:bg-black" Style="float: right; width: 20%; margin-top: 1vh; margin-left: 1vh; margin-bottom: 4vh; padding: 0.5rem 1rem; font-weight: bold; border: 1px solid #f5f5f5; cursor: pointer; color: whitesmoke; border-radius: 1rem;" OnClick="btn_add_address_Click" />
+                    </div>
+
                 </div>
             </div>
 

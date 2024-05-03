@@ -2,6 +2,34 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="css/MyOrder.css" rel="stylesheet" />
+
+    <style type="text/tailwindcss">
+        @layer components {
+            .order-status {
+                @apply rounded p-1;
+            }
+
+                .order-status.order-placed {
+                    @apply bg-amber-300;
+                }
+
+                .order-status.shipped {
+                    @apply bg-green-100;
+                }
+
+                .order-status.cancelled {
+                    @apply bg-red-300;
+                }
+
+                .order-status.received {
+                    @apply bg-green-300;
+                }
+
+            .shipped-button {
+                @apply inline-block bg-gray-100 text-black mt-2 rounded p-1 border border-black hover:opacity-50;
+            }
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="containColumn">
@@ -14,7 +42,7 @@
                     </div>
 
                     <div class="rightBox">
-                        <asp:Label ID="lbl_username" runat="server" class="username" Text="Prochorus"></asp:Label>
+                        <asp:Label ID="lbl_username" runat="server" class="username"></asp:Label>
                     </div>
 
                     <div class="borderLine"></div>
@@ -41,7 +69,7 @@
                 </div>
 
 
-                <!-- Repeater here-->
+                <%--<!-- Repeater here-->
                 <div class="boxRightBottom">
 
 
@@ -76,7 +104,48 @@
                         </div>
                     </div>
 
-                </div>
+                </div>--%>
+
+                <asp:Label ID="lblStatusUpdataMsg" runat="server"
+                    CssClass="block my-5 text-green-600"></asp:Label>
+
+                <asp:ListView
+                    DataKeyNames="OrderId"
+                    ID="lvOrders" runat="server">
+                    <LayoutTemplate>
+                        <table id="data-table" style="width: 100%; text-align: center;">
+                            <thead>
+                                <tr class="data-table-head">
+                                    <th>Order Date</th>
+                                    <th>Product Ordered</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr runat="server" id="itemPlaceholder" class="data-table-item"></tr>
+                            </tbody>
+                        </table>
+
+                    </LayoutTemplate>
+                    <ItemTemplate>
+                        <tr>
+                            <td><%# Eval("OrderDateTime", "{0:dd/MM/yyyy </br> h:mm tt}") %></td>
+                            <td>
+                                <asp:Repeater ID="rptProducts" DataSource='<%# Eval("ProductDetails") %>' runat="server">
+                                    <ItemTemplate>
+                                        <div><%# Eval("ProductName")  %> -> <%# Eval("Quantity")  %></div>
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                            </td>
+                            <td><%# Eval("Total") %></td>
+
+                        </tr>
+                    </ItemTemplate>
+                    <EmptyDataTemplate>
+                        No data..
+                    </EmptyDataTemplate>
+                </asp:ListView>
+
             </div>
         </div>
 

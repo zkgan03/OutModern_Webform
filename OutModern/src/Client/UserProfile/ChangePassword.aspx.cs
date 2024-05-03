@@ -13,7 +13,10 @@ namespace OutModern.src.Client.UserProfile
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (Request.Cookies["CustID"] == null)
+            {
+                Response.Redirect("~/src/Client/Login/Login.aspx");
+            }
         }
 
         protected void btn_reset_password_Click(object sender, EventArgs e)

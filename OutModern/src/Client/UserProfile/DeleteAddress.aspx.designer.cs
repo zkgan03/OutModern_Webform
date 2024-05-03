@@ -11,97 +11,70 @@ namespace OutModern.src.Client.UserProfile
 {
 
 
-    public partial class Completed
+    public partial class DeleteAddress
     {
 
         /// <summary>
-        /// img_profile control.
+        /// ddl_address_name control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image img_profile;
+        protected global::System.Web.UI.WebControls.DropDownList ddl_address_name;
 
         /// <summary>
-        /// lbl_username control.
+        /// txt_address_line control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbl_username;
+        protected global::System.Web.UI.WebControls.Label txt_address_line;
 
         /// <summary>
-        /// btn_togo_profile control.
+        /// txt_country control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn_togo_profile;
+        protected global::System.Web.UI.WebControls.Label txt_country;
 
         /// <summary>
-        /// btn_togo_my_order control.
+        /// txt_state control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn_togo_my_order;
+        protected global::System.Web.UI.WebControls.Label txt_state;
 
         /// <summary>
-        /// btn_to_ship control.
+        /// txt_postal_code control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn_to_ship;
+        protected global::System.Web.UI.WebControls.Label txt_postal_code;
 
         /// <summary>
-        /// btn_to_receive control.
+        /// btn_delete_address control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn_to_receive;
+        protected global::System.Web.UI.WebControls.Button btn_delete_address;
 
         /// <summary>
-        /// btn_completed control.
+        /// lblMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn_completed;
-
-        /// <summary>
-        /// btn_cancelled control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn_cancelled;
-
-        /// <summary>
-        /// lblStatusUpdataMsg control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblStatusUpdataMsg;
-
-        /// <summary>
-        /// lvOrders control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ListView lvOrders;
+        protected global::System.Web.UI.WebControls.Label lblMessage;
     }
 }
