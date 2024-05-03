@@ -123,6 +123,15 @@ namespace OutModern.src.Client.ClientMaster
         protected global::System.Web.UI.WebControls.HyperLink HyperLink6;
 
         /// <summary>
+        /// HyperLink9 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink HyperLink9;
+
+        /// <summary>
         /// HyperLink7 control.
         /// </summary>
         /// <remarks>
@@ -139,15 +148,6 @@ namespace OutModern.src.Client.ClientMaster
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HyperLink HyperLink8;
-
-        /// <summary>
-        /// HyperLink9 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLink9;
 
         /// <summary>
         /// ContentPlaceHolder1 control.

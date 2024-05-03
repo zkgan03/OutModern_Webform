@@ -69,7 +69,7 @@
                         <div>
                             <asp:Image ID="imgProfile" runat="server"
                                 CssClass="rounded-full size-20 object-cover border"
-                                ImageUrl="~/images/about_us_img/img(a).jpg" />
+                                 />
                         </div>
                         <div>
 

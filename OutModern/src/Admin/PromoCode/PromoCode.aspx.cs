@@ -6,6 +6,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices.ComTypes;
 using System.Web;
 using System.Web.UI;
@@ -102,6 +103,30 @@ namespace OutModern.src.Admin.PromoCode
 
             return filteredDataTable;
         }
+
+        private DataTable FilterDataTableWtihDate(DataTable dataTable, string startDateFrom, string startDateTo, string endDateFrom, string endDateTo)
+        {
+            // Build the filter expression with relevant fields
+            string expression = string.Format(
+                               "StartDate >= '{0}' AND StartDate <= '{1}' " +
+                               "AND EndDate >= '{2}' AND EndDate <= '{3}' ",
+                                startDateFrom, startDateTo, endDateFrom, endDateTo);
+
+            // Filter the rows
+            DataRow[] filteredRows = dataTable.Select(expression);
+
+            // Create a new DataTable for the filtered results
+            DataTable filteredDataTable = dataTable.Clone();
+
+            // Import the filtered rows
+            foreach (DataRow row in filteredRows)
+            {
+                filteredDataTable.ImportRow(row);
+            }
+
+            return filteredDataTable;
+        }
+
 
         //
         //DB operation
@@ -520,5 +545,54 @@ namespace OutModern.src.Admin.PromoCode
             }
         }
 
+        protected void btnClear_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnFilter_Click(object sender, EventArgs e)
+        {
+            //get date from filter
+            string startDateFrom = txtStartDateFrom.Text.Trim();
+            string startDateTo = txtStartDateTo.Text.Trim();
+            string endDateFrom = txtEndDateFrom.Text.Trim();
+            string endDateTo = txtEndDateTo.Text.Trim();
+
+            //check null
+            if (string.IsNullOrEmpty(startDateFrom)
+                || string.IsNullOrEmpty(startDateTo)
+                || string.IsNullOrEmpty(endDateFrom)
+                || string.IsNullOrEmpty(endDateTo))
+            {
+                Page.ClientScript
+                    .RegisterStartupScript(GetType(),
+                    "alert",
+                        $"document.addEventListener('DOMContentLoaded', ()=> alert('Please fill in all fields'))",
+                true);
+
+                panelDateFilterModel.CssClass = "filter-model flex";
+                return;
+            }
+
+            //check date range
+            if (!ValidationUtils.IsValidDateRange(startDateFrom, startDateTo)
+                || !ValidationUtils.IsValidDateRange(endDateFrom, endDateTo))
+            {
+                Page.ClientScript
+                    .RegisterStartupScript(GetType(),
+                        "alert",
+                        $"document.addEventListener('DOMContentLoaded', ()=> alert('Start Date must be before End Date'))",
+                        true);
+
+                panelDateFilterModel.CssClass = "filter-model flex";
+                return;
+            }
+            //filter data
+            lvPromoCodes.DataSource = FilterDataTableWtihDate(getPromoCodes(), startDateFrom, startDateTo, endDateFrom, endDateTo);
+            lvPromoCodes.DataBind();
+
+            panelDateFilterModel.CssClass = "filter-model hidden";
+
+        }
     }
 }

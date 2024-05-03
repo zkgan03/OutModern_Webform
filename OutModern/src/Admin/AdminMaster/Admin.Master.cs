@@ -40,10 +40,6 @@ namespace OutModern.src.Admin.AdminMaster
         {
             if (!IsPostBack)
             {
-                // Dummy value
-                Session["AdminRole"] = "Manager";
-                Session["AdminId"] = "1";
-
                 string adminRole = Session["AdminRole"]?.ToString();
                 string adminId = Session["AdminId"]?.ToString();
 
@@ -120,7 +116,7 @@ namespace OutModern.src.Admin.AdminMaster
         //
         protected void lBtnSearch_Click(object sender, EventArgs e)
         {
-            var searchTerm = txtSearch.Text;
+            var searchTerm = txtSearch.Text.Trim();
             var currentUrl = HttpContext.Current.Request.Url;
             var query = HttpUtility.ParseQueryString(currentUrl.Query);
 
@@ -163,6 +159,12 @@ namespace OutModern.src.Admin.AdminMaster
                 HyperLink link = (HyperLink)e.Item.Controls[0]; // Assuming the hyperlink control is the first control in the item
                 link.NavigateUrl += "?" + dynamicQueryString;
             }
+        }
+
+        protected void linkBtnLogout_Click(object sender, EventArgs e)
+        {
+            Session.Clear();
+            Response.Redirect("~/src/Admin/AdminLogin/AdminLogin.aspx");
         }
     }
 }

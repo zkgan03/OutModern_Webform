@@ -124,6 +124,8 @@ namespace OutModern.src.Admin.Products
         //
         //db operation
         //
+
+        // get all products
         private DataTable getProducts(string sortExpression = null, string sortDirection = "ASC")
         {
             DataTable data = new DataTable();
@@ -132,20 +134,9 @@ namespace OutModern.src.Admin.Products
             {
                 connection.Open();
                 string sqlQuery =
-                    "SELECT ProductId, [Path], ProductName, ProductCategory, UnitPrice, ProductStatusName " +
-                    "FROM ( " +
-                            "SELECT p.ProductId, [Path], ProductName, ProductCategory, UnitPrice, ProductStatusName, " +
-                            "ROW_NUMBER() OVER (PARTITION BY p.ProductId ORDER BY p.ProductId ) AS RowNumber " +
-                            "FROM Product p " +
-                            "INNER JOIN ProductDetail ON p.ProductId = ProductDetail.ProductId " +
-                            "INNER JOIN ( " +
-                                "SELECT ProductDetail.ProductId, [Path] " +
-                                "FROM ProductImage " +
-                                "RIGHT OUTER JOIN ProductDetail ON ProductImage.ProductDetailId = ProductDetail.ProductDetailId " +
-                            ") t ON t.ProductId = p.ProductId " +
-                            "INNER JOIN ProductStatus ON p.ProductStatusId = ProductStatus.ProductStatusId " +
-                    ") AS Subquery " +
-                    "WHERE RowNumber = 1 ";
+                    "Select ProductId, ProductName, ProductCategory, UnitPrice, ProductStatusName " +
+                    "From Product, ProductStatus " +
+                    "Where Product.ProductStatusId = ProductStatus.ProductStatusId ";
 
                 if (!string.IsNullOrEmpty(sortExpression))
                 {
@@ -159,15 +150,48 @@ namespace OutModern.src.Admin.Products
                 }
             }
 
+            data.Columns.Add("Path", typeof(string));
             data.Columns.Add("Colors", typeof(DataTable));
             foreach (DataRow row in data.Rows)
             {
-                row["Colors"] = getColors(row["productId"].ToString());
+                string productId = row["productId"].ToString();
+                row["Path"] = getImagePath(productId);
+                row["Colors"] = getColors(productId);
             }
 
             return data;
         }
 
+        //get a image path of a product
+        private string getImagePath(string productId)
+        {
+            string path = "";
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+
+                string sqlQuery =
+                    "Select Top 1 [path] " +
+                    "FROM Product, ProductDetail, ProductImage " +
+                    "WHERE Product.ProductId = ProductDetail.ProductId " +
+                    "AND ProductDetail.ProductDetailId = ProductImage.ProductDetailId " +
+                    "AND Product.ProductId = @productId " +
+                    "Order by ProductDetail.ProductDetailId";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@productId", productId);
+                    path = command.ExecuteScalar()?.ToString();
+                }
+            }
+
+            return path == null ? "" : path;
+
+
+        }
+
+        //get All colors of a product
         private DataTable getColors(string productId)
         {
             DataTable data = new DataTable();

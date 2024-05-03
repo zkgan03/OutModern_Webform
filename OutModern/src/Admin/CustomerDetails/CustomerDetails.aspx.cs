@@ -59,13 +59,18 @@ namespace OutModern.src.Admin.CustomerDetails
             {
                 Response.Redirect("~/src/ErrorPages/404.aspx");
             }
+
             DataRow row = data.Rows[0];
+
+            imgProfile.ImageUrl = row["ProfileImagePath"].ToString();
 
             lblCustomerId.Text = row["CustomerId"].ToString();
             lblFullName.Text = row["CustomerFullName"].ToString();
             lblUsername.Text = row["CustomerUsername"].ToString();
             lblEmail.Text = row["CustomerEmail"].ToString();
             lblPhoneNo.Text = row["CustomerPhoneNumber"].ToString();
+
+
 
             string status = row["UserStatusName"].ToString();
             lblStatus.Text = status;
@@ -174,7 +179,7 @@ namespace OutModern.src.Admin.CustomerDetails
             {
                 connection.Open();
                 string sqlQuery =
-                    "Select CustomerId, CustomerFullName, CustomerUsername, CustomerEmail, CustomerPhoneNumber, UserStatusName " +
+                    "Select CustomerId, CustomerFullName, CustomerUsername,ProfileImagePath, CustomerEmail, CustomerPhoneNumber, UserStatusName " +
                     "FROM Customer, UserStatus " +
                     "Where Customer.CustomerStatusId = UserStatus.UserStatusId " +
                     "AND CustomerId = @customerId ";

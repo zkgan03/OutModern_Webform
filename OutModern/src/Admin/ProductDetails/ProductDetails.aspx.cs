@@ -91,7 +91,7 @@ namespace OutModern.src.Admin.ProductDetails
         }
 
         //choose to load data source
-        private DataTable reviewDataSource(string sortExpression = null, string sortDirection = "ASC")
+        private DataTable reviewDataSource()
         {
             //get the search term
             string searchTerms = Request.QueryString["q"];
@@ -152,7 +152,7 @@ namespace OutModern.src.Admin.ProductDetails
                     "Select ProductId, ProductName,ProductDescription, ProductCategory, UnitPrice, ProductStatusName " +
                     "FROM Product " +
                     "Join ProductStatus on Product.ProductStatusId = ProductStatus.ProductStatusId " +
-                    "WHERE ProductId = @productId;";
+                    "WHERE ProductId = @productId ";
 
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {

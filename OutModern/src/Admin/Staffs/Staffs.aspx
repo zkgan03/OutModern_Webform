@@ -133,9 +133,11 @@
                         <td><span runat="server" id="userStatus" class="user-status"><%# Eval("AdminStatus") %></span></td>
                         <td>
                             <asp:LinkButton ID="lbEdit" runat="server"
+                                Visible='<%# Eval("AdminId").ToString() != Session["AdminId"].ToString() %>'
                                 CssClass="button" CommandName="Edit">
                                 <i class="fa-regular fa-pen-to-square"></i>
                             </asp:LinkButton>
+
                         </td>
                     </tr>
                 </ItemTemplate>

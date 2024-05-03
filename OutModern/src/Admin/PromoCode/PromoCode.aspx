@@ -6,6 +6,10 @@
             #data-table tbody tr {
                 @apply cursor-default;
             }
+
+            .filter-model {
+                @apply items-center justify-center fixed w-full h-full m-auto inset-0 bg-black bg-opacity-50 z-10;
+            }
         }
     </style>
 </asp:Content>
@@ -28,10 +32,69 @@
 
             <!-- Filter -->
             <div class="filter-item flex">
-                <div class="item">
-                    Date
-                    <i class="fa-regular fa-calendar"></i>
+                <div>
+                    <div id="filter-date" class="item">
+                        Date
+                        <i class="fa-regular fa-calendar"></i>
+                    </div>
+
+                    <asp:Panel runat="server" ID="panelDateFilterModel" class="filter-model hidden">
+                        <div class="relative rounded bg-white size-fit px-10 py-5">
+                            <div id="btnCloseDateFilter" class="absolute top-0 right-2 text-xl cursor-pointer font-bold text-red-500">X</div>
+                            <div class="m-auto">
+                                <div>
+                                    <div class="font-bold">
+                                        Start Date
+                                    </div>
+                                    <div class="flex gap-5">
+                                        <div>
+                                            <div>
+                                                From : 
+                                            </div>
+                                            <asp:TextBox ID="txtStartDateFrom" TextMode="Date" runat="server"></asp:TextBox>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                To : 
+                                            </div>
+                                            <asp:TextBox ID="txtStartDateTo" TextMode="Date" runat="server"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-5">
+                                    <div class="font-bold">
+                                        End Date
+                                    </div>
+                                    <div class="flex gap-5">
+                                        <div>
+                                            <div>
+                                                From : 
+                                            </div>
+                                            <asp:TextBox ID="txtEndDateFrom" TextMode="Date" runat="server"></asp:TextBox>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                To : 
+                                            </div>
+                                            <asp:TextBox ID="txtEndDateTo" TextMode="Date" runat="server"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-5 overflow-hidden">
+                                    <asp:Button ID="btnClear" runat="server"
+                                        OnClick="btnClear_Click"
+                                        Text="Clear" CssClass="float-left button bg-red-500" />
+                                    <asp:Button ID="btnFilter" runat="server"
+                                        OnClick="btnFilter_Click"
+                                        Text="Filter" CssClass="float-right button bg-green-500" />
+                                </div>
+                            </div>
+                        </div>
+                    </asp:Panel>
                 </div>
+
             </div>
         </div>
 
@@ -188,5 +251,16 @@
 
         </div>
     </div>
+    <script>
 
+        //show model when click on date filte
+        document.getElementById('filter-date').addEventListener('click', function () {
+            document.getElementById('<%= panelDateFilterModel.ClientID%>').style.display = 'flex';
+        });
+
+        //close model when click on close button
+        document.getElementById('btnCloseDateFilter').addEventListener('click', function () {
+            document.getElementById('<%= panelDateFilterModel.ClientID%>').style.display = 'none';
+        });
+    </script>
 </asp:Content>
