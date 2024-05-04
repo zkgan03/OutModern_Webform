@@ -250,8 +250,13 @@
                         <ItemTemplate>
                             <tr>
                                 <td style="padding: 1em; border: 1px solid black; text-align: left" aria-multiline="True" class="auto-style1">
-                                    <div class="text-lg font-[600]">
-                                        <%# Eval("CustomerName") %>
+                                    <div>
+                                        <asp:HyperLink ID="HyperLink1"
+                                            runat="server"
+                                            CssClass="text-lg font-[600] hover:underline"
+                                            NavigateUrl='<%#urls[CustomerDetials] + "?CustomerId=" + Eval("CustomerId") %>'>
+                                            <%# Eval("CustomerName") %>
+                                        </asp:HyperLink>
                                     </div>
                                     <div class="review-time"><%# Eval("ReviewTime") %></div>
                                     <div class="review-item">rate : <%# Eval("ReviewRating","{0:0.0}") %></div>
@@ -279,7 +284,7 @@
 
                                 </td>
                                 <td style="border: 1px solid black; padding: 1em;">
-                                    <asp:HyperLink ID="hlReply" CssClass="review-reply-btn" runat="server" 
+                                    <asp:HyperLink ID="hlReply" CssClass="review-reply-btn" runat="server"
                                         NavigateUrl='<%#urls[ProductReviewReply] +"?ReviewId=" + Eval("ReviewId")+"&ProductId=" + productId %>'>
                                         Reply
                                     </asp:HyperLink>

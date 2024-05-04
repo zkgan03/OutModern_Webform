@@ -34,15 +34,16 @@
             <!-- Filter -->
             <div class="filter-item flex">
                 <div class="item">
-                    Status
-                  <i class="fa-regular fa-layer-group"></i>
+                    <asp:DropDownList ID="ddlFilterStatus" OnSelectedIndexChanged="ddlFilterStatus_SelectedIndexChanged" AutoPostBack="true" runat="server" OnDataBound="ddlFilterStatus_DataBound">
+                    </asp:DropDownList>
+                    <i class="fa-regular fa-user-magnifying-glass"></i>
                 </div>
             </div>
 
         </div>
 
         <!-- Display Product -->
-        <div class="mt-2">
+        <div class="mt-5">
             <!--Pagination-->
             <asp:DataPager ID="dpTopCustomers" class="pagination" runat="server" PagedControlID="lvCustomers">
                 <Fields>

@@ -104,30 +104,6 @@ namespace OutModern.src.Admin.PromoCode
             return filteredDataTable;
         }
 
-        private DataTable FilterDataTableWtihDate(DataTable dataTable, string startDateFrom, string startDateTo, string endDateFrom, string endDateTo)
-        {
-            // Build the filter expression with relevant fields
-            string expression = string.Format(
-                               "StartDate >= '{0}' AND StartDate <= '{1}' " +
-                               "AND EndDate >= '{2}' AND EndDate <= '{3}' ",
-                                startDateFrom, startDateTo, endDateFrom, endDateTo);
-
-            // Filter the rows
-            DataRow[] filteredRows = dataTable.Select(expression);
-
-            // Create a new DataTable for the filtered results
-            DataTable filteredDataTable = dataTable.Clone();
-
-            // Import the filtered rows
-            foreach (DataRow row in filteredRows)
-            {
-                filteredDataTable.ImportRow(row);
-            }
-
-            return filteredDataTable;
-        }
-
-
         //
         //DB operation
         //
@@ -137,13 +113,63 @@ namespace OutModern.src.Admin.PromoCode
         {
             DataTable data = new DataTable();
 
+            string startDateFrom = txtFilterStartDateFrom.Text.Trim();
+            string startDateTo = txtFilterStartDateTo.Text.Trim();
+            string endDateFrom = txtFilterEndDateFrom.Text.Trim();
+            string endDateTo = txtFilterEndDateTo.Text.Trim();
+
+            //validate start date range
+            if (!string.IsNullOrEmpty(startDateFrom) && !string.IsNullOrEmpty(startDateTo))
+            {
+                startDateFrom += " 00:00:00";
+                startDateTo += " 23:59:59";
+
+                if (!ValidationUtils.IsValidDateTimeRange(startDateFrom, startDateTo))
+                {
+                    Page.ClientScript
+                        .RegisterStartupScript(GetType(),
+                        "Failed to Filter Start Date",
+                        $"document.addEventListener('DOMContentLoaded', ()=> alert('Start Date To must after Start Date From'))",
+                        true);
+                    startDateFrom = "";
+                    startDateTo = "";
+                }
+            }
+            //validate end date range
+            if (!string.IsNullOrEmpty(endDateFrom) && !string.IsNullOrEmpty(endDateTo))
+            {
+                endDateFrom += " 00:00:00";
+                endDateTo += " 23:59:59";
+
+                if (!ValidationUtils.IsValidDateTimeRange(endDateFrom, endDateTo))
+                {
+                    Page.ClientScript.RegisterStartupScript(GetType(),
+                                            "Failed to Filter End Date",
+                                           $"document.addEventListener('DOMContentLoaded', ()=> alert('End Date To must after End Date From'))",
+                                           true);
+                    endDateFrom = "";
+                    endDateTo = "";
+                }
+            }
+
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
 
                 string sqlQuery =
                     "Select * " +
-                    "From PromoCode ";
+                    "From PromoCode " +
+                    "WHERE PromoId = PromoId ";
+
+                if (!string.IsNullOrEmpty(startDateFrom) && !string.IsNullOrEmpty(startDateTo))
+                {
+                    sqlQuery += "AND StartDate >= @startDateFrom AND StartDate <= @startDateTo ";
+                }
+
+                if (!string.IsNullOrEmpty(endDateFrom) && !string.IsNullOrEmpty(endDateTo))
+                {
+                    sqlQuery += "AND EndDate >= @endDateFrom AND EndDate <= @endDateTo ";
+                }
 
                 if (!string.IsNullOrEmpty(sortExpression))
                 {
@@ -156,6 +182,18 @@ namespace OutModern.src.Admin.PromoCode
 
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
+                    if (!string.IsNullOrEmpty(startDateFrom) && !string.IsNullOrEmpty(startDateTo))
+                    {
+                        command.Parameters.AddWithValue("@startDateFrom", startDateFrom);
+                        command.Parameters.AddWithValue("@startDateTo", startDateTo);
+                    }
+
+                    if (!string.IsNullOrEmpty(endDateFrom) && !string.IsNullOrEmpty(endDateTo))
+                    {
+                        command.Parameters.AddWithValue("@endDateFrom", endDateFrom);
+                        command.Parameters.AddWithValue("@endDateTo", endDateTo);
+                    }
+
                     data.Load(command.ExecuteReader());
                 }
 
@@ -336,7 +374,7 @@ namespace OutModern.src.Admin.PromoCode
             }
 
             //check date range
-            if (!ValidationUtils.IsValidDateRange(startDate, endDate))
+            if (!ValidationUtils.IsValidDateTimeRange(startDate, endDate))
             {
                 Page.ClientScript
                     .RegisterStartupScript(GetType(),
@@ -469,7 +507,7 @@ namespace OutModern.src.Admin.PromoCode
             }
 
             //check date range
-            if (!ValidationUtils.IsValidDateRange(startDate, endDate))
+            if (!ValidationUtils.IsValidDateTimeRange(startDate, endDate))
             {
                 Page.ClientScript
                     .RegisterStartupScript(GetType(),
@@ -550,48 +588,13 @@ namespace OutModern.src.Admin.PromoCode
 
         }
 
-        protected void btnFilter_Click(object sender, EventArgs e)
+        protected void txtFilterStartDateFrom_TextChanged(object sender, EventArgs e)
         {
-            //get date from filter
-            string startDateFrom = txtStartDateFrom.Text.Trim();
-            string startDateTo = txtStartDateTo.Text.Trim();
-            string endDateFrom = txtEndDateFrom.Text.Trim();
-            string endDateTo = txtEndDateTo.Text.Trim();
-
-            //check null
-            if (string.IsNullOrEmpty(startDateFrom)
-                || string.IsNullOrEmpty(startDateTo)
-                || string.IsNullOrEmpty(endDateFrom)
-                || string.IsNullOrEmpty(endDateTo))
-            {
-                Page.ClientScript
-                    .RegisterStartupScript(GetType(),
-                    "alert",
-                        $"document.addEventListener('DOMContentLoaded', ()=> alert('Please fill in all fields'))",
-                true);
-
-                panelDateFilterModel.CssClass = "filter-model flex";
-                return;
-            }
-
-            //check date range
-            if (!ValidationUtils.IsValidDateRange(startDateFrom, startDateTo)
-                || !ValidationUtils.IsValidDateRange(endDateFrom, endDateTo))
-            {
-                Page.ClientScript
-                    .RegisterStartupScript(GetType(),
-                        "alert",
-                        $"document.addEventListener('DOMContentLoaded', ()=> alert('Start Date must be before End Date'))",
-                        true);
-
-                panelDateFilterModel.CssClass = "filter-model flex";
-                return;
-            }
-            //filter data
-            lvPromoCodes.DataSource = FilterDataTableWtihDate(getPromoCodes(), startDateFrom, startDateTo, endDateFrom, endDateTo);
+            string sortExpression = ViewState["SortExpression"]?.ToString();
+            lvPromoCodes.DataSource = sortExpression == null ?
+                promoDataSource() :
+                promoDataSource(sortExpression, SortDirections[sortExpression]);
             lvPromoCodes.DataBind();
-
-            panelDateFilterModel.CssClass = "filter-model hidden";
 
         }
     }

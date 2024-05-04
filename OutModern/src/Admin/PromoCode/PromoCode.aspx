@@ -32,74 +32,41 @@
 
             <!-- Filter -->
             <div class="filter-item flex">
-                <div>
-                    <div id="filter-date" class="item">
-                        Date
-                        <i class="fa-regular fa-calendar"></i>
+                <!-- Filter Start Date -->
+                <div class="item">
+                    <div>
+                        <div class="w-36 float-left">Start Date From :</div>
+                        <asp:TextBox ID="txtFilterStartDateFrom"
+                            OnTextChanged="txtFilterStartDateFrom_TextChanged"
+                            AutoPostBack="true" TextMode="Date" runat="server"></asp:TextBox>
                     </div>
-
-                    <asp:Panel runat="server" ID="panelDateFilterModel" class="filter-model hidden">
-                        <div class="relative rounded bg-white size-fit px-10 py-5">
-                            <div id="btnCloseDateFilter" class="absolute top-0 right-2 text-xl cursor-pointer font-bold text-red-500">X</div>
-                            <div class="m-auto">
-                                <div>
-                                    <div class="font-bold">
-                                        Start Date
-                                    </div>
-                                    <div class="flex gap-5">
-                                        <div>
-                                            <div>
-                                                From : 
-                                            </div>
-                                            <asp:TextBox ID="txtStartDateFrom" TextMode="Date" runat="server"></asp:TextBox>
-                                        </div>
-                                        <div>
-                                            <div>
-                                                To : 
-                                            </div>
-                                            <asp:TextBox ID="txtStartDateTo" TextMode="Date" runat="server"></asp:TextBox>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="mt-5">
-                                    <div class="font-bold">
-                                        End Date
-                                    </div>
-                                    <div class="flex gap-5">
-                                        <div>
-                                            <div>
-                                                From : 
-                                            </div>
-                                            <asp:TextBox ID="txtEndDateFrom" TextMode="Date" runat="server"></asp:TextBox>
-                                        </div>
-                                        <div>
-                                            <div>
-                                                To : 
-                                            </div>
-                                            <asp:TextBox ID="txtEndDateTo" TextMode="Date" runat="server"></asp:TextBox>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="mt-5 overflow-hidden">
-                                    <asp:Button ID="btnClear" runat="server"
-                                        OnClick="btnClear_Click"
-                                        Text="Clear" CssClass="float-left button bg-red-500" />
-                                    <asp:Button ID="btnFilter" runat="server"
-                                        OnClick="btnFilter_Click"
-                                        Text="Filter" CssClass="float-right button bg-green-500" />
-                                </div>
-                            </div>
-                        </div>
-                    </asp:Panel>
+                    <div class="mt-3">
+                        <div class="w-36  float-left">Start Date To :</div>
+                        <asp:TextBox ID="txtFilterStartDateTo"
+                            OnTextChanged="txtFilterStartDateFrom_TextChanged"
+                            AutoPostBack="true" TextMode="Date" runat="server"></asp:TextBox>
+                    </div>
                 </div>
-
+                <!-- Filter End Date -->
+                <div class="item">
+                    <div>
+                        <div class="w-32 float-left">End Date From :</div>
+                        <asp:TextBox ID="txtFilterEndDateFrom"
+                            OnTextChanged="txtFilterStartDateFrom_TextChanged"
+                            AutoPostBack="true" TextMode="Date" runat="server"></asp:TextBox>
+                    </div>
+                    <div class="mt-3">
+                        <div class="w-32 float-left">End Date To :</div>
+                        <asp:TextBox ID="txtFilterEndDateTo"
+                            OnTextChanged="txtFilterStartDateFrom_TextChanged"
+                            AutoPostBack="true" TextMode="Date" runat="server"></asp:TextBox>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Display Product -->
-        <div class="mt-2">
+        <div class="mt-5">
             <!--Pagination-->
             <asp:DataPager ID="dpTopPromoCodes" class="pagination" runat="server" PagedControlID="lvPromoCodes">
                 <Fields>
@@ -251,16 +218,5 @@
 
         </div>
     </div>
-    <script>
 
-        //show model when click on date filte
-        document.getElementById('filter-date').addEventListener('click', function () {
-            document.getElementById('<%= panelDateFilterModel.ClientID%>').style.display = 'flex';
-        });
-
-        //close model when click on close button
-        document.getElementById('btnCloseDateFilter').addEventListener('click', function () {
-            document.getElementById('<%= panelDateFilterModel.ClientID%>').style.display = 'none';
-        });
-    </script>
 </asp:Content>

@@ -24,67 +24,40 @@ namespace OutModern.src.Admin.PromoCode
         protected global::System.Web.UI.WebControls.LinkButton lbAddPromoCode;
 
         /// <summary>
-        /// panelDateFilterModel control.
+        /// txtFilterStartDateFrom control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel panelDateFilterModel;
+        protected global::System.Web.UI.WebControls.TextBox txtFilterStartDateFrom;
 
         /// <summary>
-        /// txtStartDateFrom control.
+        /// txtFilterStartDateTo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtStartDateFrom;
+        protected global::System.Web.UI.WebControls.TextBox txtFilterStartDateTo;
 
         /// <summary>
-        /// txtStartDateTo control.
+        /// txtFilterEndDateFrom control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtStartDateTo;
+        protected global::System.Web.UI.WebControls.TextBox txtFilterEndDateFrom;
 
         /// <summary>
-        /// txtEndDateFrom control.
+        /// txtFilterEndDateTo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEndDateFrom;
-
-        /// <summary>
-        /// txtEndDateTo control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEndDateTo;
-
-        /// <summary>
-        /// btnClear control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnClear;
-
-        /// <summary>
-        /// btnFilter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnFilter;
+        protected global::System.Web.UI.WebControls.TextBox txtFilterEndDateTo;
 
         /// <summary>
         /// dpTopPromoCodes control.

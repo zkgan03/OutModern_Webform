@@ -105,85 +105,13 @@ namespace OutModern.src.Admin.CustomerDetails
         protected global::System.Web.UI.WebControls.Label lblOrderMade;
 
         /// <summary>
-        /// LinkButton1 control.
+        /// ddlFilterOrderStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LinkButton1;
-
-        /// <summary>
-        /// lbOrderPlacedTotal control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lbOrderPlacedTotal;
-
-        /// <summary>
-        /// lblOrderPlacedTotal control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblOrderPlacedTotal;
-
-        /// <summary>
-        /// lbShippedTotal control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lbShippedTotal;
-
-        /// <summary>
-        /// lblShippedTotal control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblShippedTotal;
-
-        /// <summary>
-        /// lbReceivedTotal control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lbReceivedTotal;
-
-        /// <summary>
-        /// lblReceivedTotal control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblReceivedTotal;
-
-        /// <summary>
-        /// lbCancelledTotal control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lbCancelledTotal;
-
-        /// <summary>
-        /// lblCancelledTotal control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCancelledTotal;
+        protected global::System.Web.UI.WebControls.DropDownList ddlFilterOrderStatus;
 
         /// <summary>
         /// dpTopOrders control.

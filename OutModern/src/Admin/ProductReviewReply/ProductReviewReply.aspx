@@ -24,7 +24,10 @@
                 <!--Customer Details-->
                 <div class="p-2 flex-shrink-0">
                     <div class="text-lg">
-                        <asp:Label ID="lblCustomerName" runat="server"></asp:Label>
+                        <asp:HyperLink ID="hlCustomerName"
+                            runat="server"
+                            CssClass="text-lg font-[600] hover:underline">
+                        </asp:HyperLink>
                     </div>
                     <div class="review-time">
                         <asp:Label ID="lblCustomerReviewDateTime" runat="server"></asp:Label>

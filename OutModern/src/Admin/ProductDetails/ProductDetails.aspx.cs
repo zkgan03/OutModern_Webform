@@ -15,6 +15,7 @@ namespace OutModern.src.Admin.ProductDetails
     {
         protected static readonly string ProductEdit = "ProductEdit";
         protected static readonly string ProductReviewReply = "ProductReviewReply";
+        protected static readonly string CustomerDetials = "CustomerDetails";
 
         private string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         protected string productId;
@@ -23,8 +24,8 @@ namespace OutModern.src.Admin.ProductDetails
         protected Dictionary<string, string> urls = new Dictionary<string, string>()
         {
             { ProductEdit , "~/src/Admin/ProductEdit/ProductEdit.aspx" },
-            { ProductReviewReply , "~/src/Admin/ProductReviewReply/ProductReviewReply.aspx" }
-
+            { ProductReviewReply , "~/src/Admin/ProductReviewReply/ProductReviewReply.aspx" },
+            { CustomerDetials, "~/src/Admin/CustomerDetails/CustomerDetails.aspx"}
         };
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -286,7 +287,7 @@ namespace OutModern.src.Admin.ProductDetails
             {
                 connection.Open();
                 string sqlQuery =
-                     "Select ReviewId, CustomerFullname as CustomerName, ReviewDateTime as ReviewTime, Rating as ReviewRating, ColorName as ReviewColor, Quantity as ReviewQuantity, ReviewDescription as ReviewText " +
+                     "Select ReviewId, c.CustomerId, CustomerFullname as CustomerName, ReviewDateTime as ReviewTime, Rating as ReviewRating, ColorName as ReviewColor, Quantity as ReviewQuantity, ReviewDescription as ReviewText " +
                      "From Review r, Customer c, ProductDetail pd, Product p, Color co, Size s " +
                      "Where r.CustomerId = c.CustomerId AND pd.ProductDetailId = r.ProductDetailId " +
                      "AND pd.ColorId = co.ColorId AND pd.ProductId = p.ProductId AND s.SizeId = pd.SizeId " +

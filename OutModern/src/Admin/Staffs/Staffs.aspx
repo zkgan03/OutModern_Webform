@@ -46,14 +46,20 @@
             <!-- Filter -->
             <div class="filter-item flex">
                 <div class="item">
-                    Role
-                 <i class="fa-regular fa-layer-group"></i>
+                    <asp:DropDownList ID="ddlFilterRole" OnSelectedIndexChanged="ddlFilterRole_SelectedIndexChanged" AutoPostBack="true" runat="server" OnDataBound="ddlFilterRole_DataBound">
+                    </asp:DropDownList>
+                    <i class="fa-regular fa-head-side-gear"></i>
+                </div>
+                <div class="item">
+                    <asp:DropDownList ID="ddlFilterStatus" OnSelectedIndexChanged="ddlFilterRole_SelectedIndexChanged" AutoPostBack="true" runat="server" OnDataBound="ddlFilterStatus_DataBound">
+                    </asp:DropDownList>
+                    <i class="fa-regular fa-user-magnifying-glass"></i>
                 </div>
             </div>
         </div>
 
         <!-- Display Product -->
-        <div class="mt-2">
+        <div class="mt-5">
             <!--Pagination-->
             <asp:DataPager ID="dpTopStaffs" class="pagination" runat="server" PagedControlID="lvStaffs">
                 <Fields>

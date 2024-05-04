@@ -41,7 +41,11 @@ namespace OutModern.src.Admin.ProductReviewReply
 
             DataRow row = data.Rows[0];
             lblColor.Text = row["ReviewColor"].ToString();
-            lblCustomerName.Text = row["CustomerName"].ToString();
+
+            hlCustomerName.Text = row["CustomerName"].ToString();
+            hlCustomerName.NavigateUrl = "~/src/Admin/CustomerDetails/CustomerDetails.aspx?CustomerId=" + row["CustomerId"].ToString();
+
+
             lblCustomerReview.Text = row["ReviewText"].ToString();
             lblCustomerReviewDateTime.Text = row["ReviewTime"].ToString();
             lblQuantity.Text = row["ReviewQuantity"].ToString();
@@ -63,7 +67,7 @@ namespace OutModern.src.Admin.ProductReviewReply
             {
                 connection.Open();
                 string sqlQuery =
-                     "Select CustomerFullname as CustomerName, ReviewDateTime as ReviewTime, Rating as ReviewRating, ColorName as ReviewColor, Quantity as ReviewQuantity, ReviewDescription as ReviewText " +
+                     "Select c.CustomerId, CustomerFullname as CustomerName, ReviewDateTime as ReviewTime, Rating as ReviewRating, ColorName as ReviewColor, Quantity as ReviewQuantity, ReviewDescription as ReviewText " +
                      "From Review r, Customer c, ProductDetail pd, Product p, Color co, Size s " +
                      "Where r.CustomerId = c.CustomerId AND pd.ProductDetailId = r.ProductDetailId " +
                      "AND pd.ColorId = co.ColorId AND pd.ProductId = p.ProductId AND s.SizeId = pd.SizeId " +
