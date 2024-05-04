@@ -359,3 +359,6 @@ FodyWeavers.xsd
 /OutModern/App_Data/OutModern.mdf
 /.gitignore
 /.gitignore
+/OutModern/App_Data/OutModern_log.ldf
+/.gitignore
+/.gitignore
