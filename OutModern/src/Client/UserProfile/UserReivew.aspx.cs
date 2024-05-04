@@ -17,24 +17,28 @@ namespace OutModern.src.Client.UserProfile
         string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         int customerId = 1;
         protected void Page_Load(object sender, EventArgs e)
-        {
-            if(!IsPostBack)
+        {     
+             if(!IsPostBack)
             {
-                DataTable dtTop5Reviews = GetUserReviewHistory().AsEnumerable().Take(5).CopyToDataTable(); 
-                rptReviews.DataSource = dtTop5Reviews;
-                rptReviews.DataBind();
-                lvReviews.DataSource = GetUserReviewHistory();
-                lvReviews.DataBind();
-            } 
+                BindReviewsToListView();
+            }
         }
-
+    
         private DataTable GetUserReviewHistory() 
         {
             DataTable reviewDataTable = new DataTable();
+            string filterCriteria = ViewState["FilterCriteria"] as string;
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sqlQuery = @"SELECT p.ProductId, p.ProductName, p.UnitPrice, c.ColorName, s.SizeName, r.Rating, (SELECT TOP 1 PI.Path FROM ProductImage PI WHERE PI.ProductDetailId = PD.ProductDetailId) AS ProductImageUrl, r.ReviewDescription, r.ReviewDateTime, pd.ProductDetailId, r.CustomerId FROM ProductDetail pd INNER JOIN Product p ON pd.ProductId = p.ProductId INNER JOIN Color c ON pd.ColorId = c.ColorId INNER JOIN Size s ON pd.SizeId = s.SizeId LEFT JOIN Review r ON pd.ProductDetailId = r.ProductDetailId WHERE r.CustomerId = @CustomerId ORDER BY r.ReviewDateTime DESC";
+                string sqlQuery = @"SELECT r.ReviewId, p.ProductId, p.ProductName, p.UnitPrice, c.ColorName, s.SizeName, r.Rating, (SELECT TOP 1 PI.Path FROM ProductImage PI WHERE PI.ProductDetailId = PD.ProductDetailId) AS ProductImageUrl, r.ReviewDescription, r.ReviewDateTime, pd.ProductDetailId, r.CustomerId FROM ProductDetail pd INNER JOIN Product p ON pd.ProductId = p.ProductId INNER JOIN Color c ON pd.ColorId = c.ColorId INNER JOIN Size s ON pd.SizeId = s.SizeId LEFT JOIN Review r ON pd.ProductDetailId = r.ProductDetailId WHERE r.CustomerId = @CustomerId";
+
+                if (filterCriteria == "seller")
+                {
+                    sqlQuery += " AND EXISTS (SELECT 1 FROM ReviewReply rr WHERE rr.ReviewId = r.ReviewId)";
+                }
+
+                sqlQuery += " ORDER BY r.ReviewDateTime DESC";
 
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
@@ -48,16 +52,43 @@ namespace OutModern.src.Client.UserProfile
                     }
                 }
             }
+            reviewDataTable.Columns.Add("Replies", typeof(DataTable));
+            foreach (DataRow row in reviewDataTable.Rows)
+            {
+                row["Replies"] = getReviewReplies(row["ReviewId"].ToString());
+            }
             return reviewDataTable;
+        }
+
+        //get replies for particular id
+        private DataTable getReviewReplies(string reviewId)
+        {
+            // Create a new DataTable to hold the dummy data
+            DataTable data = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                //ReplyTextReplyTimeAdminRoleAdminName
+                connection.Open();
+                string sqlQuery =
+                    "Select Reply as ReplyText, DateTime as ReplyTime " +
+                    "From  ReviewReply rr, Review r " +
+                    "Where r.ReviewId = rr.ReviewId " +
+                    "AND r.ReviewId = @reviewId " +
+                    "ORDER BY ReplyTime DESC;";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("reviewId", reviewId);
+                    data.Load(command.ExecuteReader());
+                }
+            }
+            return data;
         }
 
         protected void lvReviews_PagePropertiesChanged(object sender, EventArgs e)
         {
-            DataTable dtTop5Reviews = GetUserReviewHistory().AsEnumerable().Take(5).CopyToDataTable();
-            rptReviews.DataSource = dtTop5Reviews;
-            rptReviews.DataBind();
-            lvReviews.DataSource = GetUserReviewHistory();
-            lvReviews.DataBind();
+            BindReviewsToListView();
         }
 
         protected string GenerateStars(double rating)
@@ -79,6 +110,26 @@ namespace OutModern.src.Client.UserProfile
                 stars.Append("<i class='far fa-star text-gray-400 text-lg'></i>");
             }
             return stars.ToString();
+        }
+
+        protected void btnShowAllReviews_Click(object sender, EventArgs e)
+        {
+            ViewState["FilterCriteria"] = "all";
+            ddpReviews.SetPageProperties(0, ddpReviews.PageSize, true);
+            BindReviewsToListView();
+        }
+
+        protected void btnShowSellerReplies_Click(object sender, EventArgs e)
+        {
+            ViewState["FilterCriteria"] = "seller";
+            ddpReviews.SetPageProperties(0, ddpReviews.PageSize, true);
+            BindReviewsToListView();
+        }
+
+        private void BindReviewsToListView()
+        {
+            lvReviews.DataSource = GetUserReviewHistory();
+            lvReviews.DataBind();
         }
     }
 

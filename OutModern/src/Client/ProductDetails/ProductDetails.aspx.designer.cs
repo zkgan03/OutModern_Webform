@@ -60,58 +60,22 @@ namespace OutModern.src.Client.ProductDetails
         protected global::System.Web.UI.UpdatePanel UpdatePanel2;
 
         /// <summary>
-        /// mainImage1 control.
+        /// MainImageRepeater control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image mainImage1;
+        protected global::System.Web.UI.WebControls.Repeater MainImageRepeater;
 
         /// <summary>
-        /// mainImage2 control.
+        /// ImageRepeater control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image mainImage2;
-
-        /// <summary>
-        /// mainImage3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image mainImage3;
-
-        /// <summary>
-        /// Image1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image Image1;
-
-        /// <summary>
-        /// Image2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image Image2;
-
-        /// <summary>
-        /// Image3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image Image3;
+        protected global::System.Web.UI.WebControls.Repeater ImageRepeater;
 
         /// <summary>
         /// lblProdName control.
@@ -411,30 +375,21 @@ namespace OutModern.src.Client.ProductDetails
         protected global::System.Web.UI.WebControls.Button btnTopRated;
 
         /// <summary>
-        /// ReviewDataSource control.
+        /// lvReviews control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource ReviewDataSource;
+        protected global::System.Web.UI.WebControls.ListView lvReviews;
 
         /// <summary>
-        /// ReviewListView control.
+        /// ddpReviews control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ListView ReviewListView;
-
-        /// <summary>
-        /// ReviewDataPager control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DataPager ReviewDataPager;
+        protected global::System.Web.UI.WebControls.DataPager ddpReviews;
     }
 }

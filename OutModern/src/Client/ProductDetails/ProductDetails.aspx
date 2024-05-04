@@ -30,32 +30,28 @@
                                     <img src="" class="image-modal-content" id="modal-img">
                                 </div>
                                 <div class="relative max-w-7xl bg-gray-300 bg-opacity-50" id="image-container">
-                                    <asp:Image ID="mainImage1" CssClass="slides" runat="server"
-                                        ImageUrl=""
-                                        Style="width: 100%; cursor: pointer" onclick="modal(this.src)" />
-                                    <asp:Image ID="mainImage2" CssClass="slides" runat="server"
-                                        ImageUrl=""
-                                        Style="width: 100%; display: none; cursor: pointer" onclick="modal(this.src)" />
-                                    <asp:Image ID="mainImage3" CssClass="slides" runat="server"
-                                        ImageUrl=""  Style="width: 100%; display: none; cursor: pointer" onclick="modal(this.src)" />
+                                    <asp:Repeater ID="MainImageRepeater" runat="server">
+                                        <ItemTemplate>
+                                            <asp:Image ID="MainImage" CssClass="slides" runat="server"
+                                                Style='<%# Container.ItemIndex == 0 ? "width: 100%; cursor: pointer;": "width: 100%; display: none; cursor: pointer;" %>'
+                                                ImageUrl='<%# Eval("ImageUrl") %>'
+                                                onclick='<%# "modal(this.src)" %>' />
+                                        </ItemTemplate>
+                                    </asp:Repeater>
                                     <img class="pointer-events-none absolute right-2 top-2" src="../../../images/product-img/zoom-in.png" alt="Zoom In">
 
                                     <a class="mt-[-22px] absolute left-0 top-1/2 cursor-pointer select-none rounded-r-lg bg-black px-4 py-2 text-lg font-bold text-white transition duration-300" onclick="plusSlides(-1)">&#10094;</a>
                                     <a class="mt-[-22px] absolute right-0 top-1/2 cursor-pointer select-none rounded-r-lg bg-black px-4 py-2 text-lg font-bold text-white transition duration-300" onclick="plusSlides(1)">&#10095;</a>
 
                                     <div class="mb-4 mt-4 px-2">
-                                        <div class="float-left w-1/3 px-2">
-                                            <asp:Image ID="Image1" runat="server" CssClass="demo opacity hover-opacity-off"
-                                                Style="width: 100%; cursor: pointer" onclick="currentDiv(1)" />
-                                        </div>
-                                        <div class="float-left w-1/3 px-2">
-                                            <asp:Image ID="Image2" runat="server" CssClass="demo opacity hover-opacity-off"
-                                                Style="width: 100%; cursor: pointer" onclick="currentDiv(2)" />
-                                        </div>
-                                        <div class="float-left w-1/3 px-2">
-                                            <asp:Image ID="Image3" runat="server" CssClass="demo opacity hover-opacity-off"
-                                                Style="width: 100%; cursor: pointer" onclick="currentDiv(3)" />
-                                        </div>
+                                        <asp:Repeater ID="ImageRepeater" runat="server">
+                                            <ItemTemplate>
+                                                <div class="float-left w-1/3 px-2 py-1">
+                                                    <asp:Image ID="Image1" ImageUrl='<%# Eval("ImageUrl") %>' runat="server" CssClass="demo opacity hover-opacity-off"
+                                                        Style="width: 100%; cursor: pointer" onclick='<%# "currentDiv(" + (Container.ItemIndex + 1) + ")" %>' />
+                                                </div>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
                                     </div>
                                 </div>
                             </div>
@@ -84,7 +80,7 @@
                                     <h3 class="mb-3 text-lg font-semibold">Color:
                              <asp:Label ID="lblColor" runat="server" Text="" Visible="false"></asp:Label></h3>
                                     <div class="colorGrp flex gap-3 space-x-2">
-                                        <asp:SqlDataSource ID="ColorSqlDataSource" runat="server" ConnectionString='<%$ ConnectionStrings:ConnectionString %>' SelectCommand="SELECT s.ColorId, ColorName, HexColor FROM [ProductDetail] AS s INNER JOIN [Color] AS c ON s.ColorId = c.ColorId WHERE ProductId = @ProductId GROUP BY s.ColorId, ColorName, HexColor">
+                                        <asp:SqlDataSource ID="ColorSqlDataSource" runat="server" ConnectionString='<%$ ConnectionStrings:ConnectionString %>' SelectCommand="SELECT DISTINCT pd.ColorId, c.ColorName, c.HexColor FROM Product p, Color c, ProductDetail pd WHERE p.ProductId = @ProductId AND pd.ColorId = c.ColorId AND p.ProductId = pd.ProductId AND isDeleted = 0">
                                             <SelectParameters>
                                                 <asp:QueryStringParameter QueryStringField="ProductId" Name="ProductId"></asp:QueryStringParameter>
                                             </SelectParameters>
@@ -149,7 +145,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>                        
+                        </div>
                     </div>
                 </ContentTemplate>
                 <Triggers>
@@ -192,16 +188,6 @@
                 </thead>
                 <tbody>
                     <tr class="text-center">
-                        <th class="px-4 py-2 text-center">XS</th>
-                        <td class="px-4 py-2 text-center">34</td>
-                        <td class="px-4 py-2 text-center">32</td>
-                        <td class="px-4 py-2 text-center">160</td>
-                        <td class="px-4 py-2 text-center">88</td>
-                        <td class="px-4 py-2 text-center">72</td>
-                        <td class="px-4 py-2 text-center">36</td>
-                        <td class="px-4 py-2 text-center">61</td>
-                    </tr>
-                    <tr class="text-center">
                         <th class="px-4 py-2 text-center">S</th>
                         <td class="px-4 py-2 text-center">36</td>
                         <td class="px-4 py-2 text-center">34</td>
@@ -240,26 +226,6 @@
                         <td class="px-4 py-2 text-center">88</td>
                         <td class="px-4 py-2 text-center">40</td>
                         <td class="px-4 py-2 text-center">65</td>
-                    </tr>
-                    <tr class="text-center">
-                        <th class="px-4 py-2 text-center">2XL</th>
-                        <td class="px-4 py-2 text-center">44</td>
-                        <td class="px-4 py-2 text-center">42</td>
-                        <td class="px-4 py-2 text-center">185</td>
-                        <td class="px-4 py-2 text-center">108</td>
-                        <td class="px-4 py-2 text-center">92</td>
-                        <td class="px-4 py-2 text-center">41</td>
-                        <td class="px-4 py-2 text-center">66</td>
-                    </tr>
-                    <tr class="text-center">
-                        <th class="px-4 py-2 text-center">3XL</th>
-                        <td class="px-4 py-2 text-center">46</td>
-                        <td class="px-4 py-2 text-center">44</td>
-                        <td class="px-4 py-2 text-center">190</td>
-                        <td class="px-4 py-2 text-center">112</td>
-                        <td class="px-4 py-2 text-center">96</td>
-                        <td class="px-4 py-2 text-center">42</td>
-                        <td class="px-4 py-2 text-center">67</td>
                     </tr>
                 </tbody>
             </table>
@@ -337,7 +303,7 @@
             </div>
         </div>
     </div>
-     <div class="mx-auto mb-10 mt-5 w-4/5 rounded-lg p-4 shadow-lg">
+    <div class="mx-auto mb-10 mt-5 w-4/5 rounded-lg p-4 shadow-lg">
         <div class="w-full">
             <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                 <ContentTemplate>
@@ -345,17 +311,10 @@
                         <p class="underline">All Ratings and Reviews</p>
                         <div style="margin-left: auto">
                             <asp:Button OnClick="btnLatest_Click" ID="btnLatest" class="btnSorting clicked latestBtn" runat="server" Text="Latest" />
-                            <asp:Button OnClick="btnTopRated_Click" ID="btnTopRated" class="btnSorting TopRatedBtn" runat="server" Text="TopRated" />                     
+                            <asp:Button OnClick="btnTopRated_Click" ID="btnTopRated" class="btnSorting TopRatedBtn" runat="server" Text="TopRated" />
                         </div>
                     </div>
-                    <asp:SqlDataSource ID="ReviewDataSource" runat="server"
-                        ConnectionString='<%$ ConnectionStrings:ConnectionString %>'
-                        SelectCommand="SELECT r.ReviewId, c.CustomerFullname AS CustomerName, r.ReviewDateTime AS ReviewTime, r.Rating AS ReviewRating, s.SizeName AS SizeName, co.ColorName AS ReviewColor, pd.Quantity AS ReviewQuantity, r.ReviewDescription AS ReviewText, STRING_AGG(rr.Reply, 'NextReviewReply ') AS ReplyDescription FROM Review r INNER JOIN Customer c ON r.CustomerId = c.CustomerId INNER JOIN ProductDetail pd ON pd.ProductDetailId = r.ProductDetailId INNER JOIN Product p ON pd.ProductId = p.ProductId INNER JOIN Color co ON pd.ColorId = co.ColorId INNER JOIN Size s ON s.SizeId = pd.SizeId LEFT JOIN ReviewReply rr ON r.ReviewId = rr.ReviewId WHERE p.ProductId = @ProductId GROUP BY r.ReviewId, c.CustomerFullname, r.ReviewDateTime, r.Rating, s.SizeName, co.ColorName, pd.Quantity, r.ReviewDescription ORDER BY ReviewDateTime DESC;">
-                        <SelectParameters>
-                            <asp:QueryStringParameter QueryStringField="ProductId" Name="ProductId"></asp:QueryStringParameter>
-                        </SelectParameters>
-                    </asp:SqlDataSource>
-                    <asp:ListView ID="ReviewListView" DataSourceID="ReviewDataSource" runat="server">
+                    <asp:ListView ID="lvReviews" runat="server" OnPagePropertiesChanged="lvReviews_PagePropertiesChanged">
                         <ItemTemplate>
                             <div class="relative flex w-full p-2">
                                 <div class="border-b-2 flex w-full border-b-gray-300">
@@ -373,22 +332,32 @@
                                                     <span class="text-sm italic text-gray-500">
                                                         <%# Eval("ReviewTime") %>
                                                     </span>
-                                                    | Variation: <span class="text-sm italic text-gray-500"><%# Eval("ReviewColor") %> Color</span>, 
+                                                    | Variation: <span class="text-sm italic text-gray-500"><%# Eval("ColorName") %> Color</span>, 
          <span class="text-sm italic text-gray-500"><%# Eval("SizeName") %> Size</span>
                                                 </p>
                                             </div>
+
                                         </div>
                                         <div class="flex flex-col gap-4">
                                             <p class="pr-5">
-                                                <asp:Label ID="Label12" runat="server">
-             <%# Eval("ReviewText") %>
-                                                </asp:Label>
+                                                <%# Eval("ReviewText") %>
                                             </p>
                                         </div>
-                                        <div class="bg-gray-100 py-0.5" <%# !string.IsNullOrEmpty(Eval("ReplyDescription").ToString()) ? "" : "style='display:none;'" %>>
-                                            <%# FormatReplies(Eval("ReplyDescription")) %>
-                                        </div>
-
+                                        <asp:Repeater ID="rptReplies" runat="server" DataSource='<%# Eval("Replies") %>'>
+                                            <ItemTemplate>
+                                                <div class="mt-2 w-full bg-gray-100 py-0.5">
+                                                    <div class="overflow-hidden rounded-lg bg-white shadow-lg">
+                                                        <div class="px-6 py-4">
+                                                            <p class="font-bold text-black">Seller's Response:</p>
+                                                            <p class="mt-2 text-gray-700">
+                                                                <%# Eval("ReplyText") %>
+                                                            </p>
+                                                            <p class="mt-2"><%# Eval("ReplyTime") %></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
                                     </div>
                                 </div>
                             </div>
@@ -399,13 +368,16 @@
                         </LayoutTemplate>
                     </asp:ListView>
                     <div class="mt-4 flex justify-center">
-                        <asp:DataPager ID="ReviewDataPager" runat="server" PageSize="5" PagedControlID="ReviewListView">
+                        <asp:DataPager ID="ddpReviews" CssClass="data-pager" runat="server" PageSize="5" PagedControlID="lvReviews">
                             <Fields>
-                                <asp:NumericPagerField NumericButtonCssClass="datapagerStyle" CurrentPageLabelCssClass="active" ButtonCount="10" />
+                                <asp:NumericPagerField NumericButtonCssClass="datapagerStyle" CurrentPageLabelCssClass="active" ButtonCount="5" />
                             </Fields>
                         </asp:DataPager>
                     </div>
                 </ContentTemplate>
+                  <Triggers>
+                    <asp:AsyncPostBackTrigger ControlID="lvReviews" EventName="PagePropertiesChanged" />
+                </Triggers>
             </asp:UpdatePanel>
         </div>
     </div>
@@ -424,6 +396,6 @@
                 txtQuantity.value = maxQuantity.toString();
             }
         }
-     
+
     </script>
-</asp:Content>                         
+</asp:Content>

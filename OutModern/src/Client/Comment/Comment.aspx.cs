@@ -12,11 +12,17 @@ namespace OutModern.src.Client.Comment
     public partial class Comment : System.Web.UI.Page
     {
         string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        int customerId = 1;
-        string productDetailId = "1";
+        string customerId;
+        string productDetailId
         protected void Page_Load(object sender, EventArgs e)
         {
-            if(!IsPostBack)
+            productDetailId = Request.QueryString["ProductDetailId"];
+            customerId  = Session["CUSTID"].ToString();
+            if (productDetailId == null)
+            {
+                Response.Redirect("~/src/ErrorPages/404.aspx");
+            }
+            if (!IsPostBack)
             {
                 GetProductInfo();
             }
@@ -24,7 +30,6 @@ namespace OutModern.src.Client.Comment
 
         private void GetProductInfo()
         {
-            // string productDetailId = Request.QueryString["ProductDetailId"];
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 string sqlQuery = $"SELECT TOP 1 p.ProductId, p.ProductName, p.UnitPrice, p.ProductCategory, c.ColorName, s.SizeName, pi.Path AS ImagePath FROM ProductDetail pd INNER JOIN Product p ON pd.ProductId = p.ProductId INNER JOIN Color c ON pd.ColorId = c.ColorId INNER JOIN Size s ON pd.SizeId = s.SizeId LEFT JOIN ProductImage pi ON pd.ProductDetailId = pi.ProductDetailId WHERE pd.ProductDetailId = @ProductDetailId";
@@ -40,7 +45,7 @@ namespace OutModern.src.Client.Comment
                             lblProductName.Text  = reader["ProductName"].ToString();
                             lblProductPrice.Text = "RM " + ((decimal)reader["UnitPrice"]).ToString();
                             lblProductColour.Text = "Color: " + reader["ColorName"].ToString();
-                            lblProductSize.Text = "Size: " + reader["SizeName"].ToString() + " Size";
+                            lblProductSize.Text = "Size: " + reader["SizeName"].ToString();
                             imgProduct.ImageUrl = reader["ImagePath"] != DBNull.Value ? reader["ImagePath"].ToString() : null;
                         }
                     }
@@ -51,7 +56,6 @@ namespace OutModern.src.Client.Comment
         protected void btnSubmitComment_Click(object sender, EventArgs e)
         {
             lblMessage.Visible = false;
-            // string productDetailId = Request.QueryString["ProductDetailId"];
             string selectedRating = ddlRating.SelectedValue;
             string commentText = txtComment.Text.Trim();
 

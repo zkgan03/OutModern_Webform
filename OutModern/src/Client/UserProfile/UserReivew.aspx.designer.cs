@@ -15,13 +15,22 @@ namespace OutModern.src.Client.UserProfile
     {
 
         /// <summary>
-        /// rptReviews control.
+        /// btnShowAllReviews control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptReviews;
+        protected global::System.Web.UI.WebControls.Button btnShowAllReviews;
+
+        /// <summary>
+        /// btnShowSellerReplies control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnShowSellerReplies;
 
         /// <summary>
         /// lvReviews control.

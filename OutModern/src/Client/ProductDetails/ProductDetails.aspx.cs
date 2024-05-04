@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Web.UI;
@@ -18,17 +19,20 @@ namespace OutModern.src.Client.ProductDetails
         string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Request.QueryString["ProductId"] == null)
+            {
+                Response.Redirect("~/src/ErrorPages/404.aspx");
+            }
             if (!IsPostBack)
             {
                 GetProductInfo();
                 ColorRepeater.DataBind();
                 SizeRepeater.DataBind();
                 initColorSize();
-                ReviewListView.DataBind();
                 calculateOverallRating();
             }
-            ApplySorting();
-            restoreImage();
+            bindImageRepeater(GetImages(ViewState["ColorId"].ToString()));
+            bindReviews();
         }
 
         private bool IsButtonEnabled(string colorId)
@@ -54,7 +58,6 @@ namespace OutModern.src.Client.ProductDetails
                             quantity = (int)reader["TotalQuantity"];
                         }
                     }
-                    connection.Close();
                 }
             }
             return quantity == 0;
@@ -64,19 +67,56 @@ namespace OutModern.src.Client.ProductDetails
         {
             string productId = Request.QueryString["ProductId"];
             DataTable data = new DataTable();
+            string sortingCriteria = ViewState["SortingCriteria"] as string;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 string sqlQuery =
-                     "Select ReviewId, CustomerFullname as CustomerName, ReviewDateTime as ReviewTime, Rating as ReviewRating, ColorName as ReviewColor, Quantity as ReviewQuantity, ReviewDescription as ReviewText " +
+                     "Select ReviewId, CustomerFullname as CustomerName, ReviewDateTime as ReviewTime, Rating as ReviewRating, ColorName, SizeName, Quantity as ReviewQuantity, ReviewDescription as ReviewText " +
                      "From Review r, Customer c, ProductDetail pd, Product p, Color co, Size s " +
                      "Where r.CustomerId = c.CustomerId AND pd.ProductDetailId = r.ProductDetailId " +
                      "AND pd.ColorId = co.ColorId AND pd.ProductId = p.ProductId AND s.SizeId = pd.SizeId " +
-                     "AND p.ProductId = @productId;";
+                     "AND p.ProductId = @productId ";
+
+                if (sortingCriteria == "topRated")
+                {
+                    sqlQuery += " ORDER BY ReviewRating DESC, ReviewTime DESC";
+                } else
+                {
+                    sqlQuery += " ORDER BY ReviewTime DESC";
+                }
 
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
                     command.Parameters.AddWithValue("@productId", productId);
+                    data.Load(command.ExecuteReader());
+                }
+            }
+            data.Columns.Add("Replies", typeof(DataTable));
+            foreach (DataRow row in data.Rows)
+            {
+                row["Replies"] = getReviewReplies(row["ReviewId"].ToString());
+            }
+            return data;
+        }
+
+        private DataTable getReviewReplies(string reviewId)
+        {
+            DataTable data = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sqlQuery =
+                    "Select Reply as ReplyText, DateTime as ReplyTime " +
+                    "From  ReviewReply rr, Review r " +
+                    "Where r.ReviewId = rr.ReviewId " +
+                    "AND r.ReviewId = @reviewId " +
+                    "ORDER BY ReplyTime DESC;";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("reviewId", reviewId);
                     data.Load(command.ExecuteReader());
                 }
             }
@@ -157,45 +197,29 @@ namespace OutModern.src.Client.ProductDetails
                 foreach (RepeaterItem sizeItem in SizeRepeater.Items)
                 {
                     LinkButton sizeBtn = sizeItem.FindControl("lbtnSize") as LinkButton;
-                    string sizeId = sizeBtn.Attributes["data-sizeId"];
+                    string sizeId = sizeBtn.Attributes["data-sizeId"];            
                     ViewState["SizeId"] = sizeId;
                     if (GetQuantity() > 0)
                     {
+                        lblSize.Visible = true;
+                        lblSize.Text = sizeBtn.Attributes["value"].ToString();
                         quantityGreaterThanZero = true;
                         break;  
                     }
                 }
                 if (quantityGreaterThanZero)
                 {
+                    lblColor.Visible = true;
+                    lblColor.Text = colorBtn.Attributes["value"].ToString();
                     break; 
                 }
             }
             GetImages(ViewState["ColorId"].ToString());
         }
 
-        protected string FormatReplies(object replyDescriptionObj)
+        protected void lvReviews_PagePropertiesChanged(object sender, EventArgs e)
         {
-            string replyDescription = replyDescriptionObj.ToString();
-            if (!string.IsNullOrEmpty(replyDescription))
-            {
-                string[] replies = replyDescription.Split(new string[] { "NextReviewReply " }, StringSplitOptions.RemoveEmptyEntries);
-                StringBuilder sb = new StringBuilder();
-
-                foreach (string reply in replies)
-                {
-                    sb.Append("<div class='overflow-hidden rounded-lg mb-4 bg-white shadow-lg'>");
-                    sb.Append("<div class='px-6 py-4'>");
-                    sb.Append($"<p class='font-bold text-black'>Seller's Response:</p>");
-                    sb.Append($"<div class='mt-2 text-gray-700'>");
-                    sb.Append($"<p>{reply}</p>");
-                    sb.Append("</div>");
-                    sb.Append("</div>");
-                    sb.Append("</div>");
-                }
-
-                return sb.ToString();
-            }
-            return string.Empty;
+            bindReviews();
         }
 
         protected string GenerateStars(double rating)
@@ -250,17 +274,16 @@ namespace OutModern.src.Client.ProductDetails
                                 }
                             }
                         }
-
-                        connection.Close();
                     }
                 }
             }
             return quantity;
         }
 
-        protected void GetImages(string colorId)
+        protected List<string> GetImages(string colorId)
         {
             string productId = Request.QueryString["ProductId"];
+            List<string> imageUrls = new List<string>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
 
@@ -274,8 +297,6 @@ namespace OutModern.src.Client.ProductDetails
                     command.Parameters.AddWithValue("@colorId", colorId);  // Replace with your ColorId
                     command.Parameters.AddWithValue("@productId", productId);  // Replace with your ProductId
                     connection.Open();
-                    List<string> imageUrls = new List<string>();
-
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -284,24 +305,19 @@ namespace OutModern.src.Client.ProductDetails
                             imageUrls.Add(imageUrl);
                         }
                     }
-                    if (imageUrls.Count >= 1)
-                    {
-                        mainImage1.ImageUrl = imageUrls[0];
-                        Image1.ImageUrl = imageUrls[0];
-                    }
-                    if (imageUrls.Count >= 2)
-                    {
-                        mainImage2.ImageUrl = imageUrls[1];
-                        Image2.ImageUrl = imageUrls[1];
-                    }
-                    if (imageUrls.Count >= 3)
-                    {
-                        mainImage3.ImageUrl = imageUrls[2];
-                        Image3.ImageUrl = imageUrls[2];
-                    }
-                    connection.Close();
+                    bindImageRepeater(imageUrls);
                 }
             }
+            return imageUrls;
+        }
+
+        private void bindImageRepeater(List<string> imageUrls)
+        {
+            ImageRepeater.DataSource = imageUrls.Select(url => new { ImageUrl = url }); ;
+            ImageRepeater.DataBind();
+            MainImageRepeater.DataSource = imageUrls.Select(url => new { ImageUrl = url });
+            MainImageRepeater.DataBind();
+            ScriptManager.RegisterStartupScript(this, GetType(), "InitializeSlider", "initializeSlider();", true);
         }
 
         private void GetProductInfo()
@@ -342,13 +358,12 @@ namespace OutModern.src.Client.ProductDetails
                     {
                         colorBtn.CssClass += " selectedColor";
                         lblColor.Text = colorBtn.Attributes["value"].ToString();
-                        lblColor.Visible = true;
                     }
                 }
             }
             GetQuantity();
             GetImages(colorId);
-            resetInputQuantity();
+            txtQuantity.Text = "1";
         }
 
         protected void ColorRepeater_ItemCommand(object source, RepeaterCommandEventArgs e)
@@ -416,12 +431,11 @@ namespace OutModern.src.Client.ProductDetails
                     {
                         sizeBtn.CssClass += " selectedSize";
                         lblSize.Text = sizeBtn.Attributes["value"].ToString();
-                        lblSize.Visible = true;
                     }
                 }
             }
             GetQuantity();
-            resetInputQuantity();
+            txtQuantity.Text = "1";
         }
 
         protected void SizeRepeater_ItemCommand(object source, RepeaterCommandEventArgs e)
@@ -506,11 +520,6 @@ namespace OutModern.src.Client.ProductDetails
             }
         }
 
-        private void resetInputQuantity()
-        {
-            txtQuantity.Text = "1";
-        }
-
         protected void btnDecrease_Click(object sender, EventArgs e)
         {
             int quantity = Convert.ToInt32(txtQuantity.Text);
@@ -532,37 +541,28 @@ namespace OutModern.src.Client.ProductDetails
             }
         }
 
-        protected void restoreImage()
-        {
-            ScriptManager.RegisterStartupScript(this, GetType(), "InitializeSlider", "initializeSlider();", true);
-        }
-
         protected void btnLatest_Click(object sender, EventArgs e)
         {
-            ViewState["SortingCriteria"] = "ReviewDateTime DESC";
-            ReviewDataPager.SetPageProperties(0, ReviewDataPager.PageSize, true);
-            ApplySorting();
+            ViewState["SortingCriteria"] = "latest";
+            ddpReviews.SetPageProperties(0, ddpReviews.PageSize, true);
             btnLatest.CssClass = "btnSorting clicked";
             btnTopRated.CssClass = "btnSorting not-clicked";
+            bindReviews();
         }
 
         protected void btnTopRated_Click(object sender, EventArgs e)
         {
-            ViewState["SortingCriteria"] = "ReviewRating DESC";
-            ReviewDataPager.SetPageProperties(0, ReviewDataPager.PageSize, true);
-            ApplySorting();
+            ViewState["SortingCriteria"] = "topRated";
+            ddpReviews.SetPageProperties(0, ddpReviews.PageSize, true);
             btnTopRated.CssClass = "btnSorting clicked";
             btnLatest.CssClass = "btnSorting not-clicked";
+            bindReviews();
         }
 
-        private void ApplySorting()
+        private void bindReviews()
         {
-            string sortingCriteria = ViewState["SortingCriteria"] as string;
-            if (!string.IsNullOrEmpty(sortingCriteria))
-            {
-                ReviewDataSource.SelectCommand = "SELECT r.ReviewId, c.CustomerFullname AS CustomerName, r.ReviewDateTime AS ReviewTime, r.Rating AS ReviewRating, s.SizeName AS SizeName, co.ColorName AS ReviewColor, pd.Quantity AS ReviewQuantity, r.ReviewDescription AS ReviewText, STRING_AGG(rr.Reply, 'NextReviewReply ') AS ReplyDescription FROM Review r INNER JOIN Customer c ON r.CustomerId = c.CustomerId INNER JOIN ProductDetail pd ON pd.ProductDetailId = r.ProductDetailId INNER JOIN Product p ON pd.ProductId = p.ProductId INNER JOIN Color co ON pd.ColorId = co.ColorId INNER JOIN Size s ON s.SizeId = pd.SizeId LEFT JOIN ReviewReply rr ON r.ReviewId = rr.ReviewId WHERE p.ProductId = 1 GROUP BY r.ReviewId, c.CustomerFullname, r.ReviewDateTime, r.Rating, s.SizeName, co.ColorName, pd.Quantity, r.ReviewDescription ORDER BY " + sortingCriteria;
-                ReviewListView.DataBind();
-            }
+            lvReviews.DataSource = getReviewList();
+            lvReviews.DataBind();
         }
     }
 

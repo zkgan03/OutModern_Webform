@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/src/Client/ClientMaster/Client.Master" AutoEventWireup="true" CodeBehind="Products.aspx.cs" Inherits="OutModern.src.Client.Products.Products" EnableViewState %>
+﻿<%@ Page Language="C#" MasterPageFile="~/src/Client/ClientMaster/Client.Master" AutoEventWireup="true" CodeBehind="Products.aspx.cs" Inherits="OutModern.src.Client.Products.Products" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style>
@@ -12,7 +12,9 @@
             font-weight: 500;
         }
 
-        .radio-no-bullet input[type="radio"] + label {
+        .radio-no-bullet input[type="radio"] + label,
+        .button-list input[type="radio"] + label,
+        .checkbox-list input[type="checkbox"] + label {
             cursor: pointer;
         }
 
@@ -27,16 +29,6 @@
 
         .button-list label {
             margin-left: 6px;
-        }
-
-        .colorGrp input[type="checkbox"] {
-            position: absolute;
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .selectedColor {
-            box-shadow: 0 0 0 2px whitesmoke, 0 0 0 4px black;
         }
     </style>
 </asp:Content>
@@ -175,7 +167,7 @@
                                     <asp:ListItem Text="Navy" Value="000080"></asp:ListItem>
                                     <asp:ListItem Text="Light Gray" Value="D3D3D3"></asp:ListItem>
                                     <asp:ListItem Text="Red" Value="FF0000"></asp:ListItem>
-                                    <asp:ListItem Text="Dark Olive Green" Value="556B2F"></asp:ListItem>
+                                    <asp:ListItem Text="Dark Olive Green" Value="556b2f "></asp:ListItem>
                                 </asp:CheckBoxList>
                             </li>
                         </ul>
@@ -230,29 +222,11 @@
                         </svg>
                         <h2 class="mb-4 text-2xl font-bold text-gray-800">No Products Found</h2>
                         <p class="mb-8 text-gray-600">We couldn't find any products matching your search criteria.</p>
-                        <asp:LinkButton ID="lbtnReset"  OnClick="lbtnReset_Click" runat="server" CssClass="inline-block cursor-pointer rounded bg-black px-4 py-2 font-bold text-white hover:bg-indigo-600">Shop All Products / Reset Filters</asp:LinkButton>
+                        <asp:LinkButton ID="lbtnReset" OnClick="lbtnReset_Click" runat="server" CssClass="inline-block cursor-pointer rounded bg-black px-4 py-2 font-bold text-white hover:bg-indigo-600">Shop All Products / Reset Filters</asp:LinkButton>
 
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="mb-2 mt-6 flex items-center justify-center space-x-1.5">
-            <a href="#" class="flex items-center rounded-md px-2 py-2 text-gray-500 hover:bg-gray-100">
-                <svg class="h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0L2.293 10.707a1 1 0 010-1.414l4-4a1 1 0 111.414 1.414L5.414 10l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd" />
-                </svg>
-            </a>
-            <a href="#" class="rounded-md bg-black px-4 py-2 text-white hover:bg-gray-700">1</a>
-            <a href="#" class="rounded-md bg-white px-4 py-2 text-gray-700 hover:bg-gray-100">2</a>
-            <a href="#" class="rounded-md bg-white px-4 py-2 text-gray-700 hover:bg-gray-100">3</a>
-            <a href="#" class="rounded-md bg-white px-4 py-2 text-gray-700 hover:bg-gray-100">4</a>
-            <a href="#" class="rounded-md bg-white px-4 py-2 text-gray-700 hover:bg-gray-100">5</a>
-
-            <a href="#" class="flex items-center rounded-md px-2 py-2 text-gray-500 hover:bg-gray-100">
-                <svg class="h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L15.586 10l-3.293-3.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                </svg>
-            </a>
         </div>
     </div>
     <script>

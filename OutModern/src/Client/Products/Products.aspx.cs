@@ -94,15 +94,15 @@ namespace OutModern.src.Client.Products
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sqlQuery = "SELECT p.ProductId, p.ProductName, p.UnitPrice, p.ProductCategory, COUNT(r.ReviewId) AS TotalReview, SUM(r.Rating) AS TotalRating FROM Product p INNER JOIN ProductDetail pd ON p.ProductId = pd.ProductId LEFT JOIN Review r ON pd.ProductDetailId = r.ProductDetailId";
+                string sqlQuery = "SELECT p.ProductId, p.ProductName, p.UnitPrice, p.ProductCategory, p.ProductStatusId, COUNT(r.ReviewId) AS TotalReview, SUM(r.Rating) AS TotalRating FROM Product p INNER JOIN ProductDetail pd ON p.ProductId = pd.ProductId LEFT JOIN Review r ON pd.ProductDetailId = r.ProductDetailId WHERE p.ProductStatusId != 3";
 
                 // Adjust the query if a search query is provided
                 if (!string.IsNullOrEmpty(searchQuery))
                 {
-                    sqlQuery += " WHERE p.ProductName LIKE '%' + @SearchQuery + '%' OR p.ProductCategory LIKE '%' + @SearchQuery + '%'";
+                    sqlQuery += " AND (p.ProductName LIKE '%' + @SearchQuery + '%' OR p.ProductCategory LIKE '%' + @SearchQuery + '%')";
                 }
 
-                sqlQuery += " GROUP BY p.ProductId, p.ProductName, p.UnitPrice, p.ProductCategory;";
+                sqlQuery += " GROUP BY p.ProductId, p.ProductName, p.UnitPrice, p.ProductCategory, p.ProductStatusId;";
 
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
@@ -200,11 +200,8 @@ namespace OutModern.src.Client.Products
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sqlQuery = @"SELECT DISTINCT c.ColorId, c.HexColor
-                            FROM ProductDetail pd
-                            INNER JOIN Color c ON pd.ColorId = c.ColorId
-                            WHERE pd.ProductId = @ProductId ORDER BY c.ColorId";
-
+                string sqlQuery = @"SELECT DISTINCT pd.ColorId, c.HexColor FROM Product p, Color c, ProductDetail pd WHERE p.ProductId = @ProductId AND pd.ColorId = c.ColorId AND p.ProductId = pd.ProductId AND isDeleted = 0";
+                
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
                     command.Parameters.AddWithValue("@ProductId", productId);
