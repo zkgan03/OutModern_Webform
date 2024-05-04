@@ -15,13 +15,22 @@ namespace OutModern.src.Client.UserProfile
     public partial class UserReivew : System.Web.UI.Page
     {
         string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        int customerId = 1;
+        int customerId;
         protected void Page_Load(object sender, EventArgs e)
-        {     
-             if(!IsPostBack)
+        {
+            if (Session["CUSTID"] != null)
+            {
+                customerId = (int)Session["CUSTID"];
+            }
+            else
+            {
+                customerId = 1;
+            }
+            if (!IsPostBack)
             {
                 BindReviewsToListView();
             }
+            
         }
     
         private DataTable GetUserReviewHistory() 

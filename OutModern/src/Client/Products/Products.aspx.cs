@@ -94,7 +94,7 @@ namespace OutModern.src.Client.Products
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sqlQuery = "SELECT p.ProductId, p.ProductName, p.UnitPrice, p.ProductCategory, p.ProductStatusId, COUNT(r.ReviewId) AS TotalReview, SUM(r.Rating) AS TotalRating FROM Product p INNER JOIN ProductDetail pd ON p.ProductId = pd.ProductId LEFT JOIN Review r ON pd.ProductDetailId = r.ProductDetailId WHERE p.ProductStatusId != 3";
+                string sqlQuery = "SELECT p.ProductId, p.ProductName, p.UnitPrice, p.ProductCategory, p.ProductStatusId, COUNT(r.ReviewId) AS TotalReview, SUM(r.Rating) AS TotalRating FROM Product p INNER JOIN ProductDetail pd ON p.ProductId = pd.ProductId LEFT JOIN Review r ON pd.ProductDetailId = r.ProductDetailId WHERE p.ProductStatusId = 1 ";
 
                 // Adjust the query if a search query is provided
                 if (!string.IsNullOrEmpty(searchQuery))

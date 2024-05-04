@@ -134,13 +134,8 @@
                             <div class="mb-5" style="border-top: 1.5px solid lightgray">
                                 <div class="mt-7 flex items-center">
                                     <div class="mr-5">
-                                        <asp:LinkButton ID="AddToCart" runat="server" CssClass="flex-1 flex min-w-20 cursor-pointer items-center justify-center rounded-md border border-transparent bg-black px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500 sm:w-full">
+                                        <asp:LinkButton ID="AddToCart" runat="server" CssClass="flex-1 flex min-w-20 cursor-pointer items-center justify-center rounded-md border border-transparent bg-black px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500 sm:w-full" OnClick="AddToCart_Click">
      <i class="fas fa-shopping-cart mr-2 text-white"></i> Add To Cart
-                                        </asp:LinkButton>
-                                    </div>
-                                    <div>
-                                        <asp:LinkButton ID="BuyNow" runat="server" CssClass="flex-1 flex min-w-20 cursor-pointer items-center justify-center rounded-md border border-transparent bg-black px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500 sm:w-full">
-     <i class="fa-regular fa-credit-card mr-2 text-white"></i> Buy Now
                                         </asp:LinkButton>
                                     </div>
                                 </div>
@@ -319,7 +314,7 @@
                             <div class="relative flex w-full p-2">
                                 <div class="border-b-2 flex w-full border-b-gray-300">
                                     <div class="py-4">
-                                        <img src="../../../images/person1.jpg" alt="user-pic" width="55px" class="rounded-full">
+                                        <asp:Image ID="Image2" ImageUrl='<%# Eval("CustomerPicture") %>' runat="server"  alt="user-pic" width="55px" class="rounded-full" />
                                     </div>
                                     <div class="flex w-full flex-col gap-2 p-4">
                                         <div class="flex flex-wrap items-center">

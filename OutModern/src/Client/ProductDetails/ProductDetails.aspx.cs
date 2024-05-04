@@ -1,4 +1,5 @@
-﻿using OutModern.src.Client.Products;
+﻿using OutModern.src.Admin.Customers;
+using OutModern.src.Client.Products;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -17,6 +18,7 @@ namespace OutModern.src.Client.ProductDetails
     public partial class ProductDetails : System.Web.UI.Page
     {
         string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        private int customerId; // REMEMBER TO CHANGE ID
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Request.QueryString["ProductId"] == null)
@@ -72,7 +74,7 @@ namespace OutModern.src.Client.ProductDetails
             {
                 connection.Open();
                 string sqlQuery =
-                     "Select ReviewId, CustomerFullname as CustomerName, ReviewDateTime as ReviewTime, Rating as ReviewRating, ColorName, SizeName, Quantity as ReviewQuantity, ReviewDescription as ReviewText " +
+                     "Select ReviewId, ProfileImagePath as CustomerPicture, CustomerFullname as CustomerName, ReviewDateTime as ReviewTime, Rating as ReviewRating, ColorName, SizeName, Quantity as ReviewQuantity, ReviewDescription as ReviewText " +
                      "From Review r, Customer c, ProductDetail pd, Product p, Color co, Size s " +
                      "Where r.CustomerId = c.CustomerId AND pd.ProductDetailId = r.ProductDetailId " +
                      "AND pd.ColorId = co.ColorId AND pd.ProductId = p.ProductId AND s.SizeId = pd.SizeId " +
@@ -200,10 +202,10 @@ namespace OutModern.src.Client.ProductDetails
                     string sizeId = sizeBtn.Attributes["data-sizeId"];            
                     ViewState["SizeId"] = sizeId;
                     if (GetQuantity() > 0)
-                    {
+                    {             
+                        quantityGreaterThanZero = true;
                         lblSize.Visible = true;
                         lblSize.Text = sizeBtn.Attributes["value"].ToString();
-                        quantityGreaterThanZero = true;
                         break;  
                     }
                 }
@@ -213,6 +215,10 @@ namespace OutModern.src.Client.ProductDetails
                     lblColor.Text = colorBtn.Attributes["value"].ToString();
                     break; 
                 }
+            }
+            if(!quantityGreaterThanZero)
+            {
+
             }
             GetImages(ViewState["ColorId"].ToString());
         }

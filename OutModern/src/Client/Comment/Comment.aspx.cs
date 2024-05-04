@@ -12,8 +12,8 @@ namespace OutModern.src.Client.Comment
     public partial class Comment : System.Web.UI.Page
     {
         string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        int customerId = 1;
-        string productDetailId;
+        private int customerId;
+        private string productDetailId;
         protected void Page_Load(object sender, EventArgs e)
         {
             productDetailId = Request.QueryString["ProductDetailId"];
@@ -21,10 +21,19 @@ namespace OutModern.src.Client.Comment
             {
                 Response.Redirect("~/src/ErrorPages/404.aspx");
             }
+            if (Session["CUSTID"] != null)
+            {
+                customerId = (int)Session["CUSTID"];
+            }
+            else
+            {
+                customerId = 1;
+            }
             if (!IsPostBack)
             {
                 GetProductInfo();
             }
+            
         }
 
         private void GetProductInfo()
