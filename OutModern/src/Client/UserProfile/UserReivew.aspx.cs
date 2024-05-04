@@ -30,10 +30,10 @@ namespace OutModern.src.Client.UserProfile
             {
                 BindReviewsToListView();
             }
-            
+
         }
-    
-        private DataTable GetUserReviewHistory() 
+
+        private DataTable GetUserReviewHistory()
         {
             DataTable reviewDataTable = new DataTable();
             string filterCriteria = ViewState["FilterCriteria"] as string;

@@ -145,6 +145,13 @@
     <Compile Include="src\Client\Cart\Cart.aspx.designer.cs">
       <DependentUpon>Cart.aspx</DependentUpon>
     </Compile>
+    <Compile Include="src\Client\Comment\Comment.aspx.cs">
+      <DependentUpon>Comment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\Comment\Comment.aspx.designer.cs">
+      <DependentUpon>Comment.aspx</DependentUpon>
+    </Compile>
     <Compile Include="src\Client\Login\FirstPage.aspx.cs">
       <DependentUpon>FirstPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -305,6 +312,13 @@
     </Compile>
     <Compile Include="src\Client\UserProfile\UserProfile.aspx.designer.cs">
       <DependentUpon>UserProfile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\UserReivew.aspx.cs">
+      <DependentUpon>UserReivew.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\Client\UserProfile\UserReivew.aspx.designer.cs">
+      <DependentUpon>UserReivew.aspx</DependentUpon>
     </Compile>
     <Compile Include="src\ErrorPages\403.aspx.cs">
       <DependentUpon>403.aspx</DependentUpon>
@@ -727,6 +741,8 @@
     <Content Include="src\Client\Cart\Cart.aspx" />
     <Content Include="src\Client\ClientMaster\css\ClientMaster.css" />
     <Content Include="src\Client\ClientMaster\js\ClientMaster.js" />
+    <Content Include="src\Client\Comment\Comment.aspx" />
+    <Content Include="src\Client\Home\css\Home.css" />
     <Content Include="src\Client\Home\Home.aspx" />
     <Compile Include="src\Admin\AdminMaster\Admin.Master.cs">
       <DependentUpon>Admin.Master</DependentUpon>
@@ -852,8 +868,9 @@
     <Content Include="src\Client\Login\SignUp.aspx" />
     <Content Include="src\Client\Payment\Payment.aspx" />
     <Content Include="src\Client\Payment\Success.aspx" />
-    <Content Include="src\Client\ProductDetails\product-details.js" />
     <Content Include="src\Client\ProductDetails\ProductDetails.aspx" />
+    <Content Include="src\Client\ProductDetails\productDetails.css" />
+    <Content Include="src\Client\ProductDetails\productDetails.js" />
     <Content Include="src\Client\Products\Products.aspx" />
     <Content Include="src\Client\Shipping\Shipping.aspx" />
     <Content Include="src\Client\UserProfile\AddAddress.aspx" />
@@ -871,6 +888,7 @@
     <Content Include="src\Client\UserProfile\ToReceive.aspx" />
     <Content Include="src\Client\UserProfile\ToShip.aspx" />
     <Content Include="src\Client\UserProfile\UserProfile.aspx" />
+    <Content Include="src\Client\UserProfile\UserReivew.aspx" />
     <Content Include="src\ErrorPages\403.aspx" />
     <Content Include="src\ErrorPages\404.aspx" />
     <Content Include="src\ErrorPages\500.aspx" />
@@ -891,7 +909,6 @@
     <Folder Include="images\product_img\1\" />
     <Folder Include="images\product_img\2\" />
     <Folder Include="images\product_img\3\" />
-    <Folder Include="src\Client\Home\css\" />
     <Folder Include="src\Client\Home\js\" />
   </ItemGroup>
   <PropertyGroup>
