@@ -246,31 +246,12 @@
                                     <li>
                                         <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink9" NavigateUrl="~/src/Client/Login/Login.aspx" runat="server">Log Out</asp:HyperLink>
                                     </li>
+
+                                    
                                     <%}%>
                                 </ul>
                             </div>
 
-
-                            <%--<div class="drop-down max-w-xs">
-                                <ul>
-                                    <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink1" NavigateUrl="~/src/Client/UserProfile/UserProfile.aspx" runat="server">My Profile</asp:HyperLink>
-                                    </li>
-                                    <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink2" NavigateUrl="~/src/Client/UserProfile/ToShip.aspx" runat="server">My Order</asp:HyperLink>
-                                    </li>
-                                    <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink3" NavigateUrl="~/src/Client/Login/Login.aspx" runat="server">Log In</asp:HyperLink>
-                                    </li>
-                                    <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink4" NavigateUrl="~/src/Client/Login/SignUp.aspx" runat="server">Sign Up</asp:HyperLink>
-                                    </li>
-                                    <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink10" NavigateUrl="~/src/Client/Login/Login.aspx" Visible="false" runat="server">Log Out</asp:HyperLink>
-                                        <!--if havent log in cannot see-->
-                                    </li>
-                                </ul>
-                            </div>--%>
                         </div>
 
                     </div>

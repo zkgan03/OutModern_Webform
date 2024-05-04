@@ -21,22 +21,25 @@
 
     <!-- JavaScript code for displaying popup message -->
     <script>
-            // Check if the profile has been changed successfully
-            var profileRegistered = '<%= Session["registered"] %>';
-            if (profileRegistered === 'True') {
-                alert("Sign Up successfully! Login Now!");
-            // Reset the session variable to avoid displaying the message again on subsequent page loads
-    '<%= Session["registered"] = null %>';
-            }
+        // Check if the password has been changed successfully
+        var PasswordChange = '<%= Session["PasswordChange"] %>';
+        if (PasswordChange === 'True') {
+            alert("Password changed successfully! You can now login.");
+        // Reset the session variable to avoid displaying the message again on subsequent page loads
+            '<%= Session["PasswordChange"] = null %>';
+        }
 
-            // Check if the password has been changed successfully
-            var passwordChanged = '<%= Session["PasswordChanged"] %>';
-            if (passwordChanged === 'True') {
-                alert("Password changed successfully! You can now login.");
-            // Reset the session variable to avoid displaying the message again on subsequent page loads
-    '<%= Session["PasswordChanged"] = null %>';
-            }
-        };
+
+        // Check if the profile has been changed successfully
+        var profileRegistered = '<%= Session["registered"] %>';
+        if (profileRegistered === 'True') {
+            alert("Sign Up successfully! Login Now!");
+        // Reset the session variable to avoid displaying the message again on subsequent page loads
+    '<%= Session["registered"] = null %>';
+        }
+
+            
+      
     </script>
 
 </head>

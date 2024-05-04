@@ -18,7 +18,7 @@ namespace OutModern.src.Client.ClientMaster
         {
             //For visibility of log out base on customer logged in or not
             // Check for CustID cookie on every page load
-            HttpCookie custIDCookie = Request.Cookies["CustID"];
+            //HttpCookie custIDCookie = Request.Cookies["CustID"];
             // Set HyperLink9 visibility based on cookie existence
             //HyperLink9.Visible = custIDCookie != null;
             //HyperLink5.Visible = custIDCookie != null;

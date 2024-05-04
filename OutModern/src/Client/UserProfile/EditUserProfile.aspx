@@ -35,7 +35,7 @@
 
                         <asp:Button ID="btn_togo_profile" runat="server" class="button" Text="My Profile" OnClick="btn_togo_profile_Click" />
                         <asp:Button ID="btn_togo_my_order" runat="server" class="button" Text="My Order" OnClick="btn_togo_my_order_Click" />
-                        <asp:Button ID="btn_cmt_his" runat="server" class="button" Text="Comment History" />
+                        <asp:Button ID="btn_rw_his" runat="server" class="button" Text="Review History" />
                     </div>
 
                 </div>

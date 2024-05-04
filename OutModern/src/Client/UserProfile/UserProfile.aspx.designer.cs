@@ -51,13 +51,13 @@ namespace OutModern.src.Client.Profile
         protected global::System.Web.UI.WebControls.Button btn_togo_my_order;
 
         /// <summary>
-        /// btn_cmt_his control.
+        /// btn_rw_his control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn_cmt_his;
+        protected global::System.Web.UI.WebControls.Button btn_rw_his;
 
         /// <summary>
         /// lbl_custId control.

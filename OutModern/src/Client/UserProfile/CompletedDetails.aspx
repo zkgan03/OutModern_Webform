@@ -56,7 +56,7 @@
                                 </th>
                                 <th>SubTotal (RM)
                                 </th>
-                                <th>Comment
+                                <th>Review
                                 </th>
                             </tr>
                         </thead>
@@ -86,7 +86,7 @@
                         <td><%# Eval("UnitPrice", "{0:0.00}") %></td>
                         <td><%# Eval("Quantity") %></td>
                         <td class="text-right" style="padding-right: 1rem;"><%# Eval("Subtotal", "{0:0.00}") %></td>
-                        <td><span style="background-color: black; color: white; border-radius: 20%; cursor: pointer; padding: 10px;">Comment</span></td>
+                        <td><span style="background-color: black; color: white; border-radius: 20%; cursor: pointer; padding: 10px;">Review</span></td>
                     </tr>
                 </ItemTemplate>
 
