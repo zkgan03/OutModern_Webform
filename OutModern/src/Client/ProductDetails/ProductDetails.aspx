@@ -314,7 +314,7 @@
                             <div class="relative flex w-full p-2">
                                 <div class="border-b-2 flex w-full border-b-gray-300">
                                     <div class="py-4">
-                                        <asp:Image ID="Image2" ImageUrl='<%# Eval("CustomerPicture") %>' runat="server"  alt="user-pic" width="55px" class="rounded-full" />
+                                        <asp:Image ID="Image2" ImageUrl='<%# Eval("CustomerPicture") %>' runat="server" alt="user-pic" Width="55px" class="rounded-full" />
                                     </div>
                                     <div class="flex w-full flex-col gap-2 p-4">
                                         <div class="flex flex-wrap items-center">
@@ -370,7 +370,7 @@
                         </asp:DataPager>
                     </div>
                 </ContentTemplate>
-                  <Triggers>
+                <Triggers>
                     <asp:AsyncPostBackTrigger ControlID="lvReviews" EventName="PagePropertiesChanged" />
                 </Triggers>
             </asp:UpdatePanel>

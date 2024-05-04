@@ -31,7 +31,7 @@ namespace OutModern.src.Client.ProductDetails
             }
             else
             {
-                customerId = 1;
+                customerId = 0;
             }
 
             if (!IsPostBack)
@@ -92,7 +92,8 @@ namespace OutModern.src.Client.ProductDetails
                 if (sortingCriteria == "topRated")
                 {
                     sqlQuery += " ORDER BY ReviewRating DESC, ReviewTime DESC";
-                } else
+                }
+                else
                 {
                     sqlQuery += " ORDER BY ReviewTime DESC";
                 }
@@ -208,24 +209,24 @@ namespace OutModern.src.Client.ProductDetails
                 foreach (RepeaterItem sizeItem in SizeRepeater.Items)
                 {
                     LinkButton sizeBtn = sizeItem.FindControl("lbtnSize") as LinkButton;
-                    string sizeId = sizeBtn.Attributes["data-sizeId"];            
+                    string sizeId = sizeBtn.Attributes["data-sizeId"];
                     ViewState["SizeId"] = sizeId;
                     if (GetQuantity() > 0)
-                    {             
+                    {
                         quantityGreaterThanZero = true;
                         lblSize.Visible = true;
                         lblSize.Text = sizeBtn.Attributes["value"].ToString();
-                        break;  
+                        break;
                     }
                 }
                 if (quantityGreaterThanZero)
                 {
                     lblColor.Visible = true;
                     lblColor.Text = colorBtn.Attributes["value"].ToString();
-                    break; 
+                    break;
                 }
             }
-            if(!quantityGreaterThanZero)
+            if (!quantityGreaterThanZero)
             {
 
             }
@@ -418,11 +419,12 @@ namespace OutModern.src.Client.ProductDetails
                 {
                     sizeBtn.Enabled = true;
                     sizeBtn.CssClass = "flex items-center justify-center rounded-md px-4 py-3 hover:bg-gray-300";
-                    if(sizeId == ViewState["SizeId"].ToString() && GetQuantity() > 0)
+                    if (sizeId == ViewState["SizeId"].ToString() && GetQuantity() > 0)
                     {
                         sizeBtn.CssClass += " selectedSize";
                     }
-                    else if (firstAvailableSizeId == null) {
+                    else if (firstAvailableSizeId == null)
+                    {
                         firstAvailableSizeId = sizeId;
                     }
                 }
@@ -466,7 +468,7 @@ namespace OutModern.src.Client.ProductDetails
                     {
                         sizeBtn.CssClass = sizeBtn.CssClass.Replace(" selectedSize", "").Trim();
                         break;
-                    }            
+                    }
                 }
                 ViewState["SizeId"] = newSizeId;
                 selectSize(newSizeId);
@@ -511,12 +513,12 @@ namespace OutModern.src.Client.ProductDetails
                 string sizeId = sizeBtn.Attributes["data-sizeId"];
                 string colorId = ViewState["ColorId"] as string;
                 if (colorId != null && sizeId != null)
-                {   
+                {
                     if (IsButtonEnabled(colorId, sizeId))
                     {
                         sizeBtn.Enabled = false;
                         sizeBtn.CssClass = "buttonDisabled"; // Make sure the CSS class exists in your stylesheet
-                    }       
+                    }
                 }
             }
         }
