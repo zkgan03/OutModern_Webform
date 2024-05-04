@@ -40,11 +40,6 @@ namespace OutModern.src.Admin.AdminMaster
         {
             if (!IsPostBack)
             {
-
-                //dummy value for testing
-                Session["AdminRole"] = "Manager";
-                Session["AdminId"] = "2";
-
                 string adminRole = Session["AdminRole"]?.ToString();
                 string adminId = Session["AdminId"]?.ToString();
 
