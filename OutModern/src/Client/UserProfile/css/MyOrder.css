@@ -51,7 +51,6 @@
 }
 
 .username {
-    font-family: sans-serif;
     color: black;
     font-weight: bold;
     font-size: 3rem;
@@ -221,7 +220,3 @@
     padding-right: 3.125rem; /* Converted from 5.208vw to rem */
     margin-bottom: 1.875rem; /* Converted from 3.125vh to rem */
 }
-
-
-
-

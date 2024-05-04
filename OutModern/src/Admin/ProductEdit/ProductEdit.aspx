@@ -3,12 +3,12 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style type="text/tailwindcss">
         .button {
-            @apply text-black text-center px-1 py-0 cursor-pointer hover:opacity-50 bg-gray-200 border border-gray-400;
+            @apply text-white bg-green-500 text-center px-1 py-0 cursor-pointer hover:opacity-50 border border-gray-400;
         }
 
         /*Edit form*/
         #edit-form {
-            @apply w-56;
+            @apply w-full;
         }
 
             #edit-form .edit-section {
@@ -29,7 +29,7 @@
 
         /*Variation*/
         #variation-form {
-            @apply mb-10 ml-2 mt-10;
+            @apply ml-2;
         }
 
             #variation-form .size-added {
@@ -41,7 +41,7 @@
             }
 
             #variation-form .add-image {
-                @apply size-40 border border-black hover:opacity-50 cursor-pointer rounded-3xl flex justify-center items-center ml-5;
+                @apply block size-40 border border-black hover:opacity-50 cursor-pointer rounded-3xl flex justify-center items-center ml-5;
             }
 
                 #variation-form .add-image i {
@@ -66,222 +66,288 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="mt-2">
-        <div class="flex justify-between">
-            <!--Discard change btn-->
-            <asp:LinkButton
-                OnClientClick="return confirm('Are you sure you want to discard? The changes will be lost');"
-                CssClass="text-white p-2 rounded bg-red-500 hover:opacity-50"
-                ID="lbDiscard" runat="server" OnClick="lbDiscard_Click">
-                <i class="fa-regular fa-trash"></i>  
-                Discard Change
-            </asp:LinkButton>
-
-            <!--Update btn-->
-            <asp:LinkButton
-                OnClientClick="return confirm('Are you sure you want to update?')"
-                OnClick="lbUpdate_Click"
-                CssClass="text-white p-2 rounded bg-green-500 hover:opacity-50"
-                ID="lbUpdate" runat="server" NavigateUrl='#'>
-                 <i class="fa-regular fa-pen-to-square"></i>
-                 Update
-            </asp:LinkButton>
-        </div>
-
-        <div class="text-2xl font-bold mt-8">Edit Product</div>
-
-        <div class="">
-            <!-- Prod Desc -->
-            <div id="edit-form" class="mt-4">
-
-                <!--Prod ID-->
-                <div class="edit-section">
-                    <div class="edit-label">Prodcut ID</div>
-                    <div>
-                        <asp:Label ID="lblProdId" CssClass="edit-item disabled" runat="server" Text="P1001"></asp:Label>
-                    </div>
-                </div>
-
-                <!--Prod NAme-->
-                <div class="edit-section">
-                    <div class="edit-label">Prodcut Name</div>
-                    <div>
-                        <asp:TextBox ID="txtProdName" CssClass="edit-item" runat="server" Text="Premium Hoodie"></asp:TextBox>
-                    </div>
-                </div>
-
-                <!--Prod Category-->
-                <div class="edit-section">
-                    <div class="edit-label">Category</div>
-                    <div>
-                        <asp:DropDownList ID="ddlCategory" CssClass="edit-item" runat="server">
-                            <asp:ListItem>Hoodie</asp:ListItem>
-                            <asp:ListItem>Tee Shirt</asp:ListItem>
-                            <asp:ListItem>Shorts</asp:ListItem>
-                        </asp:DropDownList>
-                    </div>
-                </div>
-
-                <!--Prod Price-->
-                <div class="edit-section">
-                    <div class="edit-label">Price (RM)</div>
-                    <div>
-                        <asp:TextBox ID="txtPrice" CssClass="edit-item" runat="server" Text="99.99"></asp:TextBox>
-
-                    </div>
-                </div>
-
-                <!--Prod Status-->
-                <div class="edit-section">
-                    <div class="edit-label">Status</div>
-                    <div>
-                        <asp:DropDownList ID="ddlStatus" CssClass="edit-item" runat="server">
-                            <asp:ListItem>In Stock</asp:ListItem>
-                            <asp:ListItem>Unavailable</asp:ListItem>
-                            <asp:ListItem>Out Of Stock</asp:ListItem>
-                        </asp:DropDownList>
-                    </div>
+        <div class="border p-5 border-black rounded">
+            <div class="">
+                <!-- Prod Desc -->
+                <div class="flex items-center justify-between">
+                    <div class="text-2xl font-bold ">Edit Product</div>
+                    <asp:LinkButton
+                        OnClick="lbUpdate_Click"
+                        OnClientClick="return confirm('Are you sure you want Update Information?');"
+                        CssClass="text-white p-2 rounded bg-green-500 hover:opacity-50"
+                        ID="lbUpdate" runat="server" NavigateUrl='#'>
+                        Save and Update Info
+                    </asp:LinkButton>
                 </div>
             </div>
 
-            <!-- Variation -->
+            <!-- update status -->
+            <asp:Label ID="lblUpdateProductStatus" CssClass="float-right opacity-50" runat="server" Text=""></asp:Label>
+
+            <div id="edit-form" class="mt-4 gap-10 flex">
+                <div>
+                    <!--Prod ID-->
+                    <div class="edit-section">
+                        <div class="edit-label">Product ID</div>
+                        <div>
+                            <asp:Label ID="lblProdId" CssClass="edit-item disabled" runat="server"></asp:Label>
+                        </div>
+                    </div>
+
+                    <!--Prod NAme-->
+                    <div class="edit-section">
+                        <div class="edit-label">Product Name</div>
+                        <div>
+                            <asp:TextBox ID="txtProdName" CssClass="edit-item" runat="server"></asp:TextBox>
+                        </div>
+                    </div>
+
+                    <!--Prod Category-->
+                    <div class="edit-section">
+                        <div class="edit-label">Category</div>
+                        <div>
+                            <asp:DropDownList EnableViewState="true" ID="ddlCategory" CssClass="edit-item" runat="server"></asp:DropDownList>
+                        </div>
+                    </div>
+
+                    <!--Prod Price-->
+                    <div class="edit-section">
+                        <div class="edit-label">Price (RM)</div>
+                        <div>
+                            <asp:TextBox ID="txtPrice" CssClass="edit-item" runat="server"></asp:TextBox>
+
+                        </div>
+                    </div>
+
+                    <!--Prod Status-->
+                    <div class="edit-section">
+                        <div class="edit-label">Status</div>
+                        <div>
+                            <asp:DropDownList ID="ddlStatus" CssClass="edit-item" runat="server">
+                            </asp:DropDownList>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-grow">
+                    <!--Prod Desc-->
+                    <div class="edit-section">
+                        <div class="edit-label">Product Description</div>
+                        <div>
+                            <asp:TextBox
+                                ID="txtProdDescription"
+                                TextMode="MultiLine"
+                                CssClass="edit-item w-full resize-none h-36"
+                                runat="server">
+                            </asp:TextBox>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Variation -->
+        <div class="border p-5 border-black mt-10 rounded">
             <div id="variation-form">
                 <div class="text-2xl font-[600]">Variation</div>
 
                 <!--Size and quantity-->
-                <div class="flex mt-4 items-center gap-7">
-
+                <div class="flex mt-4 items-center">
                     <!--Size selection-->
                     <div>
                         <div class="font-[600]">Size</div>
                         <div>
-                            <asp:DropDownList ID="ddlSize" runat="server">
-                                <asp:ListItem>S</asp:ListItem>
-                                <asp:ListItem>M</asp:ListItem>
-                                <asp:ListItem>L</asp:ListItem>
-                                <asp:ListItem>XL</asp:ListItem>
-                            </asp:DropDownList>
+                            <asp:DropDownList AutoPostBack="true" ID="ddlSize" runat="server" OnSelectedIndexChanged="ddlSize_SelectedIndexChanged"></asp:DropDownList>
                         </div>
                     </div>
-                    <div class="">
+                    <div class="ml-7 mr-2">
                         <div class="font-[600]">Quantity</div>
                         <div>
-                            <asp:TextBox CssClass="w-16" TextMode="Number" ID="txtProdQuantity" runat="server" Text="123"></asp:TextBox>
+                            <asp:TextBox CssClass="w-16" TextMode="Number" ID="txtProdQuantity" runat="server"></asp:TextBox>
                         </div>
                     </div>
-
-                    <div class="opacity-50 mt-4">
-                        **Specify quantity for each size
+                    <div class="self-end mr-2">
+                        <asp:Button CssClass="button"
+                            OnClientClick="return confirm('Are you sure you want to update the quantity?');"
+                            ID="btnUpdateQuantity" OnClick="btnUpdateQuantity_Click" runat="server" Text="Set" />
+                    </div>
+                    <div class="opacity-50 mt-4 self-end">
+                        <asp:Label ID="lblSetStatus" runat="server"></asp:Label>
                     </div>
                 </div>
 
                 <!--Colors-->
                 <div class=" mt-4">
-                    <div class="flex gap-7 items-center">
-                        <div class="font-[600]">Colors </div>
-                        <!--Add color-->
-                        <div class="flex gap-2 items-center">
-                            <asp:DropDownList ID="ddlColor" runat="server">
-                                <asp:ListItem>navy</asp:ListItem>
-                                <asp:ListItem>green</asp:ListItem>
-                                <asp:ListItem>blue</asp:ListItem>
-                            </asp:DropDownList>
-                            <div class="color-varient add-color"></div>
-                            <asp:Button ID="btnAddColor" CssClass="button" runat="server" Text="Add" />
-                        </div>
-
-                    </div>
-                    <!--Color selection-->
+                    <div class="font-[600]">Colors </div>
+                    <!--Add color-->
                     <div class="flex gap-2 items-center">
-                        <asp:Button ID="btnColor1" Style="background: black;" CssClass="color-varient" runat="server" Text="" />
-                        <asp:Button ID="btnColor2" Style="background: white;" CssClass="color-varient" runat="server" Text="" />
-                        <asp:Button ID="btnColor3" Style="background: beige;" CssClass="color-varient active" runat="server" Text="" />
+                        <asp:DropDownList ID="ddlColorAdd" runat="server"></asp:DropDownList>
+                        <div class="color-varient add-color"></div>
+                        <asp:Button ID="btnAddColor" OnClick="btnAddColor_Click" CssClass="button" runat="server" Text="Add" />
+                        <asp:Label ID="lblAddColorStatus" runat="server" CssClass="opacity-50"></asp:Label>
+                    </div>
+
+
+                    <!--Color selection-->
+                    <div class="flex gap-3 items-center mt-5">
+                        <asp:Repeater ID="repeaterColors" OnItemCommand="repeaterColors_ItemCommand" runat="server">
+                            <ItemTemplate>
+                                <div class="flex items-center gap-2 bg-gray-100 p-1 rounded">
+                                    <asp:LinkButton
+                                        data-colorId='<%# Eval("ColorId") %>'
+                                        CommandName="ChangeColor"
+                                        CommandArgument='<%#Eval("ColorId") %>'
+                                        ID="lbColor" runat="server"
+                                        Style='<%# "background-color: #" + Eval("HexColor") +";" %>'
+                                        CssClass='<%# "color-varient" + (ViewState["ColorId"].ToString() == Eval("ColorId").ToString() ? " active" : "") %>'>
+                                    </asp:LinkButton>
+                                    <asp:LinkButton ID="lbRemoveProdColor"
+                                        OnClientClick="return confirm('Are you sure you want remove this color?');"
+                                        CommandName="DeleteColor"
+                                        CommandArgument='<%#Eval("ColorId") %>'
+                                        CssClass="text-red-500 hover:opacity-50" runat="server">
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </asp:LinkButton>
+                                </div>
+
+                            </ItemTemplate>
+                            <FooterTemplate>
+                                <asp:Label ID="lblColorEmpty" CssClass="text-red-500" runat="server"
+                                    Visible='<%# ((Repeater)Container.NamingContainer).Items.Count == 0 %>'
+                                    Text="**No Color added** </br> **Add color in order to add an Image**" />
+                            </FooterTemplate>
+                        </asp:Repeater>
+                        <asp:Label ID="lblDeleteColorStatus" runat="server" CssClass="opacity-50"></asp:Label>
                     </div>
                 </div>
+
+
 
                 <!-- Images -->
                 <div class="mt-5 ">
-                    <div class="font-[600]">Image : </div>
-                    <div class="flex items-center">
-                        <div class="flex flex-wrap gap-2 items-center">
-                            <asp:Image ID="imgProd1" runat="server" Width="10em"
-                                CssClass="product-img"
-                                ImageUrl="~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de6441b1.png" />
-                            <asp:Image ID="imgProd2" runat="server" Width="10em"
-                                CssClass="product-img"
-                                ImageUrl="~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de644282.png" />
-                            <asp:Image ID="imgProd3" runat="server" Width="10em"
-                                CssClass="product-img"
-                                ImageUrl="~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-zoomed-in-61167de6440a2.png" />
-                        </div>
-                        <div class="add-image">
-                            <asp:FileUpload ID="fileImgUpload" CssClass="hidden" runat="server" accept=".png,.jpg,.jpeg,.webp" />
-                            <i class="fa-regular fa-plus"></i>
-                        </div>
+                    <div class="flex items-center gap-7">
+                        <div class="font-[600]">Image : </div>
                     </div>
+                    <div>
+                        <asp:Label ID="lblAddImgStatus" CssClass="ml-5 opacity-50" runat="server"></asp:Label>
+                    </div>
+                    <div class="flex items-center">
+
+                        <!-- Repeater images-->
+                        <div class="flex flex-wrap gap-2 items-center">
+                            <asp:Repeater ID="repeaterImages" runat="server" OnItemCommand="repeaterImages_ItemCommand">
+                                <ItemTemplate>
+                                    <div class="relative">
+                                        <asp:LinkButton
+                                            CssClass="block absolute font top-1 right-1 text-red-500 leading-5 hover:opacity-50"
+                                            ID="lbDeleteImg" runat="server"
+                                            OnClientClick="return confirm('Are you sure you want remove this image?');"
+                                            CommandArgument='<%# Eval("path") %>'
+                                            CommandName="DeleteImage">
+                                            <i class="fa-solid fa-xmark fa-lg"></i>
+                                        </asp:LinkButton>
+
+                                        <div>
+                                            <asp:Image ID="imgProd" runat="server" Width="10em" Height="10em"
+                                                CssClass="product-img object-cover"
+                                                ImageUrl='<%# Eval("path") %>' />
+                                        </div>
+                                    </div>
+                                </ItemTemplate>
+                                <FooterTemplate>
+                                    <asp:Label ID="lblNoImg" CssClass="text-red-500" runat="server"
+                                        Visible='<%# ((Repeater)Container.NamingContainer).Items.Count == 0 %>'
+                                        Text="**No Image added**" />
+                                </FooterTemplate>
+                            </asp:Repeater>
+                        </div>
+
+                        <% if (repeaterColors.Items.Count > 0)
+                            { %>
+                        <div class="add-image">
+                            <asp:FileUpload ID="fileImgUpload"
+                                AllowMultiple="true"
+                                CssClass="hidden"
+                                runat="server" accept=".png,.jpg,.jpeg,.webp" />
+                            <i class="fa-regular fa-plus"></i>
+                            <asp:Button ID="btnAddImage" CssClass="hidden"
+                                runat="server" OnClick="btnAddImage_Click" />
+                        </div>
+                        <% }%>
+                    </div>
+
+
                 </div>
             </div>
+
         </div>
+    </div>
+
     </div>
     <script>
 
-        //img upload
-        (function () {
-            const imgUpload = document.querySelector("#<%= fileImgUpload.ClientID %>");
-            const imgUploadContainer = document.querySelector("#variation-form .add-image");
+        function init() {
+            //color choser
+            (() => {
+                const ddlColor = document.querySelector("#<%= ddlColorAdd.ClientID %>");
+                const addColorBtn = document.querySelector(".color-varient.add-color");
+                const hexColor = ddlColor.querySelector("option:checked").dataset.hex
+                addColorBtn.style.backgroundColor = `#${hexColor}`
 
-            imgUploadContainer.onclick = () => {
-                imgUpload.click();
-            }
-
-            // validate the files type uploaded
-            imgUpload.onchange = () => {
-                validateFileUpload();
-            }
-
-            function validateFileUpload() {
-                const FileUploadPath = imgUpload.value;
-
-                //To check if user upload any file 
-                if (FileUploadPath == '') {
-                    alert("Please upload an image");
+                ddlColor.onchange = () => {
+                    const hexColor = ddlColor.querySelector("option:checked").dataset.hex
+                    console.log(hexColor)
+                    addColorBtn.style.backgroundColor = `#${hexColor}`
                 }
-                else {
-                    const Extension = FileUploadPath.substring(
-                        FileUploadPath.lastIndexOf('.') + 1).toLowerCase();
+            })();
 
-                    //The file uploaded is an image
-                    if (Extension == "webp" || Extension == "png"
-                        || Extension == "jpeg" || Extension == "jpg") {
+            //img upload
+            (() => {
+                const imgUpload = document.querySelector("#<%= fileImgUpload.ClientID %>");
+                const imgUploadContainer = document.querySelector("#variation-form .add-image");
 
-                        //// To Display
-                        //if (fuData.files && fuData.files[0]) {
-                        //    const reader = new FileReader();
+                imgUploadContainer.onclick = () => {
+                    imgUpload.click();
+                }
 
-                        //    reader.onload = function (e) {
-                        //        document.getElementById('#blah');
-                        //    }
+                // validate the files type uploaded
+                imgUpload.onchange = () => {
+                    validateFileUpload();
+                }
 
-                        //    reader.readAsDataURL(fuData.files[0]);
-                        //}
+                function validateFileUpload() {
+                    const FileUploadPath = imgUpload.value;
 
+                    //To check if user upload any file 
+                    if (FileUploadPath == '') {
+                        alert("Please upload an image");
                     }
-                    //The file upload is NOT an image
                     else {
-                        alert("Photo only allows file types of GIF, PNG, JPG, JPEG and BMP. ");
+                        const Extension = FileUploadPath.substring(
+                            FileUploadPath.lastIndexOf('.') + 1).toLowerCase();
+
+                        //The file uploaded is an image
+                        if (Extension == "webp" || Extension == "png"
+                            || Extension == "jpeg" || Extension == "jpg") {
+
+                            __doPostBack('<%= btnAddImage.UniqueID %>', '');
+
+                        }
+                        //The file upload is NOT an image
+                        else {
+                            alert("Photo only allows file types of PNG, JPG, JPEG and WEBP. ");
+                        }
                     }
                 }
-            }
-        })();
+            })();
 
-        //color choser
-        (() => {
-            const ddlColor = document.querySelector("#<%= ddlColor.ClientID %>");
-            const addColorBtn = document.querySelector(".color-varient.add-color");
-            addColorBtn.style.backgroundColor = `${ddlColor.value}`
+        }
+        init();
 
-            ddlColor.onchange = () => {
-                addColorBtn.style.backgroundColor = `${ddlColor.value}`
-            }
-        })();
+        // Create the event handler for PageRequestManager.endRequest
+        var prm = Sys.WebForms.PageRequestManager.getInstance();
+        prm.add_endRequest(init);
+
     </script>
 </asp:Content>

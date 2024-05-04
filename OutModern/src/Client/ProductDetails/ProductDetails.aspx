@@ -1,642 +1,396 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/src/Client/ClientMaster/Client.Master" AutoEventWireup="true" CodeBehind="ProductDetails.aspx.cs" Inherits="OutModern.src.Client.ProductDetails.ProductDetails" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/src/Client/ClientMaster/Client.Master" AutoEventWireup="true" CodeBehind="ProductDetails.aspx.cs" Inherits="OutModern.src.Client.ProductDetails.ProductDetails" MaintainScrollPositionOnPostback="true" EnableViewState="true" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <style type="text/css">
-        .size-chart tbody > :nth-child(odd) {
-            background-color: rgb(255, 255, 255);
-        }
-
-        .size-chart thead th {
-            background-color: rgb(255, 220, 227);
-            font-weight: bold;
-            width: 12ch;
-        }
-
-        .size-chart tr :first-child {
-            text-align: center;
-            position: sticky;
-            left: 0;
-            background-color: rgb(255, 220, 227);
-            width: 12ch;
-            font-weight: bold;
-        }
-
-        .image-modal {
-            display: none;
-            position: fixed;
-            z-index: 98;
-            padding-top: 50px;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: rgba(143, 143, 143, 0.8);
-        }
-
-        .image-modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            margin: auto;
-            width: 80%;
-            max-width: 700px;
-        }
-
-        .image-modal-content {
-            -webkit-animation-name: zoom;
-            -webkit-animation-duration: 0.6s;
-            animation-name: zoom;
-            animation-duration: 0.6s;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 35px;
-            color: #f1f1f1;
-            font-size: 60px;
-            text-shadow: 0px 0px 5px rgb(0, 0, 0);
-            transition: 0.1s;
-            cursor: pointer;
-        }
-
-            .close-modal:hover,
-            .close-modal:active {
-                color: whitesmoke;
-                text-shadow: 0px 0px 10px black;
-            }
-
-        .opacity,
-        .hover-opacity:hover {
-            opacity: 0.6;
-        }
-
-        .opacity-off,
-        .hover-opacity-off:hover {
-            opacity: 1;
-        }
-
-        .column img {
-            background-color: rgba(211, 211, 211, 0.5);
-            border: 2px solid rgb(138, 138, 138);
-            border-radius: 5px;
-        }
-
-        .opacity.hover-opacity-off.opacity-off {
-            border: 2px solid #000;
-            border-radius: 5px;
-        }
-
-        .colorGrp input[type="radio"],
-        .sizeGrp input[type="radio"] {
-            position: absolute;
-            opacity: 0;
-            pointer-events: none;
-        }
-
-            .colorGrp input[type="radio"]:checked + span,
-            .sizeGrp input[type="radio"]:checked + span {
-                box-shadow: 0 0 0 2px whitesmoke, 0 0 0 4px black;
-            }
-    </style>
-
+    <link href="productDetails.css" rel="stylesheet" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-
-    <div class="flex flex-col mx-auto w-full p-30 md:p-15 mt-10 mb-10" style="min-width: 1200px;">
-        <div class="w-2/5 flex justify-center flex-wrap items-center ml-10 mb-5">
-            <div class="w-4/5 flex space-x-2">
-                <span class="text-sm  text-black">
-                    <asp:HyperLink ID="HyperLink1" NavigateUrl="~/src/Client/Home/Home.aspx" runat="server" CssClass="hover:underline text-sm text-black">Home</asp:HyperLink>
+    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+    <div class="p-30 mx-auto mb-10 mt-10 flex w-full flex-col md:p-15" style="min-width: 1200px;">
+        <div class="mb-5 ml-10 flex w-2/5 flex-wrap items-center justify-center">
+            <div class="flex w-4/5 space-x-2">
+                <span class="text-sm text-black">
+                    <asp:HyperLink ID="HyperLink1" NavigateUrl="~/src/Client/Home/Home.aspx" runat="server" CssClass="text-sm text-black hover:underline">Home</asp:HyperLink>
                     >
                 </span>
-                <span class="text-sm  text-black">
-                    <asp:HyperLink ID="HyperLink2" NavigateUrl="~/src/Client/Products/Products.aspx" runat="server" CssClass="hover:underline text-sm text-black">Products</asp:HyperLink>
+                <span class="text-sm text-black">
+                    <asp:HyperLink ID="HyperLink2" NavigateUrl="~/src/Client/Products/Products.aspx" runat="server" CssClass="text-sm text-black hover:underline">Products</asp:HyperLink>
                     >
                 </span>
                 <asp:Label ID="productNameUrl" runat="server" Text="Label" CssClass="text-sm text-black"></asp:Label>
             </div>
         </div>
-        <div class="flex">
-            <div class="w-2/5 flex justify-center flex-wrap items-center ml-10">
-                <div class="w-4/5 min-w-[320px]">
-                    <div id="myModal" class="image-modal">
-                        <span class="close-modal">&times;</span>
-                        <img src="" class="image-modal-content" id="modal-img">
-                    </div>
-                    <div class="max-w-7xl relative bg-opacity-50 bg-gray-300" style="max-width: 1200px" id="image-container">
-                        <asp:Image ID="mainImage1" CssClass="slides" runat="server"
-                            ImageUrl=""
-                            Style="width: 100%; cursor: pointer" />
-                        <asp:Image ID="mainImage2" CssClass="slides" runat="server"
-                            ImageUrl=""
-                            Style="width: 100%; display: none; cursor: pointer" />
-                        <asp:Image ID="mainImage3" CssClass="slides" runat="server"
-                            ImageUrl=""
-                            Style="width: 100%; display: none; cursor: pointer" />
-                        <img class="absolute top-2 right-2 pointer-events-none" src="../../../images/product-img/zoom-in.png" alt="Zoom In">
+        <div class="flex w-full">
+            <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+                <ContentTemplate>
+                    <div class="flex w-full">
+                        <div class="ml-10 flex w-2/5 flex-wrap items-center justify-center" style="min-width: 570px;">
+                            <div class="w-4/5">
+                                <div id="myModal" class="image-modal">
+                                    <span class="close-modal" onclick="closeModal()">&times;</span>
+                                    <img src="" class="image-modal-content" id="modal-img">
+                                </div>
+                                <div class="relative max-w-7xl bg-gray-300 bg-opacity-50" id="image-container">
+                                    <asp:Repeater ID="MainImageRepeater" runat="server">
+                                        <ItemTemplate>
+                                            <asp:Image ID="MainImage" CssClass="slides" runat="server"
+                                                Style='<%# Container.ItemIndex == 0 ? "width: 100%; cursor: pointer;": "width: 100%; display: none; cursor: pointer;" %>'
+                                                ImageUrl='<%# Eval("ImageUrl") %>'
+                                                onclick='<%# "modal(this.src)" %>' />
+                                        </ItemTemplate>
+                                    </asp:Repeater>
+                                    <img class="pointer-events-none absolute right-2 top-2" src="../../../images/product-img/zoom-in.png" alt="Zoom In">
 
-                        <a class="cursor-pointer absolute top-1/2 px-4 py-2 mt-[-22px] text-white font-bold text-lg transition duration-300 select-none bg-black left-0 rounded-r-lg" onclick="plusSlides(-1)">&#10094;</a>
-                        <a class="cursor-pointer absolute top-1/2 px-4 py-2 mt-[-22px] text-white font-bold text-lg transition duration-300 select-none bg-black right-0 rounded-r-lg" onclick="plusSlides(1)">&#10095;</a>
+                                    <a class="mt-[-22px] absolute left-0 top-1/2 cursor-pointer select-none rounded-r-lg bg-black px-4 py-2 text-lg font-bold text-white transition duration-300" onclick="plusSlides(-1)">&#10094;</a>
+                                    <a class="mt-[-22px] absolute right-0 top-1/2 cursor-pointer select-none rounded-r-lg bg-black px-4 py-2 text-lg font-bold text-white transition duration-300" onclick="plusSlides(1)">&#10095;</a>
 
-                        <div class="px-2 mt-4 mb-4">
-                            <div class="px-2 float-left w-1/3">
-                                <asp:Image ID="Image1" runat="server" CssClass="demo opacity hover-opacity-off"
-                                    Style="width: 100%; cursor: pointer" onclick="currentDiv(1)" />
-                            </div>
-                            <div class="px-2 float-left w-1/3">
-                                <asp:Image ID="Image2" runat="server" CssClass="demo opacity hover-opacity-off"
-                                    Style="width: 100%; cursor: pointer" onclick="currentDiv(2)" />
-                            </div>
-                            <div class="px-2 float-left w-1/3">
-                                <asp:Image ID="Image3" runat="server" CssClass="demo opacity hover-opacity-off"
-                                    Style="width: 100%; cursor: pointer" onclick="currentDiv(3)" />
+                                    <div class="mb-4 mt-4 px-2">
+                                        <asp:Repeater ID="ImageRepeater" runat="server">
+                                            <ItemTemplate>
+                                                <div class="float-left w-1/3 px-2 py-1">
+                                                    <asp:Image ID="Image1" ImageUrl='<%# Eval("ImageUrl") %>' runat="server" CssClass="demo opacity hover-opacity-off"
+                                                        Style="width: 100%; cursor: pointer" onclick='<%# "currentDiv(" + (Container.ItemIndex + 1) + ")" %>' />
+                                                </div>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="w-3/5 mx-auto flex flex-col mr-10 py-2">
-                <div class="w-4/5">
+                        <div class="mx-auto mr-10 flex w-3/5 flex-col py-2" style="min-width: 60%;">
+                            <div class="w-4/5">
+                                <h1 class="mb-2">
+                                    <asp:Label ID="lblProdName" runat="server" Text="Label" class="text-4xl font-bold text-black">
+                                    </asp:Label>
+                                </h1>
 
-                    <h1 class="mb-4">
-                        <asp:Label ID="lblProdName" runat="server" Text="Label" class="text-4xl font-bold text-black">
-                        </asp:Label>
-                    </h1>
-
-                    <div class="flex items-center mb-4">
-                        <i class="fas fa-star text-yellow-400" style="font-weight: bold !important;"></i>
-                        <i class="fas fa-star text-yellow-400" style="font-weight: bold !important;"></i>
-                        <i class="fas fa-star text-yellow-400" style="font-weight: bold !important;"></i>
-                        <i class="fas fa-star text-yellow-400" style="font-weight: bold !important;"></i>
-                        <i class="fas fa-star text-yellow-400" style="font-weight: bold !important;"></i>
-                        <a href="#review" class="hover:underline ml-2 mt-0.5">
-                            <asp:Label ID="lblReviews" runat="server" Text="Label">
-                                   
-                            </asp:Label>
-                        </a>
-                    </div>
-                    <p class="text-gray-700 mb-4">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.</p>
-                    <div class="flex items-center mb-4 text-3xl">
-                        <asp:Label ID="lblPrice" runat="server" Text="Label" class="text-3xl font-bold text-black"></asp:Label>
-                    </div>
-
-                    <div class="mb-5">
-                        <h3 class="text-lg font-semibold mb-3">Color:
-                        <asp:Label ID="lblColor" runat="server" Text="" Visible="false"></asp:Label></h3>
-                        <div class="flex space-x-2 gap-3">
-                            <label class="inline-flex items-center cursor-pointer colorGrp">
-                                <asp:RadioButton ID="radioBeige" value="Beige" runat="server" GroupName="colorSelection" OnCheckedChanged="radioColor_CheckedChanged" AutoPostBack="True" />
-                                <span class="w-9 h-9 border border-gray-600 rounded-full border-opacity-10" style="background-color: beige"></span>
-                            </label>
-                            <label class="inline-flex items-center cursor-pointer colorGrp">
-                                <asp:RadioButton ID="radioLightGray" value="LightGray" runat="server" GroupName="colorSelection" OnCheckedChanged="radioColor_CheckedChanged" AutoPostBack="True" />
-                                <span class="w-9 h-9 border border-gray-600 rounded-full border-opacity-10" style="background-color: lightgray"></span>
-                            </label>
-                            <label class="inline-flex items-center cursor-pointer colorGrp">
-                                <asp:RadioButton ID="radioBlack" value="Black" runat="server" GroupName="colorSelection" OnCheckedChanged="radioColor_CheckedChanged" AutoPostBack="True" />
-                                <span class="w-9 h-9 border border-gray-600 rounded-full border-opacity-10" style="background-color: black"></span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="mb-7">
-                        <h3 class="text-lg font-semibold mb-3">Size:
-                            <asp:Label ID="lblSize" runat="server" Text="" Visible="false"></asp:Label></h3>
-                        <div class="flex space-x-2 gap-3">
-                            <label class="inline-flex items-center cursor-pointer sizeGrp">
-                                <asp:RadioButton ID="sizeXS" value="XS" runat="server" GroupName="sizeSelection" OnCheckedChanged="radioSize_CheckedChanged" AutoPostBack="True" />
-                                <span aria-hidden="true" class="px-4 py-3 rounded-md hover:bg-gray-300 flex items-center justify-center" style="min-height: 2.5rem; min-width: 5rem; border: 1px solid rgba(0, 0, 0, .20);">XS</span>
-                            </label>
-                            <label class="inline-flex items-center cursor-pointer sizeGrp">
-                                <asp:RadioButton ID="sizeS" value="S" runat="server" GroupName="sizeSelection" OnCheckedChanged="radioSize_CheckedChanged" AutoPostBack="True" />
-                                <span aria-hidden="true" class="px-4 py-3 rounded-md hover:bg-gray-300 flex items-center justify-center" style="min-height: 2.5rem; min-width: 5rem; border: 1px solid rgba(0, 0, 0, .20);">S</span>
-                            </label>
-                            <label class="inline-flex items-center cursor-pointer sizeGrp">
-                                <asp:RadioButton ID="sizeM" value="M" runat="server" GroupName="sizeSelection" OnCheckedChanged="radioSize_CheckedChanged" AutoPostBack="True" />
-                                <span aria-hidden="true" class="px-4 py-3 rounded-md hover:bg-gray-300 flex items-center justify-center" style="min-height: 2.5rem; min-width: 5rem; border: 1px solid rgba(0, 0, 0, .20);">M</span>
-                            </label>
-                            <label class="inline-flex items-center cursor-pointer sizeGrp">
-                                <asp:RadioButton ID="sizeL" value="L" runat="server" GroupName="sizeSelection" OnCheckedChanged="radioSize_CheckedChanged" AutoPostBack="True" />
-                                <span aria-hidden="true" class="px-4 py-3 rounded-md hover:bg-gray-300 flex items-center justify-center" style="min-height: 2.5rem; min-width: 5rem; border: 1px solid rgba(0, 0, 0, .20);">L</span>
-                            </label>
-                            <label class="inline-flex items-center cursor-pointer sizeGrp">
-                                <asp:RadioButton ID="sizeXL" value="XL" runat="server" GroupName="sizeSelection" OnCheckedChanged="radioSize_CheckedChanged" AutoPostBack="True" />
-                                <span aria-hidden="true" class="px-4 py-3 rounded-md hover:bg-gray-300 flex items-center justify-center" style="min-height: 2.5rem; min-width: 5rem; border: 1px solid rgba(0, 0, 0, .20);">XL</span>
-                            </label>
-                            <label class="inline-flex items-center cursor-pointer sizeGrp">
-                                <asp:RadioButton ID="size2XL" value="2XL" runat="server" GroupName="sizeSelection" OnCheckedChanged="radioSize_CheckedChanged" AutoPostBack="True" />
-                                <span aria-hidden="true" class="px-4 py-3 rounded-md hover:bg-gray-300 flex items-center justify-center" style="min-height: 2.5rem; min-width: 5rem; border: 1px solid rgba(0, 0, 0, .20);">2XL</span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="mb-8">
-                        <div class="flex items-center">
-                            <div class="mr-5">
-                                <h3 class="text-lg font-semibold">Quantity: </h3>
+                                <div class="mb-2 flex items-center">
+                                    <div runat="server" id="ratingStars" class="flex items-center">
+                                    </div>
+                                    <a href="#review" class="ml-2 mt-0.5 hover:underline">
+                                        <asp:Label ID="lblReviews" runat="server" Text="Label">
+                        
+                                        </asp:Label>
+                                    </a>
+                                </div>
+                                <asp:Label ID="lblDescription" runat="server" class="mb-2 mt-1.5 text-gray-700"></asp:Label>
+                                <div class="mb-2 mt-2 flex items-center text-3xl">
+                                    <asp:Label ID="lblPrice" runat="server" Text="Label" class="text-3xl font-bold text-black"></asp:Label>
+                                </div>
+                                <div class="mb-5">
+                                    <h3 class="mb-3 text-lg font-semibold">Color:
+                             <asp:Label ID="lblColor" runat="server" Text="" Visible="false"></asp:Label></h3>
+                                    <div class="colorGrp flex gap-3 space-x-2">
+                                        <asp:SqlDataSource ID="ColorSqlDataSource" runat="server" ConnectionString='<%$ ConnectionStrings:ConnectionString %>' SelectCommand="SELECT DISTINCT pd.ColorId, c.ColorName, c.HexColor FROM Product p, Color c, ProductDetail pd WHERE p.ProductId = @ProductId AND pd.ColorId = c.ColorId AND p.ProductId = pd.ProductId AND isDeleted = 0">
+                                            <SelectParameters>
+                                                <asp:QueryStringParameter QueryStringField="ProductId" Name="ProductId"></asp:QueryStringParameter>
+                                            </SelectParameters>
+                                        </asp:SqlDataSource>
+                                        <asp:Repeater ID="ColorRepeater" runat="server" DataSourceID="ColorSqlDataSource" OnItemCommand="ColorRepeater_ItemCommand" OnItemDataBound="ColorRepeater_ItemDataBound">
+                                            <ItemTemplate>
+                                                <label class="inline-flex cursor-pointer items-center">
+                                                    <asp:LinkButton ID="lbtnColor" CommandName="SelectColor" value='<%# Eval("ColorName") %>' CommandArgument='<%# Eval("ColorId") %>' data-colorId='<%# Eval("ColorId") %>' runat="server"
+                                                        CssClass='<%# "border-opacity-10 h-9 w-9 rounded-full border border-gray-600" + (ViewState["ColorId"] != null && ViewState["ColorId"].ToString() == Eval("ColorId").ToString() ? " selectedColor" : "") %>' Style='<%# "background-color: #"+Eval("HexColor")+";" %>'></asp:LinkButton>
+                                                </label>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+                                    </div>
+                                </div>
+                                <div class="mb-7">
+                                    <h3 class="mb-3 text-lg font-semibold">Size:
+                                     <asp:Label ID="lblSize" runat="server" Text="" Visible="false"></asp:Label></h3>
+                                    <div class="flex gap-3 space-x-2">
+                                        <asp:SqlDataSource ID="SizeSqlDataSource" runat="server" ConnectionString='<%$ ConnectionStrings:ConnectionString %>' SelectCommand="SELECT pd.SizeId, SizeName FROM [ProductDetail] AS pd INNER JOIN [Size] AS s ON pd.SizeId = s.SizeId WHERE ProductId = @ProductId GROUP BY pd.SizeId, SizeName">
+                                            <SelectParameters>
+                                                <asp:QueryStringParameter QueryStringField="ProductId" Name="ProductId"></asp:QueryStringParameter>
+                                            </SelectParameters>
+                                        </asp:SqlDataSource>
+                                        <asp:Repeater ID="SizeRepeater" DataSourceID="SizeSqlDataSource" runat="server" OnItemCommand="SizeRepeater_ItemCommand" OnItemDataBound="SizeRepeater_ItemDataBound">
+                                            <ItemTemplate>
+                                                <label class="inline-flex cursor-pointer items-center">
+                                                    <asp:LinkButton ID="lbtnSize" CommandName="SelectSize" value='<%# Eval("SizeName") %>' CommandArgument='<%# Eval("SizeId") %>' data-sizeId='<%# Eval("SizeId") %>' runat="server"
+                                                        CssClass='<%# "flex items-center justify-center rounded-md px-4 py-3 hover:bg-gray-300" + (ViewState["SizeId"] != null && ViewState["SizeId"].ToString() == Eval("SizeId").ToString() ? " selectedSize" : "") %>' Style="min-height: 2.5rem; min-width: 5rem; border: 1px solid rgba(0, 0, 0, .20);"><%# Eval("SizeName") %></asp:LinkButton>
+                                                </label>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+                                    </div>
+                                </div>
+                                <div class="mb-8">
+                                    <div class="flex items-center">
+                                        <div class="mr-5">
+                                            <h3 class="text-lg font-semibold">Quantity: </h3>
+                                        </div>
+                                        <div class="flex items-center rounded border">
+                                            <asp:Button ID="btnDecrease" runat="server" CssClass="cursor-pointer rounded-l bg-gray-200 px-3 py-2 hover:bg-gray-300" Text="-" OnClick="btnDecrease_Click" />
+                                            <asp:TextBox ID="txtQuantity" runat="server" CssClass="w-12 py-2 text-center" Text="1" onchange=" validateQuantity()" Max=""></asp:TextBox>
+                                            <asp:Button ID="btnIncrease" runat="server" CssClass="cursor-pointer rounded-r bg-gray-200 px-3 py-2 hover:bg-gray-300" Text="+" OnClick="btnIncrease_Click" />
+                                        </div>
+                                        <span class="ml-4 text-gray-600">
+                                            <asp:Label ID="lblQuantity" class="ml-4 text-gray-600" runat="server" Text="Label"></asp:Label>
+                                            pieces available
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="flex items-center border rounded">
-                                <button class="px-3 py-2 bg-gray-200 rounded-l hover:bg-gray-300">-</button>
-                                <input type="text" class="w-12 py-2 text-center" value="1">
-                                <button class="px-3 py-2 bg-gray-200 rounded-r hover:bg-gray-300">+</button>
+                            <div class="mb-5" style="border-top: 1.5px solid lightgray">
+                                <div class="mt-7 flex items-center">
+                                    <div class="mr-5">
+                                        <asp:LinkButton ID="AddToCart" runat="server" CssClass="flex-1 flex min-w-20 cursor-pointer items-center justify-center rounded-md border border-transparent bg-black px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500 sm:w-full" OnClick="AddToCart_Click">
+     <i class="fas fa-shopping-cart mr-2 text-white"></i> Add To Cart
+                                        </asp:LinkButton>
+                                    </div>
+                                </div>
                             </div>
-                            <span class="ml-4 text-gray-600">20489 pieces available</span>
                         </div>
                     </div>
-                </div>
-                <div class="mb-5" style="border-top: 1.5px solid lightgray">
-                    <div class="flex items-center mt-7">
-                        <div class="mr-5">
-                            <asp:LinkButton ID="AddToCart" runat="server" CssClass="cursor-pointer min-w-20 flex-1 bg-black border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500 sm:w-full">
-                <i class="fas fa-shopping-cart mr-2 text-white"></i> Add To Cart
-            </asp:LinkButton>
-                        </div>
-                        <div>
-                            <asp:LinkButton ID="BuyNow" runat="server" CssClass="cursor-pointer min-w-20 flex-1 bg-black border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500 sm:w-full">
-                <i class="fa-regular fa-credit-card mr-2 text-white"></i> Buy Now
-            </asp:LinkButton>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                </ContentTemplate>
+                <Triggers>
+                    <asp:AsyncPostBackTrigger ControlID="ColorRepeater" EventName="ItemCommand" />
+                    <asp:AsyncPostBackTrigger ControlID="SizeRepeater" EventName="ItemCommand" />
+                </Triggers>
+            </asp:UpdatePanel>
         </div>
-        <div class="mt-12">
-            <div class="border-t-2 border-black">
-                <span class="">
-                    <p class="text-center text-xl mt-4 font-bold mx-auto underline" style="line-height: 3.75;">Description</p>
-                </span>
-            </div>
-            <div class="w-30 min-w-[300px] mx-auto my-4 grid place-items-center">
-                <ul class="product-desc-ul">
-                    <li class="list-disc">100% cotton fabric is both soft and gentle on the skin.</li>
-                    <li class="list-disc">Simple, sleek design to match any occasion.</li>
-                    <li class="list-disc">Four sizes available for a perfect fit.</li>
-                    <li class="list-disc">Two pockets: one on either side of the shirt; as well as one chest pocket to keep your
+    </div>
+    <div class="mt-12">
+        <div class="border-t-2 border-black">
+            <span class="">
+                <p class="mx-auto mt-4 text-center text-xl font-bold underline" style="line-height: 3.75;">Description</p>
+            </span>
+        </div>
+        <div class="w-30 min-w-[300px] mx-auto my-4 grid place-items-center">
+            <ul class="product-desc-ul">
+                <li class="list-disc">100% cotton fabric is both soft and gentle on the skin.</li>
+                <li class="list-disc">Simple, sleek design to match any occasion.</li>
+                <li class="list-disc">Four sizes available for a perfect fit.</li>
+                <li class="list-disc">Two pockets: one on either side of the shirt; as well as one chest pocket to keep your
                             valuables secure and close at hand.</li>
-                </ul>
-            </div>
-            <img src="../../../images/product-img/hoodie-size-guide.png" alt="hoodie-size-guide"
-                style="width: 100%; max-width: 320px; margin: 1em auto; display: block;">
-            <div class="w-full overflow-auto mt-6">
-                <table class="w-full min-w-[500px] max-w-[1100px] mx-auto border border-gray-300 bg-whitesmoke size-chart">
-                    <thead>
-                        <tr class="bg-gray-200">
-                            <th class="px-4 py-2 text-center">Size</th>
-                            <th class="px-4 py-2 text-center">EUR</th>
-                            <th class="px-4 py-2 text-center">US (inch)</th>
-                            <th class="px-4 py-2 text-center">Height (cm)</th>
-                            <th class="px-4 py-2 text-center">Chest (cm)</th>
-                            <th class="px-4 py-2 text-center">Waist (cm)</th>
-                            <th class="px-4 py-2 text-center">Neckline (cm)</th>
-                            <th class="px-4 py-2 text-center">Sleeve (cm)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="text-center">
-                            <th class="px-4 py-2 text-center">XS</th>
-                            <td class="px-4 py-2 text-center">34</td>
-                            <td class="px-4 py-2 text-center">32</td>
-                            <td class="px-4 py-2 text-center">160</td>
-                            <td class="px-4 py-2 text-center">88</td>
-                            <td class="px-4 py-2 text-center">72</td>
-                            <td class="px-4 py-2 text-center">36</td>
-                            <td class="px-4 py-2 text-center">61</td>
-                        </tr>
-                        <tr class="text-center">
-                            <th class="px-4 py-2 text-center">S</th>
-                            <td class="px-4 py-2 text-center">36</td>
-                            <td class="px-4 py-2 text-center">34</td>
-                            <td class="px-4 py-2 text-center">165</td>
-                            <td class="px-4 py-2 text-center">92</td>
-                            <td class="px-4 py-2 text-center">76</td>
-                            <td class="px-4 py-2 text-center">37</td>
-                            <td class="px-4 py-2 text-center">62</td>
-                        </tr>
-                        <tr class="text-center">
-                            <th class="px-4 py-2 text-center">M</th>
-                            <td class="px-4 py-2 text-center">38</td>
-                            <td class="px-4 py-2 text-center">36</td>
-                            <td class="px-4 py-2 text-center">170</td>
-                            <td class="px-4 py-2 text-center">96</td>
-                            <td class="px-4 py-2 text-center">80</td>
-                            <td class="px-4 py-2 text-center">38</td>
-                            <td class="px-4 py-2 text-center">63</td>
-                        </tr>
-                        <tr class="text-center">
-                            <th class="px-4 py-2 text-center">L</th>
-                            <td class="px-4 py-2 text-center">40</td>
-                            <td class="px-4 py-2 text-center">38</td>
-                            <td class="px-4 py-2 text-center">175</td>
-                            <td class="px-4 py-2 text-center">100</td>
-                            <td class="px-4 py-2 text-center">84</td>
-                            <td class="px-4 py-2 text-center">39</td>
-                            <td class="px-4 py-2 text-center">64</td>
-                        </tr>
-                        <tr class="text-center">
-                            <th class="px-4 py-2 text-center">XL</th>
-                            <td class="px-4 py-2 text-center">42</td>
-                            <td class="px-4 py-2 text-center">40</td>
-                            <td class="px-4 py-2 text-center">180</td>
-                            <td class="px-4 py-2 text-center">104</td>
-                            <td class="px-4 py-2 text-center">88</td>
-                            <td class="px-4 py-2 text-center">40</td>
-                            <td class="px-4 py-2 text-center">65</td>
-                        </tr>
-                        <tr class="text-center">
-                            <th class="px-4 py-2 text-center">2XL</th>
-                            <td class="px-4 py-2 text-center">44</td>
-                            <td class="px-4 py-2 text-center">42</td>
-                            <td class="px-4 py-2 text-center">185</td>
-                            <td class="px-4 py-2 text-center">108</td>
-                            <td class="px-4 py-2 text-center">92</td>
-                            <td class="px-4 py-2 text-center">41</td>
-                            <td class="px-4 py-2 text-center">66</td>
-                        </tr>
-                        <tr class="text-center">
-                            <th class="px-4 py-2 text-center">3XL</th>
-                            <td class="px-4 py-2 text-center">46</td>
-                            <td class="px-4 py-2 text-center">44</td>
-                            <td class="px-4 py-2 text-center">190</td>
-                            <td class="px-4 py-2 text-center">112</td>
-                            <td class="px-4 py-2 text-center">96</td>
-                            <td class="px-4 py-2 text-center">42</td>
-                            <td class="px-4 py-2 text-center">67</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <p style="text-align: center;" class="pt-2">*Difference of 1-2cm may occur</p>
-            <p style="text-align: center; font-size: 1.1rem;" class="p-1 underline"><b>Size Chart</b></p>
+            </ul>
         </div>
-        <div class="mt-5 mx-auto flex justify-center flex-wrap gap-3 w-4/5 max-w-1200">
-            <div class="items-center flex justify-center flex-col gap-5 text-lg shadow-lg rounded-lg p-6">
-                <p class="text-black text-2xl">Average User Rating</p>
-                <p class="text-gray-500">
-                    <asp:Label ID="lblAvgRatings" runat="server" Text="4.0" class="font-bold text-black text-2xl"></asp:Label>
-                    / 5.0
+        <img src="../../../images/product-img/hoodie-size-guide.png" alt="hoodie-size-guide"
+            style="width: 100%; max-width: 320px; margin: 1em auto; display: block;">
+        <div class="mt-6 w-full overflow-auto">
+            <table class="min-w-[500px] max-w-[1100px] bg-whitesmoke size-chart mx-auto w-full border border-gray-300">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="px-4 py-2 text-center">Size</th>
+                        <th class="px-4 py-2 text-center">EUR</th>
+                        <th class="px-4 py-2 text-center">US (inch)</th>
+                        <th class="px-4 py-2 text-center">Height (cm)</th>
+                        <th class="px-4 py-2 text-center">Chest (cm)</th>
+                        <th class="px-4 py-2 text-center">Waist (cm)</th>
+                        <th class="px-4 py-2 text-center">Neckline (cm)</th>
+                        <th class="px-4 py-2 text-center">Sleeve (cm)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="text-center">
+                        <th class="px-4 py-2 text-center">S</th>
+                        <td class="px-4 py-2 text-center">36</td>
+                        <td class="px-4 py-2 text-center">34</td>
+                        <td class="px-4 py-2 text-center">165</td>
+                        <td class="px-4 py-2 text-center">92</td>
+                        <td class="px-4 py-2 text-center">76</td>
+                        <td class="px-4 py-2 text-center">37</td>
+                        <td class="px-4 py-2 text-center">62</td>
+                    </tr>
+                    <tr class="text-center">
+                        <th class="px-4 py-2 text-center">M</th>
+                        <td class="px-4 py-2 text-center">38</td>
+                        <td class="px-4 py-2 text-center">36</td>
+                        <td class="px-4 py-2 text-center">170</td>
+                        <td class="px-4 py-2 text-center">96</td>
+                        <td class="px-4 py-2 text-center">80</td>
+                        <td class="px-4 py-2 text-center">38</td>
+                        <td class="px-4 py-2 text-center">63</td>
+                    </tr>
+                    <tr class="text-center">
+                        <th class="px-4 py-2 text-center">L</th>
+                        <td class="px-4 py-2 text-center">40</td>
+                        <td class="px-4 py-2 text-center">38</td>
+                        <td class="px-4 py-2 text-center">175</td>
+                        <td class="px-4 py-2 text-center">100</td>
+                        <td class="px-4 py-2 text-center">84</td>
+                        <td class="px-4 py-2 text-center">39</td>
+                        <td class="px-4 py-2 text-center">64</td>
+                    </tr>
+                    <tr class="text-center">
+                        <th class="px-4 py-2 text-center">XL</th>
+                        <td class="px-4 py-2 text-center">42</td>
+                        <td class="px-4 py-2 text-center">40</td>
+                        <td class="px-4 py-2 text-center">180</td>
+                        <td class="px-4 py-2 text-center">104</td>
+                        <td class="px-4 py-2 text-center">88</td>
+                        <td class="px-4 py-2 text-center">40</td>
+                        <td class="px-4 py-2 text-center">65</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p style="text-align: center;" class="pt-2">*Difference of 1-2cm may occur</p>
+        <p style="text-align: center; font-size: 1.1rem;" class="p-1 underline"><b>Size Chart</b></p>
+    </div>
+    <div class="max-w-1200 mx-auto mt-5 flex w-4/5 flex-wrap justify-center gap-3">
+        <div class="flex flex-col items-center justify-center gap-5 rounded-lg p-6 text-lg shadow-lg" id="review">
+            <p class="text-2xl text-black">Average User Rating</p>
+            <p class="text-gray-500">
+                <asp:Label ID="lblAvgRatings" runat="server" Text="4.0" class="text-2xl font-bold text-black"></asp:Label>
+                / 5.0
+            </p>
+            <div runat="server" id="ratingStar2" class="ratingStar flex gap-4">
+            </div>
+
+            <div class="flex items-center gap-4 text-xs">
+                <i class="fas fa-user text-black" style="font-weight: bold !important;"></i>
+                <span class="text-lg text-black">
+                    <asp:Label ID="lblTotalReview" runat="server" Text="238" class="text-lg text-black"></asp:Label>
+                    Total Reviews</span>
+            </div>
+        </div>
+        <div class="flex-1 min-w-[300px] flex flex-col justify-center rounded-lg p-6 text-lg shadow-lg">
+            <div class="mb-3 flex items-center gap-4 text-base">
+                <p style="width: 10px">5</p>
+                <i class="fas fa-star text-black" style="font-weight: bold !important;"></i>
+                <div class="relative w-full rounded-full bg-gray-400 bg-opacity-50" style="height: 12.5px;">
+                    <div id="starBar5" runat="server" style="" class="absolute h-full rounded-full bg-green-500"></div>
+                </div>
+                <p class="text-left">
+                    <asp:Label ID="lbl5star" runat="server" Text="80"></asp:Label>%
                 </p>
-                <div class="flex gap-4">
-                    <i class="fas fa-star text-lg p-2 rounded-lg text-yellow-300 bg-black" style="font-weight: bold !important;"></i>
-                    <i class="fas fa-star text-lg p-2 rounded-lg text-yellow-300 bg-black" style="font-weight: bold !important;"></i>
-                    <i class="fas fa-star text-lg p-2 rounded-lg text-yellow-300 bg-black" style="font-weight: bold !important;"></i>
-                    <i class="fas fa-star text-lg p-2 rounded-lg text-yellow-300 bg-black" style="font-weight: bold !important;"></i>
-                    <i class="far fa-star text-lg p-2 rounded-lg text-yellow-300 bg-black"></i>
-                </div>
-                <div class="text-xs flex items-center gap-4">
-                    <i class="fas fa-user text-black" style="font-weight: bold !important;"></i>
-                    <span class="text-black text-lg">
-                        <asp:Label ID="lblTotalReview" runat="server" Text="238" class="text-black text-lg"></asp:Label>
-                        Total Reviews</span>
-                </div>
             </div>
-            <div class="flex justify-center flex-col text-lg shadow-lg rounded-lg p-6 flex-1 min-w-[300px]">
-                <div class="flex items-center gap-4 text-base mb-3">
-                    <p style="width: 10px">5</p>
-                    <i class="fas fa-star text-black" style="font-weight: bold !important;"></i>
-                    <span class="w-full bg-opacity-50 bg-gray-400 rounded-full relative" style="height: 12.5px;">
-                        <span class="absolute w-4/5 bg-green-500 h-full rounded-full"></span>
-                    </span>
-                    <p class="text-left">
-                        <asp:Label ID="lbl5star" runat="server" Text="80"></asp:Label>%
-                    </p>
+            <div class="mb-3 flex items-center gap-4 text-base">
+                <p style="width: 10px" class="text-center">4</p>
+                <i class="fas fa-star text-black" style="font-weight: bold !important;"></i>
+                <div class="relative w-full rounded-full bg-gray-400 bg-opacity-50" style="height: 12.5px;">
+                    <div id="starBar4" runat="server" style="" class="absolute h-full rounded-full bg-blue-500"></div>
                 </div>
-                <div class="flex items-center gap-4 text-base mb-3">
-                    <p style="width: 10px" class="text-center">4</p>
-                    <i class="fas fa-star text-black" style="font-weight: bold !important;"></i>
-                    <span class="w-full bg-opacity-50 bg-gray-400 rounded-full relative" style="height: 12.5px;">
-                        <span class="absolute w-3/5 bg-blue-500 h-full rounded-full"></span>
-                    </span>
-                    <p class="text-left">
-                        <asp:Label ID="lbl4star" runat="server" Text="60"></asp:Label>%
-                    </p>
-                </div>
-                <div class="flex items-center gap-4 text-base mb-3">
-                    <p style="width: 10px" class="text-center">3</p>
-                    <i class="fas fa-star text-black" style="font-weight: bold !important;"></i>
-                    <span class="w-full bg-opacity-50 bg-gray-400 rounded-full relative" style="height: 12.5px;">
-                        <span class="absolute w-2/5 bg-blue-300 h-full rounded-full"></span>
-                    </span>
-                    <p class="text-left">
-                        <asp:Label ID="lbl3star" runat="server" Text="40"></asp:Label>%
-                    </p>
-                </div>
-                <div class="flex items-center gap-4 text-base mb-3">
-                    <p style="width: 10px" class="text-center">2</p>
-                    <i class="fas fa-star text-black" style="font-weight: bold !important;"></i>
-                    <span class="w-full bg-opacity-50 bg-gray-400 rounded-full relative" style="height: 12.5px;">
-                        <span class="absolute w-1/5 bg-yellow-500 h-full rounded-full"></span>
-                    </span>
-                    <p class="text-center">
-                        <asp:Label ID="lbl2star" runat="server" Text="20"></asp:Label>%
-                    </p>
-                </div>
-                <div class="flex items-center gap-4 text-base">
-                    <p style="width: 10px" class="text-center">1</p>
-                    <i class="fas fa-star text-black" style="font-weight: bold !important;"></i>
-                    <span class="w-full bg-opacity-50 bg-gray-400 rounded-full relative" style="height: 12.5px;">
-                        <span class="absolute w-1/6 bg-red-600 h-full rounded-full"></span>
-                    </span>
-                    <p class="text-center">
-                        <asp:Label ID="lbl1star" runat="server" Text="15"></asp:Label>%
-                    </p>
-                </div>
+                <p class="text-left">
+                    <asp:Label ID="lbl4star" runat="server" Text="60"></asp:Label>%
+                </p>
             </div>
-        </div>
-
-        <div class="mx-auto w-4/5 shadow-lg mt-5 p-4 rounded-lg" id="review">
-            <div class="flex items-center flex-wrap p-4 font-bold text-lg">
-                <p class="underline">All Ratings and Reviews</p>
-
-                <div style="margin-left: auto">
-                    <button class="bg-black text-white border border-black px-4 py-2 select-none cursor-pointer transition duration-200 text-base" id="latestBtn" onclick="
-                    sortFromLatest()">
-                        Latest</button>
-                    <button class="bg-transparent border border-black px-4 py-2 select-none cursor-pointer transition duration-200 text-base" id="topRatedBtn" onclick="
-                    sortFromTopRated()"
-                        onmouseenter="this.style.color = 'whitesmoke'; this.style.backgroundColor = 'black'"
-                        onmouseleave="this.style.color = 'black'; this.style.backgroundColor = 'whitesmoke'">
-                        Top
-                            Rated</button>
+            <div class="mb-3 flex items-center gap-4 text-base">
+                <p style="width: 10px" class="text-center">3</p>
+                <i class="fas fa-star text-black" style="font-weight: bold !important;"></i>
+                <div class="relative w-full rounded-full bg-gray-400 bg-opacity-50" style="height: 12.5px;">
+                    <div id="starBar3" runat="server" style="" class="absolute h-full rounded-full bg-blue-300"></div>
                 </div>
+                <p class="text-left">
+                    <asp:Label ID="lbl3star" runat="server" Text="40"></asp:Label>%
+                </p>
             </div>
-            <div class="flex p-2 relative">
-                <div class="border-b-gray-300 border-b-2 flex">
-                    <div class="py-4">
-                        <img src="../../../images/person1.jpg" alt="user-pic" width="55px" class="rounded-full">
-                    </div>
-                    <div class="p-4 w-full flex flex-col gap-4">
-                        <div class="flex items-center flex-wrap">
-                            <div class="flex flex-col">
-                                <asp:Label ID="Label9" runat="server" Text="" class="text-black font-bold">MantouYYDS</asp:Label>
-                                <p class="text-sm italic text-gray-500">
-                                    <asp:Label ID="Label10" runat="server" Text="Sun, 12 Sept 2021"></asp:Label>
-                                </p>
-                                <p class="text-sm italic text-gray-500">
-                                    <asp:Label ID="Label11" runat="server" Text="Variation: Black, XL size"></asp:Label>
-                                </p>
-                            </div>
-                            <div class="ml-auto">
-                                <i class="fas fa-star text-black" style="font-weight: bold !important;"></i>
-                                <i class="fas fa-star text-black" style="font-weight: bold !important;"></i>
-                                <i class="fas fa-star text-black" style="font-weight: bold !important;"></i>
-                                <i class="fas fa-star text-black" style="font-weight: bold !important;"></i>
-                                <i class="far fa-star text-black"></i>
-                            </div>
-
-                        </div>
-                        <div class="flex flex-col gap-4">
-                            <p class="pr-5">
-                                <asp:Label ID="Label12" runat="server">
-                                    I love this product so much! It's the perfect thickness and I really like
-the drawstring. I can't say enough about how great it is! I am convinced that this
-product is the best one on the market.
-                                </asp:Label>
-                            </p>
-                        </div>
-                        <div class="bg-gray-100 py-0.5">
-                            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-                                <div class="px-6 py-4">
-                                    <p class="text-black font-bold">Seller's Response:</p>
-                                    <p class="text-gray-700 mt-2">
-                                        Dear customer, I am glad that you like our products. Your praise is the greatest support for us. Have a nice day.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex gap-4">
-                            <button class="p-2 px-4 border border-black rounded-lg cursor-pointer bg-white hover:bg-gray-600 hover:text-white transition duration-200">
-                                <i class="fas fa-thumbs-up"></i>
-                                <span id="like-count">124</span>
-                            </button>
-                            <button class="p-2 px-4 border border-black rounded-lg cursor-pointer bg-white hover:bg-gray-600">
-                                <i class="fas fa-thumbs-down"></i>
-                                <span id="dislike-count">3</span>
-                            </button>
-                        </div>
-                    </div>
-
+            <div class="mb-3 flex items-center gap-4 text-base">
+                <p style="width: 10px" class="text-center">2</p>
+                <i class="fas fa-star text-black" style="font-weight: bold !important;"></i>
+                <div class="relative w-full rounded-full bg-gray-400 bg-opacity-50" style="height: 12.5px;">
+                    <div id="starBar2" runat="server" style="" class="absolute h-full rounded-full bg-yellow-500"></div>
                 </div>
-
+                <p class="text-center">
+                    <asp:Label ID="lbl2star" runat="server" Text="20"></asp:Label>%
+                </p>
             </div>
-            <div class="flex p-2 relative">
-                <div class="border-b-gray-300 border-b-2 flex">
-                    <div class="py-4">
-                        <img src="../../../images/person2.jpg" alt="user-pic" width="55px" class="rounded-full">
-                    </div>
-                    <div class="p-4 w-full flex flex-col gap-4">
-                        <div class="flex items-center flex-wrap">
-                            <div class="flex flex-col">
-                                <asp:Label ID="lblName" runat="server" Text="" class="text-black font-bold">Siu!!!!</asp:Label>
-                                <p class="text-sm italic text-gray-500">
-                                    <asp:Label ID="lblTime" runat="server" Text="Sun, 12 Sept 2021"></asp:Label>
-                                </p>
-                                <p class="text-sm italic text-gray-500">
-                                    <asp:Label ID="lblVariation" runat="server" Text="Variation: Black, XL size"></asp:Label>
-                                </p>
-                            </div>
-                            <div class="ml-auto">
-                                <i class="fas fa-star text-black" style="font-weight: bold !important;"></i>
-                                <i class="fas fa-star text-black" style="font-weight: bold !important;"></i>
-                                <i class="fas fa-star text-black" style="font-weight: bold !important;"></i>
-                                <i class="fas fa-star text-black" style="font-weight: bold !important;"></i>
-                                <i class="far fa-star text-black"></i>
-                            </div>
-
-                        </div>
-                        <div class="flex flex-col gap-4">
-                            <p class="pr-5">
-                                <asp:Label ID="lblComment" runat="server">
-                                    I love this product so much! It's the perfect thickness and I really like
-the drawstring. I can't say enough about how great it is! I am convinced that this
-product is the best one on the market.
-                                </asp:Label>
-                            </p>
-                        </div>
-                        <div class="bg-gray-100 py-0.5">
-                            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-                                <div class="px-6 py-4">
-                                    <p class="text-black font-bold">Seller's Response:</p>
-                                    <p class="text-gray-700 mt-2">We have received your praise. We are honored to receive your affirmation and look forward to serving you again.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex gap-4">
-                            <button class="p-2 px-4 border border-black rounded-lg cursor-pointer bg-white hover:bg-gray-600 hover:text-white transition duration-200">
-                                <i class="fas fa-thumbs-up"></i>
-                                <span id="like-count">124</span>
-                            </button>
-                            <button class="p-2 px-4 border border-black rounded-lg cursor-pointer bg-white hover:bg-gray-600">
-                                <i class="fas fa-thumbs-down"></i>
-                                <span id="dislike-count">3</span>
-                            </button>
-                        </div>
-                    </div>
-
+            <div class="flex items-center gap-4 text-base">
+                <p style="width: 10px" class="text-center">1</p>
+                <i class="fas fa-star text-black" style="font-weight: bold !important;"></i>
+                <div class="relative w-full rounded-full bg-gray-400 bg-opacity-50" style="height: 12.5px;">
+                    <div id="starBar1" runat="server" style="" class="absolute h-full rounded-full bg-red-500"></div>
                 </div>
-
-            </div>
-            <div class="flex p-2 relative">
-                <div class="border-b-gray-300 border-b-2 flex">
-                    <div class="py-4">
-                        <img src="../../../images/person3.jpg" alt="user-pic" width="55px" class="rounded-full">
-                    </div>
-                    <div class="p-4 w-full flex flex-col gap-4">
-                        <div class="flex items-center flex-wrap">
-                            <div class="flex flex-col">
-                                <asp:Label ID="Label1" runat="server" Text="" class="text-black font-bold">Rando</asp:Label>
-                                <p class="text-sm italic text-gray-500">
-                                    <asp:Label ID="Label2" runat="server" Text="Sun, 12 Sept 2021"></asp:Label>
-                                </p>
-                                <p class="text-sm italic text-gray-500">
-                                    <asp:Label ID="Label3" runat="server" Text="Variation: Black, XL size"></asp:Label>
-                                </p>
-                            </div>
-                            <div class="ml-auto">
-                                <i class="fas fa-star text-black" style="font-weight: bold !important;"></i>
-                                <i class="fas fa-star text-black" style="font-weight: bold !important;"></i>
-                                <i class="fas fa-star text-black" style="font-weight: bold !important;"></i>
-                                <i class="fas fa-star text-black" style="font-weight: bold !important;"></i>
-                                <i class="far fa-star text-black"></i>
-                            </div>
-
-                        </div>
-                        <div class="flex flex-col gap-4">
-                            <p class="pr-5">
-                                <asp:Label ID="Label4" runat="server">
-                                    I love this product so much! It's the perfect thickness and I really like
-the drawstring. I can't say enough about how great it is! I am convinced that this
-product is the best one on the market.
-                                </asp:Label>
-                            </p>
-                        </div>
-                        <div class="bg-gray-100 py-0.5">
-                            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-                                <div class="px-6 py-4">
-                                    <p class="text-black font-bold">Seller's Response:</p>
-                                    <p class="text-gray-700 mt-2">
-                                        Hello! Thank you very much for your love and recognition of us. Your satisfaction is our greatest reward. We will work harder and look forward to your next visit.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex gap-4">
-                            <button class="p-2 px-4 border border-black rounded-lg cursor-pointer bg-white hover:bg-gray-600 hover:text-white transition duration-200">
-                                <i class="fas fa-thumbs-up"></i>
-                                <span id="like-count">124</span>
-                            </button>
-                            <button class="p-2 px-4 border border-black rounded-lg cursor-pointer bg-white hover:bg-gray-600">
-                                <i class="fas fa-thumbs-down"></i>
-                                <span id="dislike-count">3</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="mt-1 grid place-content-center">
-                <button class="text-lg text-black bg-transparent border-none cursor-pointer select-none outline-none hover:underline" id="expand-review-btn" onclick="expandReview()">See All Reviews</button>
+                <p class="text-center">
+                    <asp:Label ID="lbl1star" runat="server" Text="15"></asp:Label>%
+                </p>
             </div>
         </div>
     </div>
-    <script src="product-details.js" type="text/javascript"></script>
+    <div class="mx-auto mb-10 mt-5 w-4/5 rounded-lg p-4 shadow-lg">
+        <div class="w-full">
+            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                <ContentTemplate>
+                    <div class="flex flex-wrap items-center p-4 text-lg font-bold">
+                        <p class="underline">All Ratings and Reviews</p>
+                        <div style="margin-left: auto">
+                            <asp:Button OnClick="btnLatest_Click" ID="btnLatest" class="btnSorting clicked latestBtn" runat="server" Text="Latest" />
+                            <asp:Button OnClick="btnTopRated_Click" ID="btnTopRated" class="btnSorting TopRatedBtn" runat="server" Text="TopRated" />
+                        </div>
+                    </div>
+                    <asp:ListView ID="lvReviews" runat="server" OnPagePropertiesChanged="lvReviews_PagePropertiesChanged">
+                        <ItemTemplate>
+                            <div class="relative flex w-full p-2">
+                                <div class="border-b-2 flex w-full border-b-gray-300">
+                                    <div class="py-4">
+                                        <asp:Image ID="Image2" ImageUrl='<%# Eval("CustomerPicture") %>' runat="server" alt="user-pic" Width="55px" class="rounded-full" />
+                                    </div>
+                                    <div class="flex w-full flex-col gap-2 p-4">
+                                        <div class="flex flex-wrap items-center">
+                                            <div class="flex flex-col">
+                                                <asp:Label ID="lblCustName" data-ratings='<%# Eval("ReviewRating") %>' runat="server" Text="" class="font-bold text-black"><%# Eval("CustomerName") %></asp:Label>
+                                                <div class="mb-2 mt-1 flex items-center">
+                                                    <%# GenerateStars(Convert.ToInt32(Eval("ReviewRating"))) %>
+                                                </div>
+                                                <p class="text-sm text-gray-500">
+                                                    <span class="text-sm italic text-gray-500">
+                                                        <%# Eval("ReviewTime") %>
+                                                    </span>
+                                                    | Variation: <span class="text-sm italic text-gray-500"><%# Eval("ColorName") %> Color</span>, 
+         <span class="text-sm italic text-gray-500"><%# Eval("SizeName") %> Size</span>
+                                                </p>
+                                            </div>
+
+                                        </div>
+                                        <div class="flex flex-col gap-4">
+                                            <p class="pr-5">
+                                                <%# Eval("ReviewText") %>
+                                            </p>
+                                        </div>
+                                        <asp:Repeater ID="rptReplies" runat="server" DataSource='<%# Eval("Replies") %>'>
+                                            <ItemTemplate>
+                                                <div class="mt-2 w-full bg-gray-100 py-0.5">
+                                                    <div class="overflow-hidden rounded-lg bg-white shadow-lg">
+                                                        <div class="px-6 py-4">
+                                                            <p class="font-bold text-black">Seller's Response:</p>
+                                                            <p class="mt-2 text-gray-700">
+                                                                <%# Eval("ReplyText") %>
+                                                            </p>
+                                                            <p class="mt-2"><%# Eval("ReplyTime") %></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+                                    </div>
+                                </div>
+                            </div>
+                        </ItemTemplate>
+                        <LayoutTemplate>
+                            <!-- Layout for your ListView; ensure it has a placeholder for items -->
+                            <div runat="server" id="itemPlaceholder"></div>
+                        </LayoutTemplate>
+                    </asp:ListView>
+                    <div class="mt-4 flex justify-center">
+                        <asp:DataPager ID="ddpReviews" CssClass="data-pager" runat="server" PageSize="5" PagedControlID="lvReviews">
+                            <Fields>
+                                <asp:NumericPagerField NumericButtonCssClass="datapagerStyle" CurrentPageLabelCssClass="active" ButtonCount="5" />
+                            </Fields>
+                        </asp:DataPager>
+                    </div>
+                </ContentTemplate>
+                <Triggers>
+                    <asp:AsyncPostBackTrigger ControlID="lvReviews" EventName="PagePropertiesChanged" />
+                </Triggers>
+            </asp:UpdatePanel>
+        </div>
+    </div>
+    <script type="text/javascript" src="productDetails.js"></script>
+    <script type="text/javascript">
+        function validateQuantity() {
+            var txtQuantity = document.getElementById('<%= txtQuantity.ClientID %>');
+            var maxQuantity = parseInt(txtQuantity.getAttribute('Max'));
+            var quantity = parseInt(txtQuantity.value);
+            if (isNaN(quantity)) {
+                txtQuantity.value = '1';
+                return;
+            }
+
+            if (quantity <= 0 || quantity > maxQuantity) {
+                txtQuantity.value = maxQuantity.toString();
+            }
+        }
+
+    </script>
 </asp:Content>

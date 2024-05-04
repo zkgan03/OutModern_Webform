@@ -1,82 +1,394 @@
-﻿using System;
+﻿using OutModern.src.Admin.Products;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static OutModern.src.Admin.Products.Products;
+
 
 namespace OutModern.src.Client.Products
 {
+    [Serializable]
+    public class Product
+    {
+        public int ProductId { get; set; }
+        public string ProductName { get; set; }
+        public decimal UnitPrice { get; set; }
+        public string ProductCategory { get; set; }
+        public List<string> ImagePaths { get; set; }
+        public int TotalReview { get; set; }
+        public decimal OverallRatings { get; set; }
+        public int TotalSold { get; set; }
+        public List<string> AvailableColors { get; set; }
+        public string productImageUrl1 { get; set; }
+        public string productImageUrl2 { get; set; }
+    }
+
     public partial class Products : System.Web.UI.Page
     {
+        string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        private List<Product> productList = new List<Product>();
+        private List<Product> searchResults = new List<Product>();
+        private List<string> selectedCategories = new List<string>();
+        private List<string> selectedColors = new List<string>();
+        private string selectedRating;
+        private decimal? minPrice, maxPrice;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                ProductRepeater.DataSource = GetDummyData();
-                ProductRepeater.DataBind();
-                lblTotalProducts.Text = ProductRepeater.Items.Count.ToString() + " Products Found"; 
-
+                string searchQuery = Request.QueryString["search"];
+                if (!string.IsNullOrEmpty(searchQuery))
+                {
+                    searchResults = GetProductsInfo(searchQuery);
+                    BindProducts(searchResults);
+                    ViewState["SearchResults"] = searchResults;
+                }
+                else
+                {
+                    selectedRating = string.Empty;
+                    selectedCategories.Clear();
+                    selectedColors.Clear();
+                    productList = GetProductsInfo();
+                    BindProducts(productList);
+                    chkColorSelection.DataBind();
+                    chkColorSelection.ClearSelection();
+                }             
+            } else
+            {
+                searchResults = ViewState["SearchResults"] as List<Product>; // Retrieve searchResults from ViewState
+                if (searchResults == null)
+                {
+                    productList = GetProductsInfo(); // searchResults is null, use productList instead
+                    BindProducts(productList);
+                }
+                selectedRating = rbRatings.SelectedValue;
+                updateCategoryList();
+                updateMinAndMaxPrice();
+                updateColorList();
+                BindProducts(searchResults);
             }
         }
 
-        private DataTable GetDummyData()
+        private void BindProducts(List<Product> products)
         {
-            DataTable dummyData = new DataTable();
+            noProductsFound.Visible = false;
+            ProductRepeater.DataSource = products;
+            ProductRepeater.DataBind();
+            lblTotalProducts.Text = ProductRepeater.Items.Count.ToString() + " Products Found";
+            if (ProductRepeater.Items.Count == 0)
+            {
+                noProductsFound.Visible = true;
+            }
+        }
 
-            // Add columns to match your GridView's DataFields
-            dummyData.Columns.Add("productID", typeof(string));
-            dummyData.Columns.Add("productName", typeof(string));
-            dummyData.Columns.Add("productImageUrl1", typeof(string));
-            dummyData.Columns.Add("productImageUrl2", typeof(string));
-            dummyData.Columns.Add("productImageUrl3", typeof(string));
-            dummyData.Columns.Add("price", typeof(decimal));
-            dummyData.Columns.Add("stockLevel", typeof(int));
-            dummyData.Columns.Add("totalReview", typeof(int));
-            // Add rows with dummy data
-            dummyData.Rows.Add("P001", "Premium Hoodie", "~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de6441b1.png",
-                "~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-zoomed-in-61167de6440a2.png", "~/images/product-img/hoodies/beige-Hoodie/unisex-sueded-fleece-hoodie-heather-oat-front-61167de644282.png",
-                49.99, 100,170);
-            dummyData.Rows.Add("P002", "Logo Hoodie", "~/images/product-img/hoodies/white-Hoodie/unisex-essential-eco-hoodie-white-front-60e7150a8381a.png",
-                "~/images/product-img/hoodies/white-Hoodie/unisex-essential-eco-hoodie-white-front-60e7150a8364f.png", "~/images/product-img/hoodies/white-Hoodie/unisex-essential-eco-hoodie-white-front-2-60e7150a8377c.png",
-                99.99, 120,66);
-            dummyData.Rows.Add("P003", "Classic Hoodie", "~/images/product-img/hoodies/white-Hoodie/unisex-premium-hoodie-white-front-61167fab1babf.png",
-               "~/images/product-img/hoodies/white-Hoodie/unisex-essential-eco-hoodie-white-front-60e7150a8364f.png", "~/images/product-img/hoodies/white-Hoodie/unisex-premium-hoodie-white-front-61167fab1b96e.png",
-               188.88, 130,20);
-            dummyData.Rows.Add("P004", "Classic Sweater", "~/images/product-img/sweater/white-sweater/mens-long-sleeve-shirt-white-front-60e812b79c7a6.png",
-                "~/images/product-img/sweater/white-sweater/mens-long-sleeve-shirt-white-front-60e812b79d9ea.png", "~/images/product-img/sweater/white-sweater/mens-long-sleeve-shirt-white-front-60e812b79dd0f.png",
-                69.99, 100, 170);
-            dummyData.Rows.Add("P005", "Family Sweater", "~/images/product-img/sweater/white-sweater/unisex-fleece-sweatshirt-white-front-6117dbba91161.png",
-                "~/images/product-img/sweater/white-sweater/unisex-fleece-sweatshirt-white-front-2-6117dbba913f6.png", "~/images/product-img/sweater/white-sweater/unisex-fleece-sweatshirt-white-front-2-6117dbba912b4.png",
-                89.99, 120, 66);
-            dummyData.Rows.Add("P006", "Logo Sweater", "~/images/product-img/sweater/white-sweater/unisex-crew-neck-sweatshirt-white-front-60e80cba6f9d1.png",
-               "~/images/product-img/sweater/white-sweater/unisex-crew-neck-sweatshirt-white-front-60e80cba6fb89.png", "~/images/product-img/sweater/white-sweater/unisex-crew-neck-sweatshirt-white-front-60e80cba6ef27.png",
-               288.88, 130, 20);
-            dummyData.Rows.Add("P008", "Special Sweater 2", "~/images/product-img/sweater/white-sweater/all-over-print-unisex-sweatshirt-white-right-front-6117db4cccf2d.png",
-                "~/images/product-img/sweater/white-sweater/all-over-print-unisex-sweatshirt-white-right-front-6117db4ccd002.png", "~/images/product-img/sweater/white-Sweater/all-over-print-unisex-sweatshirt-white-back-6117db4ccce12.png",
-                389.99, 120, 56);
-            dummyData.Rows.Add("P009", "Classic T-Shirt", "~/images/product-img/teeShirt/white-Tee/adult-quality-tee-white-front-60e814c22d7df.png",
-               "~/images/product-img/teeShirt/white-Tee/adult-quality-tee-white-front-2-60e814c22d433.png", "~/images/product-img/teeShirt/white-Tee/adult-quality-tee-white-front-60e814c22d568.png",
-               18.88, 130, 30);
-            dummyData.Rows.Add("P0010", "Logo T-Shirt", "~/images/product-img/teeShirt/white-Tee/mens-classic-t-shirt-white-front-6107e5efd1661.png",
-               "~/images/product-img/teeShirt/white-Tee/mens-classic-t-shirt-white-front-6107e5efd17ce.png", "~/images/product-img/teeShirt/white-Tee/mens-classic-t-shirt-white-front-6107e5efd18c9.png",
-               78.88, 130, 23);
-            dummyData.Rows.Add("P0011", "Pocket T-Shirt", "~/images/product-img/teeShirt/white-Tee/unisex-pocket-t-shirt-white-front-610c034560867.png",
-               "~/images/product-img/teeShirt/white-Tee/unisex-pocket-t-shirt-white-front-610c034560b3f.png", "~/images/product-img/teeShirt/white-Tee/unisex-pocket-t-shirt-white-front-610c034560c0f.pngg",
-               77.77, 130, 21);
-            dummyData.Rows.Add("P0012", "Classic Tee", "~/images/product-img/teeShirt/white-Tee/adult-quality-tee-white-front-60e814c22d7df.png",
-               "~/images/product-img/teeShirt/white-Tee/adult-quality-tee-white-front-2-60e814c22d433.png", "~/images/product-img/teeShirt/white-Tee/adult-quality-tee-white-front-60e814c22d568.png",
-               66.66, 130, 22);
-            dummyData.Rows.Add("P013", "Logo Sweater", "~/images/product-img/sweater/white-sweater/unisex-crew-neck-sweatshirt-white-front-60e80cba6f9d1.png",
-               "~/images/product-img/sweater/white-sweater/unisex-crew-neck-sweatshirt-white-front-60e80cba6fb89.png", "~/images/product-img/sweater/white-sweater/unisex-crew-neck-sweatshirt-white-front-60e80cba6ef27.png",
-               288.88, 130, 20);
+        private List<Product> GetProductsInfo(string searchQuery = "")
+        {
+            List<Product> products = new List<Product>();
 
-            // Add more rows as needed for testing
-            return dummyData;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sqlQuery = "SELECT p.ProductId, p.ProductName, p.UnitPrice, p.ProductCategory, p.ProductStatusId, COUNT(r.ReviewId) AS TotalReview, SUM(r.Rating) AS TotalRating FROM Product p INNER JOIN ProductDetail pd ON p.ProductId = pd.ProductId LEFT JOIN Review r ON pd.ProductDetailId = r.ProductDetailId WHERE p.ProductStatusId = 1 ";
+
+                // Adjust the query if a search query is provided
+                if (!string.IsNullOrEmpty(searchQuery))
+                {
+                    sqlQuery += " AND (p.ProductName LIKE '%' + @SearchQuery + '%' OR p.ProductCategory LIKE '%' + @SearchQuery + '%')";
+                }
+
+                sqlQuery += " GROUP BY p.ProductId, p.ProductName, p.UnitPrice, p.ProductCategory, p.ProductStatusId;";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    // Add search query parameter if provided
+                    if (!string.IsNullOrEmpty(searchQuery))
+                    {
+                        command.Parameters.AddWithValue("@SearchQuery", searchQuery);
+                    }
+
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Product product = new Product();
+                            product.ProductId = (int)reader["ProductId"];
+                            product.ProductName = reader["ProductName"].ToString();
+                            product.UnitPrice = (decimal)reader["UnitPrice"];
+                            product.ProductCategory = reader["ProductCategory"].ToString();
+                            product.TotalReview = (int)reader["TotalReview"];
+                            decimal totalRating = !reader.IsDBNull(reader.GetOrdinal("TotalRating")) ? (decimal)reader["TotalRating"] : 0;
+                            product.OverallRatings = product.TotalReview != 0 ? Math.Round((totalRating / (decimal)product.TotalReview), 1) : 0;
+                            product.TotalSold = GetTotalSold(product.ProductId);
+                            product.AvailableColors = GetAvailableColors(product.ProductId);
+                            List<string> imagePaths = GetProductImages(product.ProductId);
+                            // Check if imagePaths is null or empty
+                            if (imagePaths == null || imagePaths.Count == 0)
+                            {
+                                // Skip this product as it doesn't have image paths
+                                continue;
+                            }
+                            product.ImagePaths = imagePaths;
+                            product.productImageUrl1 = imagePaths.FirstOrDefault();
+                            product.productImageUrl2 = imagePaths.Skip(1).FirstOrDefault();
+                            products.Add(product);
+                        }
+                    }
+                }
+            }
+            return products;
         }
 
 
+        private int GetTotalSold(int productId)
+        {
+            int totalSold = 0;
 
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sqlQuery = "SELECT SUM(Quantity) AS TotalSold FROM OrderItem WHERE ProductDetailId IN (SELECT ProductDetailId FROM ProductDetail WHERE ProductId = @ProductId)";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@ProductId", productId);
+                    connection.Open();
+                    object result = command.ExecuteScalar();
+                    if (result != DBNull.Value)
+                    {
+                        totalSold = Convert.ToInt32(result);
+                    }
+                }
+            }
+
+            return totalSold;
+        }
+
+        private List<string> GetProductImages(int productId)
+        {
+            List<string> imagePaths = new List<string>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string imageQuery = @"SELECT DISTINCT PI.Path, PD.ColorId FROM ProductImage PI INNER JOIN ProductDetail PD ON PI.ProductDetailId = PD.ProductDetailId WHERE PD.ProductId = @ProductId ORDER BY PD.ColorId;";
+
+                using (SqlCommand command = new SqlCommand(imageQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@ProductId", productId);
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string imagePath = reader["Path"].ToString();
+                            imagePaths.Add(imagePath);
+                        }
+                    }
+                }
+            }
+            return imagePaths;
+        }
+
+        protected List<string> GetAvailableColors(int productId)
+        {
+            List<string> availableColors = new List<string>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sqlQuery = @"SELECT DISTINCT pd.ColorId, c.HexColor FROM Product p, Color c, ProductDetail pd WHERE p.ProductId = @ProductId AND pd.ColorId = c.ColorId AND p.ProductId = pd.ProductId AND isDeleted = 0";
+                
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@ProductId", productId);
+                    connection.Open();
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string hexColor = reader["HexColor"].ToString();
+                            availableColors.Add(hexColor);
+                        }
+                    }
+                }
+            }
+            return availableColors;
+        }
+
+        private List<Product> SortProducts(List<Product> products, string sortExpression)
+        {
+            switch (sortExpression)
+            {
+                case "TotalSold":
+                    return products.OrderByDescending(p => p.TotalSold).ToList();
+                case "Customer Ratings":
+                    return products.OrderByDescending(p => p.OverallRatings).ToList();
+                case "LowestPrice":
+                    return products.OrderBy(p => p.UnitPrice).ToList();
+                case "HighestPrice":
+                    return products.OrderByDescending(p => p.UnitPrice).ToList();
+                default:
+                    return products; // Return the original list if the sort expression is not recognized
+            }
+        }
+
+        private void FilterProducts()
+        {
+            List<Product> filteredProducts;
+            List<Product> sourceList = ViewState["SearchResults"] as List<Product> ?? GetProductsInfo();
+
+            if (string.IsNullOrEmpty(selectedRating))
+            {
+                filteredProducts = sourceList;
+            }
+            else
+            {
+                int selectedRatingValue = int.Parse(selectedRating.Substring(0, 1));
+                filteredProducts = sourceList.Where(p => p.OverallRatings >= selectedRatingValue).ToList();
+            }
+
+            if (selectedCategories.Count > 0)
+            {
+                filteredProducts = filteredProducts.Where(p => selectedCategories.Contains(p.ProductCategory)).ToList();
+            }
+
+            if (selectedColors.Count > 0)
+            {
+                filteredProducts = filteredProducts.Where(p => p.AvailableColors.Any(c => selectedColors.Contains(c))).ToList();
+            }
+
+            if (minPrice.HasValue || maxPrice.HasValue)
+            {
+                filteredProducts = filteredProducts.Where(p => (!minPrice.HasValue || p.UnitPrice >= minPrice.Value) && (!maxPrice.HasValue || p.UnitPrice <= maxPrice.Value)).ToList();
+            }
+
+            filteredProducts = SortProducts(filteredProducts, ddlSort.SelectedValue);
+            BindProducts(filteredProducts);
+        }
+
+        protected void ddlSort_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FilterProducts();
+        }
+
+        protected void CategoryCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            FilterProducts();
+        }
+
+        protected string GenerateStars(double rating)
+        {
+            int fullStars = (int)rating;
+            double remainder = rating - fullStars;
+            int grayStars = 5 - fullStars - (remainder >= 0.5 ? 1 : 0);
+            StringBuilder stars = new StringBuilder();
+            for (int i = 0; i < fullStars; i++)
+            {
+                stars.Append("<i class='fas fa-star text-yellow-400 text-lg'></i>");
+            }
+            if (remainder >= 0.5)
+            {
+                stars.Append("<i class='fas fa-star-half-alt text-yellow-400 text-lg'></i>");
+            }
+            for (int i = 0; i < grayStars; i++)
+            {
+                stars.Append("<i class='far fa-star text-gray-400 text-lg'></i>");
+            }
+            return stars.ToString();
+        }
+
+        protected void rbRatings_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FilterProducts();
+        }
+
+        protected void CategoryCheckBoxList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            updateCategoryList();
+            FilterProducts();
+        }
+
+        private void updateCategoryList()
+        {
+            selectedCategories.Clear(); // Clear the existing selected categories
+            foreach (ListItem item in CategoryCheckBoxList.Items)
+            {
+                if (item.Selected)
+                {
+                    selectedCategories.Add(item.Value);
+                }
+            }
+        }
+
+        protected void btnReset_Click(object sender, EventArgs e)
+        {
+            selectedRating = string.Empty;
+            selectedCategories.Clear();
+            CategoryCheckBoxList.ClearSelection();
+            ddlSort.SelectedIndex = 0;
+            rbRatings.ClearSelection();
+            selectedColors.Clear();
+            chkColorSelection.ClearSelection();
+            txtMinPrice.Text = "";
+            txtMaxPrice.Text = "";
+            minPrice = null;
+            maxPrice = null;
+            FilterProducts();
+        }
+
+        protected void btnPriceFilter_Click(object sender, EventArgs e)
+        {
+            updateMinAndMaxPrice();
+            FilterProducts();
+        }
+
+        private void updateMinAndMaxPrice()
+        {
+            minPrice = decimal.TryParse(txtMinPrice.Text, out decimal minPriceValue) ? minPriceValue : (decimal?)null;
+            maxPrice = decimal.TryParse(txtMaxPrice.Text, out decimal maxPriceValue) ? maxPriceValue : (decimal?)null;
+        }
+
+        protected void chkColorSelection_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            updateColorList();
+            FilterProducts();  
+        }
+
+        private void updateColorList()
+        {
+            selectedColors.Clear(); // Clear the existing selected categories
+            foreach (ListItem item in chkColorSelection.Items)
+            {
+                if (item.Selected)
+                {
+                    selectedColors.Add(item.Value);
+                }
+            }
+        }
+
+        protected void lbtnReset_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/src/Client/Products/Products.aspx");
+        }
+
+        protected void ProductRepeater_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                Product product = (Product)e.Item.DataItem;
+                Repeater colorRepeater = (Repeater)e.Item.FindControl("ColorRepeater");
+
+                if (product.AvailableColors != null && product.AvailableColors.Count > 0)
+                {
+                    colorRepeater.DataSource = product.AvailableColors;
+                    colorRepeater.DataBind();
+                }
+            }
+        }
     }
 }

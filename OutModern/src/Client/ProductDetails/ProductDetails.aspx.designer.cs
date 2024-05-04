@@ -15,6 +15,15 @@ namespace OutModern.src.Client.ProductDetails
     {
 
         /// <summary>
+        /// ScriptManager1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.ScriptManager ScriptManager1;
+
+        /// <summary>
         /// HyperLink1 control.
         /// </summary>
         /// <remarks>
@@ -42,58 +51,31 @@ namespace OutModern.src.Client.ProductDetails
         protected global::System.Web.UI.WebControls.Label productNameUrl;
 
         /// <summary>
-        /// mainImage1 control.
+        /// UpdatePanel2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image mainImage1;
+        protected global::System.Web.UI.UpdatePanel UpdatePanel2;
 
         /// <summary>
-        /// mainImage2 control.
+        /// MainImageRepeater control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image mainImage2;
+        protected global::System.Web.UI.WebControls.Repeater MainImageRepeater;
 
         /// <summary>
-        /// mainImage3 control.
+        /// ImageRepeater control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image mainImage3;
-
-        /// <summary>
-        /// Image1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image Image1;
-
-        /// <summary>
-        /// Image2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image Image2;
-
-        /// <summary>
-        /// Image3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image Image3;
+        protected global::System.Web.UI.WebControls.Repeater ImageRepeater;
 
         /// <summary>
         /// lblProdName control.
@@ -105,6 +87,15 @@ namespace OutModern.src.Client.ProductDetails
         protected global::System.Web.UI.WebControls.Label lblProdName;
 
         /// <summary>
+        /// ratingStars control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ratingStars;
+
+        /// <summary>
         /// lblReviews control.
         /// </summary>
         /// <remarks>
@@ -112,6 +103,15 @@ namespace OutModern.src.Client.ProductDetails
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblReviews;
+
+        /// <summary>
+        /// lblDescription control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblDescription;
 
         /// <summary>
         /// lblPrice control.
@@ -132,31 +132,22 @@ namespace OutModern.src.Client.ProductDetails
         protected global::System.Web.UI.WebControls.Label lblColor;
 
         /// <summary>
-        /// radioBeige control.
+        /// ColorSqlDataSource control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton radioBeige;
+        protected global::System.Web.UI.WebControls.SqlDataSource ColorSqlDataSource;
 
         /// <summary>
-        /// radioLightGray control.
+        /// ColorRepeater control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton radioLightGray;
-
-        /// <summary>
-        /// radioBlack control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton radioBlack;
+        protected global::System.Web.UI.WebControls.Repeater ColorRepeater;
 
         /// <summary>
         /// lblSize control.
@@ -168,58 +159,58 @@ namespace OutModern.src.Client.ProductDetails
         protected global::System.Web.UI.WebControls.Label lblSize;
 
         /// <summary>
-        /// sizeXS control.
+        /// SizeSqlDataSource control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton sizeXS;
+        protected global::System.Web.UI.WebControls.SqlDataSource SizeSqlDataSource;
 
         /// <summary>
-        /// sizeS control.
+        /// SizeRepeater control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton sizeS;
+        protected global::System.Web.UI.WebControls.Repeater SizeRepeater;
 
         /// <summary>
-        /// sizeM control.
+        /// btnDecrease control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton sizeM;
+        protected global::System.Web.UI.WebControls.Button btnDecrease;
 
         /// <summary>
-        /// sizeL control.
+        /// txtQuantity control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton sizeL;
+        protected global::System.Web.UI.WebControls.TextBox txtQuantity;
 
         /// <summary>
-        /// sizeXL control.
+        /// btnIncrease control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton sizeXL;
+        protected global::System.Web.UI.WebControls.Button btnIncrease;
 
         /// <summary>
-        /// size2XL control.
+        /// lblQuantity control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton size2XL;
+        protected global::System.Web.UI.WebControls.Label lblQuantity;
 
         /// <summary>
         /// AddToCart control.
@@ -231,15 +222,6 @@ namespace OutModern.src.Client.ProductDetails
         protected global::System.Web.UI.WebControls.LinkButton AddToCart;
 
         /// <summary>
-        /// BuyNow control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton BuyNow;
-
-        /// <summary>
         /// lblAvgRatings control.
         /// </summary>
         /// <remarks>
@@ -247,6 +229,15 @@ namespace OutModern.src.Client.ProductDetails
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblAvgRatings;
+
+        /// <summary>
+        /// ratingStar2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ratingStar2;
 
         /// <summary>
         /// lblTotalReview control.
@@ -258,6 +249,15 @@ namespace OutModern.src.Client.ProductDetails
         protected global::System.Web.UI.WebControls.Label lblTotalReview;
 
         /// <summary>
+        /// starBar5 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl starBar5;
+
+        /// <summary>
         /// lbl5star control.
         /// </summary>
         /// <remarks>
@@ -265,6 +265,15 @@ namespace OutModern.src.Client.ProductDetails
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lbl5star;
+
+        /// <summary>
+        /// starBar4 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl starBar4;
 
         /// <summary>
         /// lbl4star control.
@@ -276,6 +285,15 @@ namespace OutModern.src.Client.ProductDetails
         protected global::System.Web.UI.WebControls.Label lbl4star;
 
         /// <summary>
+        /// starBar3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl starBar3;
+
+        /// <summary>
         /// lbl3star control.
         /// </summary>
         /// <remarks>
@@ -283,6 +301,15 @@ namespace OutModern.src.Client.ProductDetails
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lbl3star;
+
+        /// <summary>
+        /// starBar2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl starBar2;
 
         /// <summary>
         /// lbl2star control.
@@ -294,6 +321,15 @@ namespace OutModern.src.Client.ProductDetails
         protected global::System.Web.UI.WebControls.Label lbl2star;
 
         /// <summary>
+        /// starBar1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl starBar1;
+
+        /// <summary>
         /// lbl1star control.
         /// </summary>
         /// <remarks>
@@ -303,111 +339,48 @@ namespace OutModern.src.Client.ProductDetails
         protected global::System.Web.UI.WebControls.Label lbl1star;
 
         /// <summary>
-        /// Label9 control.
+        /// UpdatePanel1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label9;
+        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
 
         /// <summary>
-        /// Label10 control.
+        /// btnLatest control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label10;
+        protected global::System.Web.UI.WebControls.Button btnLatest;
 
         /// <summary>
-        /// Label11 control.
+        /// btnTopRated control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label11;
+        protected global::System.Web.UI.WebControls.Button btnTopRated;
 
         /// <summary>
-        /// Label12 control.
+        /// lvReviews control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label12;
+        protected global::System.Web.UI.WebControls.ListView lvReviews;
 
         /// <summary>
-        /// lblName control.
+        /// ddpReviews control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblName;
-
-        /// <summary>
-        /// lblTime control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTime;
-
-        /// <summary>
-        /// lblVariation control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblVariation;
-
-        /// <summary>
-        /// lblComment control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblComment;
-
-        /// <summary>
-        /// Label1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label1;
-
-        /// <summary>
-        /// Label2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label2;
-
-        /// <summary>
-        /// Label3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label3;
-
-        /// <summary>
-        /// Label4 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label4;
+        protected global::System.Web.UI.WebControls.DataPager ddpReviews;
     }
 }

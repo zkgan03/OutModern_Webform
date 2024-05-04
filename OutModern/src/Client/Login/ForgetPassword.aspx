@@ -47,6 +47,8 @@
                     OnClick="btn_login_Click" />
             </div>
 
+            <asp:Label ID="lblMessage" runat="server"/>
+
         </div>
 
     </form>

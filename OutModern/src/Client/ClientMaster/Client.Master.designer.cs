@@ -69,42 +69,6 @@ namespace OutModern.src.Client.ClientMaster
         protected global::System.Web.UI.WebControls.HyperLink hyperlinkProduct;
 
         /// <summary>
-        /// HyperLink2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLink2;
-
-        /// <summary>
-        /// HyperLink control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLink;
-
-        /// <summary>
-        /// HyperLink3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLink3;
-
-        /// <summary>
-        /// HyperLink4 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLink4;
-
-        /// <summary>
         /// txtSearch control.
         /// </summary>
         /// <remarks>
@@ -141,6 +105,24 @@ namespace OutModern.src.Client.ClientMaster
         protected global::System.Web.UI.WebControls.Label numberLabel;
 
         /// <summary>
+        /// HyperLink7 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink HyperLink7;
+
+        /// <summary>
+        /// HyperLink8 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink HyperLink8;
+
+        /// <summary>
         /// HyperLink5 control.
         /// </summary>
         /// <remarks>
@@ -159,22 +141,13 @@ namespace OutModern.src.Client.ClientMaster
         protected global::System.Web.UI.WebControls.HyperLink HyperLink6;
 
         /// <summary>
-        /// HyperLink7 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLink7;
-
-        /// <summary>
         /// HyperLink8 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
+        /// To modify move field declration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLink8;
+        protected global::System.Web.UI.WebControls.HyperLink HyperLink9;
 
         /// <summary>
         /// ContentPlaceHolder1 control.

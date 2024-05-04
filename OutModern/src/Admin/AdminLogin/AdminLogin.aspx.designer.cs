@@ -7,92 +7,74 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OutModern.src.Admin.StaffDetails
+namespace OutModern.src.Client.Login
 {
 
 
-    public partial class StaffDetails
+    public partial class AdminLogin
     {
 
         /// <summary>
-        /// HyperLink1 control.
+        /// form1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLink1;
+        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// lblStaffId control.
+        /// hl_cust_login control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblStaffId;
+        protected global::System.Web.UI.WebControls.HyperLink hl_cust_login;
 
         /// <summary>
-        /// lblStaffUsername control.
+        /// txt_email control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblStaffUsername;
+        protected global::System.Web.UI.WebControls.TextBox txt_email;
 
         /// <summary>
-        /// lblRole control.
+        /// txt_password control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblRole;
+        protected global::System.Web.UI.WebControls.TextBox txt_password;
 
         /// <summary>
-        /// lblStaffName control.
+        /// ErrMsg control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblStaffName;
+        protected global::System.Web.UI.WebControls.Label ErrMsg;
 
         /// <summary>
-        /// lblEmail control.
+        /// btn_login control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblEmail;
+        protected global::System.Web.UI.WebControls.Button btn_login;
 
         /// <summary>
-        /// lblTel control.
+        /// hl_forget_password control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTel;
-
-        /// <summary>
-        /// lblAddress control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblAddress;
-
-        /// <summary>
-        /// lblStatus control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblStatus;
+        protected global::System.Web.UI.WebControls.HyperLink hl_forget_password;
     }
 }

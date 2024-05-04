@@ -10,6 +10,9 @@
         <asp:Image ID="Image1" runat="server" ImageUrl="~/images/home-img/home2.jpg" />
 
         <div class="level1_content">
+
+            <asp:Label ID="lblCustInfo" runat="server" class="level1_text" Visible="false"></asp:Label>
+
             <span class="level1_text">Make Your Outfit The Statement</span>
             <span class="level1_text2">ACCESSORIES</span>
 
@@ -142,5 +145,8 @@
 
 
         </div>
+
+
     </div>
+
 </asp:Content>

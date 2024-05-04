@@ -7,47 +7,47 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OutModern.src.Client.Login
+namespace OutModern.src.Client.UserProfile
 {
 
 
-    public partial class AdminForgetPassword
+    public partial class UserReivew
     {
 
         /// <summary>
-        /// form1 control.
+        /// btnShowAllReviews control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.WebControls.Button btnShowAllReviews;
 
         /// <summary>
-        /// hl_back_login control.
+        /// btnShowSellerReplies control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hl_back_login;
+        protected global::System.Web.UI.WebControls.Button btnShowSellerReplies;
 
         /// <summary>
-        /// txt_fp_email control.
+        /// lvReviews control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txt_fp_email;
+        protected global::System.Web.UI.WebControls.ListView lvReviews;
 
         /// <summary>
-        /// btn_login control.
+        /// ddpReviews control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn_login;
+        protected global::System.Web.UI.WebControls.DataPager ddpReviews;
     }
 }

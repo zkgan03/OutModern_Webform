@@ -11,7 +11,7 @@ namespace OutModern.src.Client.Login
 {
 
 
-    public partial class AdminLogin
+    public partial class AdminResetPassword
     {
 
         /// <summary>
@@ -24,48 +24,39 @@ namespace OutModern.src.Client.Login
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// hl_cust_login control.
+        /// txt_new_password control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hl_cust_login;
+        protected global::System.Web.UI.WebControls.TextBox txt_new_password;
 
         /// <summary>
-        /// txt_email control.
+        /// txt_reenter_new_password control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txt_email;
+        protected global::System.Web.UI.WebControls.TextBox txt_reenter_new_password;
 
         /// <summary>
-        /// txt_password control.
+        /// btn_reset_password control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txt_password;
+        protected global::System.Web.UI.WebControls.Button btn_reset_password;
 
         /// <summary>
-        /// btn_login control.
+        /// lblMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn_login;
-
-        /// <summary>
-        /// hl_forget_password control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hl_forget_password;
+        protected global::System.Web.UI.WebControls.Label lblMessage;
     }
 }

@@ -42,67 +42,49 @@ namespace OutModern.src.Client.Products
         protected global::System.Web.UI.WebControls.Label lblTotalProducts;
 
         /// <summary>
-        /// minPrice control.
+        /// ddlSort control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox minPrice;
+        protected global::System.Web.UI.WebControls.DropDownList ddlSort;
 
         /// <summary>
-        /// maxPrice control.
+        /// txtMinPrice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox maxPrice;
+        protected global::System.Web.UI.WebControls.TextBox txtMinPrice;
 
         /// <summary>
-        /// chckHoodies control.
+        /// txtMaxPrice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chckHoodies;
+        protected global::System.Web.UI.WebControls.TextBox txtMaxPrice;
 
         /// <summary>
-        /// chckShorts control.
+        /// btnPriceFilter control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chckShorts;
+        protected global::System.Web.UI.WebControls.Button btnPriceFilter;
 
         /// <summary>
-        /// chckSweater control.
+        /// CategoryCheckBoxList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chckSweater;
-
-        /// <summary>
-        /// chckTeeShirt control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chckTeeShirt;
-
-        /// <summary>
-        /// chcktrousers control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chcktrousers;
+        protected global::System.Web.UI.WebControls.CheckBoxList CategoryCheckBoxList;
 
         /// <summary>
         /// rbRatings control.
@@ -114,139 +96,22 @@ namespace OutModern.src.Client.Products
         protected global::System.Web.UI.WebControls.RadioButtonList rbRatings;
 
         /// <summary>
-        /// radioBeige control.
+        /// chkColorSelection control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton radioBeige;
+        protected global::System.Web.UI.WebControls.CheckBoxList chkColorSelection;
 
         /// <summary>
-        /// radioLightGray control.
+        /// btnReset control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton radioLightGray;
-
-        /// <summary>
-        /// radioBlack control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton radioBlack;
-
-        /// <summary>
-        /// RadioButton1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton RadioButton1;
-
-        /// <summary>
-        /// RadioButton2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton RadioButton2;
-
-        /// <summary>
-        /// RadioButton3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton RadioButton3;
-
-        /// <summary>
-        /// RadioButton4 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton RadioButton4;
-
-        /// <summary>
-        /// RadioButton5 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton RadioButton5;
-
-        /// <summary>
-        /// RadioButton6 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton RadioButton6;
-
-        /// <summary>
-        /// RadioButton7 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton RadioButton7;
-
-        /// <summary>
-        /// RadioButton8 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton RadioButton8;
-
-        /// <summary>
-        /// RadioButton9 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton RadioButton9;
-
-        /// <summary>
-        /// RadioButton10 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton RadioButton10;
-
-        /// <summary>
-        /// RadioButton11 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton RadioButton11;
-
-        /// <summary>
-        /// RadioButton12 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton RadioButton12;
+        protected global::System.Web.UI.WebControls.Button btnReset;
 
         /// <summary>
         /// ProductRepeater control.
@@ -256,5 +121,23 @@ namespace OutModern.src.Client.Products
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater ProductRepeater;
+
+        /// <summary>
+        /// noProductsFound control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl noProductsFound;
+
+        /// <summary>
+        /// lbtnReset control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lbtnReset;
     }
 }

@@ -33,6 +33,15 @@ namespace OutModern.src.Client.UserProfile
         protected global::System.Web.UI.WebControls.FileUpload imgUpload;
 
         /// <summary>
+        /// btnUploadImage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnUploadImage;
+
+        /// <summary>
         /// lbl_username control.
         /// </summary>
         /// <remarks>
@@ -60,6 +69,15 @@ namespace OutModern.src.Client.UserProfile
         protected global::System.Web.UI.WebControls.Button btn_togo_my_order;
 
         /// <summary>
+        /// btn_rw_his control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btn_rw_his;
+
+        /// <summary>
         /// hl_back_to_user_profile control.
         /// </summary>
         /// <remarks>
@@ -78,6 +96,15 @@ namespace OutModern.src.Client.UserProfile
         protected global::System.Web.UI.WebControls.TextBox txt_edit_username;
 
         /// <summary>
+        /// usernameErrMsg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label usernameErrMsg;
+
+        /// <summary>
         /// txt_edit_fullname control.
         /// </summary>
         /// <remarks>
@@ -87,13 +114,13 @@ namespace OutModern.src.Client.UserProfile
         protected global::System.Web.UI.WebControls.TextBox txt_edit_fullname;
 
         /// <summary>
-        /// txt_edit_email control.
+        /// fullnameErrMsg control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txt_edit_email;
+        protected global::System.Web.UI.WebControls.Label fullnameErrMsg;
 
         /// <summary>
         /// txt_edit_phone_number control.
@@ -105,6 +132,15 @@ namespace OutModern.src.Client.UserProfile
         protected global::System.Web.UI.WebControls.TextBox txt_edit_phone_number;
 
         /// <summary>
+        /// phoneNumErrMsg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label phoneNumErrMsg;
+
+        /// <summary>
         /// txt_edit_address_name control.
         /// </summary>
         /// <remarks>
@@ -112,6 +148,15 @@ namespace OutModern.src.Client.UserProfile
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txt_edit_address_name;
+
+        /// <summary>
+        /// addressNameErrMsg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label addressNameErrMsg;
 
         /// <summary>
         /// txt_edit_address control.
@@ -123,6 +168,15 @@ namespace OutModern.src.Client.UserProfile
         protected global::System.Web.UI.WebControls.TextBox txt_edit_address;
 
         /// <summary>
+        /// addressLineErrMsg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label addressLineErrMsg;
+
+        /// <summary>
         /// txt_edit_country control.
         /// </summary>
         /// <remarks>
@@ -130,6 +184,15 @@ namespace OutModern.src.Client.UserProfile
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txt_edit_country;
+
+        /// <summary>
+        /// countryErrMsg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label countryErrMsg;
 
         /// <summary>
         /// txt_edit_state control.
@@ -141,6 +204,15 @@ namespace OutModern.src.Client.UserProfile
         protected global::System.Web.UI.WebControls.TextBox txt_edit_state;
 
         /// <summary>
+        /// stateErrMsg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label stateErrMsg;
+
+        /// <summary>
         /// txt_edit_postal_code control.
         /// </summary>
         /// <remarks>
@@ -150,22 +222,13 @@ namespace OutModern.src.Client.UserProfile
         protected global::System.Web.UI.WebControls.TextBox txt_edit_postal_code;
 
         /// <summary>
-        /// txt_edit_password control.
+        /// postalCodeErrMsg control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txt_edit_password;
-
-        /// <summary>
-        /// txt_edit_reset_password control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txt_edit_reset_password;
+        protected global::System.Web.UI.WebControls.Label postalCodeErrMsg;
 
         /// <summary>
         /// btn_save control.
@@ -175,5 +238,14 @@ namespace OutModern.src.Client.UserProfile
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btn_save;
+
+        /// <summary>
+        /// lblMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblMessage;
     }
 }

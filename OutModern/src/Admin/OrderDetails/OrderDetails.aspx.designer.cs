@@ -24,13 +24,31 @@ namespace OutModern.src.Admin.OrderDetails
         protected global::System.Web.UI.WebControls.Button btnReturnToPlaced;
 
         /// <summary>
-        /// btnCancelOrder control.
+        /// btnCancel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnCancelOrder;
+        protected global::System.Web.UI.WebControls.Button btnCancel;
+
+        /// <summary>
+        /// btnShipped control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnShipped;
+
+        /// <summary>
+        /// lblUpdateStatusMsg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblUpdateStatusMsg;
 
         /// <summary>
         /// lblOrderID control.
@@ -121,15 +139,6 @@ namespace OutModern.src.Admin.OrderDetails
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblPostalCode;
-
-        /// <summary>
-        /// lblCity control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCity;
 
         /// <summary>
         /// lblState control.

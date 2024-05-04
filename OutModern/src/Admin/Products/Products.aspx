@@ -19,7 +19,6 @@
                 .product-status.temp-unavailable {
                     @apply bg-amber-300;
                 }
-
         }
     </style>
 
@@ -42,18 +41,27 @@
             <!-- Filter -->
             <div class="filter-item flex">
                 <div class="item">
-                    Category
+                    <asp:DropDownList ID="ddlFilterCategory" runat="server"
+                        OnSelectedIndexChanged="ddlFilterCategory_SelectedIndexChanged"
+                        OnDataBound="ddlFilterCategory_DataBound"
+                        AutoPostBack="true">
+                    </asp:DropDownList>
                     <i class="fa-regular fa-layer-group"></i>
                 </div>
                 <div class="item">
-                    Price Range
-                    <i class="fa-regular fa-sliders-simple"></i>
+                    <asp:DropDownList ID="ddlFilterStatus" runat="server"
+                        OnSelectedIndexChanged="ddlFilterCategory_SelectedIndexChanged"
+                        OnDataBound="ddlFilterStatus_DataBound"
+                        AutoPostBack="true">
+                    </asp:DropDownList>
+                    <i class="fa-regular fa-shelves-empty"></i>
                 </div>
             </div>
         </div>
 
         <!-- Display Product -->
-        <div class="mt-2">
+        <div class="mt-5">
+
             <!--Pagination-->
             <asp:DataPager PagedControlID="lvProducts" ID="dpTopProducts" class="pagination" runat="server" PageSize="2">
                 <Fields>
@@ -63,59 +71,39 @@
                 </Fields>
             </asp:DataPager>
 
-            <asp:ListView OnItemCommand="lvProducts_ItemCommand" OnPagePropertiesChanged="lvProducts_PagePropertiesChanged" ID="lvProducts" runat="server" DataKeyNames="Id" OnItemDataBound="lvProducts_ItemDataBound">
+            <asp:ListView OnSorting="lvProducts_Sorting" OnItemCommand="lvProducts_ItemCommand"
+                OnPagePropertiesChanged="lvProducts_PagePropertiesChanged" ID="lvProducts" runat="server" DataKeyNames="ProductId" OnItemDataBound="lvProducts_ItemDataBound">
                 <LayoutTemplate>
 
                     <table id="data-table" style="width: 100%; text-align: center;">
                         <thead>
                             <tr class="data-table-head">
                                 <th class="active">
-                                    <asp:LinkButton ID="lbId" runat="server">
+                                    <asp:LinkButton ID="lbId" runat="server" CommandName="Sort" CommandArgument="ProductId">
                                         ID
-                                        <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
-                                    <asp:LinkButton ID="lbName" runat="server">
+                                    <asp:LinkButton ID="lbName" runat="server" CommandName="Sort" CommandArgument="ProductName">
                                         Name
-                                        <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
 
                                 </th>
                                 <th>
-                                    <asp:LinkButton ID="lbCategory" runat="server">
+                                    <asp:LinkButton ID="lbCategory" runat="server" CommandName="Sort" CommandArgument="ProductCategory">
                                         Category
-                                        <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
-                                <th>
-                                    <asp:LinkButton ID="lbColors" runat="server">
-                                        Colors
-                                        <i class="fa-solid fa-arrow-up"></i>
-                                    </asp:LinkButton>
+                                <th>Colors
                                 </th>
                                 <th>
-                                    <asp:LinkButton ID="lbPrice" runat="server">
+                                    <asp:LinkButton ID="lbPrice" runat="server" CommandName="Sort" CommandArgument="UnitPrice">
                                         Price (RM)
-                                        <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
-                                    <asp:LinkButton ID="lbQuantity" runat="server">
-                                        Quantity
-                                        <i class="fa-solid fa-arrow-up"></i>
-                                    </asp:LinkButton>
-                                </th>
-                                <th>
-                                    <asp:LinkButton ID="LinkButton1" runat="server">
+                                    <asp:LinkButton ID="LinkButton1" runat="server" CommandName="Sort" CommandArgument="ProductStatusName">
                                         Status
-                                        <i class="fa-solid fa-arrow-up"></i>
-                                    </asp:LinkButton>
-                                </th>
-                                <th>
-                                    <asp:LinkButton ID="LinkButton2" runat="server">
-                                        Reviews
-                                        <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>Action</th>
@@ -126,38 +114,51 @@
 
                 </LayoutTemplate>
                 <ItemTemplate>
-                    <tr onclick="window.location='<%# Page.ResolveClientUrl(urls[ProductDetails] + "?id=" +  Eval("Id") )%>'">
-                        <td><%# Eval("Id") %></td>
+                    <tr onclick="window.location='<%# Page.ResolveClientUrl(urls[ProductDetails] + "?ProductId=" +  Eval("ProductId") )%>'">
+                        <td><%# Eval("ProductId") %></td>
                         <td>
-                            <asp:Image ID="imgPath" CssClass="mx-auto" runat="server" Width="5em" ImageUrl='<%# Eval("Path") %>' />
-                            <%# Eval("Name") %>
+                            <asp:Image ID="imgPath" CssClass="mx-auto object-cover" runat="server" Width="5em" Height="5em" ImageUrl='<%# Eval("Path") %>' />
+                            <%# Eval("ProductName") %>
                         </td>
-                        <td><%# Eval("Category") %></td>
-                        <td>...</td>
-                        <td><%# Eval("Price", "{0:0.00}") %></td>
-                        <td><%# Eval("Quantity") %></td>
+                        <td><%# Eval("ProductCategory") %></td>
                         <td>
-                            <span runat="server" id="productStatus" class="product-status"><%# Eval("Status") %></span>
+                            <div class="flex gap-2 justify-center items-center flex-wrap">
+                                <asp:Repeater ID="rptColors" runat="server" DataSource='<%# Eval("Colors") %>'>
+                                    <ItemTemplate>
+                                        <div style='<%# "background-color: #" + Eval("Color") +";" %>'
+                                            class="size-5 rounded-full border drop-shadow border-gray-300 ">
+                                        </div>
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                            </div>
+
                         </td>
-                        <td><%# Eval("Reviews") %></td>
+                        <td><%# Eval("UnitPrice", "{0:0.00}") %></td>
                         <td>
-                            <asp:HyperLink NavigateUrl='<%#urls[ProductEdit] + "?id=" + Eval("Id") %>' runat="server" CssClass="button">
+                            <span runat="server" id="productStatus" class="product-status"><%# Eval("ProductStatusName") %></span>
+                        </td>
+                        <td>
+                            <asp:HyperLink NavigateUrl='<%#urls[ProductEdit] + "?ProductId=" + Eval("ProductId") %>' runat="server" CssClass="button">
                                 <i class="fa-regular fa-pen-to-square"></i>
                             </asp:HyperLink>
                         </td>
                     </tr>
                 </ItemTemplate>
+                <EmptyDataTemplate>
+                    No data..
+                </EmptyDataTemplate>
             </asp:ListView>
 
 
             <!--Pagination-->
-            <asp:DataPager PagedControlID="lvProducts" ID="dpBottomProducts" class="pagination" runat="server" PageSize="2">
+            <asp:DataPager PagedControlID="lvProducts" ID="dpBottomProducts" class="pagination" runat="server" PageSize="5">
                 <Fields>
                     <asp:NextPreviousPagerField ButtonType="Button" ShowFirstPageButton="False" ShowNextPageButton="False" ShowPreviousPageButton="True" PreviousPageText="<" />
                     <asp:NumericPagerField CurrentPageLabelCssClass="active" ButtonCount="10" />
                     <asp:NextPreviousPagerField ButtonType="Button" ShowLastPageButton="False" ShowNextPageButton="True" ShowPreviousPageButton="False" NextPageText=">" />
                 </Fields>
             </asp:DataPager>
+
         </div>
     </div>
 

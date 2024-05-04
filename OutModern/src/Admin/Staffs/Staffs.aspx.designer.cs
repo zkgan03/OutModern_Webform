@@ -24,6 +24,24 @@ namespace OutModern.src.Admin.Staffs
         protected global::System.Web.UI.WebControls.LinkButton lbAddStaff;
 
         /// <summary>
+        /// ddlFilterRole control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlFilterRole;
+
+        /// <summary>
+        /// ddlFilterStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlFilterStatus;
+
+        /// <summary>
         /// dpTopStaffs control.
         /// </summary>
         /// <remarks>

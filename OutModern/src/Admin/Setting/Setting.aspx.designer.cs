@@ -51,13 +51,13 @@ namespace OutModern.src.Admin.Setting
         protected global::System.Web.UI.WebControls.TextBox txtUsername;
 
         /// <summary>
-        /// txtPrice control.
+        /// txtEmail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPrice;
+        protected global::System.Web.UI.WebControls.TextBox txtEmail;
 
         /// <summary>
         /// txtPhoneNo control.
@@ -87,21 +87,21 @@ namespace OutModern.src.Admin.Setting
         protected global::System.Web.UI.WebControls.TextBox txtCurrPass;
 
         /// <summary>
-        /// Textbox1 control.
+        /// txtNewPass control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Textbox1;
+        protected global::System.Web.UI.WebControls.TextBox txtNewPass;
 
         /// <summary>
-        /// Textbox2 control.
+        /// txtConfirmPass control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Textbox2;
+        protected global::System.Web.UI.WebControls.TextBox txtConfirmPass;
     }
 }

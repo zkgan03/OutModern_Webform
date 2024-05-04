@@ -7,47 +7,38 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OutModern.src.Client.Login
+namespace OutModern.src.Client.Payment
 {
 
 
-    public partial class AdminResetPassword
+    public partial class Success
     {
 
         /// <summary>
-        /// form1 control.
+        /// Image12 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.WebControls.Image Image12;
 
         /// <summary>
-        /// txt_new_password control.
+        /// BtnViewOrder control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txt_new_password;
+        protected global::System.Web.UI.WebControls.Button BtnViewOrder;
 
         /// <summary>
-        /// txt_reenter_new_password control.
+        /// ButtonHome control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txt_reenter_new_password;
-
-        /// <summary>
-        /// btn_reset_password control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn_reset_password;
+        protected global::System.Web.UI.WebControls.Button ButtonHome;
     }
 }

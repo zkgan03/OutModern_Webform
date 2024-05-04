@@ -24,29 +24,32 @@
                 <!--Customer Details-->
                 <div class="p-2 flex-shrink-0">
                     <div class="text-lg">
-                        <asp:Label ID="lblCustomerName" runat="server" Text="Customer A"></asp:Label>
+                        <asp:HyperLink ID="hlCustomerName"
+                            runat="server"
+                            CssClass="text-lg font-[600] hover:underline">
+                        </asp:HyperLink>
                     </div>
                     <div class="review-time">
-                        <asp:Label ID="lblCustomerReviewDateTime" runat="server" Text="<%# DateTime.Now %>"></asp:Label>
+                        <asp:Label ID="lblCustomerReviewDateTime" runat="server"></asp:Label>
                     </div>
                     <div class="review-item">
                         Rate :
-                    <asp:Label ID="lblRating" runat="server" Text="3.0"></asp:Label>
+                    <asp:Label ID="lblRating" runat="server"></asp:Label>
                     </div>
                     <div class="review-item">
                         Color : 
-                    <asp:Label ID="lblColor" runat="server" Text="Black"></asp:Label>
+                    <asp:Label ID="lblColor" runat="server"></asp:Label>
                     </div>
                     <div class="review-item">
                         Quantity :                    
-                    <asp:Label ID="lblQuantity" runat="server" Text="12"></asp:Label>
+                    <asp:Label ID="lblQuantity" runat="server"></asp:Label>
                     </div>
                 </div>
 
 
                 <!-- Review Given -->
                 <div class="border-l border-black p-2 pl-4">
-                    <asp:Label ID="lblCustomerReview" runat="server" Text="This is some Review Given"></asp:Label>
+                    <asp:Label ID="lblCustomerReview" runat="server"></asp:Label>
                 </div>
             </div>
         </div>
@@ -55,7 +58,6 @@
         <div class="max-w-screen-lg">
             <div class="text-[1.5rem] font-bold mt-10">
                 Replies
-            (<asp:Label ID="lblReplyNum" CssClass="text-[1.5rem] font-bold" runat="server" Text="2"></asp:Label>) :
             </div>
 
             <!--Reply input-->
@@ -63,7 +65,14 @@
                 <asp:TextBox ID="txtReply" TextMode="MultiLine" runat="server"
                     CssClass="resize-none w-full h-32 leading-5 border border-black p-2 rounded"
                     PlaceHolder="Write your reply here..."></asp:TextBox>
-                <asp:Button ID="btnReplySend" CssClass="float-right text-white p-1 hover:cursor-pointer hover:opacity-50 bg-gray-400" runat="server" Text="Send" />
+                <div class="float-right">
+                    <asp:Label ID="lblSendStatus" CssClass="opacity-50" runat="server"></asp:Label>
+                    <asp:Button ID="btnReplySend"
+                        CssClass="text-white p-1 h-10 w-14 hover:cursor-pointer hover:opacity-50 bg-gray-400"
+                        OnClick="btnReplySend_Click"
+                        runat="server" Text="Send" />
+                </div>
+
             </div>
 
             <!--Reply by other staff-->
@@ -75,12 +84,12 @@
                                 <!--Staff Details-->
                                 <div class="p-2 flex-shrink-0">
                                     <div class="text-lg"><%# Eval("AdminName") %>, <%# Eval("AdminRole") %></div>
-                                    <div class="review-time"><%# Eval("ReviewReplyDateTime") %></div>
+                                    <div class="review-time"><%# Eval("ReplyTime") %></div>
                                 </div>
                                 <!-- Reply Given -->
                                 <div class="border-l border-black p-2 pl-4">
                                     <div>
-                                        <%# Eval("ReviewReply") %>
+                                        <%# Eval("ReplyText") %>
                                     </div>
                                 </div>
                             </div>
