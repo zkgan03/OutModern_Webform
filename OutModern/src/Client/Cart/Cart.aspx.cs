@@ -37,7 +37,6 @@ namespace OutModern.src.Client.Cart
                 Session["PromoCode"] = null;
             }
 
-            Session["CUSTID"] = 1;
             if (Session["CUSTID"] != null)
             {
                 customerId = (int)Session["CUSTID"];
