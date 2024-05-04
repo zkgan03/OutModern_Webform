@@ -192,56 +192,6 @@ namespace OutModern.src.Admin.Dashboard
             return total;
         }
 
-        //// get this month orders which is cancelled 
-        //private int getMonthCancelled()
-        //{
-        //    int total = 0;
-
-        //    using (SqlConnection connection = new SqlConnection(ConnectionString))
-        //    {
-        //        connection.Open();
-        //        string sqlQuery =
-        //            "Select COUNT(OrderId) as Total " +
-        //            "FROM [Order], OrderStatus " +
-        //            "WHERE MONTH(OrderDatetime) = MONTH(GETDATE()) " +
-        //            "AND YEAR(OrderDatetime) = YEAR(GETDATE()) " +
-        //            "AND OrderStatus.OrderStatusId = [Order].OrderStatusId " +
-        //            "AND OrderStatusName = 'Cancelled' ";
-
-        //        using (SqlCommand command = new SqlCommand(sqlQuery, connection))
-        //        {
-        //            total = int.Parse(command.ExecuteScalar().ToString());
-        //        }
-
-        //    }
-
-        //    return total;
-        //}
-
-        //// get today orders which is cancelled 
-        //private int getTodayCancelled()
-        //{
-        //    int total = 0;
-
-        //    using (SqlConnection connection = new SqlConnection(ConnectionString))
-        //    {
-        //        connection.Open();
-        //        string sqlQuery =
-        //            "Select COUNT(OrderId) as Total " +
-        //            "FROM [Order], OrderStatus " +
-        //            "WHERE CONVERT(date, OrderDateTime) = CONVERT(date, GETDATE()) " +
-        //            "AND OrderStatus.OrderStatusId = [Order].OrderStatusId " +
-        //            "AND OrderStatusName != 'Cancelled' ";
-
-        //        using (SqlCommand command = new SqlCommand(sqlQuery, connection))
-        //        {
-        //            total = int.Parse(command.ExecuteScalar().ToString());
-        //        }
-        //    }
-
-        //    return total;
-        //}
-
         //get total reviews given to all product
         private int getTodayReviews()
         {

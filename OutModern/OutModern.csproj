@@ -250,13 +250,6 @@
     <Compile Include="src\Client\UserProfile\ChangePassword.aspx.designer.cs">
       <DependentUpon>ChangePassword.aspx</DependentUpon>
     </Compile>
-    <Compile Include="src\Client\UserProfile\Comment.aspx.cs">
-      <DependentUpon>Comment.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="src\Client\UserProfile\Comment.aspx.designer.cs">
-      <DependentUpon>Comment.aspx</DependentUpon>
-    </Compile>
     <Compile Include="src\Client\UserProfile\Completed.aspx.cs">
       <DependentUpon>Completed.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -876,7 +869,6 @@
     <Content Include="src\Client\UserProfile\AddAddress.aspx" />
     <Content Include="src\Client\UserProfile\Cancelled.aspx" />
     <Content Include="src\Client\UserProfile\ChangePassword.aspx" />
-    <Content Include="src\Client\UserProfile\Comment.aspx" />
     <Content Include="src\Client\UserProfile\Completed.aspx" />
     <Content Include="src\Client\UserProfile\CompletedDetails.aspx" />
     <Content Include="src\Client\UserProfile\CompletedDetails2.aspx" />

@@ -57,7 +57,7 @@
                     <%--Width="10em" Height="10em" CssClass="product-img object-cover"--%>
 
                     <div class="leftBox">
-                        <asp:Image ID="img_profile" runat="server" Width="10em" Height="10em" CssClass="product-img object-cover"/>
+                        <asp:Image ID="img_profile" runat="server" Width="10em" Height="10em" CssClass="product-img object-cover" />
                     </div>
 
                     <div class="rightBox">
@@ -70,8 +70,8 @@
 
                         <asp:Button ID="btn_togo_profile" runat="server" class="button" Text="My Profile" OnClick="btn_togo_profile_Click" />
                         <asp:Button ID="btn_togo_my_order" runat="server" class="button" Text="My Order" OnClick="btn_togo_my_order_Click" />
-                        <asp:Button ID="btn_rw_his" runat="server" class="button" Text="Review History"/>
-                    
+                        <asp:Button ID="btn_rw_his" runat="server" class="button" Text="Review History" OnClick="btn_rw_his_Click" />
+
                     </div>
 
                 </div>

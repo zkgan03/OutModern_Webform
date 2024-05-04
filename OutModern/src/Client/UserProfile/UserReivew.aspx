@@ -28,8 +28,8 @@
         <div class="mt-8 rounded-lg bg-white p-6 shadow-md">
             <h1 class="mb-6 text-3xl font-semibold">My Reviews</h1>
             <div class="flex flex-wrap gap-4">
-                <asp:Button ID="btnShowAllReviews" runat="server" Text="Show All Reviews" CssClass="btnShowReviews cursor-pointer rounded-md bg-gray-800 px-6 py-3 text-white hover:bg-gray-700" OnClick="btnShowAllReviews_Click"  />
-                <asp:Button ID="btnShowSellerReplies" runat="server" Text="Show Seller Replies" CssClass="btnShowReviews cursor-pointer rounded-md bg-gray-800 px-6 py-3 text-white hover:bg-gray-700" OnClick="btnShowSellerReplies_Click"/>
+                <asp:Button ID="btnShowAllReviews" runat="server" Text="Show All Reviews" CssClass="btnShowReviews cursor-pointer rounded-md bg-gray-800 px-6 py-3 text-white hover:bg-gray-700" OnClick="btnShowAllReviews_Click" />
+                <asp:Button ID="btnShowSellerReplies" runat="server" Text="Show Seller Replies" CssClass="btnShowReviews cursor-pointer rounded-md bg-gray-800 px-6 py-3 text-white hover:bg-gray-700" OnClick="btnShowSellerReplies_Click" />
             </div>
             <div class="grid-cols-1 grid gap-5">
                 <!-- Review Item -->

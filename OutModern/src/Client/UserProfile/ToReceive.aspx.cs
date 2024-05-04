@@ -191,7 +191,7 @@ namespace OutModern.src.Client.UserProfile
             return affectedRows;
         }
 
-        
+
 
         protected void lvOrders_ItemCommand(object sender, ListViewCommandEventArgs e)
         {
@@ -271,6 +271,12 @@ namespace OutModern.src.Client.UserProfile
         {
             // Redirect to User Profile page
             Response.Redirect("UserProfile.aspx");
+        }
+
+        protected void btn_rw_his_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/src/Client/UserProfile/UserReivew.aspx");
+
         }
     }
 }

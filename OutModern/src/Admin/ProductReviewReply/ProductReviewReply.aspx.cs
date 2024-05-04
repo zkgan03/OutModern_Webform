@@ -151,7 +151,7 @@ namespace OutModern.src.Admin.ProductReviewReply
                 return;
             }
 
-            string adminId = "1"; // dummy data
+            string adminId = Session["AdminId"].ToString();
             int affectedRow = insertReply(replyTextGiven, adminId);
             if (affectedRow > 0)
             {

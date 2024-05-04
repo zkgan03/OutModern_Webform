@@ -234,8 +234,6 @@ namespace OutModern.src.Client.Shipping
 
                 // Add the address to the database
                 AddAddressToDatabase(address);
-
-                Response.Redirect(Request.RawUrl);
             }
 
         }

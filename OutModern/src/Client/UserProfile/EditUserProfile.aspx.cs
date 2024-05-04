@@ -136,7 +136,7 @@ namespace OutModern.src.Client.UserProfile
             int custID = (int)Session["CUSTID"];
 
             string addressName = Session["AddressName"] as string;
-            
+
             if (addressName == null || addressName == "")
             {
                 try
@@ -426,6 +426,12 @@ namespace OutModern.src.Client.UserProfile
             {
                 lblMessage.Text = "Please select an image to upload.";
             }
+        }
+
+        protected void btn_rw_his_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/src/Client/UserProfile/UserReivew.aspx");
+
         }
     }
 }

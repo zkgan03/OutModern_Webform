@@ -216,5 +216,10 @@ namespace OutModern.src.Client.Profile
         {
             Response.Redirect("~/src/Client/UserProfile/DeleteAddress.aspx");
         }
+
+        protected void btn_rw_his_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/src/Client/UserProfile/UserReivew.aspx");
+        }
     }
 }

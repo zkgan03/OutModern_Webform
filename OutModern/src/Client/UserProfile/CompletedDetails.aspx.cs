@@ -18,7 +18,7 @@ namespace OutModern.src.Client.UserProfile
         // Side menu urls
         protected Dictionary<string, string> urls = new Dictionary<string, string>()
         {
-            { Comment , "~/src/Client/UserProfile/Comment.aspx" }
+            { Comment , "~/src/Client/Comment/Comment.aspx" }
         };
 
         private string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
