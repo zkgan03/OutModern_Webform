@@ -68,8 +68,7 @@
                     <div class="flex gap-5 items-center">
                         <div>
                             <asp:Image ID="imgProfile" runat="server"
-                                CssClass="rounded-full size-20 object-cover border"
-                                ImageUrl="~/images/about_us_img/img(a).jpg" />
+                                CssClass="rounded-full size-20 object-cover border" />
                         </div>
                         <div>
 
@@ -137,26 +136,16 @@
             <div class="mt-10">
                 <div class="flex items-center justify-between ">
                     <div class="text-xl font-[600]">Orders Made (<asp:Label ID="lblOrderMade" CssClass="text-xl font-[600]" runat="server" Text="Label"></asp:Label>)</div>
-                    <div class="mt-2 status-list flex gap-5 mr-10">
-                        <asp:LinkButton ID="LinkButton1" runat="server">
-                        All
-                        </asp:LinkButton>
-                        <asp:LinkButton ID="lbOrderPlacedTotal" runat="server">
-                            Order Placed :
-                        <asp:Label ID="lblOrderPlacedTotal" runat="server" Text="2"></asp:Label>
-                        </asp:LinkButton>
-                        <asp:LinkButton ID="lbShippedTotal" runat="server">
-                            Shipped :
-                            <asp:Label ID="lblShippedTotal" runat="server" Text="2"></asp:Label>
-                        </asp:LinkButton>
-                        <asp:LinkButton ID="lbReceivedTotal" runat="server">
-                            Received :
-                            <asp:Label ID="lblReceivedTotal" runat="server" Text="110"></asp:Label>
-                        </asp:LinkButton>
-                        <asp:LinkButton ID="lbCancelledTotal" runat="server">
-                            Cancelled :
-                            <asp:Label ID="lblCancelledTotal" runat="server" Text="10"></asp:Label>
-                        </asp:LinkButton>
+                    <div class="filter-item mr-10">
+                        <!-- Filter Order Status -->
+                        <div class="item self-end">
+                            <asp:DropDownList ID="ddlFilterOrderStatus" runat="server"
+                                AutoPostBack="true"
+                                OnSelectedIndexChanged="ddlFilterOrderStatus_SelectedIndexChanged"
+                                OnDataBound="ddlFilterOrderStatus_DataBound">
+                            </asp:DropDownList>
+                            <i class="fa-regular fa-cart-flatbed-boxes"></i>
+                        </div>
                     </div>
                 </div>
 

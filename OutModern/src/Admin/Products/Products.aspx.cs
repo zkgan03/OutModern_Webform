@@ -41,6 +41,18 @@ namespace OutModern.src.Admin.Products
                 lvProducts.DataSource = staffDataSource();
                 lvProducts.DataBind();
 
+                //bind filter category list
+                ddlFilterCategory.DataSource = getProductCategory();
+                ddlFilterCategory.DataTextField = "ProductCategory";
+                ddlFilterCategory.DataValueField = "ProductCategory";
+                ddlFilterCategory.DataBind();
+
+                //bind filter status list
+                ddlFilterStatus.DataSource = getProductStatus();
+                ddlFilterStatus.DataTextField = "ProductStatusName";
+                ddlFilterStatus.DataValueField = "ProductStatusId";
+                ddlFilterStatus.DataBind();
+
                 Page.DataBind();
 
             }
@@ -124,28 +136,32 @@ namespace OutModern.src.Admin.Products
         //
         //db operation
         //
+
+        // get all products
         private DataTable getProducts(string sortExpression = null, string sortDirection = "ASC")
         {
             DataTable data = new DataTable();
+
+            string category = ddlFilterCategory.SelectedValue;
+            string status = ddlFilterStatus.SelectedValue;
 
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 string sqlQuery =
-                    "SELECT ProductId, [Path], ProductName, ProductCategory, UnitPrice, ProductStatusName " +
-                    "FROM ( " +
-                            "SELECT p.ProductId, [Path], ProductName, ProductCategory, UnitPrice, ProductStatusName, " +
-                            "ROW_NUMBER() OVER (PARTITION BY p.ProductId ORDER BY p.ProductId ) AS RowNumber " +
-                            "FROM Product p " +
-                            "INNER JOIN ProductDetail ON p.ProductId = ProductDetail.ProductId " +
-                            "INNER JOIN ( " +
-                                "SELECT ProductDetail.ProductId, [Path] " +
-                                "FROM ProductImage " +
-                                "RIGHT OUTER JOIN ProductDetail ON ProductImage.ProductDetailId = ProductDetail.ProductDetailId " +
-                            ") t ON t.ProductId = p.ProductId " +
-                            "INNER JOIN ProductStatus ON p.ProductStatusId = ProductStatus.ProductStatusId " +
-                    ") AS Subquery " +
-                    "WHERE RowNumber = 1 ";
+                    "Select ProductId, ProductName, ProductCategory, UnitPrice, ProductStatusName " +
+                    "From Product, ProductStatus " +
+                    "Where Product.ProductStatusId = ProductStatus.ProductStatusId ";
+
+                if (!string.IsNullOrEmpty(category) && category != "-1")
+                {
+                    sqlQuery += "AND ProductCategory = @category ";
+                }
+
+                if (!string.IsNullOrEmpty(status) && status != "-1")
+                {
+                    sqlQuery += "AND Product.ProductStatusId = @status ";
+                }
 
                 if (!string.IsNullOrEmpty(sortExpression))
                 {
@@ -155,19 +171,62 @@ namespace OutModern.src.Admin.Products
 
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
+                    if (!string.IsNullOrEmpty(category) && category != "-1")
+                    {
+                        command.Parameters.AddWithValue("@category", category);
+                    }
+
+                    if (!string.IsNullOrEmpty(status) && status != "-1")
+                    {
+                        command.Parameters.AddWithValue("@status", status);
+                    }
+
                     data.Load(command.ExecuteReader());
                 }
             }
 
+            data.Columns.Add("Path", typeof(string));
             data.Columns.Add("Colors", typeof(DataTable));
             foreach (DataRow row in data.Rows)
             {
-                row["Colors"] = getColors(row["productId"].ToString());
+                string productId = row["productId"].ToString();
+                row["Path"] = getImagePath(productId);
+                row["Colors"] = getColors(productId);
             }
 
             return data;
         }
 
+        //get a image path of a product
+        private string getImagePath(string productId)
+        {
+            string path = "";
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+
+                string sqlQuery =
+                    "Select Top 1 [path] " +
+                    "FROM Product, ProductDetail, ProductImage " +
+                    "WHERE Product.ProductId = ProductDetail.ProductId " +
+                    "AND ProductDetail.ProductDetailId = ProductImage.ProductDetailId " +
+                    "AND Product.ProductId = @productId " +
+                    "Order by ProductDetail.ProductDetailId";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@productId", productId);
+                    path = command.ExecuteScalar()?.ToString();
+                }
+            }
+
+            return path == null ? "" : path;
+
+
+        }
+
+        //get All colors of a product
         private DataTable getColors(string productId)
         {
             DataTable data = new DataTable();
@@ -192,6 +251,45 @@ namespace OutModern.src.Admin.Products
 
             return data;
         }
+
+        //Get Categories
+        private DataTable getProductCategory()
+        {
+            DataTable data = new DataTable();
+            data.Columns.Add("ProductCategory");
+
+            // Add product categories to the table
+            data.Rows.Add("Hoodies");
+            data.Rows.Add("Tee Shirts");
+            data.Rows.Add("Sweaters");
+            data.Rows.Add("Shorts and Pants");
+            data.Rows.Add("Trousers");
+            data.Rows.Add("Accessories");
+
+            return data;
+        }
+
+        //Get All Product Status
+        private DataTable getProductStatus()
+        {
+            DataTable data = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+
+                string sqlQuery = "Select ProductStatusId, ProductStatusName From ProductStatus";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    data.Load(command.ExecuteReader());
+                }
+            }
+
+            return data;
+        }
+
+
 
         //
         //Page event
@@ -251,5 +349,24 @@ namespace OutModern.src.Admin.Products
             lvProducts.DataSource = staffDataSource(e.SortExpression, SortDirections[e.SortExpression]);
             lvProducts.DataBind();
         }
+
+        protected void ddlFilterCategory_DataBound(object sender, EventArgs e)
+        {
+            ddlFilterCategory.Items.Insert(0, new ListItem("All Categories", "-1"));
+        }
+
+
+        protected void ddlFilterStatus_DataBound(object sender, EventArgs e)
+        {
+            ddlFilterStatus.Items.Insert(0, new ListItem("All Status", "-1"));
+        }
+
+        protected void ddlFilterCategory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string sortExpression = ViewState["SortExpression"]?.ToString();
+            lvProducts.DataSource = sortExpression == null ? staffDataSource() : staffDataSource(sortExpression, SortDirections[sortExpression]);
+            lvProducts.DataBind();
+        }
+
     }
 }

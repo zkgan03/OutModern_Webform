@@ -39,16 +39,35 @@
             </div>
 
             <!-- Filter -->
-            <div class="filter-item flex">
+            <div class="filter-item flex justify-center items-center">
+                <!-- Filter Order Date -->
                 <div class="item">
-                    Status
-                    <i class="fa-regular fa-layer-group"></i>
+                    <div>
+                        <div class="w-16 float-left">From :</div>
+                        <asp:TextBox ID="txtFilterOrderDateFrom"
+                            OnTextChanged="ddlFilterOrderStatus_SelectedIndexChanged"
+                            AutoPostBack="true" TextMode="Date" runat="server"></asp:TextBox>
+                    </div>
+                    <div class="mt-3">
+                        <div class="w-16 float-left">To :</div>
+                        <asp:TextBox ID="txtFilterOrderDateTo"
+                            OnTextChanged="ddlFilterOrderStatus_SelectedIndexChanged"
+                            AutoPostBack="true" TextMode="Date" runat="server"></asp:TextBox>
+                    </div>
+                </div>
+                <!-- Filter Order Status -->
+                <div class="item self-end">
+                    <asp:DropDownList ID="ddlFilterOrderStatus" runat="server"
+                        AutoPostBack="true"
+                        OnSelectedIndexChanged="ddlFilterOrderStatus_SelectedIndexChanged"
+                        OnDataBound="ddlFilterOrderStatus_DataBound">
+                    </asp:DropDownList>
+                    <i class="fa-regular fa-cart-flatbed-boxes"></i>
                 </div>
             </div>
         </div>
-
         <!-- Display Orders -->
-        <div class="mt-2">
+        <div class="mt-5">
             <!--Pagination-->
             <asp:DataPager ID="dpTopOrders" class="pagination" runat="server" PagedControlID="lvOrders">
                 <Fields>
@@ -179,14 +198,5 @@
     </div>
 
     <script>
-        //toggle the arrow up and down
-        document.querySelectorAll('.fa-arrow-up').forEach((el) => {
-            el.addEventListener('click', () => {
-                el.classList.toggle('fa-arrow-down');
-            });
-        })
-
-
-    </script>
-
+</script>
 </asp:Content>

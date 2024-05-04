@@ -144,6 +144,7 @@ namespace OutModern.src.Admin.OrderDetails
         // db operation
         //
 
+        // get all products ordered
         private DataTable getProductOrdered()
         {
             DataTable data = new DataTable();
@@ -152,15 +153,13 @@ namespace OutModern.src.Admin.OrderDetails
                 connection.Open();
 
                 string sqlQuery =
-                    "Select Product.ProductName, Size.SizeName, " +
-                    "Color.ColorName, ProductImage.[path], Product.UnitPrice, OrderItem.Quantity, " +
+                    "Select ProductDetail.ProductDetailId, Product.ProductName, Size.SizeName, " +
+                    "Color.ColorName, Product.UnitPrice, OrderItem.Quantity, " +
                     "UnitPrice*OrderItem.Quantity as Subtotal " +
-                    "FROM [Order], OrderItem , ProductDetail, Size, " +
-                    "Color, ProductImage, Product " +
+                    "FROM [Order], OrderItem , ProductDetail, Size, Color, Product " +
                     "WHERE [Order].OrderId = OrderItem.OrderId " +
                     "AND OrderItem.ProductDetailId = ProductDetail.ProductDetailId " +
                     "AND Color.ColorId = ProductDetail.ColorId " +
-                    "AND ProductImage.ProductDetailId = ProductDetail.ProductDetailId " +
                     "AND Size.SizeId = ProductDetail.SizeId " +
                     "AND Product.ProductId = ProductDetail.ProductId " +
                     "AND [Order].OrderId = @orderId;";
@@ -171,9 +170,42 @@ namespace OutModern.src.Admin.OrderDetails
                     data.Load(command.ExecuteReader());
                 }
             }
+
+            data.Columns.Add("Path", typeof(string));
+            foreach (DataRow row in data.Rows)
+            {
+                row["Path"] = getProductDetailImagePath(row["ProductDetailId"].ToString());
+            }
+
             return data;
         }
 
+        // get a image path of a product detail
+        private string getProductDetailImagePath(string productDetailId)
+        {
+            string data = "";
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+
+                string sqlQuery =
+                    "Select Top 1 [path] " +
+                    "FROM ProductImage " +
+                    "WHERE ProductDetailId = @productDetailId;";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@productDetailId", productDetailId);
+                    data = command.ExecuteScalar()?.ToString();
+
+                }
+            }
+            return data == null ? "" : data;
+
+        }
+
+        // get payment info of the order
         private DataTable getPaymentInfo()
         {
             DataTable data = new DataTable();
@@ -198,6 +230,7 @@ namespace OutModern.src.Admin.OrderDetails
             return data;
         }
 
+        // get order detail
         private DataTable getOrderDetail()
         {
             DataTable data = new DataTable();
@@ -221,6 +254,7 @@ namespace OutModern.src.Admin.OrderDetails
             return data;
         }
 
+        // get customer info
         private DataTable getCustomerInfo()
         {
             DataTable data = new DataTable();

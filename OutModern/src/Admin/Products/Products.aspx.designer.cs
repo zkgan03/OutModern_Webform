@@ -24,6 +24,24 @@ namespace OutModern.src.Admin.Products
         protected global::System.Web.UI.WebControls.HyperLink hyperlinkAddProduct;
 
         /// <summary>
+        /// ddlFilterCategory control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlFilterCategory;
+
+        /// <summary>
+        /// ddlFilterStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlFilterStatus;
+
+        /// <summary>
         /// dpTopProducts control.
         /// </summary>
         /// <remarks>

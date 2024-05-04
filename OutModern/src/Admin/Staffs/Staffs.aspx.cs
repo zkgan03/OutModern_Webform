@@ -44,6 +44,18 @@ namespace OutModern.src.Admin.Staffs
                 lvStaffs.DataSource = staffDataSource();
                 lvStaffs.DataBind();
 
+                //Filter Bind
+                ddlFilterRole.DataSource = getAdminRoles();
+                ddlFilterRole.DataValueField = "AdminRoleId";
+                ddlFilterRole.DataTextField = "AdminRoleName";
+                ddlFilterRole.DataBind();
+
+                ddlFilterStatus.DataSource = getAdminStatus();
+                ddlFilterStatus.DataValueField = "UserStatusId";
+                ddlFilterStatus.DataTextField = "UserStatusName";
+                ddlFilterStatus.DataBind();
+
+
                 Page.DataBind();
             }
         }
@@ -103,14 +115,27 @@ namespace OutModern.src.Admin.Staffs
         {
             DataTable data = new DataTable();
 
+            string roleId = ddlFilterRole.SelectedValue;
+            string statusId = ddlFilterStatus.SelectedValue;
+
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 string sqlQuery =
                     "SELECT Admin.AdminId, Admin.AdminFullName AS AdminName, Admin.AdminUsername, Admin.AdminEmail, Admin.AdminPhoneNo, UserStatus.UserStatusName AS AdminStatus, AdminRole.AdminRoleName AS AdminRole " +
-                    "FROM Admin " +
-                    "INNER JOIN UserStatus ON Admin.AdminStatusId = UserStatus.UserStatusId " +
-                    "INNER JOIN AdminRole ON Admin.AdminRoleId = AdminRole.AdminRoleId ";
+                    "FROM Admin, UserStatus, AdminRole " +
+                    "WHERE Admin.AdminStatusId = UserStatus.UserStatusId " +
+                    "AND Admin.AdminRoleId = AdminRole.AdminRoleId ";
+
+                if (!string.IsNullOrEmpty(roleId) && roleId != "-1")
+                {
+                    sqlQuery += "AND Admin.AdminRoleId = @roleId ";
+                }
+
+                if (!string.IsNullOrEmpty(statusId) && statusId != "-1")
+                {
+                    sqlQuery += "AND Admin.AdminStatusId = @statusId ";
+                }
 
                 if (!string.IsNullOrEmpty(sortExpression))
                 {
@@ -119,24 +144,36 @@ namespace OutModern.src.Admin.Staffs
 
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
+                    if (!string.IsNullOrEmpty(roleId) && roleId != "-1")
+                    {
+                        command.Parameters.AddWithValue("@roleId", roleId);
+                    }
+
+                    if (!string.IsNullOrEmpty(statusId) && statusId != "-1")
+                    {
+                        command.Parameters.AddWithValue("@statusId", statusId);
+                    }
+
                     data.Load(command.ExecuteReader());
                 }
             }
-
 
             return data;
         }
 
 
+
+
+
         //update staff
         private int updateStaff(
-            string adminId,
-            string adminName,
-            string adminUsername,
-            string adminRole,
-            string adminEmail,
-            string adminPhoneNo,
-            string adminStatus)
+        string adminId,
+        string adminName,
+        string adminUsername,
+        string adminRole,
+        string adminEmail,
+        string adminPhoneNo,
+        string adminStatus)
         {
             int numberRowEffected = 0;
 
@@ -597,6 +634,28 @@ namespace OutModern.src.Admin.Staffs
         protected void lvStaffs_ItemCommand(object sender, ListViewCommandEventArgs e)
         {
 
+        }
+
+        protected void ddlFilterRole_DataBound(object sender, EventArgs e)
+        {
+            // set first item as all
+            ddlFilterRole.Items.Insert(0, new ListItem("All Roles", "-1"));
+        }
+
+        protected void ddlFilterStatus_DataBound(object sender, EventArgs e)
+        {
+            // set first item as all
+            ddlFilterStatus.Items.Insert(0, new ListItem("All Status", "-1"));
+        }
+
+        protected void ddlFilterRole_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string sortExpression = ViewState["SortExpression"]?.ToString();
+            lvStaffs.DataSource =
+                sortExpression == null ?
+                staffDataSource() :
+                staffDataSource(sortExpression, SortDirections[sortExpression]);
+            lvStaffs.DataBind();
         }
     }
 }

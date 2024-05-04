@@ -48,6 +48,13 @@ namespace OutModern.src.Admin.CustomerDetails
 
                 lvOrders.DataSource = orderDataSource();
                 lvOrders.DataBind();
+
+                //bind the filter status
+                ddlFilterOrderStatus.DataSource = getOrderStatus();
+                ddlFilterOrderStatus.DataTextField = "OrderStatusName";
+                ddlFilterOrderStatus.DataValueField = "OrderStatusId";
+                ddlFilterOrderStatus.DataBind();
+
                 Page.DataBind();
             }
         }
@@ -59,13 +66,18 @@ namespace OutModern.src.Admin.CustomerDetails
             {
                 Response.Redirect("~/src/ErrorPages/404.aspx");
             }
+
             DataRow row = data.Rows[0];
+
+            imgProfile.ImageUrl = row["ProfileImagePath"].ToString();
 
             lblCustomerId.Text = row["CustomerId"].ToString();
             lblFullName.Text = row["CustomerFullName"].ToString();
             lblUsername.Text = row["CustomerUsername"].ToString();
             lblEmail.Text = row["CustomerEmail"].ToString();
             lblPhoneNo.Text = row["CustomerPhoneNumber"].ToString();
+
+
 
             string status = row["UserStatusName"].ToString();
             lblStatus.Text = status;
@@ -174,7 +186,7 @@ namespace OutModern.src.Admin.CustomerDetails
             {
                 connection.Open();
                 string sqlQuery =
-                    "Select CustomerId, CustomerFullName, CustomerUsername, CustomerEmail, CustomerPhoneNumber, UserStatusName " +
+                    "Select CustomerId, CustomerFullName, CustomerUsername,ProfileImagePath, CustomerEmail, CustomerPhoneNumber, UserStatusName " +
                     "FROM Customer, UserStatus " +
                     "Where Customer.CustomerStatusId = UserStatus.UserStatusId " +
                     "AND CustomerId = @customerId ";
@@ -214,10 +226,12 @@ namespace OutModern.src.Admin.CustomerDetails
             return data;
         }
 
-        //dummy data
-        protected DataTable getOrders(string sortExpression = null, string sortDirection = "ASC")
+        // get order data
+        private DataTable getOrders(string sortExpression = null, string sortDirection = "ASC")
         {
             DataTable data = new DataTable();
+
+            string statusId = ddlFilterOrderStatus.SelectedValue;
 
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
@@ -229,6 +243,11 @@ namespace OutModern.src.Admin.CustomerDetails
                     "AND [Order].OrderStatusId = OrderStatus.OrderStatusId " +
                     "AND Customer.CustomerId = @customerId ";
 
+                if (!string.IsNullOrEmpty(statusId) && statusId != "-1")
+                {
+                    sqlQuery += "AND [Order].OrderStatusId = @statusId ";
+                }
+
                 if (!string.IsNullOrEmpty(sortExpression))
                 {
                     sqlQuery += "ORDER BY " + sortExpression + " " + sortDirection;
@@ -236,6 +255,9 @@ namespace OutModern.src.Admin.CustomerDetails
 
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
+                    if (!string.IsNullOrEmpty(statusId) && statusId != "-1")
+                        command.Parameters.AddWithValue("@statusId", statusId);
+
                     command.Parameters.AddWithValue("@customerId", customerId);
                     data.Load(command.ExecuteReader());
                 }
@@ -301,6 +323,28 @@ namespace OutModern.src.Admin.CustomerDetails
 
             return totalOrder;
         }
+
+        // get all order status
+        private DataTable getOrderStatus()
+        {
+            DataTable data = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                string sqlQuery =
+                    "Select OrderStatusId, OrderStatusName " +
+                    "FROM OrderStatus ";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    data.Load(command.ExecuteReader());
+                }
+            }
+
+            return data;
+        }
+
         //
         //Page Events
         //
@@ -352,6 +396,20 @@ namespace OutModern.src.Admin.CustomerDetails
             // Re-bind the ListView with sorted data
             lvOrders.DataSource = orderDataSource(e.SortExpression, SortDirections[e.SortExpression]);
             lvOrders.DataBind();
+        }
+
+        protected void ddlFilterOrderStatus_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string sortExpression = ViewState["SortExpression"]?.ToString();
+            lvOrders.DataSource = sortExpression == null ?
+                orderDataSource() :
+                orderDataSource(sortExpression, SortDirections[sortExpression]);
+            lvOrders.DataBind();
+        }
+
+        protected void ddlFilterOrderStatus_DataBound(object sender, EventArgs e)
+        {
+            ddlFilterOrderStatus.Items.Insert(0, new ListItem("All Status", "-1"));
         }
     }
 }

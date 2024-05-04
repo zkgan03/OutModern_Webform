@@ -118,7 +118,7 @@
                                     <%# Eval("ProductName") %>
                                 </td>
                                 <td><%# Eval("SizeName") %></td>
-                                <td>...</td>
+                                <td><%# Eval("ColorName") %></td>
                                 <td><%# Eval("UnitPrice", "{0:0.00}") %></td>
                                 <td><%# Eval("Quantity") %></td>
                                 <td class="text-right" style="padding-right: 1rem;"><%# Eval("Subtotal", "{0:0.00}") %></td>

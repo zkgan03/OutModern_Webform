@@ -88,7 +88,7 @@
             }
 
             .filter-item .item {
-                @apply cursor-pointer mr-2 border p-2 box-border;
+                @apply mr-2 border p-2 box-border;
             }
 
             /*Table style*/
@@ -299,7 +299,7 @@
 
                             <!-- Profile drop down item -->
                             <div class="drop-down-list">
-                                <asp:LinkButton CssClass="drop-down-item" ID="linkBtnLogout" runat="server">
+                                <asp:LinkButton CssClass="drop-down-item" ID="linkBtnLogout" OnClick="linkBtnLogout_Click" runat="server">
                                     <span>Logout</span>
                                     <i class="fa-regular fa-arrow-right-from-bracket"></i>     
                                 </asp:LinkButton>
