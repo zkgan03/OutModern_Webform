@@ -145,9 +145,9 @@ namespace OutModern.src.Client.ClientMaster
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
+        /// To modify move field declration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLink8;
+        protected global::System.Web.UI.WebControls.HyperLink HyperLink9;
 
         /// <summary>
         /// ContentPlaceHolder1 control.
