@@ -17,7 +17,7 @@ namespace OutModern.src.Client.ClientMaster
         protected string cartUrl = "#";
 
         string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        int customerId;
+        private int customerId;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -34,14 +34,16 @@ namespace OutModern.src.Client.ClientMaster
                     hyperlinkAbout.CssClass = hyperlinkAbout.CssClass.Replace("top-nav-item", "top-nav-item-active");
                 }
 
-                if (Session["CUSTID"] != null)
-                {
-                    customerId = (int)Session["CUSTID"];
-                }
-                else
-                {
-                    customerId = 0;
-                }
+
+            }
+
+            if (Session["CUSTID"] != null)
+            {
+                customerId = (int)Session["CUSTID"];
+            }
+            else
+            {
+                customerId = 0;
             }
 
 

@@ -15,20 +15,13 @@ namespace OutModern.src.Client.ProductDetails
     public partial class ProductDetails : System.Web.UI.Page
     {
         string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        int customerId; // REMEMBER TO CHANGE ID
+        private int customerId; // REMEMBER TO CHANGE ID
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                if (Session["CUSTID"] != null)
-                {
-                    customerId = (int)Session["CUSTID"];
-                }
-                else
-                {
-                    customerId = 0;
-                }
+
 
                 GetProductInfo();
                 ColorRepeater.DataBind();
@@ -36,6 +29,15 @@ namespace OutModern.src.Client.ProductDetails
                 initColorSize();
                 ReviewListView.DataBind();
                 calculateOverallRating();
+            }
+
+            if (Session["CUSTID"] != null)
+            {
+                customerId = (int)Session["CUSTID"];
+            }
+            else
+            {
+                customerId = 0;
             }
         }
 
@@ -501,7 +503,6 @@ namespace OutModern.src.Client.ProductDetails
             int colorId = Convert.ToInt32(ViewState["ColorId"]);
             int sizeId = Convert.ToInt32(ViewState["SizeId"]);
             int quantity = Convert.ToInt32(txtQuantity.Text);
-
 
             // Check if the customer ID is valid
             if (customerId > 0)

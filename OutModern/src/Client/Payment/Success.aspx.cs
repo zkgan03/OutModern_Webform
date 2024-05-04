@@ -42,6 +42,7 @@ namespace OutModern.src.Client.Payment
 
                 Session["PaymentToSuccess"] = false;
 
+
                 if (Session["CUSTID"] != null)
                 {
                     customerId = (int)Session["CUSTID"];
@@ -50,6 +51,7 @@ namespace OutModern.src.Client.Payment
                 {
                     Response.Redirect("~/src/Client/Login/Login.aspx");
                 }
+
 
                 // Check if the status parameter indicates success
                 string status = Request.QueryString["status"];
@@ -76,6 +78,32 @@ namespace OutModern.src.Client.Payment
                 }
             }
 
+
+
+
+        }
+
+        private void CheckAndUpdateProductStatus()
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                // Query to check if all product details under a product have quantity 0
+                string query = @"
+            UPDATE Product
+            SET ProductStatusId = 2
+            WHERE ProductId IN (
+                SELECT p.ProductId
+                FROM Product p
+                LEFT JOIN ProductDetail pd ON p.ProductId = pd.ProductId
+                GROUP BY p.ProductId
+                HAVING SUM(pd.Quantity) = 0
+            )";
+
+                SqlCommand command = new SqlCommand(query, connection);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
         }
 
         private void InsertDataIntoDatabase(Address selectedAddress, PaymentInfo paymentInfo, decimal grandTotal, PromoTable promoCode)
@@ -85,7 +113,7 @@ namespace OutModern.src.Client.Payment
             if (cartItems != null && cartItems.Count > 0)
             {
                 // Create a new order
-                int orderId = CreateOrder(selectedAddress.AddressId, GetPaymentMethodId(paymentInfo), promoCode.PromoId, grandTotal);
+                int orderId = CreateOrder(selectedAddress.AddressId, GetPaymentMethodId(paymentInfo), promoCode?.PromoId, grandTotal);
 
                 // Add cart items to order items
                 foreach (var cartItem in cartItems)
@@ -96,6 +124,8 @@ namespace OutModern.src.Client.Payment
 
                 // Clear the cart (optional)
                 ClearCart(customerId);
+
+                CheckAndUpdateProductStatus();
             }
 
         }
@@ -166,7 +196,7 @@ namespace OutModern.src.Client.Payment
                 {
                     CartItem item = new CartItem();
                     item.ProductDetailId = Convert.ToInt32(reader["ProductDetailId"]);
-                    item.Quantity = Convert.ToInt32(reader["quantity"]);
+                    item.Quantity = Convert.ToInt32(reader["Quantity"]);
                     // You might need to retrieve more details about the product here
                     cartItems.Add(item);
                 }

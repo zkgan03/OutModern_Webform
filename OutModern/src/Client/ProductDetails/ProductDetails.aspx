@@ -274,11 +274,6 @@
      <i class="fas fa-shopping-cart mr-2 text-white"></i> Add To Cart
                                         </asp:LinkButton>
                                     </div>
-                                    <div>
-                                        <asp:LinkButton ID="BuyNow" runat="server" CssClass="flex-1 flex min-w-20 cursor-pointer items-center justify-center rounded-md border border-transparent bg-black px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500 sm:w-full">
-     <i class="fa-regular fa-credit-card mr-2 text-white"></i> Buy Now
-                                        </asp:LinkButton>
-                                    </div>
                                 </div>
                             </div>
                         </div>

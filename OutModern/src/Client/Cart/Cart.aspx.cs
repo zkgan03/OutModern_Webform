@@ -26,22 +26,27 @@ namespace OutModern.src.Client.Cart
     public partial class Cart : System.Web.UI.Page
     {
         string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        int customerId;// REMEMBER TO CHANGE ID
+        private int customerId;// REMEMBER TO CHANGE ID
         protected void Page_Load(object sender, EventArgs e)
         {
+
+
             if (!IsPostBack)
             {
-                if (Session["CUSTID"] != null)
-                {
-                    customerId = (int)Session["CUSTID"];
-                }
-                else
-                {
-                    Response.Redirect("~/src/Client/Login/Login.aspx");
-                }
+
                 Session["PromoCode"] = null;
             }
-            
+
+            Session["CUSTID"] = 1;
+            if (Session["CUSTID"] != null)
+            {
+                customerId = (int)Session["CUSTID"];
+            }
+            else
+            {
+                Response.Redirect("~/src/Client/Login/Login.aspx");
+            }
+
             BindCartItems();
             UpdateSubtotalandGrandTotalLabel();
         }
@@ -103,10 +108,11 @@ namespace OutModern.src.Client.Cart
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 string query = "SELECT CI.ProductDetailId, " +
-                               "PD.Quantity AS ProductQuantity " +
-                               "FROM CartItem CI " +
-                               "INNER JOIN ProductDetail PD ON CI.ProductDetailId = PD.ProductDetailId " +
-                               "WHERE CI.CartId = (SELECT CartId FROM Cart WHERE CustomerId = @CustomerId)";
+                                "PD.Quantity AS ProductQuantity, " +
+                                "CI.Quantity AS CartItemQuantity " +
+                                "FROM CartItem CI " +
+                                "INNER JOIN ProductDetail PD ON CI.ProductDetailId = PD.ProductDetailId " +
+                                "WHERE CI.CartId = (SELECT CartId FROM Cart WHERE CustomerId = @CustomerId)";
 
                 SqlCommand cmd = new SqlCommand(query, con);
                 cmd.Parameters.AddWithValue("@CustomerId", customerId);
@@ -118,16 +124,23 @@ namespace OutModern.src.Client.Cart
                 da.Fill(dt);
                 con.Close();
 
-                // Iterate through the DataTable to check for invalid product details
+                // Iterate through the DataTable to check and update cart item quantities
                 List<int> invalidProductDetailIds = new List<int>();
                 foreach (DataRow row in dt.Rows)
                 {
                     int productDetailId = Convert.ToInt32(row["ProductDetailId"]);
-                    int quantity = Convert.ToInt32(row["ProductQuantity"]);
-                    int productStatusId = GetProductStatusId(productDetailId);
+                    int productQuantity = Convert.ToInt32(row["ProductQuantity"]);
+                    int cartItemQuantity = Convert.ToInt32(row["CartItemQuantity"]);
 
-                    
-                    if (quantity == 0 || productStatusId == 2 || productStatusId == 3)
+                    // If cart item quantity exceeds product quantity, update it to product quantity
+                    if (cartItemQuantity > productQuantity)
+                    {
+                        UpdateCartItemQuantity(productDetailId, productQuantity);
+                    }
+
+                    // Check for invalid product details
+                    int productStatusId = GetProductStatusId(productDetailId);
+                    if (cartItemQuantity == 0 || productStatusId == 2 || productStatusId == 3)
                     {
                         invalidProductDetailIds.Add(productDetailId);
                     }
@@ -140,6 +153,7 @@ namespace OutModern.src.Client.Cart
                 BindValidCartItems();
             }
         }
+
 
         private int GetProductStatusId(int productDetailId)
         {
@@ -160,6 +174,22 @@ namespace OutModern.src.Client.Cart
                 con.Close();
             }
             return productStatusId;
+        }
+
+        private void UpdateCartItemQuantity(int productDetailId, int newQuantity)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "UPDATE CartItem SET Quantity = @NewQuantity WHERE ProductDetailId = @ProductDetailId";
+
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@ProductDetailId", productDetailId);
+                cmd.Parameters.AddWithValue("@NewQuantity", newQuantity);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
         }
 
         private void RemoveInvalidCartItems(List<int> invalidProductDetailIds)
@@ -527,7 +557,7 @@ namespace OutModern.src.Client.Cart
             }
         }
 
-        private bool IsCartEmpty(int customerId)
+        private bool IsCartEmpty(int custId)
         {
             bool cartIsEmpty = true;
 
@@ -536,7 +566,7 @@ namespace OutModern.src.Client.Cart
             {
                 string query = "SELECT COUNT(*) FROM CartItem WHERE CartId = (SELECT CartId FROM Cart WHERE CustomerId = @CustomerId)";
                 SqlCommand cmd = new SqlCommand(query, con);
-                cmd.Parameters.AddWithValue("@CustomerId", customerId);
+                cmd.Parameters.AddWithValue("@CustomerId", custId);
 
                 con.Open();
                 int itemCount = (int)cmd.ExecuteScalar();

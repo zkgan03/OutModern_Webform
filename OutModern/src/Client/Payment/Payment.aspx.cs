@@ -27,7 +27,7 @@ namespace OutModern.src.Client.Payment
     public partial class Payment : System.Web.UI.Page
     {
         string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        int customerId; // REMEMBER TO CHANGE ID
+        private int customerId; // REMEMBER TO CHANGE ID
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -49,14 +49,6 @@ namespace OutModern.src.Client.Payment
 
                 Session["ShippingToPayment"] = false;
 
-                if (Session["CUSTID"] != null)
-                {
-                    customerId = (int)Session["CUSTID"];
-                }
-                else
-                {
-                    Response.Redirect("~/src/Client/Login/Login.aspx");
-                }
                 // Check if the selected address is stored in the session
                 if (Session["SelectedAddressPayment"] != null)
                 {
@@ -68,6 +60,16 @@ namespace OutModern.src.Client.Payment
 
                 }
 
+            }
+
+
+            if (Session["CUSTID"] != null)
+            {
+                customerId = (int)Session["CUSTID"];
+            }
+            else
+            {
+                Response.Redirect("~/src/Client/Login/Login.aspx");
             }
 
             BindCartItems();
