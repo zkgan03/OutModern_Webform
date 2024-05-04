@@ -25,6 +25,15 @@ namespace OutModern.src.Client.ProductDetails
             {
                 Response.Redirect("~/src/ErrorPages/404.aspx");
             }
+            if (Session["CUSTID"] != null)
+            {
+                customerId = (int)Session["CUSTID"];
+            }
+            else
+            {
+                customerId = 1;
+            }
+
             if (!IsPostBack)
             {
                 GetProductInfo();
