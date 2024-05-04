@@ -1,10 +1,13 @@
-﻿using OutModern.src.Client.Cart;
+﻿using OutModern.src.Admin.Customers;
 using OutModern.src.Client.Products;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
+using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -16,48 +19,106 @@ namespace OutModern.src.Client.ProductDetails
     {
         string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         private int customerId; // REMEMBER TO CHANGE ID
-
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Request.QueryString["ProductId"] == null)
+            {
+                Response.Redirect("~/src/ErrorPages/404.aspx");
+            }
             if (!IsPostBack)
             {
-
-
                 GetProductInfo();
                 ColorRepeater.DataBind();
                 SizeRepeater.DataBind();
                 initColorSize();
-                ReviewListView.DataBind();
                 calculateOverallRating();
             }
+            bindImageRepeater(GetImages(ViewState["ColorId"].ToString()));
+            bindReviews();
+        }
 
-            if (Session["CUSTID"] != null)
+        private bool IsButtonEnabled(string colorId)
+        {
+            string productId = Request.QueryString["ProductId"];
+            int quantity = 0;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                customerId = (int)Session["CUSTID"];
+                string sqlQuery = "SELECT SUM(Quantity) AS TotalQuantity " +
+                                  "FROM ProductDetail " +
+                                  "WHERE ColorId = @colorId AND ProductId = @productId";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@colorId", colorId);
+                    command.Parameters.AddWithValue("@productId", productId);
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            quantity = (int)reader["TotalQuantity"];
+                        }
+                    }
+                }
             }
-            else
-            {
-                customerId = 0;
-            }
+            return quantity == 0;
         }
 
         private DataTable getReviewList()
         {
             string productId = Request.QueryString["ProductId"];
             DataTable data = new DataTable();
+            string sortingCriteria = ViewState["SortingCriteria"] as string;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 string sqlQuery =
-                     "Select ReviewId, CustomerFullname as CustomerName, ReviewDateTime as ReviewTime, Rating as ReviewRating, ColorName as ReviewColor, Quantity as ReviewQuantity, ReviewDescription as ReviewText " +
+                     "Select ReviewId, ProfileImagePath as CustomerPicture, CustomerFullname as CustomerName, ReviewDateTime as ReviewTime, Rating as ReviewRating, ColorName, SizeName, Quantity as ReviewQuantity, ReviewDescription as ReviewText " +
                      "From Review r, Customer c, ProductDetail pd, Product p, Color co, Size s " +
                      "Where r.CustomerId = c.CustomerId AND pd.ProductDetailId = r.ProductDetailId " +
                      "AND pd.ColorId = co.ColorId AND pd.ProductId = p.ProductId AND s.SizeId = pd.SizeId " +
-                     "AND p.ProductId = @productId;";
+                     "AND p.ProductId = @productId ";
+
+                if (sortingCriteria == "topRated")
+                {
+                    sqlQuery += " ORDER BY ReviewRating DESC, ReviewTime DESC";
+                } else
+                {
+                    sqlQuery += " ORDER BY ReviewTime DESC";
+                }
 
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
                     command.Parameters.AddWithValue("@productId", productId);
+                    data.Load(command.ExecuteReader());
+                }
+            }
+            data.Columns.Add("Replies", typeof(DataTable));
+            foreach (DataRow row in data.Rows)
+            {
+                row["Replies"] = getReviewReplies(row["ReviewId"].ToString());
+            }
+            return data;
+        }
+
+        private DataTable getReviewReplies(string reviewId)
+        {
+            DataTable data = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sqlQuery =
+                    "Select Reply as ReplyText, DateTime as ReplyTime " +
+                    "From  ReviewReply rr, Review r " +
+                    "Where r.ReviewId = rr.ReviewId " +
+                    "AND r.ReviewId = @reviewId " +
+                    "ORDER BY ReplyTime DESC;";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("reviewId", reviewId);
                     data.Load(command.ExecuteReader());
                 }
             }
@@ -123,28 +184,8 @@ namespace OutModern.src.Client.ProductDetails
             lblAvgRatings.Text = avgRating.ToString("F1");
             lblReviews.Text = "(" + totalReview.ToString() + " Reviews)";
             lblTotalReview.Text = totalReview.ToString();
-            int fullStars = (int)avgRating;
-            double remainder = avgRating - fullStars;
-            int grayStars = 5 - fullStars - (remainder >= 0.5 ? 1 : 0);
-            StringBuilder stars = new StringBuilder();
-            StringBuilder stars1 = new StringBuilder();
-            for (int i = 0; i < fullStars; i++)
-            {
-                stars.Append("<i class='fas fa-star text-yellow-400 text-lg'></i>");
-                stars1.Append("<i class='fas fa-star rounded-lg bg-black p-2 text-lg text-yellow-300'></i>");
-            }
-            if (remainder >= 0.5)
-            {
-                stars.Append("<i class='fas fa-star-half-alt text-yellow-400 text-lg'></i>");
-                stars1.Append("<i class='fas fa-star-half-alt rounded-lg bg-black p-2 text-lg text-yellow-300'></i>");
-            }
-            for (int i = 0; i < grayStars; i++)
-            {
-                stars.Append("<i class='far fa-star text-gray-400 text-lg'></i>");
-                stars1.Append("<i class='far fa-star rounded-lg bg-black p-2 text-lg text-yellow-300'></i>");
-            }
-            ratingStar2.InnerHtml = stars1.ToString();
-            ratingStars.InnerHtml = stars.ToString();
+            ratingStar2.InnerHtml = GenerateStars(avgRating);
+            ratingStars.InnerHtml = GenerateStars(avgRating);
         }
 
         private void initColorSize()
@@ -158,61 +199,52 @@ namespace OutModern.src.Client.ProductDetails
                 foreach (RepeaterItem sizeItem in SizeRepeater.Items)
                 {
                     LinkButton sizeBtn = sizeItem.FindControl("lbtnSize") as LinkButton;
-                    string sizeId = sizeBtn.Attributes["data-sizeId"];
+                    string sizeId = sizeBtn.Attributes["data-sizeId"];            
                     ViewState["SizeId"] = sizeId;
                     if (GetQuantity() > 0)
-                    {
+                    {             
                         quantityGreaterThanZero = true;
-                        break;
+                        lblSize.Visible = true;
+                        lblSize.Text = sizeBtn.Attributes["value"].ToString();
+                        break;  
                     }
                 }
                 if (quantityGreaterThanZero)
                 {
-                    break;
+                    lblColor.Visible = true;
+                    lblColor.Text = colorBtn.Attributes["value"].ToString();
+                    break; 
                 }
+            }
+            if(!quantityGreaterThanZero)
+            {
+
             }
             GetImages(ViewState["ColorId"].ToString());
         }
 
-        protected string FormatReplies(object replyDescriptionObj)
+        protected void lvReviews_PagePropertiesChanged(object sender, EventArgs e)
         {
-            string replyDescription = replyDescriptionObj.ToString();
-            if (!string.IsNullOrEmpty(replyDescription))
-            {
-                string[] replies = replyDescription.Split(new string[] { "NextReviewReply " }, StringSplitOptions.RemoveEmptyEntries);
-                StringBuilder sb = new StringBuilder();
-
-                foreach (string reply in replies)
-                {
-                    sb.Append("<div class='overflow-hidden rounded-lg mb-4 bg-white shadow-lg'>");
-                    sb.Append("<div class='px-6 py-4'>");
-                    sb.Append($"<p class='font-bold text-black'>Seller's Response:</p>");
-                    sb.Append($"<div class='mt-2 text-gray-700'>");
-                    sb.Append($"<p>{reply}</p>");
-                    sb.Append("</div>");
-                    sb.Append("</div>");
-                    sb.Append("</div>");
-                }
-
-                return sb.ToString();
-            }
-            return string.Empty;
+            bindReviews();
         }
 
-        protected string GenerateStars(int rating)
+        protected string GenerateStars(double rating)
         {
+            int fullStars = (int)rating;
+            double remainder = rating - fullStars;
+            int grayStars = 5 - fullStars - (remainder >= 0.5 ? 1 : 0);
             StringBuilder stars = new StringBuilder();
-
-            for (int i = 1; i <= 5; i++)
+            for (int i = 0; i < fullStars; i++)
             {
-                if (i <= rating)
-                {
-                    stars.Append("<i class='fas fa-star text-yellow-400 text-sm'></i>");
-                }
-                else
-                {
-                    stars.Append("<i class='far fa-star text-gray-400 text-sm'></i>");
-                }
+                stars.Append("<i class='fas fa-star text-yellow-400 text-lg'></i>");
+            }
+            if (remainder >= 0.5)
+            {
+                stars.Append("<i class='fas fa-star-half-alt text-yellow-400 text-lg'></i>");
+            }
+            for (int i = 0; i < grayStars; i++)
+            {
+                stars.Append("<i class='far fa-star text-gray-400 text-lg'></i>");
             }
             return stars.ToString();
         }
@@ -242,23 +274,22 @@ namespace OutModern.src.Client.ProductDetails
                             {
                                 if (reader["TotalQuantity"] != DBNull.Value)
                                 {
-                                    lblQuantity.Text = reader["TotalQuantity"].ToString() + " pieces available";
+                                    lblQuantity.Text = reader["TotalQuantity"].ToString();
                                     quantity = Convert.ToInt32(reader["TotalQuantity"]);
                                     txtQuantity.Attributes["Max"] = quantity.ToString();
                                 }
                             }
                         }
-
-                        connection.Close();
                     }
                 }
             }
             return quantity;
         }
 
-        protected void GetImages(string colorId)
+        protected List<string> GetImages(string colorId)
         {
             string productId = Request.QueryString["ProductId"];
+            List<string> imageUrls = new List<string>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
 
@@ -272,36 +303,27 @@ namespace OutModern.src.Client.ProductDetails
                     command.Parameters.AddWithValue("@colorId", colorId);  // Replace with your ColorId
                     command.Parameters.AddWithValue("@productId", productId);  // Replace with your ProductId
                     connection.Open();
-                    List<string> imageUrls = new List<string>();
-
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
                             string imageUrl = reader["Path"].ToString();
                             imageUrls.Add(imageUrl);
-
                         }
                     }
-                    if (imageUrls.Count >= 1)
-                    {
-                        mainImage1.ImageUrl = imageUrls[0];
-                        Image1.ImageUrl = imageUrls[0];
-                    }
-                    if (imageUrls.Count >= 2)
-                    {
-                        mainImage2.ImageUrl = imageUrls[1];
-                        Image2.ImageUrl = imageUrls[1];
-                    }
-                    if (imageUrls.Count >= 3)
-                    {
-                        mainImage3.ImageUrl = imageUrls[2];
-                        Image3.ImageUrl = imageUrls[2];
-                    }
-                    connection.Close();
+                    bindImageRepeater(imageUrls);
                 }
             }
+            return imageUrls;
+        }
 
+        private void bindImageRepeater(List<string> imageUrls)
+        {
+            ImageRepeater.DataSource = imageUrls.Select(url => new { ImageUrl = url }); ;
+            ImageRepeater.DataBind();
+            MainImageRepeater.DataSource = imageUrls.Select(url => new { ImageUrl = url });
+            MainImageRepeater.DataBind();
+            ScriptManager.RegisterStartupScript(this, GetType(), "InitializeSlider", "initializeSlider();", true);
         }
 
         private void GetProductInfo()
@@ -342,12 +364,12 @@ namespace OutModern.src.Client.ProductDetails
                     {
                         colorBtn.CssClass += " selectedColor";
                         lblColor.Text = colorBtn.Attributes["value"].ToString();
-                        lblColor.Visible = true;
                     }
                 }
             }
+            GetQuantity();
             GetImages(colorId);
-            resetInputQuantity();
+            txtQuantity.Text = "1";
         }
 
         protected void ColorRepeater_ItemCommand(object source, RepeaterCommandEventArgs e)
@@ -356,8 +378,6 @@ namespace OutModern.src.Client.ProductDetails
             {
                 string previousColorId = ViewState["ColorId"] as string;
                 string newColorId = e.CommandArgument.ToString();
-
-                // Remove the 'selectedColor' class from the previously selected color button
                 foreach (RepeaterItem item in ColorRepeater.Items)
                 {
                     LinkButton colorBtn = item.FindControl("lbtnColor") as LinkButton;
@@ -367,17 +387,42 @@ namespace OutModern.src.Client.ProductDetails
                         break;
                     }
                 }
-
                 ViewState["ColorId"] = newColorId;
                 selectColor(newColorId);
+                checkQuantity(newColorId);
+            }
+        }
 
-                string sizeId = ViewState["SizeId"] as string;
-                if (sizeId != null)
+        private void checkQuantity(string colorId)
+        {
+            string firstAvailableSizeId = null;
+            foreach (RepeaterItem item in SizeRepeater.Items)
+            {
+                LinkButton sizeBtn = item.FindControl("lbtnSize") as LinkButton;
+                string sizeId = sizeBtn.Attributes["data-sizeId"];
+                if (IsButtonEnabled(colorId, sizeId))
                 {
-                    selectSize(sizeId);
+                    sizeBtn.Enabled = false;
+                    sizeBtn.CssClass = " buttonDisabled";
+                }
+                else
+                {
+                    sizeBtn.Enabled = true;
+                    sizeBtn.CssClass = "flex items-center justify-center rounded-md px-4 py-3 hover:bg-gray-300";
+                    if(sizeId == ViewState["SizeId"].ToString() && GetQuantity() > 0)
+                    {
+                        sizeBtn.CssClass += " selectedSize";
+                    }
+                    else if (firstAvailableSizeId == null) {
+                        firstAvailableSizeId = sizeId;
+                    }
                 }
             }
-
+            if (GetQuantity() == 0)
+            {
+                ViewState["SizeId"] = firstAvailableSizeId;
+                selectSize(firstAvailableSizeId);
+            }
         }
 
         private void selectSize(string sizeId)
@@ -392,17 +437,93 @@ namespace OutModern.src.Client.ProductDetails
                     {
                         sizeBtn.CssClass += " selectedSize";
                         lblSize.Text = sizeBtn.Attributes["value"].ToString();
-                        lblSize.Visible = true;
                     }
                 }
             }
             GetQuantity();
-            resetInputQuantity();
+            txtQuantity.Text = "1";
         }
 
-        private void resetInputQuantity()
+        protected void SizeRepeater_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            txtQuantity.Text = "1";
+            if (e.CommandName == "SelectSize")
+            {
+                string newSizeId = e.CommandArgument.ToString();
+                string previousSizeId = ViewState["SizeId"] as string;
+                foreach (RepeaterItem item in SizeRepeater.Items)
+                {
+                    LinkButton sizeBtn = item.FindControl("lbtnSize") as LinkButton;
+                    if (sizeBtn != null && sizeBtn.Attributes["data-sizeId"] == previousSizeId)
+                    {
+                        sizeBtn.CssClass = sizeBtn.CssClass.Replace(" selectedSize", "").Trim();
+                        break;
+                    }            
+                }
+                ViewState["SizeId"] = newSizeId;
+                selectSize(newSizeId);
+            }
+        }
+
+        private bool IsButtonEnabled(string colorId, string sizeId)
+        {
+            string productId = Request.QueryString["ProductId"];
+            int quantity = 0;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sqlQuery = "SELECT Quantity " +
+                                  "FROM ProductDetail " +
+                                  "WHERE ColorId = @colorId AND SizeId = @sizeId AND ProductId = @productId";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@colorId", colorId);
+                    command.Parameters.AddWithValue("@sizeId", sizeId);
+                    command.Parameters.AddWithValue("@productId", productId);
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            quantity = (int)reader["Quantity"];
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return quantity == 0;
+        }
+
+        protected void SizeRepeater_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                LinkButton sizeBtn = e.Item.FindControl("lbtnSize") as LinkButton;
+                string sizeId = sizeBtn.Attributes["data-sizeId"];
+                string colorId = ViewState["ColorId"] as string;
+                if (colorId != null && sizeId != null)
+                {   
+                    if (IsButtonEnabled(colorId, sizeId))
+                    {
+                        sizeBtn.Enabled = false;
+                        sizeBtn.CssClass = "buttonDisabled"; // Make sure the CSS class exists in your stylesheet
+                    }       
+                }
+            }
+        }
+
+        protected void ColorRepeater_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                LinkButton colorBtn = e.Item.FindControl("lbtnColor") as LinkButton;
+                string colorId = colorBtn.Attributes["data-colorId"];
+                if (IsButtonEnabled(colorId))
+                {
+                    colorBtn.Enabled = false;
+                    colorBtn.CssClass = "buttonColorDisabled"; // Make sure the CSS class exists in your stylesheet
+                }
+            }
         }
 
         protected void btnDecrease_Click(object sender, EventArgs e)
@@ -418,7 +539,7 @@ namespace OutModern.src.Client.ProductDetails
         protected void btnIncrease_Click(object sender, EventArgs e)
         {
             int quantity = Convert.ToInt32(txtQuantity.Text);
-            int totalQuantity = GetQuantity();
+            int totalQuantity = Convert.ToInt32(lblQuantity.Text);
             if (quantity < totalQuantity)
             {
                 quantity++;
@@ -426,231 +547,29 @@ namespace OutModern.src.Client.ProductDetails
             }
         }
 
-        protected void SizeRepeater_ItemCommand(object source, RepeaterCommandEventArgs e)
+        protected void btnLatest_Click(object sender, EventArgs e)
         {
-            if (e.CommandName == "SelectSize")
-            {
-                string previousSizeId = ViewState["SizeId"] as string;
-                string newSizeId = e.CommandArgument.ToString();
-
-                // Remove the 'selectedSize' class from the previously selected size button
-                foreach (RepeaterItem item in SizeRepeater.Items)
-                {
-                    LinkButton sizeBtn = item.FindControl("lbtnSize") as LinkButton;
-                    if (sizeBtn != null && sizeBtn.Attributes["data-sizeId"] == previousSizeId)
-                    {
-                        sizeBtn.CssClass = sizeBtn.CssClass.Replace(" selectedSize", "").Trim();
-                        break;
-                    }
-                }
-
-                ViewState["SizeId"] = newSizeId;
-                selectSize(newSizeId);
-
-                string colorId = ViewState["ColorId"] as string;
-                if (colorId != null)
-                {
-                    selectColor(colorId);
-                }
-            }
+            ViewState["SortingCriteria"] = "latest";
+            ddpReviews.SetPageProperties(0, ddpReviews.PageSize, true);
+            btnLatest.CssClass = "btnSorting clicked";
+            btnTopRated.CssClass = "btnSorting not-clicked";
+            bindReviews();
         }
 
-        protected void SizeRepeater_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        protected void btnTopRated_Click(object sender, EventArgs e)
         {
-            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
-            {
-                LinkButton sizeBtn = e.Item.FindControl("lbtnSize") as LinkButton;
-                if (sizeBtn != null)
-                {
-                    string sizeId = sizeBtn.Attributes["data-sizeId"];
-                    string selectedSizeId = ViewState["SizeId"] as string;
-                    sizeBtn.CssClass.Replace(" selectedSize", "").Trim();
-                    if (sizeId == selectedSizeId)
-                    {
-                        sizeBtn.CssClass += " selectedSize";
-                        lblSize.Text = sizeBtn.Attributes["value"].ToString();
-                        lblSize.Visible = true;
-                    }
-                }
-            }
+            ViewState["SortingCriteria"] = "topRated";
+            ddpReviews.SetPageProperties(0, ddpReviews.PageSize, true);
+            btnTopRated.CssClass = "btnSorting clicked";
+            btnLatest.CssClass = "btnSorting not-clicked";
+            bindReviews();
         }
 
-        protected void ColorRepeater_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        private void bindReviews()
         {
-            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
-            {
-                LinkButton colorBtn = e.Item.FindControl("lbtnColor") as LinkButton;
-                if (colorBtn != null)
-                {
-                    string colorId = colorBtn.Attributes["data-colorId"];
-                    string selectedColorId = ViewState["ColorId"] as string;
-                    colorBtn.CssClass = colorBtn.CssClass.Replace(" selectedColor", "").Trim();
-                    if (colorId == selectedColorId)
-                    {
-                        colorBtn.CssClass += " selectedColor";
-                        lblColor.Text = colorBtn.Attributes["value"].ToString();
-                        lblColor.Visible = true;
-                    }
-
-                }
-            }
+            lvReviews.DataSource = getReviewList();
+            lvReviews.DataBind();
         }
-
-        protected void AddToCart_Click(object sender, EventArgs e)
-        {
-            // Get the selected product details
-            int productId = Convert.ToInt32(Request.QueryString["ProductId"]);
-            int colorId = Convert.ToInt32(ViewState["ColorId"]);
-            int sizeId = Convert.ToInt32(ViewState["SizeId"]);
-            int quantity = Convert.ToInt32(txtQuantity.Text);
-
-            // Check if the customer ID is valid
-            if (customerId > 0)
-            {
-                // Check if the cart item already exists for the same customer and product details
-                int existingCartItemQuantity = GetExistingCartItemQuantity(customerId, productId, colorId, sizeId);
-
-                if (existingCartItemQuantity > 0)
-                {
-                    // Update the quantity for the existing cart item
-                    UpdateCartItemQuantity(customerId, productId, colorId, sizeId, existingCartItemQuantity + quantity);
-                }
-                else
-                {
-                    // Insert the data into the CartItem table
-                    using (SqlConnection connection = new SqlConnection(connectionString))
-                    {
-                        string sqlQuery = "INSERT INTO CartItem (CartId, ProductDetailId, Quantity) VALUES (@CartId, @ProductDetailId, @Quantity)";
-                        using (SqlCommand command = new SqlCommand(sqlQuery, connection))
-                        {
-                            connection.Open();
-                            command.Parameters.AddWithValue("@CartId", GetCartId(customerId)); // You need to implement this method to retrieve the cart ID based on the customer ID
-                            command.Parameters.AddWithValue("@ProductDetailId", GetProductDetailId(productId, colorId, sizeId)); // You need to implement this method to retrieve the ProductDetailId based on the product ID, color ID, and size ID
-                            command.Parameters.AddWithValue("@Quantity", quantity);
-                            command.ExecuteNonQuery();
-
-                            UpdateCartSubtotal(customerId);
-                        }
-                    }
-                }
-
-                Response.Redirect(Request.RawUrl);
-            }
-            else
-            {
-                Response.Redirect("~/src/Client/Login/Login.aspx");
-            }
-        }
-
-        private void UpdateCartSubtotal(int customerId)
-        {
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                string query = "UPDATE Cart " +
-                               "SET Subtotal = (SELECT SUM(P.UnitPrice * CI.Quantity) " +
-                                              "FROM CartItem CI " +
-                                              "INNER JOIN ProductDetail PD ON CI.ProductDetailId = PD.ProductDetailId " +
-                                              "INNER JOIN Product P ON PD.ProductId = P.ProductId " +
-                                              "WHERE CI.CartId = Cart.CartId) " +
-                               "WHERE CustomerId = @CustomerId";
-                SqlCommand cmd = new SqlCommand(query, con);
-                cmd.Parameters.AddWithValue("@CustomerId", customerId);
-
-                con.Open();
-                cmd.ExecuteNonQuery();
-                con.Close();
-            }
-        }
-
-        private int GetExistingCartItemQuantity(int customerId, int productId, int colorId, int sizeId)
-        {
-            int existingQuantity = 0;
-
-            // Query to check if the cart item already exists for the provided customer ID and product details
-            string query = "SELECT Quantity FROM CartItem WHERE CartId = @CartId AND ProductDetailId = @ProductDetailId";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@CartId", GetCartId(customerId));
-                    command.Parameters.AddWithValue("@ProductDetailId", GetProductDetailId(productId, colorId, sizeId));
-
-                    connection.Open();
-                    object result = command.ExecuteScalar();
-
-                    if (result != null && result != DBNull.Value)
-                    {
-                        existingQuantity = Convert.ToInt32(result);
-                    }
-                }
-            }
-
-            return existingQuantity;
-        }
-
-        private void UpdateCartItemQuantity(int customerId, int productId, int colorId, int sizeId, int newQuantity)
-        {
-            // Query to update the quantity of the existing cart item
-            string query = "UPDATE CartItem SET Quantity = @Quantity WHERE CartId = @CartId AND ProductDetailId = @ProductDetailId";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@Quantity", newQuantity);
-                    command.Parameters.AddWithValue("@CartId", GetCartId(customerId));
-                    command.Parameters.AddWithValue("@ProductDetailId", GetProductDetailId(productId, colorId, sizeId));
-
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                }
-            }
-        }
-
-
-        private int GetCartId(int customerId)
-        {
-            int cartId = 0; // Initialize cartId to 0
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                string sqlQuery = "SELECT CartId FROM Cart WHERE CustomerId = @CustomerId";
-                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
-                {
-                    command.Parameters.AddWithValue("@CustomerId", customerId);
-                    connection.Open();
-                    object result = command.ExecuteScalar();
-                    if (result != null)
-                    {
-                        cartId = Convert.ToInt32(result);
-                    }
-                }
-            }
-            return cartId;
-        }
-
-        private int GetProductDetailId(int productId, int colorId, int sizeId)
-        {
-            int productDetailId = 0; // Initialize productDetailId to 0
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                string sqlQuery = "SELECT ProductDetailId FROM ProductDetail WHERE ProductId = @ProductId AND ColorId = @ColorId AND SizeId = @SizeId";
-                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
-                {
-                    command.Parameters.AddWithValue("@ProductId", productId);
-                    command.Parameters.AddWithValue("@ColorId", colorId);
-                    command.Parameters.AddWithValue("@SizeId", sizeId);
-                    connection.Open();
-                    object result = command.ExecuteScalar();
-                    if (result != null)
-                    {
-                        productDetailId = Convert.ToInt32(result);
-                    }
-                }
-            }
-            return productDetailId;
-        }
-
-
     }
+
 }

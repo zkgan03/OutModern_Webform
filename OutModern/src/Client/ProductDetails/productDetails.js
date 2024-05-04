@@ -1,25 +1,14 @@
-﻿var modal = document.getElementById("myModal");
-var imgs = document.querySelectorAll(".slides");
-var modalImg = document.getElementById("modal-img");
+﻿var slideIndex = 1;
+function initializeSlider() {
+    showSlides(slideIndex);
+}
 
-imgs.forEach(
-    (img) =>
-    (img.onclick = function () {
-        modal.style.display = "block";
-        modalImg.src = this.src;
-    })
-);
-
-var span = document.getElementsByClassName("close-modal")[0];
-span.onclick = function () {
-    modal.style.display = "none";
-};
-
-var slideIndex = 1;
 showSlides(slideIndex);
+
 function plusSlides(n) {
     showSlides((slideIndex += n));
 }
+
 function showSlides(n) {
     var dots = document.querySelectorAll(".demo");
     var slides = document.querySelectorAll(".slides");
@@ -29,10 +18,10 @@ function showSlides(n) {
     if (n < 1) {
         slideIndex = slides.length;
     }
-    for (i = 0; i < slides.length; i++) {
+    for (var i = 0; i < slides.length; i++) {
         slides[i].style.display = "none";
     }
-    for (i = 0; i < dots.length; i++) {
+    for (var i = 0; i < dots.length; i++) {
         dots[i].className = dots[i].className.replace(" opacity-off", "");
         dots[i].style.border = "2px solid rgb(138, 138, 138)";
     }
@@ -47,7 +36,6 @@ function currentDiv(n) {
 }
 
 function showDivs(n) {
-    var i;
     var x = document.getElementsByClassName("slides");
     var dots = document.getElementsByClassName("demo");
     if (n > x.length) {
@@ -56,10 +44,10 @@ function showDivs(n) {
     if (n < 1) {
         slideIndex = x.length;
     }
-    for (i = 0; i < x.length; i++) {
+    for (var i = 0; i < x.length; i++) {
         x[i].style.display = "none";
     }
-    for (i = 0; i < dots.length; i++) {
+    for (var i = 0; i < dots.length; i++) {
         dots[i].className = dots[i].className.replace(" opacity-off", "");
         dots[i].style.border = "2px solid rgb(138, 138, 138)";
     }
@@ -67,3 +55,14 @@ function showDivs(n) {
     dots[slideIndex - 1].className += " opacity-off";
     dots[slideIndex - 1].style.border = "2px solid #000";
 }
+
+function modal(imageUrl) {
+    var modalImg = document.getElementById('modal-img');
+    document.getElementById("myModal").style.display = "block";
+    modalImg.src = imageUrl;
+}
+
+function closeModal() {
+    document.getElementById("myModal").style.display = "none";
+}
+

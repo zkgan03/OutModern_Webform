@@ -204,5 +204,15 @@ namespace OutModern.src.Client.UserProfile
             // Redirect to User Profile page
             Response.Redirect("UserProfile.aspx");
         }
+
+        protected void btnComment_Click(object sender, EventArgs e)
+        {
+            string productDetailId = "1"; // Replace "123" with the actual ProductDetailId value
+
+            // Construct the URL with the query string parameter
+            string url = $"~/src/Client/Comment/Comment.aspx?ProductDetailId={productDetailId}";
+
+            Response.Redirect(url);
+        }
     }
 }

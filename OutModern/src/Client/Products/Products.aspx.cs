@@ -1,133 +1,394 @@
-﻿using System;
+﻿using OutModern.src.Admin.Products;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static OutModern.src.Admin.Products.Products;
+
 
 namespace OutModern.src.Client.Products
 {
+    [Serializable]
     public class Product
     {
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public decimal UnitPrice { get; set; }
+        public string ProductCategory { get; set; }
         public List<string> ImagePaths { get; set; }
         public int TotalReview { get; set; }
+        public decimal OverallRatings { get; set; }
+        public int TotalSold { get; set; }
+        public List<string> AvailableColors { get; set; }
         public string productImageUrl1 { get; set; }
         public string productImageUrl2 { get; set; }
     }
 
-
     public partial class Products : System.Web.UI.Page
     {
+        string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        private List<Product> productList = new List<Product>();
+        private List<Product> searchResults = new List<Product>();
+        private List<string> selectedCategories = new List<string>();
+        private List<string> selectedColors = new List<string>();
+        private string selectedRating;
+        private decimal? minPrice, maxPrice;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                ProductRepeater.DataSource = GetProducts();
-                ProductRepeater.DataBind();
-                lblTotalProducts.Text = ProductRepeater.Items.Count.ToString() + " Products Found";
-
+                string searchQuery = Request.QueryString["search"];
+                if (!string.IsNullOrEmpty(searchQuery))
+                {
+                    searchResults = GetProductsInfo(searchQuery);
+                    BindProducts(searchResults);
+                    ViewState["SearchResults"] = searchResults;
+                }
+                else
+                {
+                    selectedRating = string.Empty;
+                    selectedCategories.Clear();
+                    selectedColors.Clear();
+                    productList = GetProductsInfo();
+                    BindProducts(productList);
+                    chkColorSelection.DataBind();
+                    chkColorSelection.ClearSelection();
+                }             
+            } else
+            {
+                searchResults = ViewState["SearchResults"] as List<Product>; // Retrieve searchResults from ViewState
+                if (searchResults == null)
+                {
+                    productList = GetProductsInfo(); // searchResults is null, use productList instead
+                    BindProducts(productList);
+                }
+                selectedRating = rbRatings.SelectedValue;
+                updateCategoryList();
+                updateMinAndMaxPrice();
+                updateColorList();
+                BindProducts(searchResults);
             }
         }
 
-        private List<Product> GetProducts()
+        private void BindProducts(List<Product> products)
+        {
+            noProductsFound.Visible = false;
+            ProductRepeater.DataSource = products;
+            ProductRepeater.DataBind();
+            lblTotalProducts.Text = ProductRepeater.Items.Count.ToString() + " Products Found";
+            if (ProductRepeater.Items.Count == 0)
+            {
+                noProductsFound.Visible = true;
+            }
+        }
+
+        private List<Product> GetProductsInfo(string searchQuery = "")
         {
             List<Product> products = new List<Product>();
 
-            // Establish connection to your database (assuming SQL Server)
-            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                // Write SQL query to select product information and image paths
-                string query = @"
-    SELECT p.ProductId, p.ProductName, p.UnitPrice, pi.Path AS ImagePath,
-           COUNT(r.ProductDetailId) AS TotalReview
-    FROM Product p
-    INNER JOIN ProductDetail pd ON p.ProductId = pd.ProductId
-    INNER JOIN ProductImage pi ON pd.ProductDetailId = pi.ProductDetailId
-    LEFT JOIN Review r ON pd.ProductDetailId = r.ProductDetailId
-    GROUP BY p.ProductId, p.ProductName, p.UnitPrice, pi.Path";
+                string sqlQuery = "SELECT p.ProductId, p.ProductName, p.UnitPrice, p.ProductCategory, p.ProductStatusId, COUNT(r.ReviewId) AS TotalReview, SUM(r.Rating) AS TotalRating FROM Product p INNER JOIN ProductDetail pd ON p.ProductId = pd.ProductId LEFT JOIN Review r ON pd.ProductDetailId = r.ProductDetailId WHERE p.ProductStatusId = 1 ";
 
-
-                // Create SqlCommand object with the query and connection
-                using (SqlCommand command = new SqlCommand(query, connection))
+                // Adjust the query if a search query is provided
+                if (!string.IsNullOrEmpty(searchQuery))
                 {
-                    try
+                    sqlQuery += " AND (p.ProductName LIKE '%' + @SearchQuery + '%' OR p.ProductCategory LIKE '%' + @SearchQuery + '%')";
+                }
+
+                sqlQuery += " GROUP BY p.ProductId, p.ProductName, p.UnitPrice, p.ProductCategory, p.ProductStatusId;";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    // Add search query parameter if provided
+                    if (!string.IsNullOrEmpty(searchQuery))
                     {
-                        // Open the connection
-                        connection.Open();
+                        command.Parameters.AddWithValue("@SearchQuery", searchQuery);
+                    }
 
-                        // Execute the query and fetch the result
-                        SqlDataReader reader = command.ExecuteReader();
-
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
                         while (reader.Read())
                         {
-                            // Check if product already exists in the list
-                            Product existingProduct = products.FirstOrDefault(p => p.ProductId == (int)reader["ProductId"]);
-
-                            if (existingProduct == null)
+                            Product product = new Product();
+                            product.ProductId = (int)reader["ProductId"];
+                            product.ProductName = reader["ProductName"].ToString();
+                            product.UnitPrice = (decimal)reader["UnitPrice"];
+                            product.ProductCategory = reader["ProductCategory"].ToString();
+                            product.TotalReview = (int)reader["TotalReview"];
+                            decimal totalRating = !reader.IsDBNull(reader.GetOrdinal("TotalRating")) ? (decimal)reader["TotalRating"] : 0;
+                            product.OverallRatings = product.TotalReview != 0 ? Math.Round((totalRating / (decimal)product.TotalReview), 1) : 0;
+                            product.TotalSold = GetTotalSold(product.ProductId);
+                            product.AvailableColors = GetAvailableColors(product.ProductId);
+                            List<string> imagePaths = GetProductImages(product.ProductId);
+                            // Check if imagePaths is null or empty
+                            if (imagePaths == null || imagePaths.Count == 0)
                             {
-                                // Create new Product object
-                                Product product = new Product
-                                {
-                                    ProductId = (int)reader["ProductId"],
-                                    ProductName = reader["ProductName"].ToString(),
-                                    UnitPrice = (decimal)reader["UnitPrice"],
-                                    ImagePaths = new List<string>(),
-                                    TotalReview = (int)reader["TotalReview"]
-                                };
-
-                                // Add image path to the list
-                                product.ImagePaths.Add(reader["ImagePath"].ToString());
-
-                                // Add product to the list
-                                products.Add(product);
+                                // Skip this product as it doesn't have image paths
+                                continue;
                             }
-                            else
-                            {
-                                // Add additional image path to the existing product
-                                existingProduct.ImagePaths.Add(reader["ImagePath"].ToString());
-                            }
+                            product.ImagePaths = imagePaths;
+                            product.productImageUrl1 = imagePaths.FirstOrDefault();
+                            product.productImageUrl2 = imagePaths.Skip(1).FirstOrDefault();
+                            products.Add(product);
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        // Handle exception (e.g., log error, show message to user)
-                        // You might want to throw or handle this exception according to your application's requirements
-                        // For now, I'll just rethrow it
-                        throw ex;
-                    }
                 }
             }
-
-
-            // Assign the first two image paths to productImageUrl1 and productImageUrl2
-            foreach (var product in products)
-            {
-                // Ensure there are at least two image paths
-                while (product.ImagePaths.Count < 2)
-                {
-                    // If there's only one image path, duplicate it to have at least two paths
-                    product.ImagePaths.Add(product.ImagePaths.First());
-                }
-
-                // Assign the first two image paths to properties
-                product.productImageUrl1 = product.ImagePaths[0];
-                product.productImageUrl2 = product.ImagePaths[1];
-            }
-
-
-            // Return the list of products
             return products;
         }
 
 
+        private int GetTotalSold(int productId)
+        {
+            int totalSold = 0;
 
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sqlQuery = "SELECT SUM(Quantity) AS TotalSold FROM OrderItem WHERE ProductDetailId IN (SELECT ProductDetailId FROM ProductDetail WHERE ProductId = @ProductId)";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@ProductId", productId);
+                    connection.Open();
+                    object result = command.ExecuteScalar();
+                    if (result != DBNull.Value)
+                    {
+                        totalSold = Convert.ToInt32(result);
+                    }
+                }
+            }
+
+            return totalSold;
+        }
+
+        private List<string> GetProductImages(int productId)
+        {
+            List<string> imagePaths = new List<string>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string imageQuery = @"SELECT DISTINCT PI.Path, PD.ColorId FROM ProductImage PI INNER JOIN ProductDetail PD ON PI.ProductDetailId = PD.ProductDetailId WHERE PD.ProductId = @ProductId ORDER BY PD.ColorId;";
+
+                using (SqlCommand command = new SqlCommand(imageQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@ProductId", productId);
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string imagePath = reader["Path"].ToString();
+                            imagePaths.Add(imagePath);
+                        }
+                    }
+                }
+            }
+            return imagePaths;
+        }
+
+        protected List<string> GetAvailableColors(int productId)
+        {
+            List<string> availableColors = new List<string>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sqlQuery = @"SELECT DISTINCT pd.ColorId, c.HexColor FROM Product p, Color c, ProductDetail pd WHERE p.ProductId = @ProductId AND pd.ColorId = c.ColorId AND p.ProductId = pd.ProductId AND isDeleted = 0";
+                
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@ProductId", productId);
+                    connection.Open();
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string hexColor = reader["HexColor"].ToString();
+                            availableColors.Add(hexColor);
+                        }
+                    }
+                }
+            }
+            return availableColors;
+        }
+
+        private List<Product> SortProducts(List<Product> products, string sortExpression)
+        {
+            switch (sortExpression)
+            {
+                case "TotalSold":
+                    return products.OrderByDescending(p => p.TotalSold).ToList();
+                case "Customer Ratings":
+                    return products.OrderByDescending(p => p.OverallRatings).ToList();
+                case "LowestPrice":
+                    return products.OrderBy(p => p.UnitPrice).ToList();
+                case "HighestPrice":
+                    return products.OrderByDescending(p => p.UnitPrice).ToList();
+                default:
+                    return products; // Return the original list if the sort expression is not recognized
+            }
+        }
+
+        private void FilterProducts()
+        {
+            List<Product> filteredProducts;
+            List<Product> sourceList = ViewState["SearchResults"] as List<Product> ?? GetProductsInfo();
+
+            if (string.IsNullOrEmpty(selectedRating))
+            {
+                filteredProducts = sourceList;
+            }
+            else
+            {
+                int selectedRatingValue = int.Parse(selectedRating.Substring(0, 1));
+                filteredProducts = sourceList.Where(p => p.OverallRatings >= selectedRatingValue).ToList();
+            }
+
+            if (selectedCategories.Count > 0)
+            {
+                filteredProducts = filteredProducts.Where(p => selectedCategories.Contains(p.ProductCategory)).ToList();
+            }
+
+            if (selectedColors.Count > 0)
+            {
+                filteredProducts = filteredProducts.Where(p => p.AvailableColors.Any(c => selectedColors.Contains(c))).ToList();
+            }
+
+            if (minPrice.HasValue || maxPrice.HasValue)
+            {
+                filteredProducts = filteredProducts.Where(p => (!minPrice.HasValue || p.UnitPrice >= minPrice.Value) && (!maxPrice.HasValue || p.UnitPrice <= maxPrice.Value)).ToList();
+            }
+
+            filteredProducts = SortProducts(filteredProducts, ddlSort.SelectedValue);
+            BindProducts(filteredProducts);
+        }
+
+        protected void ddlSort_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FilterProducts();
+        }
+
+        protected void CategoryCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            FilterProducts();
+        }
+
+        protected string GenerateStars(double rating)
+        {
+            int fullStars = (int)rating;
+            double remainder = rating - fullStars;
+            int grayStars = 5 - fullStars - (remainder >= 0.5 ? 1 : 0);
+            StringBuilder stars = new StringBuilder();
+            for (int i = 0; i < fullStars; i++)
+            {
+                stars.Append("<i class='fas fa-star text-yellow-400 text-lg'></i>");
+            }
+            if (remainder >= 0.5)
+            {
+                stars.Append("<i class='fas fa-star-half-alt text-yellow-400 text-lg'></i>");
+            }
+            for (int i = 0; i < grayStars; i++)
+            {
+                stars.Append("<i class='far fa-star text-gray-400 text-lg'></i>");
+            }
+            return stars.ToString();
+        }
+
+        protected void rbRatings_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FilterProducts();
+        }
+
+        protected void CategoryCheckBoxList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            updateCategoryList();
+            FilterProducts();
+        }
+
+        private void updateCategoryList()
+        {
+            selectedCategories.Clear(); // Clear the existing selected categories
+            foreach (ListItem item in CategoryCheckBoxList.Items)
+            {
+                if (item.Selected)
+                {
+                    selectedCategories.Add(item.Value);
+                }
+            }
+        }
+
+        protected void btnReset_Click(object sender, EventArgs e)
+        {
+            selectedRating = string.Empty;
+            selectedCategories.Clear();
+            CategoryCheckBoxList.ClearSelection();
+            ddlSort.SelectedIndex = 0;
+            rbRatings.ClearSelection();
+            selectedColors.Clear();
+            chkColorSelection.ClearSelection();
+            txtMinPrice.Text = "";
+            txtMaxPrice.Text = "";
+            minPrice = null;
+            maxPrice = null;
+            FilterProducts();
+        }
+
+        protected void btnPriceFilter_Click(object sender, EventArgs e)
+        {
+            updateMinAndMaxPrice();
+            FilterProducts();
+        }
+
+        private void updateMinAndMaxPrice()
+        {
+            minPrice = decimal.TryParse(txtMinPrice.Text, out decimal minPriceValue) ? minPriceValue : (decimal?)null;
+            maxPrice = decimal.TryParse(txtMaxPrice.Text, out decimal maxPriceValue) ? maxPriceValue : (decimal?)null;
+        }
+
+        protected void chkColorSelection_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            updateColorList();
+            FilterProducts();  
+        }
+
+        private void updateColorList()
+        {
+            selectedColors.Clear(); // Clear the existing selected categories
+            foreach (ListItem item in chkColorSelection.Items)
+            {
+                if (item.Selected)
+                {
+                    selectedColors.Add(item.Value);
+                }
+            }
+        }
+
+        protected void lbtnReset_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/src/Client/Products/Products.aspx");
+        }
+
+        protected void ProductRepeater_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                Product product = (Product)e.Item.DataItem;
+                Repeater colorRepeater = (Repeater)e.Item.FindControl("ColorRepeater");
+
+                if (product.AvailableColors != null && product.AvailableColors.Count > 0)
+                {
+                    colorRepeater.DataSource = product.AvailableColors;
+                    colorRepeater.DataBind();
+                }
+            }
+        }
     }
 }
