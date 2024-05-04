@@ -167,11 +167,6 @@ namespace OutModern.src.Client.Payment
             }
         }
 
-        private void ResetDiscountLabel()
-        {
-            lblDiscountRate.Text = "(0%)";
-            lblDiscount.Text = "RM0.00"; // Set it to the default state
-        }
         protected void UpdateDiscount(PromoTable promoCode)
         {
 
@@ -349,7 +344,7 @@ namespace OutModern.src.Client.Payment
             }
 
             // Validate CVV input
-            if (string.IsNullOrWhiteSpace(txtCvv.Text))
+            if (string.IsNullOrWhiteSpace(txtCvv.Text) || txtCvv.Text.Length < 3)
             {
                 txtCvv.Attributes["style"] = "border-color: red;";
             }
@@ -363,8 +358,8 @@ namespace OutModern.src.Client.Payment
         {
             // Check if any input has validation errors
             return string.IsNullOrWhiteSpace(txtCardNumber.Text)
-                || (string.IsNullOrWhiteSpace(txtExpirationDate.Text) && txtExpirationDate.Text.Length < 5)
-                || string.IsNullOrWhiteSpace(txtCvv.Text);
+                || (string.IsNullOrWhiteSpace(txtExpirationDate.Text) || txtExpirationDate.Text.Length < 5)
+                || (string.IsNullOrWhiteSpace(txtCvv.Text) || txtCvv.Text.Length < 3);
         }
 
     }
