@@ -14,25 +14,20 @@ namespace OutModern.src.Client.Login
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Delete specific cookies on login page load
-            string[] cookieNamesToDelete = new string[] { "LoggedIn", "AdmID", "AdmStatus" };
-
-            foreach (string cookieName in cookieNamesToDelete)
+            //if already logged in, redirect to dashboard
+            string adminId = Session["AdminID"]?.ToString();
+            string adminRole = Session["AdminRole"]?.ToString();
+            if (adminId != null && adminRole == "Manager")
             {
-                HttpCookie cookieToDelete = Request.Cookies[cookieName];
-                if (cookieToDelete != null)
-                {
-                    cookieToDelete.Expires = DateTime.Now.AddDays(-1); // Set expiration to past date
-                    Response.Cookies.Add(cookieToDelete); // Re-add cookie with expired date
-                }
+                Response.Redirect("~/src/Admin/Dashboard/Dashboard.aspx");
             }
         }
 
         protected void btn_login_Click(object sender, EventArgs e)
         {
             string err = "";
-            string email = txt_email.Text;
-            string passwd = txt_password.Text;
+            string email = txt_email.Text.Trim();
+            string passwd = txt_password.Text.Trim();
 
             if (email == null || passwd == null || email == "" || passwd == null)
             {
@@ -41,7 +36,7 @@ namespace OutModern.src.Client.Login
             else
             {
                 //email validation
-                if (!IsValidEmail(email))
+                if (!EmailUtil.IsValidEmail(email))
                 {
                     err = "Invalid Email Format.";
                 }
@@ -55,14 +50,20 @@ namespace OutModern.src.Client.Login
                         {
                             conn.Open();
                             //use parameterized query to prevent sql injection
-                            string query = "SELECT * FROM [Admin] WHERE AdminEmail = @email";
+                            string query =
+                                "SELECT AdminId, AdminPassword, UserStatusName, AdminRoleName " +
+                                "FROM [Admin], AdminRole, UserStatus " +
+                                "WHERE Admin.AdminRoleId = AdminRole.AdminRoleId " +
+                                "AND UserStatus.UserStatusId = Admin.AdminStatusId " +
+                                "AND AdminEmail = @email";
+
                             SqlCommand cmd = new SqlCommand(query, conn);
                             cmd.Parameters.AddWithValue("@email", email);
+
                             SqlDataReader reader = cmd.ExecuteReader();
                             if (!reader.HasRows)
                             {
                                 err = "Invalid email or password.";
-
                             }
                             else
                             {
@@ -70,37 +71,28 @@ namespace OutModern.src.Client.Login
                                 reader.Read();
                                 string hashedPassword = reader["AdminPassword"].ToString();
                                 int adminID = (int)reader["AdminId"];
-                                int adminStatus = (int)reader["AdminStatusId"];
+                                string adminRole = (string)reader["AdminRoleName"];
+                                string adminStatus = (string)reader["UserStatusName"];
 
                                 //compare password
-                                //if (!PasswordUtil.VerifyPassword(passwd, hashedPassword))  //if have hash password then use this
-                                if(passwd != hashedPassword)    //not hash password(in database) use this
-                                {
+                                if (!PasswordUtil.VerifyPassword(passwd, hashedPassword))  //if have hash password then use this
                                     err = "Invalid email or password.";
-
-                                }
                                 else
                                 {
                                     //not activated customer cannot log in
-                                    if (adminStatus != 1)
+                                    if (adminStatus != "Activated")
                                     {
                                         err = "Admin is not activated";
                                     }
                                     else
                                     {
-                                        HttpCookie loggedInCookie = new HttpCookie("LoggedIn", "true");
-                                        loggedInCookie.Expires = DateTime.Now.AddDays(30); // Set cookie expiration
-                                        Response.Cookies.Add(loggedInCookie);
+                                        Session["AdminID"] = adminID;
+                                        Session["AdminRole"] = adminRole;
 
-                                        HttpCookie admIDCookie = new HttpCookie("AdmID", adminID.ToString());
-                                        admIDCookie.Expires = DateTime.Now.AddDays(30);
-                                        Response.Cookies.Add(admIDCookie);
-
-                                        HttpCookie adminStatusCookie = new HttpCookie("AdmStatus", adminStatus.ToString());
-                                        adminStatusCookie.Expires = DateTime.Now.AddDays(30);
-                                        Response.Cookies.Add(adminStatusCookie);
-
-                                        Response.Redirect("~/src/Admin/Dashboard/Dashboard.aspx");
+                                        if (adminRole == "Manager")
+                                            Response.Redirect("~/src/Admin/Dashboard/Dashboard.aspx");
+                                        else if (adminRole == "Staff")
+                                            Response.Redirect("~/src/Admin/Products/Products.aspx");
                                     }
                                 }
                                 conn.Close();
@@ -110,7 +102,10 @@ namespace OutModern.src.Client.Login
                     catch (Exception ex)
                     {
                         err = "An error occurred during login. Please try again.";
-                        Response.Write(ex.Message);
+                        Page.ClientScript.RegisterClientScriptBlock(this.GetType(),
+                            "Error",
+                            "document.addEventListener('DOMContentLoaded'," +
+                            " function() { alert('" + err + "'); });", true);
                     }
                 }
             }
@@ -118,23 +113,5 @@ namespace OutModern.src.Client.Login
 
         }
 
-        protected bool IsValidEmail(string email)
-        {
-            var trimmedEmail = email.Trim();
-
-            if (trimmedEmail.EndsWith("."))
-            {
-                return false;
-            }
-            try
-            {
-                var addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == trimmedEmail;
-            }
-            catch
-            {
-                return false;
-            }
-        }
     }
 }

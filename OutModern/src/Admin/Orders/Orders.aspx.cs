@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OutModern.src.Admin.Utils;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -37,8 +38,33 @@ namespace OutModern.src.Admin.Orders
                 lvOrders.DataSource = orderDataSource();
                 lvOrders.DataBind();
 
+                ddlFilterOrderStatus.DataSource = getOrderStatus();
+                ddlFilterOrderStatus.DataTextField = "OrderStatusName";
+                ddlFilterOrderStatus.DataValueField = "OrderStatusId";
+                ddlFilterOrderStatus.DataBind();
+
                 Page.DataBind();
             }
+
+
+        }
+
+        private DataTable getOrderStatus()
+        {
+            DataTable data = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                string sqlQuery = "SELECT OrderStatusId, OrderStatusName FROM OrderStatus";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    data.Load(command.ExecuteReader());
+                }
+            }
+
+            return data;
         }
 
         //choose to load data source
@@ -118,6 +144,9 @@ namespace OutModern.src.Admin.Orders
             }
         }
 
+
+
+
         //
         // DB Operation
         //
@@ -126,6 +155,26 @@ namespace OutModern.src.Admin.Orders
         protected DataTable getOrders(string sortExpression = null, string sortDirection = "ASC")
         {
             DataTable data = new DataTable();
+
+            string orderStatusId = ddlFilterOrderStatus.SelectedValue;
+            string startDate = txtFilterOrderDateFrom.Text.Trim();
+            string endDate = txtFilterOrderDateTo.Text.Trim();
+
+            //valifate date range
+            if (!string.IsNullOrEmpty(startDate) && !string.IsNullOrEmpty(endDate))
+            {
+                startDate += " 00:00:00";
+                endDate += " 23:59:59";
+                if (!ValidationUtils.IsValidDateTimeRange(startDate, endDate))
+                {
+                    Page.ClientScript.RegisterStartupScript(GetType(),
+                        "Failed to Filter",
+                        "document.addEventListener('DOMContentLoaded',  ()=> alert('End date must be greater than start date'));",
+                        true);
+                    startDate = "";
+                    endDate = "";
+                }
+            }
 
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
@@ -136,6 +185,16 @@ namespace OutModern.src.Admin.Orders
                     "WHERE [Order].OrderStatusId = OrderStatus.OrderStatusId " +
                     "AND [Order].CustomerId = Customer.CustomerId ";
 
+                if (!string.IsNullOrEmpty(orderStatusId) && orderStatusId != "-1")
+                {
+                    sqlQuery += "AND OrderStatus.OrderStatusId = @orderStatusId ";
+                }
+
+                if (!string.IsNullOrEmpty(startDate) && !string.IsNullOrEmpty(endDate))
+                {
+                    sqlQuery += "AND OrderDateTime BETWEEN @startDate AND @endDate ";
+                }
+
                 if (!string.IsNullOrEmpty(sortExpression))
                 {
                     sqlQuery += "ORDER BY " + sortExpression + " " + sortDirection;
@@ -143,6 +202,17 @@ namespace OutModern.src.Admin.Orders
 
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
+                    if (!string.IsNullOrEmpty(orderStatusId) && orderStatusId != "-1")
+                    {
+                        command.Parameters.AddWithValue("@orderStatusId", orderStatusId);
+                    }
+
+                    if (!string.IsNullOrEmpty(startDate) && !string.IsNullOrEmpty(endDate))
+                    {
+                        command.Parameters.AddWithValue("@startDate", startDate);
+                        command.Parameters.AddWithValue("@endDate", endDate);
+                    }
+
                     data.Load(command.ExecuteReader());
                 }
 
@@ -328,5 +398,23 @@ namespace OutModern.src.Admin.Orders
                     return null;
             }
         }
+
+        protected void ddlFilterOrderStatus_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string sortExpression = ViewState["SortExpression"]?.ToString();
+            lvOrders.DataSource =
+                sortExpression == null ?
+                orderDataSource() :
+                orderDataSource(sortExpression, SortDirections[sortExpression]);
+            lvOrders.DataBind();
+
+        }
+
+        protected void ddlFilterOrderStatus_DataBound(object sender, EventArgs e)
+        {
+            ddlFilterOrderStatus.Items.Insert(0, new ListItem("All Status", "-1"));
+        }
+
+
     }
 }

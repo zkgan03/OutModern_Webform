@@ -6,6 +6,10 @@
             #data-table tbody tr {
                 @apply cursor-default;
             }
+
+            .filter-model {
+                @apply items-center justify-center fixed w-full h-full m-auto inset-0 bg-black bg-opacity-50 z-10;
+            }
         }
     </style>
 </asp:Content>
@@ -28,15 +32,41 @@
 
             <!-- Filter -->
             <div class="filter-item flex">
+                <!-- Filter Start Date -->
                 <div class="item">
-                    Date
-                    <i class="fa-regular fa-calendar"></i>
+                    <div>
+                        <div class="w-36 float-left">Start Date From :</div>
+                        <asp:TextBox ID="txtFilterStartDateFrom"
+                            OnTextChanged="txtFilterStartDateFrom_TextChanged"
+                            AutoPostBack="true" TextMode="Date" runat="server"></asp:TextBox>
+                    </div>
+                    <div class="mt-3">
+                        <div class="w-36  float-left">Start Date To :</div>
+                        <asp:TextBox ID="txtFilterStartDateTo"
+                            OnTextChanged="txtFilterStartDateFrom_TextChanged"
+                            AutoPostBack="true" TextMode="Date" runat="server"></asp:TextBox>
+                    </div>
+                </div>
+                <!-- Filter End Date -->
+                <div class="item">
+                    <div>
+                        <div class="w-32 float-left">End Date From :</div>
+                        <asp:TextBox ID="txtFilterEndDateFrom"
+                            OnTextChanged="txtFilterStartDateFrom_TextChanged"
+                            AutoPostBack="true" TextMode="Date" runat="server"></asp:TextBox>
+                    </div>
+                    <div class="mt-3">
+                        <div class="w-32 float-left">End Date To :</div>
+                        <asp:TextBox ID="txtFilterEndDateTo"
+                            OnTextChanged="txtFilterStartDateFrom_TextChanged"
+                            AutoPostBack="true" TextMode="Date" runat="server"></asp:TextBox>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Display Product -->
-        <div class="mt-2">
+        <div class="mt-5">
             <!--Pagination-->
             <asp:DataPager ID="dpTopPromoCodes" class="pagination" runat="server" PagedControlID="lvPromoCodes">
                 <Fields>

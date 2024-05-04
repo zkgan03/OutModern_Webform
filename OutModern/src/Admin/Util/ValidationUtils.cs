@@ -17,10 +17,16 @@ namespace OutModern.src.Admin.Utils
             return discount >= 0 && discount <= 100;
         }
 
-        // check 2 input date which is string, where end date must be greater than start date
-        public static bool IsValidDateRange(string startDate, string endDate)
+        // check 2 input dateTime which is string, where end date must be greater than start date
+        public static bool IsValidDateTimeRange(string startDate, string endDate)
         {
             return DateTime.Parse(endDate) > DateTime.Parse(startDate);
+        }
+
+        //check 2 input date which is string, where end date must be greater than start date
+        public static bool IsValidDateRange(string startDate, string endDate)
+        {
+            return DateTime.Parse(endDate) >= DateTime.Parse(startDate);
         }
 
         public static bool IsValidPrice(string price)

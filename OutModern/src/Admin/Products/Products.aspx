@@ -41,18 +41,26 @@
             <!-- Filter -->
             <div class="filter-item flex">
                 <div class="item">
-                    Category
+                    <asp:DropDownList ID="ddlFilterCategory" runat="server"
+                        OnSelectedIndexChanged="ddlFilterCategory_SelectedIndexChanged"
+                        OnDataBound="ddlFilterCategory_DataBound"
+                        AutoPostBack="true">
+                    </asp:DropDownList>
                     <i class="fa-regular fa-layer-group"></i>
                 </div>
                 <div class="item">
-                    Price Range
-                    <i class="fa-regular fa-sliders-simple"></i>
+                    <asp:DropDownList ID="ddlFilterStatus" runat="server"
+                        OnSelectedIndexChanged="ddlFilterCategory_SelectedIndexChanged"
+                        OnDataBound="ddlFilterStatus_DataBound"
+                        AutoPostBack="true">
+                    </asp:DropDownList>
+                    <i class="fa-regular fa-shelves-empty"></i>
                 </div>
             </div>
         </div>
 
         <!-- Display Product -->
-        <div class="mt-2">
+        <div class="mt-5">
 
             <!--Pagination-->
             <asp:DataPager PagedControlID="lvProducts" ID="dpTopProducts" class="pagination" runat="server" PageSize="2">

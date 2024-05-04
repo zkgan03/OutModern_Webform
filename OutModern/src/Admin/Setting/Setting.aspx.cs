@@ -16,15 +16,17 @@ namespace OutModern.src.Admin.Setting
     public partial class Setting : System.Web.UI.Page
     {
         private string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        private int adminId;
+        private string adminId;
 
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            //dummy data for admin id in session
-            Session["AdminId"] = 1;
             //retrieve admin id from session
-            adminId = Convert.ToInt32(Session["AdminId"]);
+            adminId = Session["AdminId"]?.ToString();
+            if (adminId == null)
+            {
+                Response.Redirect("~/src/ErrorPages/403.aspx");
+            }
 
             Session["MenuCategory"] = null;
             if (!IsPostBack)

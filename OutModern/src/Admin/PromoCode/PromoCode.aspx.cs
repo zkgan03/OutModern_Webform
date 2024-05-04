@@ -6,6 +6,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices.ComTypes;
 using System.Web;
 using System.Web.UI;
@@ -112,13 +113,63 @@ namespace OutModern.src.Admin.PromoCode
         {
             DataTable data = new DataTable();
 
+            string startDateFrom = txtFilterStartDateFrom.Text.Trim();
+            string startDateTo = txtFilterStartDateTo.Text.Trim();
+            string endDateFrom = txtFilterEndDateFrom.Text.Trim();
+            string endDateTo = txtFilterEndDateTo.Text.Trim();
+
+            //validate start date range
+            if (!string.IsNullOrEmpty(startDateFrom) && !string.IsNullOrEmpty(startDateTo))
+            {
+                startDateFrom += " 00:00:00";
+                startDateTo += " 23:59:59";
+
+                if (!ValidationUtils.IsValidDateTimeRange(startDateFrom, startDateTo))
+                {
+                    Page.ClientScript
+                        .RegisterStartupScript(GetType(),
+                        "Failed to Filter Start Date",
+                        $"document.addEventListener('DOMContentLoaded', ()=> alert('Start Date To must after Start Date From'))",
+                        true);
+                    startDateFrom = "";
+                    startDateTo = "";
+                }
+            }
+            //validate end date range
+            if (!string.IsNullOrEmpty(endDateFrom) && !string.IsNullOrEmpty(endDateTo))
+            {
+                endDateFrom += " 00:00:00";
+                endDateTo += " 23:59:59";
+
+                if (!ValidationUtils.IsValidDateTimeRange(endDateFrom, endDateTo))
+                {
+                    Page.ClientScript.RegisterStartupScript(GetType(),
+                                            "Failed to Filter End Date",
+                                           $"document.addEventListener('DOMContentLoaded', ()=> alert('End Date To must after End Date From'))",
+                                           true);
+                    endDateFrom = "";
+                    endDateTo = "";
+                }
+            }
+
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
 
                 string sqlQuery =
                     "Select * " +
-                    "From PromoCode ";
+                    "From PromoCode " +
+                    "WHERE PromoId = PromoId ";
+
+                if (!string.IsNullOrEmpty(startDateFrom) && !string.IsNullOrEmpty(startDateTo))
+                {
+                    sqlQuery += "AND StartDate >= @startDateFrom AND StartDate <= @startDateTo ";
+                }
+
+                if (!string.IsNullOrEmpty(endDateFrom) && !string.IsNullOrEmpty(endDateTo))
+                {
+                    sqlQuery += "AND EndDate >= @endDateFrom AND EndDate <= @endDateTo ";
+                }
 
                 if (!string.IsNullOrEmpty(sortExpression))
                 {
@@ -131,6 +182,18 @@ namespace OutModern.src.Admin.PromoCode
 
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
+                    if (!string.IsNullOrEmpty(startDateFrom) && !string.IsNullOrEmpty(startDateTo))
+                    {
+                        command.Parameters.AddWithValue("@startDateFrom", startDateFrom);
+                        command.Parameters.AddWithValue("@startDateTo", startDateTo);
+                    }
+
+                    if (!string.IsNullOrEmpty(endDateFrom) && !string.IsNullOrEmpty(endDateTo))
+                    {
+                        command.Parameters.AddWithValue("@endDateFrom", endDateFrom);
+                        command.Parameters.AddWithValue("@endDateTo", endDateTo);
+                    }
+
                     data.Load(command.ExecuteReader());
                 }
 
@@ -311,7 +374,7 @@ namespace OutModern.src.Admin.PromoCode
             }
 
             //check date range
-            if (!ValidationUtils.IsValidDateRange(startDate, endDate))
+            if (!ValidationUtils.IsValidDateTimeRange(startDate, endDate))
             {
                 Page.ClientScript
                     .RegisterStartupScript(GetType(),
@@ -444,7 +507,7 @@ namespace OutModern.src.Admin.PromoCode
             }
 
             //check date range
-            if (!ValidationUtils.IsValidDateRange(startDate, endDate))
+            if (!ValidationUtils.IsValidDateTimeRange(startDate, endDate))
             {
                 Page.ClientScript
                     .RegisterStartupScript(GetType(),
@@ -520,5 +583,19 @@ namespace OutModern.src.Admin.PromoCode
             }
         }
 
+        protected void btnClear_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void txtFilterStartDateFrom_TextChanged(object sender, EventArgs e)
+        {
+            string sortExpression = ViewState["SortExpression"]?.ToString();
+            lvPromoCodes.DataSource = sortExpression == null ?
+                promoDataSource() :
+                promoDataSource(sortExpression, SortDirections[sortExpression]);
+            lvPromoCodes.DataBind();
+
+        }
     }
 }
