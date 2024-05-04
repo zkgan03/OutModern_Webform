@@ -132,6 +132,24 @@ namespace OutModern.src.Client.Shipping
         protected global::System.Web.UI.WebControls.Label lblItemPrice;
 
         /// <summary>
+        /// lblDiscountRate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblDiscountRate;
+
+        /// <summary>
+        /// lblDiscount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblDiscount;
+
+        /// <summary>
         /// lblDeliveryCost control.
         /// </summary>
         /// <remarks>
@@ -139,15 +157,6 @@ namespace OutModern.src.Client.Shipping
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblDeliveryCost;
-
-        /// <summary>
-        /// lblTax control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTax;
 
         /// <summary>
         /// lblTotal control.

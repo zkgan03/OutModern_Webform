@@ -1,5 +1,9 @@
-﻿using System;
+﻿using OutModern.src.Admin.Customers;
+using OutModern.src.Admin.PromoCode;
+using OutModern.src.Client.Cart;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
@@ -25,37 +29,47 @@ namespace OutModern.src.Client.Shipping
 
     public partial class Shipping : System.Web.UI.Page
     {
+
+        string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        private int customerId;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                // Retrieve the dummy data from the session variable
-                DataTable dummyData = (DataTable)Session["DummyData"];
+                try
+                {
 
-                //// Retrieve the subtotal value from session
-                //decimal subtotal = (decimal)Session["Subtotal"];
-                //decimal delivery = 5;
-                //if (subtotal > 100)
-                //{
-                //    delivery = 0;
-                //    lblDeliveryCost.Text = "RM0.00";
-                //}
-                //decimal tax = (subtotal * 6 / 100);
-                //decimal total = subtotal + tax + delivery;
+                    if (Session["CartToShipping"] == null || !(bool)Session["CartToShipping"])
+                    {
+                        Response.Redirect("~/src/Client/Cart/Cart.aspx");
+                    }
+                }
+                catch (NullReferenceException)
+                {
+                    // Handle the NullReferenceException by redirecting back to the cart page
+                    Response.Redirect("~/src/Client/Cart/Cart.aspx");
+                }
+
+                Session["CartToShipping"] = false;
 
 
 
-                //lblItemPrice.Text = "RM" + subtotal.ToString("N2");
-                //lblTax.Text = "RM" + (subtotal * 6 / 100).ToString("N2");
-                //lblTotal.Text = "RM" + total.ToString("N2");
 
-                // Bind the dummy data to the ListView control
-                ProductListView.DataSource = dummyData;
-                ProductListView.DataBind();
-
+                Session["SelectedAddress"] = null;
             }
 
+            if (Session["CUSTID"] != null)
+            {
+                customerId = (int)Session["CUSTID"];
+            }
+            else
+            {
+                Response.Redirect("~/src/Client/Login/Login.aspx");
+            }
+
+            BindCartItems();
             BindAddresses();
+            UpdateSubtotalandGrandTotalLabel();
         }
 
         private void BindAddresses()
@@ -68,26 +82,104 @@ namespace OutModern.src.Client.Shipping
             AddressListView.DataBind();
         }
 
-        //REMEMBER CHANGE CUSTOMER ID 
+        private void BindCartItems()
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "SELECT CI.ProductDetailId, CI.Quantity, PD.ColorId, PD.SizeId, PD.ProductId, " +
+                               "P.ProductName, P.UnitPrice, (CI.Quantity * P.UnitPrice) AS Subtotal, " +
+                               "(SELECT TOP 1 PI.Path FROM ProductImage PI WHERE PI.ProductDetailId = PD.ProductDetailId) AS ProductImageUrl, " +
+                               "S.SizeName, C.ColorName " +
+                               "FROM CartItem CI " +
+                               "INNER JOIN ProductDetail PD ON CI.ProductDetailId = PD.ProductDetailId " +
+                               "INNER JOIN Product P ON PD.ProductId = P.ProductId " +
+                               "INNER JOIN Size S ON PD.SizeId = S.SizeId " +
+                               "INNER JOIN Color C ON PD.ColorId = C.ColorId " +
+                               "WHERE CI.CartId = (SELECT CartId FROM Cart WHERE CustomerId = @CustomerId)";
+
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@CustomerId", customerId);
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+
+                con.Open();
+                da.Fill(dt);
+                con.Close();
+
+                ProductListView.DataSource = dt;
+                ProductListView.DataBind();
+            }
+        }
+
+        private void UpdateSubtotalandGrandTotalLabel()
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "SELECT Subtotal FROM Cart WHERE CustomerId = @CustomerId";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@CustomerId", customerId);
+
+                con.Open();
+                object result = cmd.ExecuteScalar();
+                con.Close();
+
+                // Check if the result is not null
+                if (result != null)
+                {
+                    decimal discountAmount = 0;
+                    decimal subtotal = Convert.ToDecimal(result);
+                    lblItemPrice.Text = $"RM{subtotal.ToString("N2")}";
+
+                    decimal deliveryCost = decimal.Parse(lblDeliveryCost.Text.Replace("RM", ""));
+
+                    PromoTable promoCode = Session["PromoCode"] as PromoTable;
+
+                    if (promoCode != null)
+                    {
+                        // Update the UI with the discount rate
+                        lblDiscountRate.Text = $"({promoCode.DiscountRate}%)";
+
+                        // Calculate the discount amount
+                        discountAmount = subtotal * ((decimal)promoCode.DiscountRate / 100);
+
+                        // Update the UI with the discount amount
+                        lblDiscount.Text = $"RM{discountAmount.ToString("N2")}";
+                    }
+                    else
+                    {
+                        lblDiscountRate.Text = "(- 0%)";
+                        lblDiscount.Text = "RM0.00";
+                    }
+
+                    decimal grandTotal = subtotal + deliveryCost - discountAmount;
+
+                    lblTotal.Text = $"RM{grandTotal.ToString("N2")}";
+                }
+                else
+                {
+                    lblTotal.Text = "RM0.00";
+                }
+            }
+        }
+
+
         private List<Address> GetAddresses()
         {
             List<Address> addresses = new List<Address>();
 
-            // Dummy customer ID for testing
-            int dummyCustomerId = 1;
-
             // Establish connection to your database (assuming SQL Server)
-            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\b1ank3r\source\repos\OutModern_Webform\OutModern\App_Data\OutModern.mdf;Integrated Security=True";
+
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 // Write SQL query to select addresses based on customer ID
-                string query = "SELECT * FROM Address WHERE CustomerId = @CustomerId";
+                string query = "SELECT * FROM Address WHERE CustomerId = @CustomerId AND isDeleted = 0";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     // Add parameter for the customer ID
-                    command.Parameters.AddWithValue("@CustomerId", dummyCustomerId);
+                    command.Parameters.AddWithValue("@CustomerId", customerId);
 
                     connection.Open();
                     using (SqlDataReader reader = command.ExecuteReader())
@@ -121,25 +213,36 @@ namespace OutModern.src.Client.Shipping
         protected void btnAddAddress_Click(object sender, EventArgs e)
         {
 
-            // If all textboxes are filled, proceed to add the address to the database
-            Address address = new Address
+            if (ValidateAndHighlight())
             {
-                CustomerId = 1, // Replace with the actual customer ID
-                AddressName = txtNickname.Text,
-                AddressLine = txtAddr.Text,
-                Country = ddlCountryOrigin.SelectedItem.Text,
-                State = txtState.Text,
-                PostalCode = txtPostal.Text
-            };
+                // If all textboxes are filled, proceed to add the address to the database
+                Address address = new Address
+                {
+                    CustomerId = customerId, // Replace with the actual customer ID
+                    AddressName = txtNickname.Text,
+                    AddressLine = txtAddr.Text,
+                    Country = ddlCountryOrigin.SelectedItem.Text,
+                    State = txtState.Text,
+                    PostalCode = txtPostal.Text
+                };
 
-            // Add the address to the database
-            AddAddressToDatabase(address);
+                txtNickname.Text = "";
+                txtAddr.Text = "";
+                txtState.Text = "";
+                txtPostal.Text = "";
+                ddlCountryOrigin.SelectedIndex = 0;
+
+                // Add the address to the database
+                AddAddressToDatabase(address);
+
+                Response.Redirect(Request.RawUrl);
+            }
+
         }
 
         private void AddAddressToDatabase(Address address)
         {
-            // Database connection and insert command logic as shown in the previous response
-            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\b1ank3r\source\repos\OutModern_Webform\OutModern\App_Data\OutModern.mdf;Integrated Security=True";
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -167,12 +270,14 @@ namespace OutModern.src.Client.Shipping
             // Retrieve the selected address details from session variables
             Address selectedAddress = Session["SelectedAddress"] as Address;
 
+
+
             // Check if an address is selected
             if (selectedAddress != null)
             {
-
                 // Store the selected address in a session variable
-                Session["SelectedAddress"] = selectedAddress;
+                Session["SelectedAddressPayment"] = selectedAddress;
+                Session["ShippingToPayment"] = true;
 
                 // Redirect to the Payment.aspx page
                 Response.Redirect("../Payment/Payment.aspx");
@@ -189,6 +294,7 @@ namespace OutModern.src.Client.Shipping
         {
             if (e.CommandName == "Select")
             {
+                lblMessage.Visible = false;
 
                 ViewState["selectedItem"] = Convert.ToInt32(e.CommandArgument);  // Store the selected index
 
@@ -234,9 +340,6 @@ namespace OutModern.src.Client.Shipping
         {
             Address address = null;
 
-            // Establish connection to your database (assuming SQL Server)
-            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\b1ank3r\source\repos\OutModern_Webform\OutModern\App_Data\OutModern.mdf;Integrated Security=True";
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 // Write SQL query to select address details based on addressId
@@ -279,6 +382,88 @@ namespace OutModern.src.Client.Shipping
         {
 
         }
+
+        protected bool ValidateAndHighlight()
+        {
+            try
+            {
+                string nickname = txtNickname.Text.Trim();
+                string addr = txtAddr.Text.Trim();
+                string postal = txtPostal.Text.Trim();
+                string state = txtState.Text.Trim();
+                string country = ddlCountryOrigin.SelectedValue;
+
+                List<Control> errorControls = new List<Control>();
+
+                if (string.IsNullOrEmpty(nickname))
+                {
+                    errorControls.Add(txtNickname);
+                }
+                else
+                {
+                    RemoveErrorBorder(txtNickname);
+                }
+
+                if (string.IsNullOrEmpty(addr))
+                {
+                    errorControls.Add(txtAddr);
+                }
+                else
+                {
+                    RemoveErrorBorder(txtAddr);
+                }
+
+                if (string.IsNullOrEmpty(postal))
+                {
+                    errorControls.Add(txtPostal);
+                }
+                else
+                {
+                    RemoveErrorBorder(txtPostal);
+                }
+
+                if (string.IsNullOrEmpty(state))
+                {
+                    errorControls.Add(txtState);
+                }
+                else
+                {
+                    RemoveErrorBorder(txtState);
+                }
+
+                if (country == "default")
+                {
+                    errorControls.Add(ddlCountryOrigin);
+                }
+                else
+                {
+                    RemoveErrorBorder(ddlCountryOrigin);
+                }
+
+                // Apply red border only to controls with errors
+                foreach (Control control in errorControls)
+                {
+                    if (control is WebControl webControl)
+                    {
+                        webControl.CssClass += " error-border";
+                    }
+                }
+
+                return errorControls.Count == 0; // Return true if no errors, false otherwise
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in ValidateAndHighlight: " + ex.Message);
+                return false;
+            }
+        }
+
+        protected void RemoveErrorBorder(WebControl control)
+        {
+            // Remove error border CSS class from the control
+            control.CssClass = control.CssClass.Replace("error-border", "").Trim();
+        }
+
 
 
 
