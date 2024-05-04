@@ -15,15 +15,6 @@ namespace OutModern.src.Admin.ProductEdit
     {
 
         /// <summary>
-        /// lbDiscard control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lbDiscard;
-
-        /// <summary>
         /// lbUpdate control.
         /// </summary>
         /// <remarks>
@@ -31,6 +22,15 @@ namespace OutModern.src.Admin.ProductEdit
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbUpdate;
+
+        /// <summary>
+        /// lblUpdateProductStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblUpdateProductStatus;
 
         /// <summary>
         /// lblProdId control.
@@ -78,6 +78,15 @@ namespace OutModern.src.Admin.ProductEdit
         protected global::System.Web.UI.WebControls.DropDownList ddlStatus;
 
         /// <summary>
+        /// txtProdDescription control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtProdDescription;
+
+        /// <summary>
         /// ddlSize control.
         /// </summary>
         /// <remarks>
@@ -96,13 +105,31 @@ namespace OutModern.src.Admin.ProductEdit
         protected global::System.Web.UI.WebControls.TextBox txtProdQuantity;
 
         /// <summary>
-        /// ddlColor control.
+        /// btnUpdateQuantity control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlColor;
+        protected global::System.Web.UI.WebControls.Button btnUpdateQuantity;
+
+        /// <summary>
+        /// lblSetStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSetStatus;
+
+        /// <summary>
+        /// ddlColorAdd control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlColorAdd;
 
         /// <summary>
         /// btnAddColor control.
@@ -114,58 +141,49 @@ namespace OutModern.src.Admin.ProductEdit
         protected global::System.Web.UI.WebControls.Button btnAddColor;
 
         /// <summary>
-        /// btnColor1 control.
+        /// lblAddColorStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnColor1;
+        protected global::System.Web.UI.WebControls.Label lblAddColorStatus;
 
         /// <summary>
-        /// btnColor2 control.
+        /// repeaterColors control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnColor2;
+        protected global::System.Web.UI.WebControls.Repeater repeaterColors;
 
         /// <summary>
-        /// btnColor3 control.
+        /// lblDeleteColorStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnColor3;
+        protected global::System.Web.UI.WebControls.Label lblDeleteColorStatus;
 
         /// <summary>
-        /// imgProd1 control.
+        /// lblAddImgStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgProd1;
+        protected global::System.Web.UI.WebControls.Label lblAddImgStatus;
 
         /// <summary>
-        /// imgProd2 control.
+        /// repeaterImages control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgProd2;
-
-        /// <summary>
-        /// imgProd3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgProd3;
+        protected global::System.Web.UI.WebControls.Repeater repeaterImages;
 
         /// <summary>
         /// fileImgUpload control.
@@ -175,5 +193,14 @@ namespace OutModern.src.Admin.ProductEdit
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload fileImgUpload;
+
+        /// <summary>
+        /// btnAddImage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAddImage;
     }
 }

@@ -62,18 +62,24 @@
 
 .leftBox1 {
     float: left;
-    margin-left: 4.17vw;
+    margin-left: 1vh;
     margin-top: 1.67vh;
 }
 
-.leftBox1 input{
+leftBox2 {
+    float: left;
+    margin-left: 3vh;
+    margin-top: 1.67vh;
+}
+
+.leftBox1 input {
     font-family: sans-serif;
 }
 
 .imgProfile {
     border-radius: 50%;
-    width: 8.4375rem; /* 135px */
-    height: 8.4375rem; /* 135px */
+    width: 8.5rem; /* 135px */
+    height: 8.5rem; /* 135px */
 }
 
 .rightBox {

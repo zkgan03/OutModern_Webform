@@ -51,6 +51,24 @@ namespace OutModern.src.Client.Profile
         protected global::System.Web.UI.WebControls.Button btn_togo_my_order;
 
         /// <summary>
+        /// btn_rw_his control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btn_rw_his;
+
+        /// <summary>
+        /// lbl_custId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_custId;
+
+        /// <summary>
         /// lbl_up_username control.
         /// </summary>
         /// <remarks>
@@ -148,5 +166,32 @@ namespace OutModern.src.Client.Profile
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btn_dlt_acc;
+
+        /// <summary>
+        /// btn_chg_pwd control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btn_chg_pwd;
+
+        /// <summary>
+        /// btn_dlt_address control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btn_dlt_address;
+
+        /// <summary>
+        /// btn_add_address control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btn_add_address;
     }
 }

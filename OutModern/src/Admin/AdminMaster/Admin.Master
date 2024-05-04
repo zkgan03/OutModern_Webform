@@ -88,7 +88,7 @@
             }
 
             .filter-item .item {
-                @apply cursor-pointer mr-2 border p-2 box-border;
+                @apply mr-2 border p-2 box-border;
             }
 
             /*Table style*/
@@ -105,7 +105,7 @@
                 }
 
                 #data-table thead {
-                    @apply sticky top-14 bg-gray-950 text-white;
+                    @apply z-50 sticky top-14 bg-gray-950 text-white;
                 }
 
                     #data-table thead th {
@@ -123,6 +123,15 @@
                             #data-table thead th.active i {
                                 @apply visible;
                             }
+
+                        #data-table thead th a.sort-asc i {
+                            @apply rotate-0;
+                        }
+
+                        #data-table thead th a.sort-desc i {
+                            @apply rotate-180;
+                        }
+
 
                         #data-table thead th i {
                             @apply invisible;
@@ -163,6 +172,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
         <!-- Container -->
         <div class="flex items-stretch">
             <!-- Side menu -->
@@ -175,6 +185,8 @@
                     </div>
 
                     <!-- main -->
+                    <%if (Session["AdminRole"].ToString() == "Manager")
+                        {  %>
                     <div class="mt-5">
                         <div class="menu-title">Main</div>
 
@@ -186,17 +198,22 @@
                         </div>
                         </asp:HyperLink>
                     </div>
-
+                    <%  } %>
                     <!-- Management -->
                     <div class="mt-5">
                         <div class="menu-title">Management</div>
+
                         <!--Staff-->
+                        <% if (Session["AdminRole"].ToString() == "Manager")
+                            { %>
                         <asp:HyperLink runat="server" ID="hyperlinkStaffs" NavigateUrl='<%# urls[Staffs] %>' ToolTip="Manage staff, access level">
                         <div class="menu-item">
                             <i class="fa-regular fa-user-tie fa-lg fa-fw mr-2"></i>
                             <span class="menu-item-text">Staffs</span>
                         </div>
                         </asp:HyperLink>
+                        <% } %>
+
                         <!--Products-->
                         <asp:HyperLink runat="server" ID="hyperlinkProducts" NavigateUrl='<%# urls[Products] %>' ToolTip="Manage product being sold">
                     <div class="menu-item">
@@ -217,7 +234,7 @@
                     <div class="mt-5">
                         <div class="menu-title">Customer Relation</div>
                         <!--Customers-->
-                        <asp:HyperLink runat="server" ID="hyperlinkCustomers" NavigateUrl='<%# urls[Customers]  %>' ToolTip="Manage registered customer" >
+                        <asp:HyperLink runat="server" ID="hyperlinkCustomers" NavigateUrl='<%# urls[Customers]  %>' ToolTip="Manage registered customer">
                             <div class="menu-item">
                                 <i class="fa-duotone fa-users fa-lg fa-fw mr-2"></i>
                                 <span class="menu-item-text">Customers</span>
@@ -248,7 +265,7 @@
 
                         <!-- Site Map -->
                         <div class="ml-1">
-                            <asp:SiteMapPath ID="sitemapAdmin" runat="server" SiteMapProvider="adminSiteMap">
+                            <asp:SiteMapPath OnItemDataBound="sitemapAdmin_ItemDataBound" ID="sitemapAdmin" runat="server" SiteMapProvider="adminSiteMap">
                             </asp:SiteMapPath>
                         </div>
                     </div>
@@ -275,14 +292,14 @@
 
                         <!-- Profile -->
                         <div id="nav-profile" class="drop-down group mr-2">
-                            <div id="current-username" class="mx-1">
-                                Gan Zhi Ken
+                            <div id="current-username" class="mx-1 min-w-16">
+                                <asp:Label ID="lblUsername" runat="server"></asp:Label>
                             </div>
                             <i class="fa-solid fa-angle-down align-middle group-hover:text-black"></i>
 
                             <!-- Profile drop down item -->
                             <div class="drop-down-list">
-                                <asp:LinkButton CssClass="drop-down-item" ID="linkBtnLogout" runat="server">
+                                <asp:LinkButton CssClass="drop-down-item" ID="linkBtnLogout" OnClick="linkBtnLogout_Click" runat="server">
                                     <span>Logout</span>
                                     <i class="fa-regular fa-arrow-right-from-bracket"></i>     
                                 </asp:LinkButton>
@@ -296,9 +313,16 @@
                 <div class="p-2 max-w-screen-2xl">
 
                     <!-- Server Time-->
-                    <div class="text-center">
-                        Server Time : <%= DateTime.Now %>
-                    </div>
+                    <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+                        <ContentTemplate>
+                            <asp:Timer ID="Timer1" Interval="10000" OnTick="Timer1_Tick" runat="server"></asp:Timer>
+                            <div class="text-center">
+                                Server Time :
+                                <asp:Label ID="lblServerTime" runat="server" Text='<%# DateTime.Now %>'></asp:Label>
+                            </div>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+
 
                     <!-- Main content -->
                     <div class="p-12 pt-2">

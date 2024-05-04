@@ -24,6 +24,42 @@ namespace OutModern.src.Admin.PromoCode
         protected global::System.Web.UI.WebControls.LinkButton lbAddPromoCode;
 
         /// <summary>
+        /// txtFilterStartDateFrom control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtFilterStartDateFrom;
+
+        /// <summary>
+        /// txtFilterStartDateTo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtFilterStartDateTo;
+
+        /// <summary>
+        /// txtFilterEndDateFrom control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtFilterEndDateFrom;
+
+        /// <summary>
+        /// txtFilterEndDateTo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtFilterEndDateTo;
+
+        /// <summary>
         /// dpTopPromoCodes control.
         /// </summary>
         /// <remarks>
@@ -31,6 +67,15 @@ namespace OutModern.src.Admin.PromoCode
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DataPager dpTopPromoCodes;
+
+        /// <summary>
+        /// lblMsg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblMsg;
 
         /// <summary>
         /// lvPromoCodes control.

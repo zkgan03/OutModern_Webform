@@ -36,7 +36,7 @@
 
         @layer components {
             .header {
-                @apply bg-[#f5f5f5] h-[75px] text-center sticky top-0  shadow flex justify-between;
+                @apply bg-[#f5f5f5] h-[75px] text-center sticky top-0 shadow flex justify-between;
             }
 
             .header-scroll {
@@ -106,6 +106,64 @@
                 width: 130px; /* Adjust as needed for even smaller screens */
             }
         }
+
+        /*Table style*/
+        #data-table {
+            @apply border-spacing-5 border-collapse text-center drop-shadow-md bg-white;
+        }
+
+            #data-table .button {
+                @apply px-2 cursor-pointer hover:opacity-50 text-white;
+            }
+
+            #data-table tr {
+                @apply border-b border-black;
+            }
+
+        .data-table-head th {
+            @apply text-white;
+        }
+
+        #data-table thead {
+            @apply z-50 sticky top-14 bg-gray-950 text-white;
+        }
+
+            #data-table thead th {
+                @apply p-1;
+            }
+
+                #data-table thead th > * {
+                    @apply text-opacity-50 cursor-pointer hover:bg-gray-100 hover:text-gray-950 p-1 rounded;
+                }
+
+                #data-table thead th.active {
+                    @apply text-opacity-100;
+                }
+
+                    #data-table thead th.active i {
+                        @apply visible;
+                    }
+
+                #data-table thead th a.sort-asc i {
+                    @apply rotate-0;
+                }
+
+                #data-table thead th a.sort-desc i {
+                    @apply rotate-180;
+                }
+
+
+                #data-table thead th i {
+                    @apply invisible;
+                }
+
+        #data-table tbody tr {
+            @apply hover:bg-[#DBF0ED] cursor-pointer;
+        }
+
+        #data-table tbody td {
+            @apply p-2;
+        }
     </style>
 
     <!-- your head -->
@@ -166,23 +224,36 @@
 
                             <div class="drop-down max-w-xs">
                                 <ul>
-                                    <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink5" NavigateUrl="~/src/Client/UserProfile/UserProfile.aspx" runat="server">My Profile</asp:HyperLink>
-                                    </li>
-                                    <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink6" NavigateUrl="~/src/Client/UserProfile/ToShip.aspx" runat="server">My Order</asp:HyperLink>
-                                    </li>
+                                    <%if (Session["CUSTID"]?.ToString() == null)
+                                        {%>
                                     <li>
                                         <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink7" NavigateUrl="~/src/Client/Login/Login.aspx" runat="server">Log In</asp:HyperLink>
                                     </li>
                                     <li>
                                         <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink8" NavigateUrl="~/src/Client/Login/SignUp.aspx" runat="server">Sign Up</asp:HyperLink>
                                     </li>
+                                    <%}%>
+
+                                    <%if (Session["CUSTID"]?.ToString() != null)
+                                        {%>
+                                    <li>
+                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink5" NavigateUrl="~/src/Client/UserProfile/UserProfile.aspx" runat="server">My Profile</asp:HyperLink>
+                                    </li>
+                                    <li>
+                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink6" NavigateUrl="~/src/Client/UserProfile/ToShip.aspx" runat="server">My Order</asp:HyperLink>
+                                    </li>
+
+                                    <li>
+                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink9" NavigateUrl="~/src/Client/Login/Login.aspx" runat="server">Log Out</asp:HyperLink>
+                                    </li>
+
+                                    
+                                    <%}%>
                                 </ul>
                             </div>
 
                         </div>
-                        
+
                     </div>
                 </nav>
             </header>
@@ -278,13 +349,13 @@
                         <div class="mt-2 flex justify-between items-center">
                             <div class="flex gap-4">
                                 <div id="visaLink" class="text-white text-2xl">
-                <i class="fa-brands fa-cc-visa text-white text-2xl"></i>
+                                    <i class="fa-brands fa-cc-visa text-white text-2xl"></i>
                                 </div>
                                 <div id="mastercardLink" class="text-white text-2xl">
-                <i class="fab fa-cc-mastercard text-white text-2xl"></i>
+                                    <i class="fab fa-cc-mastercard text-white text-2xl"></i>
                                 </div>
-                                <div ID="paypalLink" class="text-white text-2xl">
-                <i class="fa-brands fa-cc-paypal text-white text-2xl"></i>
+                                <div id="paypalLink" class="text-white text-2xl">
+                                    <i class="fa-brands fa-cc-paypal text-white text-2xl"></i>
                                 </div>
                             </div>
 

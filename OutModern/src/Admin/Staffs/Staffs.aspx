@@ -33,7 +33,7 @@
         <asp:LinkButton
             CssClass="inline-block rounded hover:opacity-60 p-2 box-border bg-green-600 text-white"
             ID="lbAddStaff" runat="server" OnClick="lbAddStaff_Click" CommandName="Insert">
-            <i class="fa-solid fa-user-plus"></i>         
+            <i class="fa-solid fa-user-plus"></i>
             New Staff
         </asp:LinkButton>
 
@@ -46,20 +46,22 @@
             <!-- Filter -->
             <div class="filter-item flex">
                 <div class="item">
-                    Role
-                 <i class="fa-regular fa-layer-group"></i>
+                    <asp:DropDownList ID="ddlFilterRole" OnSelectedIndexChanged="ddlFilterRole_SelectedIndexChanged" AutoPostBack="true" runat="server" OnDataBound="ddlFilterRole_DataBound">
+                    </asp:DropDownList>
+                    <i class="fa-regular fa-head-side-gear"></i>
                 </div>
-                <%--                <div class="item">
-                    Status
-                    <i class="fa-regular fa-layer-group"></i>
-                </div>--%>
+                <div class="item">
+                    <asp:DropDownList ID="ddlFilterStatus" OnSelectedIndexChanged="ddlFilterRole_SelectedIndexChanged" AutoPostBack="true" runat="server" OnDataBound="ddlFilterStatus_DataBound">
+                    </asp:DropDownList>
+                    <i class="fa-regular fa-user-magnifying-glass"></i>
+                </div>
             </div>
         </div>
 
         <!-- Display Product -->
-        <div class="mt-2">
+        <div class="mt-5">
             <!--Pagination-->
-            <asp:DataPager ID="dpTopStaffs" class="pagination" runat="server" PageSize="2" PagedControlID="lvStaffs">
+            <asp:DataPager ID="dpTopStaffs" class="pagination" runat="server" PagedControlID="lvStaffs">
                 <Fields>
                     <asp:NextPreviousPagerField ButtonType="Button" ShowFirstPageButton="False" ShowNextPageButton="False" ShowPreviousPageButton="True" PreviousPageText="<" />
                     <asp:NumericPagerField CurrentPageLabelCssClass="active" ButtonCount="10" />
@@ -71,9 +73,10 @@
                 OnItemInserting="lvStaffs_ItemInserting"
                 OnItemCanceling="lvStaffs_ItemCanceling"
                 OnItemEditing="lvStaffs_ItemEditing"
-                OnItemCommand="lvStaffs_ItemCommand"
                 OnItemUpdating="lvStaffs_ItemUpdating"
                 OnItemDataBound="lvStaffs_ItemDataBound"
+                OnSorting="lvStaffs_Sorting"
+                OnItemCommand="lvStaffs_ItemCommand"
                 OnPagePropertiesChanged="lvStaffs_PagePropertiesChanged"
                 DataKeyNames="AdminId"
                 ID="lvStaffs" runat="server">
@@ -82,45 +85,38 @@
                         <thead>
                             <tr class="data-table-head">
                                 <th class="active">
-                                    <asp:LinkButton ID="lbId" runat="server">
-                                     ID
-                                     <i class="fa-solid fa-arrow-up"></i>
+                                    <asp:LinkButton ID="lbId" runat="server" CommandName="Sort" CommandArgument="AdminId">
+                                        ID
                                     </asp:LinkButton>
                                 </th>
                                 <th>
-                                    <asp:LinkButton ID="lbName" runat="server">
-                                     Name
-                                     <i class="fa-solid fa-arrow-up"></i>
+                                    <asp:LinkButton ID="lbName" runat="server" CommandName="Sort" CommandArgument="AdminName">
+                                        Name
                                     </asp:LinkButton>
                                 </th>
                                 <th>
-                                    <asp:LinkButton ID="lbUsername" runat="server">
-                                      Username
-                                      <i class="fa-solid fa-arrow-up"></i>
+                                    <asp:LinkButton ID="lbUsername" runat="server" CommandName="Sort" CommandArgument="AdminUsername">
+                                        Username
                                     </asp:LinkButton>
                                 </th>
                                 <th>
-                                    <asp:LinkButton ID="lbRole" runat="server">
-                                     Role
-                                     <i class="fa-solid fa-arrow-up"></i>
+                                    <asp:LinkButton ID="lbRole" runat="server" CommandName="Sort" CommandArgument="AdminRole">
+                                        Role
                                     </asp:LinkButton>
                                 </th>
                                 <th>
-                                    <asp:LinkButton ID="lbEmail" runat="server">
-                                     Email
-                                     <i class="fa-solid fa-arrow-up"></i>
+                                    <asp:LinkButton ID="lbEmail" runat="server" CommandName="Sort" CommandArgument="AdminEmail">
+                                        Email
                                     </asp:LinkButton>
                                 </th>
                                 <th>
-                                    <asp:LinkButton ID="lbPhoneNo" runat="server">
-                                     Phone No
-                                     <i class="fa-solid fa-arrow-up"></i>
+                                    <asp:LinkButton ID="lbPhoneNo" runat="server" CommandName="Sort" CommandArgument="AdminPhoneNo">
+                                        Phone No
                                     </asp:LinkButton>
                                 </th>
                                 <th>
-                                    <asp:LinkButton ID="lbStatus" runat="server">
-                                     Status
-                                     <i class="fa-solid fa-arrow-up"></i>
+                                    <asp:LinkButton ID="lbStatus" runat="server" CommandName="Sort" CommandArgument="AdminStatus">
+                                        Status
                                     </asp:LinkButton>
                                 </th>
                                 <th>Action</th>
@@ -142,16 +138,19 @@
                         <td><%# Eval("AdminPhoneNo") %></td>
                         <td><span runat="server" id="userStatus" class="user-status"><%# Eval("AdminStatus") %></span></td>
                         <td>
-                            <asp:LinkButton ID="lbEdit" runat="server" CommandArgument='<%# Eval("AdminId") %>' CssClass="button" CommandName="Edit">
+                            <asp:LinkButton ID="lbEdit" runat="server"
+                                Visible='<%# Eval("AdminId").ToString() != Session["AdminId"].ToString() %>'
+                                CssClass="button" CommandName="Edit">
                                 <i class="fa-regular fa-pen-to-square"></i>
                             </asp:LinkButton>
+
                         </td>
                     </tr>
                 </ItemTemplate>
                 <InsertItemTemplate>
                     <tr class="bg-green-100">
                         <td>
-                            <asp:Label ID="lblNewAdminId" runat="server" Text="12"></asp:Label>
+                            <asp:Label ID="lblNewAdminId" runat="server" Text="-"></asp:Label>
                         </td>
                         <td>
                             <asp:TextBox CssClass="w-28 px-2" ID="txtAddAdminName" runat="server"></asp:TextBox>
@@ -161,7 +160,6 @@
                         </td>
                         <td>
                             <asp:DropDownList CssClass="px-2" ID="ddlAddRole" runat="server">
-                                <asp:ListItem>Super Admin</asp:ListItem>
                             </asp:DropDownList>
                         </td>
                         <td>
@@ -172,19 +170,24 @@
                         </td>
                         <td>
                             <asp:DropDownList CssClass="px-2" ID="ddlAddStatus" runat="server">
-                                <asp:ListItem>Active</asp:ListItem>
                             </asp:DropDownList>
                         </td>
                         <td>
-                            <asp:Button UseSubmitBehavior="false" CssClass="button bg-green-500" ID="btnAdd" runat="server" Text="Add" CommandName="Insert" />
-                            <asp:Button UseSubmitBehavior="false" ID="btnCancel" CssClass="button bg-red-500 mt-2" runat="server" CommandName="Cancel" Text="Cancel" />
+                            <asp:Button CssClass="button bg-green-500" ID="btnAdd" runat="server"
+                                OnClientClick="return confirm('Are you sure you want to add this record?');"
+                                Text="Add"
+                                CommandName="Insert" />
+                            <asp:Button ID="btnCancel"
+                                OnClientClick="return confirm('Are you sure you want to discard to add?');"
+                                CssClass="button bg-red-500 mt-2"
+                                runat="server" CommandName="Cancel" Text="Cancel" />
                         </td>
                     </tr>
                 </InsertItemTemplate>
                 <EditItemTemplate>
                     <tr class="bg-amber-100">
                         <td>
-                            <asp:Label ID="lblNewAdminId" runat="server" Text='<%# Eval("AdminId") %>'></asp:Label>
+                            <asp:Label ID="lblAdminId" runat="server" Text='<%# Eval("AdminId") %>'></asp:Label>
                         </td>
                         <td>
                             <asp:TextBox CssClass="w-28 px-2" ID="txtEditAdminName" runat="server" Text='<%# Eval("AdminName") %>'></asp:TextBox>
@@ -194,7 +197,6 @@
                         </td>
                         <td>
                             <asp:DropDownList CssClass="px-2" ID="ddlEditRole" runat="server">
-                                <asp:ListItem>Super Admin</asp:ListItem>
                             </asp:DropDownList>
                         </td>
                         <td>
@@ -205,17 +207,30 @@
                         </td>
                         <td>
                             <asp:DropDownList CssClass="px-2" ID="ddlEditStatus" runat="server">
-                                <asp:ListItem>Active</asp:ListItem>
-                            </asp:DropDownList></td>
+                            </asp:DropDownList>
+                        </td>
                         <td>
-                            <asp:Button UseSubmitBehavior="false" CssClass="button bg-green-500" ID="btnUpdate" runat="server" Text="Update" CommandName="Update" />
-                            <asp:Button UseSubmitBehavior="false" ID="btnCancel" CssClass="button bg-red-500 mt-2" runat="server" CommandName="Cancel" Text="Cancel" />
+                            <asp:Button CssClass="button bg-green-500" ID="btnUpdate"
+                                OnClientClick="return confirm('Are you sure you want to update this record?');"
+                                runat="server" Text="Update"
+                                CommandArgument="none"
+                                CommandName="Update" />
+                            <asp:Button
+                                OnClientClick="return confirm('Are you sure you want to discard to update?');"
+                                ID="btnCancel" CssClass="button bg-red-500 mt-2" runat="server"
+                                CommandName="Cancel"
+                                CommandArgument="none"
+                                Text="Cancel" />
                         </td>
                     </tr>
                 </EditItemTemplate>
+                <EmptyDataTemplate>
+                    No data..
+                </EmptyDataTemplate>
             </asp:ListView>
+
             <!--Pagination-->
-            <asp:DataPager ID="dpBottomStaffs" class="pagination" runat="server" PageSize="2" PagedControlID="lvStaffs">
+            <asp:DataPager ID="dpBottomStaffs" class="pagination" runat="server" PageSize="10" PagedControlID="lvStaffs">
                 <Fields>
                     <asp:NextPreviousPagerField ButtonType="Button" ShowFirstPageButton="False" ShowNextPageButton="False" ShowPreviousPageButton="True" PreviousPageText="<" />
                     <asp:NumericPagerField CurrentPageLabelCssClass="active" ButtonCount="10" />
@@ -223,8 +238,11 @@
                 </Fields>
             </asp:DataPager>
 
-
         </div>
     </div>
+
+    <script>
+
+</script>
 
 </asp:Content>

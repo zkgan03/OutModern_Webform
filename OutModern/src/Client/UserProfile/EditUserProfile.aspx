@@ -9,12 +9,20 @@
             <!-- left column-->
             <div class="column1">
                 <div class="sectionLeft">
-                    <div class="leftBox">
+                    <%--<div class="leftBox">
                         <asp:Image ID="img_profile" runat="server" class="imgProfile" ImageUrl="~/images/login-img/login-background13.jpg" />
+                    </div>--%>
+
+                    <div class="leftBox">
+                        <asp:Image ID="img_profile" runat="server" Width="10em" Height="10em" CssClass="product-img object-cover" />
                     </div>
 
                     <div class="leftBox1">
                         <asp:FileUpload ID="imgUpload" runat="server" />
+                    </div>
+
+                    <div class="leftBox2">
+                        <asp:Button ID="btnUploadImage" runat="server" Text="Upload Image" style="background-color: black; color: white; padding: 0.5em 1em; margin: 1rem; border: none; cursor: pointer; border-radius: 5px;" OnClick="btnUploadImage_Click" />
                     </div>
 
                     <div class="rightBox">
@@ -27,7 +35,7 @@
 
                         <asp:Button ID="btn_togo_profile" runat="server" class="button" Text="My Profile" OnClick="btn_togo_profile_Click" />
                         <asp:Button ID="btn_togo_my_order" runat="server" class="button" Text="My Order" OnClick="btn_togo_my_order_Click" />
-
+                        <asp:Button ID="btn_rw_his" runat="server" class="button" Text="Review History" />
                     </div>
 
                 </div>
@@ -53,7 +61,6 @@
 
                 <!--Edit Profile-->
                 <div class="section_edit">
-
                     <div class="topBox">
                         <div class="titleBox">
                             <span class="title">My Profile</span>
@@ -70,65 +77,99 @@
                     <div class="bigBox">
                         <div class="boxItem">
                             <span class="labelData">Username</span>
-                            <asp:TextBox ID="txt_edit_username" runat="server" value="Prochoros" class="edit_data"></asp:TextBox>
+                            <asp:TextBox ID="txt_edit_username" runat="server" class="edit_data"></asp:TextBox>
                         </div>
+
+                        <!-- Error Message-->
+                        <asp:Label ID="usernameErrMsg" runat="server" Style="color: red"></asp:Label>
 
                         <div class="boxItem">
                             <span class="labelData">Fullname</span>
-                            <asp:TextBox ID="txt_edit_fullname" runat="server" value="Prochoros Robert" class="edit_data"></asp:TextBox>
+                            <asp:TextBox ID="txt_edit_fullname" runat="server" class="edit_data"></asp:TextBox>
                         </div>
 
-                        <div class="boxItem">
+                        <!-- Error Message-->
+                        <asp:Label ID="fullnameErrMsg" runat="server" Style="color: red"></asp:Label>
+
+                        <%--<div class="boxItem">
                             <span class="labelData">Email</span>
-                            <asp:TextBox ID="txt_edit_email" runat="server" value="Prochoros@gmail.com" class="edit_data" TextMode="Email"></asp:TextBox>
+                            <asp:TextBox ID="txt_edit_email" runat="server" class="edit_data" TextMode="Email"></asp:TextBox>
                         </div>
+
+                        <!-- Error Message-->
+                        <asp:Label ID="emailErrMsg" runat="server" Style="color: red"></asp:Label>--%>
 
                         <div class="boxItem">
                             <span class="labelData">Phone Number</span>
-                            <asp:TextBox ID="txt_edit_phone_number" runat="server" value="0123456789" class="edit_data" TextMode="Phone"></asp:TextBox>
+                            <asp:TextBox ID="txt_edit_phone_number" runat="server" class="edit_data" TextMode="Phone"></asp:TextBox>
                         </div>
+
+                        <!-- Error Message-->
+                        <asp:Label ID="phoneNumErrMsg" runat="server" Style="color: red"></asp:Label>
 
                         <div class="boxItem">
                             <span class="labelData">Address Name</span>
-                            <asp:TextBox ID="txt_edit_address_name" runat="server" value="Home" class="edit_data"></asp:TextBox>
+                            <asp:TextBox ID="txt_edit_address_name" runat="server" class="edit_data"></asp:TextBox>
                         </div>
+
+                        <!-- Error Message-->
+                        <asp:Label ID="addressNameErrMsg" runat="server" Style="color: red"></asp:Label>
 
                         <div class="boxItem">
                             <span class="labelData">Address</span>
-                            <asp:TextBox ID="txt_edit_address" runat="server" value="67, Jln Madrasah, Gombak Setia, 53100 Kuala Lumpur, Selangor" class="edit_data"></asp:TextBox>
+                            <asp:TextBox ID="txt_edit_address" runat="server" class="edit_data"></asp:TextBox>
                         </div>
+
+                        <!-- Error Message-->
+                        <asp:Label ID="addressLineErrMsg" runat="server" Style="color: red"></asp:Label>
 
                         <div class="boxItem">
                             <span class="labelData">Country</span>
-                            <asp:TextBox ID="txt_edit_country" runat="server" value="Malaysia" class="edit_data"></asp:TextBox>
+                            <asp:TextBox ID="txt_edit_country" runat="server" class="edit_data"></asp:TextBox>
                         </div>
+
+                        <!-- Error Message-->
+                        <asp:Label ID="countryErrMsg" runat="server" Style="color: red"></asp:Label>
 
                         <div class="boxItem">
                             <span class="labelData">State</span>
-                            <asp:TextBox ID="txt_edit_state" runat="server" value="Kuala Lumpur" class="edit_data"></asp:TextBox>
+                            <asp:TextBox ID="txt_edit_state" runat="server" class="edit_data"></asp:TextBox>
                         </div>
+
+                        <!-- Error Message-->
+                        <asp:Label ID="stateErrMsg" runat="server" Style="color: red"></asp:Label>
 
                         <div class="boxItem">
                             <span class="labelData">Postal Code</span>
-                            <asp:TextBox ID="txt_edit_postal_code" runat="server" value="53100" class="edit_data"></asp:TextBox>
+                            <asp:TextBox ID="txt_edit_postal_code" runat="server" class="edit_data"></asp:TextBox>
                         </div>
+
+                        <!-- Error Message-->
+                        <asp:Label ID="postalCodeErrMsg" runat="server" Style="color: red"></asp:Label>
+
+                        <%--<div class="boxItem">
+                            <span class="labelData">New Password</span>
+                            <asp:TextBox ID="txt_edit_new_password" runat="server" class="edit_data" TextMode="Password"></asp:TextBox>
+                        </div>
+
+                        <!-- Error Message-->
+                        <asp:Label ID="newPasswordErrMsg" runat="server" Style="color: red"></asp:Label>
 
                         <div class="boxItem">
-                            <span class="labelData">Password</span>
-                            <asp:TextBox ID="txt_edit_password" runat="server" class="edit_data" value="0123456789" TextMode="Password"></asp:TextBox>
+                            <span class="labelData">Re-enter New Password</span>
+                            <asp:TextBox ID="txt_edit_reenter_new_password" runat="server" class="edit_data" TextMode="Password"></asp:TextBox>
                         </div>
 
-                        <div class="boxItem">
-                            <span class="labelData">Reset Password</span>
-                            <asp:TextBox ID="txt_edit_reset_password" runat="server" class="edit_data" TextMode="Password"></asp:TextBox>
-                        </div>
-
+                        <!-- Error Message-->
+                        <asp:Label ID="reenterNewPasswordErrMsg" runat="server" Style="color: red"></asp:Label>--%>
                     </div>
 
 
                     <div class="EPBoxButton">
                         <asp:Button ID="btn_save" runat="server" class="EPButton" Text="Save" OnClick="btn_save_Click" CssClass="bg-black hover:bg-gray-700" Style="width: 50%; margin-top: 50px; padding: 0.50rem 1rem; font-weight: bold; border: 1px solid #f5f5f5; cursor: pointer; color: whitesmoke; border-radius: 30px;" />
                     </div>
+
+                    <asp:Label ID="lblMessage" runat="server"></asp:Label>
 
 
                 </div>

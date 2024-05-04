@@ -34,15 +34,16 @@
             <!-- Filter -->
             <div class="filter-item flex">
                 <div class="item">
-                    Status
-                  <i class="fa-regular fa-layer-group"></i>
+                    <asp:DropDownList ID="ddlFilterStatus" OnSelectedIndexChanged="ddlFilterStatus_SelectedIndexChanged" AutoPostBack="true" runat="server" OnDataBound="ddlFilterStatus_DataBound">
+                    </asp:DropDownList>
+                    <i class="fa-regular fa-user-magnifying-glass"></i>
                 </div>
             </div>
 
         </div>
 
         <!-- Display Product -->
-        <div class="mt-2">
+        <div class="mt-5">
             <!--Pagination-->
             <asp:DataPager ID="dpTopCustomers" class="pagination" runat="server" PagedControlID="lvCustomers">
                 <Fields>
@@ -55,6 +56,7 @@
             <asp:ListView
                 OnItemDataBound="lvCustomers_ItemDataBound"
                 OnPagePropertiesChanged="lvCustomers_PagePropertiesChanged"
+                OnSorting="lvCustomers_Sorting"
                 ID="lvCustomers"
                 runat="server">
                 <LayoutTemplate>
@@ -62,40 +64,34 @@
                         <thead>
                             <tr class="data-table-head">
                                 <th class="active">
-                                    <asp:LinkButton ID="lbId" runat="server">
+                                    <asp:LinkButton ID="lbCustomerId" runat="server" CommandName="Sort" CommandArgument="CustomerId">
                              ID
-                             <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
-                                    <asp:LinkButton ID="lbCustomerName" runat="server">
+                                    <asp:LinkButton ID="lbCustomerName" runat="server" CommandName="Sort" CommandArgument="CustomerFullname">
                              Customer Name
-                             <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
-                                    <asp:LinkButton ID="lbOrderDateTime" runat="server">
+                                    <asp:LinkButton ID="lbUsername" runat="server" CommandName="Sort" CommandArgument="CustomerUsername">
                               Username
-                              <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
-                                    <asp:LinkButton ID="lbProductOrdered" runat="server">
+                                    <asp:LinkButton ID="lbProductOrdered" runat="server" CommandName="Sort" CommandArgument="CustomerEmail">
                               Email
-                              <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
 
                                 <th>
-                                    <asp:LinkButton ID="lbSubtotal" runat="server">
+                                    <asp:LinkButton ID="lbSubtotal" runat="server" CommandName="Sort" CommandArgument="CustomerPhoneNumber">
                              Phone No
-                             <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>
-                                    <asp:LinkButton ID="lbOrderStatus" runat="server">
+                                    <asp:LinkButton ID="lbOrderStatus" runat="server" CommandName="Sort" CommandArgument="UserStatusName">
                              Status
-                             <i class="fa-solid fa-arrow-up"></i>
                                     </asp:LinkButton>
                                 </th>
                                 <th>Action</th>
@@ -108,24 +104,27 @@
 
                 </LayoutTemplate>
                 <ItemTemplate>
-                    <tr onclick="window.location='<%# Page.ResolveClientUrl(urls[CustomerDetails] + "?id=" +  Eval("CustomerId") )%>'">
+                    <tr onclick="window.location='<%# Page.ResolveClientUrl(urls[CustomerDetails] + "?CustomerId=" +  Eval("CustomerId") )%>'">
                         <td><%# Eval("CustomerId") %></td>
-                        <td><%# Eval("CustomerName") %></td>
+                        <td><%# Eval("CustomerFullname") %></td>
                         <td><%# Eval("CustomerUsername") %></td>
                         <td><%# Eval("CustomerEmail") %></td>
                         <td><%# Eval("CustomerPhoneNumber") %></td>
                         <td><span runat="server" id="userStatus" class="user-status"><%# Eval("UserStatusName") %></span></td>
                         <td>
-                            <asp:HyperLink ID="hlEdit" runat="server" CssClass="button" NavigateUrl='<%#urls[CustomerEdit] +"?id=" +Eval("CustomerId") %>'>
+                            <asp:HyperLink ID="hlEdit" runat="server" CssClass="button" NavigateUrl='<%#urls[CustomerEdit] +"?CustomerId=" +Eval("CustomerId") %>'>
                         <i class="fa-regular fa-pen-to-square"></i>
                             </asp:HyperLink>
                         </td>
                     </tr>
                 </ItemTemplate>
+                <EmptyDataTemplate>
+                    No data..
+                </EmptyDataTemplate>
             </asp:ListView>
 
             <!--Pagination-->
-            <asp:DataPager ID="dpBottomCustomers" class="pagination" runat="server" PageSize="4" PagedControlID="lvCustomers">
+            <asp:DataPager ID="dpBottomCustomers" class="pagination" runat="server" PageSize="10" PagedControlID="lvCustomers">
                 <Fields>
                     <asp:NextPreviousPagerField ButtonType="Button" ShowFirstPageButton="False" ShowNextPageButton="False" ShowPreviousPageButton="True" PreviousPageText="<" />
                     <asp:NumericPagerField CurrentPageLabelCssClass="active" ButtonCount="10" />
