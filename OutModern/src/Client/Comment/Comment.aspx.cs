@@ -12,19 +12,14 @@ namespace OutModern.src.Client.Comment
     public partial class Comment : System.Web.UI.Page
     {
         string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        string customerId;
+        int customerId = 1;
         string productDetailId;
         protected void Page_Load(object sender, EventArgs e)
         {
             productDetailId = Request.QueryString["ProductDetailId"];
-            customerId  = Session["CUSTID"].ToString();  
             if (productDetailId == null)
             {
                 Response.Redirect("~/src/ErrorPages/404.aspx");
-            }
-            if (customerId == null)
-            {
-                Response.Redirect("~/src/Client/Login/Login.aspx");
             }
             if (!IsPostBack)
             {
