@@ -574,6 +574,29 @@ namespace OutModern.src.Admin.ProductEdit
             return affectedRow;
         }
 
+        //update the product status to unavailable
+        private int updateProductStatusToUnavailable()
+        {
+            int affectedRow = 0;
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                string sqlQuery =
+                    "Update Product " +
+                    "SET ProductStatusId = (Select ProductStatusId From ProductStatus Where ProductStatusName = 'Unavailable') " +
+                    "Where ProductId = @productId";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@productId", productId);
+                    affectedRow = command.ExecuteNonQuery();
+                }
+            }
+
+            return affectedRow;
+        }
+
         //
         //Page Events
         //
@@ -688,6 +711,16 @@ namespace OutModern.src.Admin.ProductEdit
                 }
                 else
                 {
+                    // update the product status to unavailable in database
+                    updateProductStatusToUnavailable();
+
+                    // select ddl back to "unavailable"
+                    ddlStatus.SelectedIndex = ddlStatus.Items.IndexOf(ddlStatus.Items.FindByText("Unavailable"));
+
+                    // clear the color id
+                    ViewState["ColorId"] = null;
+
+                    //rebind image
                     repeaterImages.DataBind();
                 }
             }
