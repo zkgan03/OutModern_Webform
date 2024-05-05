@@ -114,6 +114,15 @@ namespace OutModern.src.Client.Payment
         protected global::System.Web.UI.WebControls.TextBox txtCardNumber;
 
         /// <summary>
+        /// lblCreditError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCreditError;
+
+        /// <summary>
         /// txtExpirationDate control.
         /// </summary>
         /// <remarks>
@@ -123,6 +132,15 @@ namespace OutModern.src.Client.Payment
         protected global::System.Web.UI.WebControls.TextBox txtExpirationDate;
 
         /// <summary>
+        /// lblDateError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblDateError;
+
+        /// <summary>
         /// txtCvv control.
         /// </summary>
         /// <remarks>
@@ -130,6 +148,15 @@ namespace OutModern.src.Client.Payment
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtCvv;
+
+        /// <summary>
+        /// lblCvvError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCvvError;
 
         /// <summary>
         /// orderSummary control.

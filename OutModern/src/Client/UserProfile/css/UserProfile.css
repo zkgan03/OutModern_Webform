@@ -173,6 +173,11 @@ leftBox2 {
     padding: 0.3125rem;
 }
 
+.boxItem1 {
+    display: flex;
+    padding: 0.3125rem;
+}
+
 
 .labelData {
     flex: 0 0 5.925rem;
@@ -180,6 +185,15 @@ leftBox2 {
     font-size: 1.20rem;
     color: black;
     font-weight:bold;
+    margin-right: 1.25rem; /* Add margin-right for spacing */
+}
+
+.labelData1 {
+    flex: 0 0 5.925rem;
+    text-align: right;
+    font-size: 1.20rem;
+    color: black;
+    font-weight: bold;
     margin-right: 1.25rem; /* Add margin-right for spacing */
 }
 

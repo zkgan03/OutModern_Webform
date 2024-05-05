@@ -218,8 +218,42 @@
 
         <!-- Review and Rating -->
         <div class="mt-10">
-            <div class="text-xl font-[600]">
-                Reviews (<asp:Label CssClass="text-3xl font-bold text-amber-500" ID="lblOverallRating" runat="server" Text="4.0"></asp:Label>/5.0)
+            <div class="flex justify-between">
+                <div class="text-xl font-[600] self-center">
+                    Reviews (<asp:Label CssClass="text-3xl font-bold text-amber-500" ID="lblOverallRating" runat="server" Text="4.0"></asp:Label>/5.0)
+                </div>
+                <!-- Filter -->
+                <div class="filter-item flex justify-center items-center">
+                    <!-- Filter Order Date -->
+                    <div class="item">
+                        <div>
+                            <div class="w-16 float-left">From :</div>
+                            <asp:TextBox ID="txtReviewDateFrom"
+                                OnTextChanged="txtReviewDateFrom_TextChanged"
+                                AutoPostBack="true" TextMode="Date" runat="server"></asp:TextBox>
+                        </div>
+                        <div class="mt-3">
+                            <div class="w-16 float-left">To :</div>
+                            <asp:TextBox ID="txtReviewDateTo"
+                                OnTextChanged="txtReviewDateFrom_TextChanged"
+                                AutoPostBack="true" TextMode="Date" runat="server"></asp:TextBox>
+                        </div>
+                    </div>
+
+                    <div class="item self-end">
+                        <div>
+                            <asp:DropDownList ID="ddlRating" AutoPostBack="true" OnSelectedIndexChanged="ddlRating_SelectedIndexChanged" runat="server">
+                                <asp:ListItem Text="All Rating" Value="-1"></asp:ListItem>
+                                <asp:ListItem Text="1.0" Value="1"></asp:ListItem>
+                                <asp:ListItem Text="2.0" Value="2"></asp:ListItem>
+                                <asp:ListItem Text="3.0" Value="3"></asp:ListItem>
+                                <asp:ListItem Text="4.0" Value="4"></asp:ListItem>
+                                <asp:ListItem Text="5.0" Value="5"></asp:ListItem>
+                            </asp:DropDownList>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <asp:UpdatePanel ID="UpdatePanel3" runat="server">
@@ -309,8 +343,6 @@
                     <asp:AsyncPostBackTrigger ControlID="lvReviews" EventName="PagePropertiesChanged" />
                 </Triggers>
             </asp:UpdatePanel>
-
-
         </div>
     </div>
 </asp:Content>

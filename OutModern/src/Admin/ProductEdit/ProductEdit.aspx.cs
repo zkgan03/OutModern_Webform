@@ -122,7 +122,7 @@ namespace OutModern.src.Admin.ProductEdit
         // clear all the status
         private void clearStatusText()
         {
-            lblSetStatus.Text = "";
+            lblSetQuantityStatus.Text = "";
             lblAddColorStatus.Text = "";
             lblAddImgStatus.Text = "";
             lblDeleteColorStatus.Text = "";
@@ -574,6 +574,29 @@ namespace OutModern.src.Admin.ProductEdit
             return affectedRow;
         }
 
+        //update the product status to unavailable
+        private int updateProductStatusToUnavailable()
+        {
+            int affectedRow = 0;
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                string sqlQuery =
+                    "Update Product " +
+                    "SET ProductStatusId = (Select ProductStatusId From ProductStatus Where ProductStatusName = 'Unavailable') " +
+                    "Where ProductId = @productId";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@productId", productId);
+                    affectedRow = command.ExecuteNonQuery();
+                }
+            }
+
+            return affectedRow;
+        }
+
         //
         //Page Events
         //
@@ -612,16 +635,28 @@ namespace OutModern.src.Admin.ProductEdit
                 return;
             }
 
-            int affectedRow = updateProductInfo(productName, productDescription, productCategory, unitPrice, statusId);
-            if (affectedRow > 0)
+            // check product added color and status
+            // no color added should make status remain unavailable
+            DataTable colorData = getProdColors();
+            string selectedStatusName = ddlStatus.SelectedItem.Text.Trim();
+            if (colorData.Rows.Count == 0 && selectedStatusName == "In Stock")
             {
-                //register page js
-                Page.ClientScript.RegisterStartupScript(GetType(),
-                                "Update Success",
-                                 $"document.addEventListener('DOMContentLoaded', ()=>alert('Product Info Updated Successfully'));",
-                                 true);
+                Page.ClientScript
+                    .RegisterStartupScript(GetType(),
+                    "Update Failed",
+                    "document.addEventListener('DOMContentLoaded', ()=>alert('Please Add a Color to Update the " +
+                    "product Status to Available or In Stock'));",
+                        true);
+
+                //select back to "unavailable"
+                ddlStatus.SelectedIndex = ddlStatus.Items.IndexOf(ddlStatus.Items.FindByText("Unavailable"));
+
+                return;
             }
-            else
+
+            int affectedRow = updateProductInfo(productName, productDescription, productCategory, unitPrice, statusId);
+
+            if (affectedRow <= 0)
             {
                 //register page js
                 Page.ClientScript.RegisterStartupScript(GetType(),
@@ -676,6 +711,16 @@ namespace OutModern.src.Admin.ProductEdit
                 }
                 else
                 {
+                    // update the product status to unavailable in database
+                    updateProductStatusToUnavailable();
+
+                    // select ddl back to "unavailable"
+                    ddlStatus.SelectedIndex = ddlStatus.Items.IndexOf(ddlStatus.Items.FindByText("Unavailable"));
+
+                    // clear the color id
+                    ViewState["ColorId"] = null;
+
+                    //rebind image
                     repeaterImages.DataBind();
                 }
             }
@@ -731,7 +776,7 @@ namespace OutModern.src.Admin.ProductEdit
 
             if (ViewState["ColorId"] == null)
             {
-                lblSetStatus.Text = "*Please Add and Select a Color to Set Quantity!";
+                lblSetQuantityStatus.Text = "*Please Add and Select a Color to Set Quantity!";
                 return;
             }
 
@@ -742,7 +787,7 @@ namespace OutModern.src.Admin.ProductEdit
             //check nulls
             if (string.IsNullOrEmpty(quantity))
             {
-                lblSetStatus.Text = "**Please Enter a Quantity!";
+                lblSetQuantityStatus.Text = "**Please Enter a Quantity!";
                 return;
             }
 
@@ -750,7 +795,7 @@ namespace OutModern.src.Admin.ProductEdit
             // check if quantity is integer
             if (!int.TryParse(quantity, out int _))
             {
-                lblSetStatus.Text = "**Please Enter a Valid Quantity!";
+                lblSetQuantityStatus.Text = "**Please Enter a Valid Quantity!";
                 return;
             }
 
@@ -758,15 +803,11 @@ namespace OutModern.src.Admin.ProductEdit
             clearStatusText();
             if (affectedRow > 0)
             {
-                lblSetStatus.Text = "**Set Quantity Sucessfully !";
-                Page.ClientScript.RegisterClientScriptBlock(GetType(),
-                           "Set Quantity",
-                           "document.addEventListener('DOMContentLoaded', ()=>alert('Quantity Set Successfully'));",
-                           true);
+                lblSetQuantityStatus.Text = "**Quantity Updated Successfully";
             }
             else
             {
-                lblSetStatus.Text = "**Failed To Set Quantity, Please Try Again..";
+                lblSetQuantityStatus.Text = "**Failed To Update Quantity, Please Try Again..";
                 Page.ClientScript
                     .RegisterClientScriptBlock(GetType(),
                     "Set Quantity",

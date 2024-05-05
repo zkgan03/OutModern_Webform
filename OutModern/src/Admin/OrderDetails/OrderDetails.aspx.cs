@@ -61,7 +61,10 @@ namespace OutModern.src.Admin.OrderDetails
                 subTotal += Convert.ToDouble(row["Subtotal"]);
             }
             Label lblSubTotal = (Label)lvProductOrder.FindControl("lblSubTotal");
-            lblSubTotal.Text = subTotal.ToString();
+            lblSubTotal.Text = subTotal.ToString("0.00");
+
+            Label lblDeliveryFee = (Label)lvProductOrder.FindControl("lblDeliveryFee");
+            lblDeliveryFee.Text = "5.00"; //hardcoded delivery fee
 
             // Payment info
             DataTable paymentInfo = getPaymentInfo();
@@ -83,8 +86,15 @@ namespace OutModern.src.Admin.OrderDetails
                 }
                 else
                 {
-                    lblPromoCode.Text = "123";
-                    lblDiscount.Text = "123";
+                    lblPromoCode.Text = paymentInfo.Rows[0]["PromoCode"].ToString();
+                    lblDiscount.Text = paymentInfo.Rows[0]["DiscountRate"].ToString();
+
+                    //calculate total discount
+                    double discount = double.Parse(paymentInfo.Rows[0]["DiscountRate"].ToString()) / 100;
+                    double totalDiscount = subTotal * discount;
+
+                    Label lblDiscountPrice = (Label)lvProductOrder.FindControl("lblDiscountPrice");
+                    lblDiscountPrice.Text = totalDiscount.ToString("0.00");
                 }
             }
 

@@ -36,10 +36,10 @@ namespace OutModern.src.Admin.ProductAdd
                 ddlCategory.DataTextField = "ProductCategory";
                 ddlCategory.DataBind();
 
-                ddlStatus.DataSource = getProductStatus();
-                ddlStatus.DataValueField = "ProductStatusId";
-                ddlStatus.DataTextField = "ProductStatusName";
-                ddlStatus.DataBind();
+                //ddlStatus.DataSource = getProductStatus();
+                //ddlStatus.DataValueField = "ProductStatusId";
+                //ddlStatus.DataTextField = "ProductStatusName";
+                //ddlStatus.DataBind();
             }
         }
 
@@ -47,25 +47,25 @@ namespace OutModern.src.Admin.ProductAdd
         //db operation
         //
 
-        //Get All Product Status Available
-        private DataTable getProductStatus()
-        {
-            DataTable data = new DataTable();
+        ////Get All Product Status Available
+        //private DataTable getProductStatus()
+        //{
+        //    DataTable data = new DataTable();
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
-            {
-                connection.Open();
-                string sqlQuery =
-                    "Select ProductStatusId, ProductStatusName " +
-                    "From ProductStatus;";
-                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
-                {
-                    data.Load(command.ExecuteReader());
-                }
-            }
+        //    using (SqlConnection connection = new SqlConnection(ConnectionString))
+        //    {
+        //        connection.Open();
+        //        string sqlQuery =
+        //            "Select ProductStatusId, ProductStatusName " +
+        //            "From ProductStatus;";
+        //        using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+        //        {
+        //            data.Load(command.ExecuteReader());
+        //        }
+        //    }
 
-            return data;
-        }
+        //    return data;
+        //}
 
         //Get Categories
         private DataTable getProductCategory()
@@ -84,7 +84,7 @@ namespace OutModern.src.Admin.ProductAdd
             return data;
         }
 
-        private int insertProduct(string productName, string productDescription, string category, string unitPrice, string statusId)
+        private int insertProduct(string productName, string productDescription, string category, string unitPrice)
         {
             int prodId = 0;
 
@@ -94,7 +94,8 @@ namespace OutModern.src.Admin.ProductAdd
                 string sqlQuery =
                     "INSERT into Product (ProductName, ProductDescription, ProductCategory, UnitPrice, ProductStatusId) " +
                     "OUTPUT INSERTED.ProductId " +
-                    "values (@productName, @productDescription, @category, @unitPrice, @statusId)";
+                    "values (@productName, @productDescription, @category, @unitPrice, " +
+                    "(SELECT ProductStatusId FROM ProductStatus WHERE ProductStatusName = 'unavailable'))";
 
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
@@ -103,11 +104,9 @@ namespace OutModern.src.Admin.ProductAdd
                     command.Parameters.AddWithValue("@productDescription", productDescription);
                     command.Parameters.AddWithValue("@category", category);
                     command.Parameters.AddWithValue("@unitPrice", unitPrice);
-                    command.Parameters.AddWithValue("@statusId", statusId);
 
                     prodId = int.Parse(command.ExecuteScalar().ToString());
                 }
-
             }
 
             return prodId;
@@ -122,7 +121,7 @@ namespace OutModern.src.Admin.ProductAdd
             string productDescription = txtProdDescription.Text.Trim();
             string category = ddlCategory.SelectedValue;
             string price = txtPrice.Text.Trim();
-            string statusId = ddlStatus.SelectedValue;
+            //string statusId = ddlStatus.SelectedValue;
 
             // TODO : validation
             //check nulls
@@ -150,7 +149,7 @@ namespace OutModern.src.Admin.ProductAdd
                 return;
             };
 
-            int id = insertProduct(productName, productDescription, category, price, statusId);
+            int id = insertProduct(productName, productDescription, category, price);
 
             if (id > 0)
             {

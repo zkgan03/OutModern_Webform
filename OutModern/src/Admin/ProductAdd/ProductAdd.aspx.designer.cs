@@ -24,15 +24,6 @@ namespace OutModern.src.Admin.ProductAdd
         protected global::System.Web.UI.WebControls.LinkButton lbAdd;
 
         /// <summary>
-        /// lblUpdateProductStatus control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblUpdateProductStatus;
-
-        /// <summary>
         /// txtProdName control.
         /// </summary>
         /// <remarks>
@@ -58,15 +49,6 @@ namespace OutModern.src.Admin.ProductAdd
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtPrice;
-
-        /// <summary>
-        /// ddlStatus control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlStatus;
 
         /// <summary>
         /// txtProdDescription control.

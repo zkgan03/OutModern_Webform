@@ -141,6 +141,33 @@ namespace OutModern.src.Admin.ProductDetails
         protected global::System.Web.UI.WebControls.Label lblOverallRating;
 
         /// <summary>
+        /// txtReviewDateFrom control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtReviewDateFrom;
+
+        /// <summary>
+        /// txtReviewDateTo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtReviewDateTo;
+
+        /// <summary>
+        /// ddlRating control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlRating;
+
+        /// <summary>
         /// UpdatePanel3 control.
         /// </summary>
         /// <remarks>

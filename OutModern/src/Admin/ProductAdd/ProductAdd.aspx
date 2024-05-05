@@ -8,21 +8,21 @@
 
         /*Edit form*/
 
-            #edit-form .edit-section {
-                @apply mt-2 ml-2;
-            }
+        #edit-form .edit-section {
+            @apply mt-2 ml-2;
+        }
 
-            #edit-form .edit-label {
-                @apply font-[600];
-            }
+        #edit-form .edit-label {
+            @apply font-[600];
+        }
 
-            #edit-form .edit-item {
-                @apply block px-4 py-1 border border-gray-600 rounded;
-            }
+        #edit-form .edit-item {
+            @apply block px-4 py-1 border border-gray-600 rounded;
+        }
 
-                #edit-form .edit-item.disabled {
-                    @apply text-gray-400 border-gray-300;
-                }
+            #edit-form .edit-item.disabled {
+                @apply text-gray-400 border-gray-300;
+            }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -42,7 +42,6 @@
                 </div>
             </div>
 
-            <asp:Label ID="lblUpdateProductStatus" CssClass="float-right opacity-50" runat="server" Text=""></asp:Label>
 
             <div id="edit-form" class="mt-4 gap-10 flex">
                 <div>
@@ -71,14 +70,14 @@
                         </div>
                     </div>
 
-                    <!--Prod Status-->
+                    <%--                    <!--Prod Status-->
                     <div class="edit-section">
                         <div class="edit-label">Status</div>
                         <div>
                             <asp:DropDownList ID="ddlStatus" CssClass="edit-item" runat="server">
                             </asp:DropDownList>
                         </div>
-                    </div>
+                    </div>--%>
                 </div>
 
                 <div class="flex-grow w-full">
