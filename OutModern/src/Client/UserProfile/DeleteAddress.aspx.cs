@@ -28,7 +28,7 @@ namespace OutModern.src.Client.UserProfile
                 if (!IsPostBack)
                 {
 
-                    ////For show the customer profile
+                    ////For show the customer address
                     using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
                     {
                         conn.Open();
@@ -56,7 +56,8 @@ namespace OutModern.src.Client.UserProfile
                             txt_postal_code.Text = data.Rows[0]["PostalCode"].ToString();
 
                             //if no change selection
-                            Session["AddressNameForDlt"] = ddl_address_name.SelectedValue;
+                            //Session["AddressNameForDlt"] = ddl_address_name.SelectedValue;
+                            Session["AddressNameForDlt"] = data.Rows[0]["AddressName"].ToString();
 
                             ddl_address_name.DataSource = data;
                             ddl_address_name.DataTextField = "AddressName";
@@ -145,8 +146,7 @@ namespace OutModern.src.Client.UserProfile
             }
             catch (Exception ex)
             {
-                Response.Write(ex.Message);
-                lblMessage.Text = "An error occurred while deleting address.";
+                lblMessage.Text = "Error: You cannot delete an address when there is none. An error occurred while deleting address.";
             }
         }
     }

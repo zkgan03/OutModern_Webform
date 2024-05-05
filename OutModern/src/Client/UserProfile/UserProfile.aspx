@@ -36,6 +36,16 @@
             // Reset the session variable to avoid displaying the message again on subsequent page loads
     '<%= Session["AddressDelete"] = null %>';
             }
+
+            // Check if we should show the "add address" pop-up message
+            var showAddAddressPopup = '<%= Session["ShowAddAddressPopup"] %>';
+
+            if (showAddAddressPopup === 'True') {
+                alert("Please add an address first.");
+
+            // Reset the session flag to avoid displaying the message again on subsequent page loads
+            '<%= Session["ShowAddAddressPopup"] = null %>';
+            }
         };
 
     </script>
@@ -57,7 +67,7 @@
                     <%--Width="10em" Height="10em" CssClass="product-img object-cover"--%>
 
                     <div class="leftBox">
-                        <asp:Image ID="img_profile" runat="server" Width="10em" Height="10em" CssClass="product-img object-cover"/>
+                        <asp:Image ID="img_profile" runat="server" Width="10em" Height="10em" CssClass="product-img object-cover" />
                     </div>
 
                     <div class="rightBox">
@@ -70,8 +80,8 @@
 
                         <asp:Button ID="btn_togo_profile" runat="server" class="button" Text="My Profile" OnClick="btn_togo_profile_Click" />
                         <asp:Button ID="btn_togo_my_order" runat="server" class="button" Text="My Order" OnClick="btn_togo_my_order_Click" />
-                        <asp:Button ID="btn_rw_his" runat="server" class="button" Text="Review History"/>
-                    
+                        <asp:Button ID="btn_rw_his" runat="server" class="button" Text="Review History" />
+
                     </div>
 
                 </div>
