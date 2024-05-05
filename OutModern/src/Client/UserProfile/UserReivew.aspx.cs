@@ -24,7 +24,7 @@ namespace OutModern.src.Client.UserProfile
             }
             else
             {
-                customerId = 1;
+                customerId = 0;
             }
             if (!IsPostBack)
             {

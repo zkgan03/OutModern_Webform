@@ -327,6 +327,8 @@ namespace OutModern.src.Admin.ProductDetails
                     sqlQuery += "AND r.Rating = @rating ";
                 }
 
+                sqlQuery += "ORDER BY r.ReviewDateTime DESC;";
+
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
                     if (!String.IsNullOrEmpty(reviewDateFrom) && !String.IsNullOrEmpty(reviewDateTo))

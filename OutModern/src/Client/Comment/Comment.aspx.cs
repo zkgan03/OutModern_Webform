@@ -27,13 +27,12 @@ namespace OutModern.src.Client.Comment
             }
             else
             {
-                customerId = 1;
+                customerId = 0;
             }
             if (!IsPostBack)
             {
                 GetProductInfo();
             }
-            
         }
 
         private void GetProductInfo()
@@ -50,7 +49,7 @@ namespace OutModern.src.Client.Comment
                     {
                         if (reader.Read())
                         {
-                            lblProductName.Text  = reader["ProductName"].ToString();
+                            lblProductName.Text = reader["ProductName"].ToString();
                             lblProductPrice.Text = "RM " + ((decimal)reader["UnitPrice"]).ToString();
                             lblProductColour.Text = "Color: " + reader["ColorName"].ToString();
                             lblProductSize.Text = "Size: " + reader["SizeName"].ToString();
@@ -64,10 +63,21 @@ namespace OutModern.src.Client.Comment
         protected void btnSubmitComment_Click(object sender, EventArgs e)
         {
             lblMessage.Visible = false;
-            string selectedRating = ddlRating.SelectedValue;
+            lblStarErrorMessage.Visible = false;
+            decimal selectedRating = string.IsNullOrEmpty(hdnSelectedRating.Value.ToString()) ? 0 : decimal.Parse(hdnSelectedRating.Value.ToString());
             string commentText = txtComment.Text.Trim();
 
-            if (!string.IsNullOrEmpty(selectedRating) && !string.IsNullOrEmpty(commentText))
+            if(selectedRating == 0)
+            {
+                lblStarErrorMessage.Visible = true;
+            }
+
+            if(string.IsNullOrEmpty(commentText))
+            {
+                lblMessage.Visible = true;
+            }
+
+            if (!string.IsNullOrEmpty(commentText) && selectedRating != 0)
             {
                 decimal rating = Convert.ToDecimal(selectedRating);
                 // Insert the review into the database
@@ -76,7 +86,7 @@ namespace OutModern.src.Client.Comment
 
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    connection.Open(); 
+                    connection.Open();
                     using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                     {
                         command.Parameters.AddWithValue("@CustomerId", customerId);
@@ -85,16 +95,14 @@ namespace OutModern.src.Client.Comment
                         command.Parameters.AddWithValue("@ReviewDateTime", DateTime.Now);
                         command.Parameters.AddWithValue("@ReviewDescription", commentText);
                         command.ExecuteNonQuery();
-                        ddlRating.SelectedIndex = 0;
-                        txtComment.Text = "";
-                        commentMessage.Visible = true;
-                        lblMessage.Visible = false; 
                     }
                 }
-            } else
-            {
-                lblMessage.Visible = true; 
             }
+
+            txtComment.Text = "";
+            lblMessage.Visible = false;
+            commentMessage.Visible = true;
+
         }
 
         protected void BtnOk_Click(object sender, EventArgs e)

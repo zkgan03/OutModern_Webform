@@ -60,13 +60,22 @@ namespace OutModern.src.Client.Comment
         protected global::System.Web.UI.WebControls.Label lblProductSize;
 
         /// <summary>
-        /// ddlRating control.
+        /// lblStarErrorMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlRating;
+        protected global::System.Web.UI.WebControls.Label lblStarErrorMessage;
+
+        /// <summary>
+        /// hdnSelectedRating control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdnSelectedRating;
 
         /// <summary>
         /// txtComment control.

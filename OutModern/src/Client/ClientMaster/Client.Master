@@ -201,12 +201,15 @@
 
                     <!-- RIGHT PART -->
                     <div class="flex items-center space-x-6">
-                        <div class="relative flex">
+
+                        <asp:Panel ID="panelSearch" runat="server"
+                            CssClass="relative flex" DefaultButton="lBtnSearch">
                             <asp:TextBox CssClass="rounded-2xl border-black border-2 h-10 pl-4 pr-10 text-gray-600 textbox-default-width" ID="txtSearch" runat="server"></asp:TextBox>
+
                             <asp:LinkButton CssClass="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600" ID="lBtnSearch" runat="server" OnClick="lBtnSearch_Click">
-                                <i class="fa-solid fa-magnifying-glass cursor pt-1.5"></i>
+     <i class="fa-solid fa-magnifying-glass cursor pt-1.5"></i>
                             </asp:LinkButton>
-                        </div>
+                        </asp:Panel>
 
                         <!--CART-->
                         <asp:HyperLink ID="hyperlinkCart" runat="server" NavigateUrl="~/src/Client/Cart/Cart.aspx" class="text-gray-600 hover:text-gray-800">
@@ -370,4 +373,3 @@
     </form>
 </body>
 </html>
-
