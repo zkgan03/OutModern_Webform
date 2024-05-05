@@ -236,6 +236,17 @@ namespace OutModern.src.Client.Cart
 
                 ProductListView.DataSource = dt;
                 ProductListView.DataBind();
+
+                if (IsCartEmpty(customerId))
+                {
+                    ImgEmptyCart.Visible = true;
+                    lblEmptyCart.Text = "Your shopping cart is EMPTY!";
+                }
+                else
+                {
+                    ImgEmptyCart.Visible = false;
+                    lblEmptyCart.Text = "";
+                }
             }
         }
 
