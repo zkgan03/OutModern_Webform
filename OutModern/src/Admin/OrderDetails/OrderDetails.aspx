@@ -86,20 +86,28 @@
                                 <tr runat="server" id="itemPlaceholder" class="data-table-item"></tr>
                                 <tfoot>
                                     <tr class="border-none text-right">
-                                        <td colspan="5" class="font-[600]" style="text-align: right;">Subtotal : </td>
-                                        <td class="pr-4">RM
-                                            <asp:Label ID="lblSubtotal" runat="server"></asp:Label>
+                                        <td colspan="5" class="font-[600]" style="text-align: right;">Subtotal (RM): </td>
+                                        <td class="pr-4">
+                                            <asp:Label ID="lblSubtotal" runat="server">
+                                            </asp:Label>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-none text-right">
+                                        <td colspan="5" class="font-[600]" style="text-align: right;">Delivery Fee (RM): </td>
+                                        <td class="pr-4">+<asp:Label ID="lblDeliveryFee" runat="server">
+                                        </asp:Label>
                                         </td>
                                     </tr>
                                     <tr class="border-none text-right">
                                         <td colspan="3" class="font-[600] text-right">Promo Code Applied : 
                                         </td>
                                         <td class="text-left">
-                                            <asp:Label ID="lblPromoCode" runat="server" Text="Promo123"></asp:Label>
+                                            <asp:Label ID="lblPromoCode" runat="server"></asp:Label>
+                                            (<asp:Label ID="lblDiscount" runat="server"></asp:Label>%)
                                         </td>
-                                        <td class="font-[600]" style="text-align: right;">Discount :
+                                        <td class="font-[600]" style="text-align: right;">Discount (RM):
                                         </td>
-                                        <td class="pr-4">-<asp:Label ID="lblDiscount" runat="server" Text="12"></asp:Label>%
+                                        <td class="pr-4">-<asp:Label ID="lblDiscountPrice" runat="server"></asp:Label>
                                         </td>
                                     </tr>
                                     <tr class="border-none text-right font-bold text-xl">

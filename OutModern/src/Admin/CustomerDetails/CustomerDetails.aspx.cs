@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OutModern.src.Admin.Utils;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -232,6 +233,25 @@ namespace OutModern.src.Admin.CustomerDetails
             DataTable data = new DataTable();
 
             string statusId = ddlFilterOrderStatus.SelectedValue;
+            string orderDateFrom = txtOrderDateFrom.Text.Trim();
+            string orderDateTo = txtOrderDateTo.Text.Trim();
+
+            //check if date is null
+            if (!String.IsNullOrEmpty(orderDateFrom) && !String.IsNullOrEmpty(orderDateTo))
+            {
+                orderDateFrom += " 00:00:00";
+                orderDateTo += " 23:59:59";
+                if (!ValidationUtils.IsValidDateTimeRange(orderDateFrom, orderDateTo))
+                {
+                    Page.ClientScript.RegisterStartupScript(GetType(),
+                        "Failed to Filter",
+                        "document.addEventListener('DOMContentLoaded',  ()=> alert('End date must be greater than start date'));",
+                        true);
+
+                    orderDateFrom = "";
+                    orderDateTo = "";
+                }
+            }
 
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
@@ -243,20 +263,37 @@ namespace OutModern.src.Admin.CustomerDetails
                     "AND [Order].OrderStatusId = OrderStatus.OrderStatusId " +
                     "AND Customer.CustomerId = @customerId ";
 
+                // add status filter
                 if (!string.IsNullOrEmpty(statusId) && statusId != "-1")
                 {
                     sqlQuery += "AND [Order].OrderStatusId = @statusId ";
+                }
+
+                // add date filter
+                if (!string.IsNullOrEmpty(orderDateFrom) && !string.IsNullOrEmpty(orderDateTo))
+                {
+                    sqlQuery += "AND OrderDateTime BETWEEN @orderDateFrom AND @orderDateTo ";
                 }
 
                 if (!string.IsNullOrEmpty(sortExpression))
                 {
                     sqlQuery += "ORDER BY " + sortExpression + " " + sortDirection;
                 }
+                else
+                {
+                    sqlQuery += "ORDER BY OrderDateTime DESC ";
+                }
 
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
                     if (!string.IsNullOrEmpty(statusId) && statusId != "-1")
                         command.Parameters.AddWithValue("@statusId", statusId);
+
+                    if (!string.IsNullOrEmpty(orderDateFrom) && !string.IsNullOrEmpty(orderDateTo))
+                    {
+                        command.Parameters.AddWithValue("@orderDateFrom", orderDateFrom);
+                        command.Parameters.AddWithValue("@orderDateTo", orderDateTo);
+                    }
 
                     command.Parameters.AddWithValue("@customerId", customerId);
                     data.Load(command.ExecuteReader());
@@ -410,6 +447,15 @@ namespace OutModern.src.Admin.CustomerDetails
         protected void ddlFilterOrderStatus_DataBound(object sender, EventArgs e)
         {
             ddlFilterOrderStatus.Items.Insert(0, new ListItem("All Status", "-1"));
+        }
+
+        protected void txtOrderDateFrom_TextChanged(object sender, EventArgs e)
+        {
+            string sortExpression = ViewState["SortExpression"]?.ToString();
+            lvOrders.DataSource = sortExpression == null ?
+                orderDataSource() :
+                orderDataSource(sortExpression, SortDirections[sortExpression]);
+            lvOrders.DataBind();
         }
     }
 }
