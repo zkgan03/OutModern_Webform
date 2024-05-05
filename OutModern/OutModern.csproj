@@ -16,11 +16,13 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>
-    </IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>44338</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -333,6 +335,13 @@
     </Compile>
     <Compile Include="src\ErrorPages\500.aspx.designer.cs">
       <DependentUpon>500.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\ErrorPages\ErrorSQLInjection.aspx.cs">
+      <DependentUpon>ErrorSQLInjection.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\ErrorPages\ErrorSQLInjection.aspx.designer.cs">
+      <DependentUpon>ErrorSQLInjection.aspx</DependentUpon>
     </Compile>
     <Compile Include="src\Util\StringUtil.cs" />
     <Content Include="App_Data\OutModern.mdf" />
@@ -884,6 +893,7 @@
     <Content Include="src\ErrorPages\403.aspx" />
     <Content Include="src\ErrorPages\404.aspx" />
     <Content Include="src\ErrorPages\500.aspx" />
+    <Content Include="src\ErrorPages\ErrorSQLInjection.aspx" />
     <Content Include="Web.config" />
     <Content Include="src\Admin\AdminMaster\Admin.Master" />
     <Content Include="src\Client\ClientMaster\Client.Master" />

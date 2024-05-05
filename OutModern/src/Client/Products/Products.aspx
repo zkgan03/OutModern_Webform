@@ -184,8 +184,8 @@
                         <ItemTemplate>
                             <div onclick='<%# Eval("productID", "window.location.href = \"/src/Client/ProductDetails/ProductDetails.aspx?ProductId={0}\";") %>' class="cursor-pointer bg-white rounded-lg shadow-md overflow-hidden hover:bg-yellow-100 hover:shadow-md hover:-translate-x-2 hover:-translate-y-2 transition duration-100 z-0">
                                 <asp:Image ImageUrl='<%# Eval("productImageUrl1", "{0}") %>' ID="Image1" runat="server" class="w-full h-100 object-cover bg-gray-200 hover:cursor-pointer" Style="transition: transform 0.5s ease-in-out;"
-                                    onmouseover='<%# "changeImage(this, \"" + ResolveClientUrl(Eval("productImageUrl2").ToString()) + "\")" %>'
-                                    onmouseout='<%# "changeImage(this, \"" + ResolveClientUrl(Eval("productImageUrl1").ToString()) + "\")" %>' />
+                                    onmouseover='<%# "this.src=\"" + ResolveClientUrl(Eval("productImageUrl2").ToString()) + "\"" %>'
+                                    onmouseout='<%# "this.src=\"" + ResolveClientUrl(Eval("productImageUrl1").ToString()) + "\"" %>' />
                                 <div class="p-4 pr-0">
                                     <h2 class="mb-2">
                                         <asp:Label class="text-xl font-bold text-gray-800 hover:cursor-pointer hover:underline" ID="lblName" runat="server">
@@ -229,11 +229,4 @@
             </div>
         </div>
     </div>
-    <script>
-        function changeImage(image, imageUrl) {
-            setTimeout(function () {
-                image.src = imageUrl;
-            }, 300);
-        }
-    </script>
 </asp:Content>

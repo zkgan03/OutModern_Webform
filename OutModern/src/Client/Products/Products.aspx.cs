@@ -1,4 +1,5 @@
-﻿using OutModern.src.Admin.Products;
+﻿using OutModern.src.Admin.ProductAdd;
+using OutModern.src.Admin.Products;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -136,7 +137,7 @@ namespace OutModern.src.Client.Products
                             }
                             product.ImagePaths = imagePaths;
                             product.productImageUrl1 = imagePaths.FirstOrDefault();
-                            product.productImageUrl2 = imagePaths.Skip(1).FirstOrDefault();
+                            product.productImageUrl2 = imagePaths.Skip(1).FirstOrDefault() == null ? imagePaths.FirstOrDefault() : imagePaths.Skip(1).FirstOrDefault();
                             products.Add(product);
                         }
                     }
@@ -175,7 +176,7 @@ namespace OutModern.src.Client.Products
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string imageQuery = @"SELECT DISTINCT PI.Path, PD.ColorId FROM ProductImage PI INNER JOIN ProductDetail PD ON PI.ProductDetailId = PD.ProductDetailId WHERE PD.ProductId = @ProductId ORDER BY PD.ColorId;";
+                string imageQuery = @"SELECT DISTINCT PI.Path, PD.ColorId FROM ProductImage PI INNER JOIN ProductDetail PD ON PI.ProductDetailId = PD.ProductDetailId WHERE PD.ProductId = @ProductId AND PD.isDeleted = 0 ORDER BY PD.ColorId;";
 
                 using (SqlCommand command = new SqlCommand(imageQuery, connection))
                 {
@@ -260,6 +261,14 @@ namespace OutModern.src.Client.Products
             if (selectedColors.Count > 0)
             {
                 filteredProducts = filteredProducts.Where(p => p.AvailableColors.Any(c => selectedColors.Contains(c))).ToList();
+                foreach(var product in filteredProducts) {
+                    List<string> imagePaths = UpdateImagesBasedOnSelectedColors(product.ProductId);
+                    if(imagePaths != null && imagePaths.Count > 0)
+                    {
+                        product.productImageUrl1 = imagePaths.FirstOrDefault();
+                        product.productImageUrl2 = imagePaths.Skip(1).FirstOrDefault() == null ? imagePaths.FirstOrDefault() : imagePaths.Skip(1).FirstOrDefault();
+                    }
+                }
             }
 
             if (minPrice.HasValue || maxPrice.HasValue)
@@ -325,6 +334,48 @@ namespace OutModern.src.Client.Products
             }
         }
 
+        private List<string> UpdateImagesBasedOnSelectedColors(int productId)
+        {
+            List<string> imagePaths = new List<string>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sqlQuery = @"SELECT DISTINCT PI.Path, PD.ColorId, c.HexColor 
+                            FROM ProductImage PI 
+                            INNER JOIN ProductDetail PD ON PI.ProductDetailId = PD.ProductDetailId 
+                            INNER JOIN Color c ON PD.ColorId = c.ColorId
+                            WHERE PD.ProductId = @ProductId AND PD.isDeleted = 0 AND c.HexColor IN ({0})
+                            ORDER BY PD.ColorId";
+
+                // Construct parameter placeholders for each color
+                string[] colorParams = selectedColors.Select((_, index) => "@Color" + index).ToArray();
+                string colorPlaceholders = string.Join(",", colorParams);
+
+                // Replace placeholder in the SQL query
+                sqlQuery = string.Format(sqlQuery, colorPlaceholders);
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@ProductId", productId);
+                    // Add parameters for each color
+                    for (int i = 0; i < selectedColors.Count; i++)
+                    {
+                        command.Parameters.AddWithValue("@Color" + i, selectedColors[i]);
+                    }
+
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string imagePath = reader["Path"].ToString();
+                            imagePaths.Add(imagePath);
+                        }
+                    }
+                }
+            }
+            return imagePaths;
+        }
+
         protected void btnReset_Click(object sender, EventArgs e)
         {
             selectedRating = string.Empty;
@@ -387,7 +438,7 @@ namespace OutModern.src.Client.Products
                 {
                     colorRepeater.DataSource = product.AvailableColors;
                     colorRepeater.DataBind();
-                }
+                } 
             }
         }
     }

@@ -27,7 +27,7 @@ namespace OutModern.src.Client.Comment
             }
             else
             {
-                customerId = 1;
+                customerId = 0;
             }
             if (!IsPostBack)
             {
