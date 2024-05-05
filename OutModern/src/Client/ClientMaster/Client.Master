@@ -195,7 +195,6 @@
                     <!-- CENTER PART -->
                     <div class="md:flex hidden absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-10 p-3">
                         <asp:HyperLink ID="hyperlinkHome" CssClass="text-black-600 hover:text-gray-800" runat="server" NavigateUrl="~/src/Client/Home/Home.aspx">Home</asp:HyperLink>
-                        <asp:HyperLink ID="hyperlinkAbout" CssClass="text-black-600 hover:text-gray-800" runat="server" NavigateUrl="#">About Us</asp:HyperLink>
                         <asp:HyperLink ID="hyperlinkProduct" CssClass="text-black-600 hover:text-gray-800" runat="server" NavigateUrl="~/src/Client/Products/Products.aspx">Products</asp:HyperLink>
 
                     </div>
@@ -290,20 +289,14 @@
                             <h3 class="text-lg font-semibold mb-4 text-white">Information</h3>
                             <ul>
                                 <li class="pb-2">
-                                    <asp:HyperLink ID="myAccountLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="#">My Account</asp:HyperLink>
+                                    <asp:HyperLink ID="myAccountLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="~/src/Client/UserProfile/UserProfile.aspx">My Account</asp:HyperLink>
                                 </li>
                                 <li class="pb-2">
-                                    <asp:HyperLink ID="loginLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="#">Login</asp:HyperLink>
+                                    <asp:HyperLink ID="loginLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="~/src/Client/Login/Login.aspx">Login</asp:HyperLink>
                                 </li>
                                 <li class="pb-2">
-                                    <asp:HyperLink ID="myCartLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="#">My Cart</asp:HyperLink>
-                                </li>
-                                <li class="pb-2">
-                                    <asp:HyperLink ID="myWishlistLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="#">My Wishlist</asp:HyperLink>
-                                </li>
-                                <li class="pb-2">
-                                    <asp:HyperLink ID="checkoutLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="#">Checkout</asp:HyperLink>
-                                </li>
+                                    <asp:HyperLink ID="myCartLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="~/src/Client/Cart/Cart.aspx">My Cart</asp:HyperLink>
+                                </li>   
                             </ul>
                         </div>
 
@@ -313,19 +306,7 @@
                             <h3 class="text-lg font-semibold mb-4 text-white">Service</h3>
                             <ul>
                                 <li class="pb-2">
-                                    <asp:HyperLink ID="aboutUsLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="#">About Us</asp:HyperLink>
-                                </li>
-                                <li class="pb-2">
-                                    <asp:HyperLink ID="careersLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="#">Careers</asp:HyperLink>
-                                </li>
-                                <li class="pb-2">
-                                    <asp:HyperLink ID="deliveryInfoLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="#">Delivery Information</asp:HyperLink>
-                                </li>
-                                <li class="pb-2">
-                                    <asp:HyperLink ID="privacyPolicyLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="#">Privacy Policy</asp:HyperLink>
-                                </li>
-                                <li class="pb-2">
-                                    <asp:HyperLink ID="termsConditionsLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="#">Terms & Conditions</asp:HyperLink>
+                                    <asp:HyperLink ID="privacyPolicyLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="~/src/Client/Home/Home.aspx">Privacy Policy</asp:HyperLink>
                                 </li>
                             </ul>
                         </div>
@@ -362,13 +343,13 @@
                             <p class="text-gray-400 text-sm">&copy;<%: DateTime.Now.Year %> OutModern All Rights are reserved</p>
 
                             <div class="flex gap-4">
-                                <asp:HyperLink ID="facebookLink" runat="server" NavigateUrl="#" CssClass="text-white text-2xl">
+                                <asp:HyperLink ID="facebookLink" runat="server" NavigateUrl="https://www.facebook.com/dexter.goh.1297" CssClass="text-white text-2xl">
                 <i class="fab fa-facebook text-2xl text-white"></i>
                                 </asp:HyperLink>
-                                <asp:HyperLink ID="instagramLink" runat="server" NavigateUrl="#" CssClass="text-white text-2xl">
+                                <asp:HyperLink ID="instagramLink" runat="server" NavigateUrl="https://www.instagram.com/dexterg_h/" CssClass="text-white text-2xl">
                 <i class="fab fa-instagram text-2xl text-white"></i>
                                 </asp:HyperLink>
-                                <asp:HyperLink ID="twitterLink" runat="server" NavigateUrl="#" CssClass="text-white text-2xl">
+                                <asp:HyperLink ID="twitterLink" runat="server" NavigateUrl="https://www.facebook.com/dexter.goh.1297" CssClass="text-white text-2xl">
                 <i class="fab fa-twitter text-2xl text-white"></i>
                                 </asp:HyperLink>
                             </div>
