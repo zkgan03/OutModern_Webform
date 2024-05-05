@@ -114,8 +114,31 @@ namespace OutModern.src.Client.Profile
 
         protected void btn_edit_profile_Click(object sender, EventArgs e)
         {
-            // Redirect to Edit User Profile page
-            Response.Redirect("EditUserProfile.aspx");
+            int custID = (int)Session["CUSTID"];
+
+            //if user dont have address, they need to add address before edit profile
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
+            {
+                conn.Open();
+                //use parameterized query to prevent sql injection
+                string query = "SELECT * FROM [Address] WHERE CustomerId = @custId";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@custId", custID);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                if (!reader.HasRows) // Check if there are any results
+                {
+                    Session["ShowAddAddressPopup"] = true;
+                }
+                else
+                {
+                    // Redirect to Edit User Profile page
+                    Response.Redirect("EditUserProfile.aspx");
+                }
+
+            }
+
         }
 
         protected void btn_togo_my_order_Click(object sender, EventArgs e)
@@ -214,7 +237,32 @@ namespace OutModern.src.Client.Profile
 
         protected void btn_dlt_address_Click(object sender, EventArgs e)
         {
-            Response.Redirect("~/src/Client/UserProfile/DeleteAddress.aspx");
+            int custID = (int)Session["CUSTID"];
+
+            //if user dont have address, they need to add address before delete address
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
+            {
+                conn.Open();
+                //use parameterized query to prevent sql injection
+                string query = "SELECT * FROM [Address] WHERE CustomerId = @custId";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@custId", custID);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                if (!reader.HasRows) // Check if there are any results
+                {
+                    Session["ShowAddAddressPopup"] = true;
+                }
+                else
+                {
+                    // Redirect to Edit User Profile page
+                    Response.Redirect("~/src/Client/UserProfile/DeleteAddress.aspx");
+                }
+
+            }
+
+            
         }
 
         protected void btn_rw_his_Click(object sender, EventArgs e)

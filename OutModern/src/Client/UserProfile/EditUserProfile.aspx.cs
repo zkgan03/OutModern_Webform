@@ -58,6 +58,7 @@ namespace OutModern.src.Client.UserProfile
                             reader.Close();
                         }
 
+                        ////
                         //if user no select the address name
                         if (addressName == null || addressName == "")
                         {
