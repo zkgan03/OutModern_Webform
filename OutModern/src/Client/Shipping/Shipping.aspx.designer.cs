@@ -60,6 +60,15 @@ namespace OutModern.src.Client.Shipping
         protected global::System.Web.UI.WebControls.TextBox txtNickname;
 
         /// <summary>
+        /// lblNameError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblNameError;
+
+        /// <summary>
         /// txtAddr control.
         /// </summary>
         /// <remarks>
@@ -67,6 +76,15 @@ namespace OutModern.src.Client.Shipping
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAddr;
+
+        /// <summary>
+        /// lblAddrError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblAddrError;
 
         /// <summary>
         /// txtPostal control.
@@ -78,6 +96,15 @@ namespace OutModern.src.Client.Shipping
         protected global::System.Web.UI.WebControls.TextBox txtPostal;
 
         /// <summary>
+        /// lblPostalError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblPostalError;
+
+        /// <summary>
         /// txtState control.
         /// </summary>
         /// <remarks>
@@ -87,6 +114,15 @@ namespace OutModern.src.Client.Shipping
         protected global::System.Web.UI.WebControls.TextBox txtState;
 
         /// <summary>
+        /// lblStateError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblStateError;
+
+        /// <summary>
         /// ddlCountryOrigin control.
         /// </summary>
         /// <remarks>
@@ -94,6 +130,15 @@ namespace OutModern.src.Client.Shipping
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlCountryOrigin;
+
+        /// <summary>
+        /// lblCountryError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCountryError;
 
         /// <summary>
         /// btnAddAddress control.
