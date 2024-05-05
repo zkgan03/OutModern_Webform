@@ -105,6 +105,24 @@ namespace OutModern.src.Admin.CustomerDetails
         protected global::System.Web.UI.WebControls.Label lblOrderMade;
 
         /// <summary>
+        /// txtOrderDateFrom control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtOrderDateFrom;
+
+        /// <summary>
+        /// txtOrderDateTo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtOrderDateTo;
+
+        /// <summary>
         /// ddlFilterOrderStatus control.
         /// </summary>
         /// <remarks>

@@ -195,9 +195,16 @@ namespace OutModern.src.Admin.Orders
                     sqlQuery += "AND OrderDateTime BETWEEN @startDate AND @endDate ";
                 }
 
+
+
                 if (!string.IsNullOrEmpty(sortExpression))
                 {
                     sqlQuery += "ORDER BY " + sortExpression + " " + sortDirection;
+                }
+                else
+                {
+                    // sort by lastest order by default
+                    sqlQuery += "ORDER BY OrderDateTime DESC ";
                 }
 
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
