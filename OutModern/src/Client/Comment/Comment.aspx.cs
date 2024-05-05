@@ -12,8 +12,8 @@ namespace OutModern.src.Client.Comment
     public partial class Comment : System.Web.UI.Page
     {
         string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        private int customerId = 1;
-        private string productDetailId = "1";
+        private int customerId;
+        private string productDetailId;
         protected void Page_Load(object sender, EventArgs e)
         {
             productDetailId = Request.QueryString["ProductDetailId"];
