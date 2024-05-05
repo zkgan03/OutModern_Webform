@@ -64,36 +64,40 @@ namespace OutModern.src.Client.ClientMaster
         protected void lBtnSearch_Click(object sender, EventArgs e)
         {
             string searchQuery = txtSearch.Text.Trim();
-            if (DetectSQLInjection(searchQuery) || DetectXSS(searchQuery))
+            // Check for SQL Injection
+            if (DetectSQLInjection(searchQuery))
             {
-                LockUserAccount(); // if detected update user status to "Locked" and clear the login session
+                LockUserAccount(); // if detected, update user status to "Locked" and clear the login session
+                Response.Redirect("~/src/ErrorPages/ErrorSQLInjection.aspx", false);
                 return;
             }
+
             // Construct the URL with the search query as a query string parameter
             string redirectUrl = $"~/src/Client/Products/Products.aspx?search={searchQuery}";
 
             // Redirect to the Products page with the search query
             Response.Redirect(redirectUrl, false);
-
         }
 
         private void LockUserAccount()
         {
-            // Define the update query
-            string updateQuery = "UPDATE Customer SET CustomerStatusId = 2 WHERE CustomerId = @customerId;";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+             if(customerId != 0)
             {
-                using (SqlCommand command = new SqlCommand(updateQuery, connection))
+                // Define the update query
+                string updateQuery = "UPDATE Customer SET CustomerStatusId = 2 WHERE CustomerId = @customerId;";
+
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    command.Parameters.AddWithValue("@customerId", customerId);
-                    connection.Open();
-                    int rowsAffected = command.ExecuteNonQuery();
-                    if (rowsAffected > 0) // Customer status updated successfully
+                    using (SqlCommand command = new SqlCommand(updateQuery, connection))
                     {
-                        HttpContext.Current.Session.Clear(); // Remove session and redirect to home page
-                        HttpContext.Current.Session.Abandon();
-                        HttpContext.Current.Response.Redirect("~/src/Client/Home/Home.aspx", true);
+                        command.Parameters.AddWithValue("@customerId", customerId);
+                        connection.Open();
+                        int rowsAffected = command.ExecuteNonQuery();
+                        if (rowsAffected > 0) // Customer status updated successfully
+                        {
+                            HttpContext.Current.Session.Clear(); // Remove session and redirect to home page
+                            HttpContext.Current.Session.Abandon();
+                        }
                     }
                 }
             }
@@ -115,25 +119,6 @@ namespace OutModern.src.Client.ClientMaster
             }
 
             // No suspicious SQL keywords found
-            return false;
-        }
-
-        private bool DetectXSS(string input)
-        {
-            // List of suspicious HTML tags and attributes
-            string[] htmlTags = { "<script>", "<iframe>", "<object>", "onload=", "onerror=" };
-
-            // Check if the input contains any of the suspicious HTML tags or attributes
-            foreach (string tag in htmlTags)
-            {
-                if (input.IndexOf(tag, StringComparison.OrdinalIgnoreCase) >= 0)
-                {
-                    // XSS attempt detected
-                    return true;
-                }
-            }
-
-            // No suspicious HTML tags or attributes found
             return false;
         }
 

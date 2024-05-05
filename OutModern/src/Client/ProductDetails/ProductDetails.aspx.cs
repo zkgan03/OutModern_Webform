@@ -223,14 +223,10 @@ namespace OutModern.src.Client.ProductDetails
                 {
                     lblColor.Visible = true;
                     lblColor.Text = colorBtn.Attributes["value"].ToString();
+                    GetImages(colorId);
                     break;
                 }
-            }
-            if (!quantityGreaterThanZero)
-            {
-
-            }
-            GetImages(ViewState["ColorId"].ToString());
+            }  
         }
 
         protected void lvReviews_PagePropertiesChanged(object sender, EventArgs e)

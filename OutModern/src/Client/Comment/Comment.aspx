@@ -22,13 +22,15 @@
 
                  <div class="rating-stars mb-4 flex items-center">
                     <span class="mr-2 text-gray-600">Rating:</span>
-                    <asp:DropDownList ID="ddlRating" runat="server" CssClass="rounded-md border-gray-300 p-2 focus:border-indigo-500 focus:ring-indigo-500" style="min-width:100px;">
-                        <asp:ListItem Value="1" Text="1 Star"></asp:ListItem>
-                        <asp:ListItem Value="2" Text="2 Stars"></asp:ListItem>
-                        <asp:ListItem Value="3" Text="3 Stars"></asp:ListItem>
-                        <asp:ListItem Value="4" Text="4 Stars"></asp:ListItem>
-                        <asp:ListItem Value="5" Text="5 Stars"></asp:ListItem>
-                    </asp:DropDownList>
+                     <div class="flex">
+                         <i class="far fa-star star cursor-pointer text-2xl text-gray-400" aria-hidden="true"></i>
+                         <i class="far fa-star star cursor-pointer text-2xl text-gray-400" aria-hidden="true"></i>
+                         <i class="far fa-star star cursor-pointer text-2xl text-gray-400" aria-hidden="true"></i>
+                         <i class="far fa-star star cursor-pointer text-2xl text-gray-400" aria-hidden="true"></i>
+                         <i class="far fa-star star cursor-pointer text-2xl text-gray-400" aria-hidden="true"></i>
+                     </div>
+                     <asp:Label ID="lblStarErrorMessage" runat="server" Text="Rating is required!!!" Visible="false" CssClass="ml-3.5 text-red-500" ></asp:Label>
+                     <asp:HiddenField ID="hdnSelectedRating" runat="server" />
                 </div>
 
                 <div class="comment-form">
@@ -55,4 +57,39 @@
             </div>
         </div>
     </div>
+    <script>
+        const stars = document.querySelectorAll('.star');
+        let selectedRating = 0;
+
+        stars.forEach((star, index) => {
+            star.addEventListener('click', () => {
+                selectedRating = index + 1;
+                updateStarRating();
+                // Update the hidden field value
+                document.getElementById('<%= hdnSelectedRating.ClientID %>').value = selectedRating;
+            });
+
+            star.addEventListener('mouseover', () => {
+                updateStarRating(index + 1);
+            });
+
+            star.addEventListener('mouseout', () => {
+                updateStarRating();
+            });
+        });
+
+        function updateStarRating(rating = selectedRating) {
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.remove('far');
+                    star.classList.add('fas');
+                    star.classList.add('text-yellow-500');
+                } else {
+                    star.classList.remove('fas');
+                    star.classList.add('far');
+                    star.classList.remove('text-yellow-500');
+                }
+            });
+        }
+    </script>
 </asp:Content>
