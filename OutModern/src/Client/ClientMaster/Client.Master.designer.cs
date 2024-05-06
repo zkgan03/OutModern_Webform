@@ -150,13 +150,13 @@ namespace OutModern.src.Client.ClientMaster
         protected global::System.Web.UI.WebControls.HyperLink HyperLink6;
 
         /// <summary>
-        /// HyperLink9 control.
+        /// btn_logout control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLink9;
+        protected global::System.Web.UI.WebControls.Button btn_logout;
 
         /// <summary>
         /// ContentPlaceHolder1 control.
@@ -202,15 +202,6 @@ namespace OutModern.src.Client.ClientMaster
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HyperLink myAccountLink;
-
-        /// <summary>
-        /// loginLink control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink loginLink;
 
         /// <summary>
         /// myCartLink control.

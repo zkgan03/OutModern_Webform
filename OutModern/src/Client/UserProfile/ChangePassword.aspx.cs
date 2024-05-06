@@ -31,71 +31,82 @@ namespace OutModern.src.Client.UserProfile
             //int custID = int.Parse(Request.Cookies["CustID"].Value);
             int custID = (int)Session["CUSTID"];
 
-            if (newPassword == "" || retypePassword == "")
+
+
+            //password validation
+
+            if (newPassword == "")
             {
                 err = "Password cannot be left empty.";
+                lblMessage.Text = err;
             }
             else
             {
-                //password validation
                 if (!System.Text.RegularExpressions.Regex.IsMatch(newPassword, @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\d\s]).{8,}$"))
                 {
-                    err = "Invalid Password Format.";
+                    err = "Invalid Password Format.Password must be at least 8 characters long and contain at least 1 uppercase, 1 lowercase, 1 number and 1 special character.";
                 }
                 else
                 {
-                    if (err == "")
+
+                    if (newPassword == "" || retypePassword == "")
                     {
-                        if (newPassword == retypePassword)
+                        err = "Password cannot be left empty.";
+                    }
+                    else
+                    {
+
+                        if (err == "")
                         {
-                            try
+                            if (newPassword == retypePassword)
                             {
-                                using (SqlConnection sqlConnection = new SqlConnection(conn))
+                                try
                                 {
-                                    sqlConnection.Open();
-
-                                    string updatePasswd = "UPDATE Customer SET CustomerPassword = @Password WHERE CustomerId = @CustId";
-
-                                    using (SqlCommand updateCommand = new SqlCommand(updatePasswd, sqlConnection))
+                                    using (SqlConnection sqlConnection = new SqlConnection(conn))
                                     {
-                                        String hashedPassword = PasswordUtil.HashPassword(newPassword);
+                                        sqlConnection.Open();
 
-                                        updateCommand.Parameters.AddWithValue("@Password", hashedPassword);
-                                        updateCommand.Parameters.AddWithValue("@CustId", custID);
+                                        string updatePasswd = "UPDATE Customer SET CustomerPassword = @Password WHERE CustomerId = @CustId";
 
-                                        int rowsAffected = updateCommand.ExecuteNonQuery();
-
-                                        if (rowsAffected > 0)
+                                        using (SqlCommand updateCommand = new SqlCommand(updatePasswd, sqlConnection))
                                         {
-                                            // Password updated successfully
-                                            err = "Password updated successfully";
-                                            //for show pop up message in log in
-                                            Session["PasswordChanged"] = true;
-                                            Response.Redirect("UserProfile.aspx");
-                                        }
-                                        else
-                                        {
-                                            err = "Failed to update password";
+                                            String hashedPassword = PasswordUtil.HashPassword(newPassword);
+
+                                            updateCommand.Parameters.AddWithValue("@Password", hashedPassword);
+                                            updateCommand.Parameters.AddWithValue("@CustId", custID);
+
+                                            int rowsAffected = updateCommand.ExecuteNonQuery();
+
+                                            if (rowsAffected > 0)
+                                            {
+                                                // Password updated successfully
+                                                err = "Password updated successfully";
+                                                //for show pop up message in log in
+                                                Session["PasswordChanged"] = true;
+                                                Response.Redirect("UserProfile.aspx");
+                                            }
+                                            else
+                                            {
+                                                err = "Failed to update password";
+                                            }
                                         }
                                     }
                                 }
+                                catch (Exception ex)
+                                {
+                                    err = "An error occurred: " + ex.Message;
+                                }
                             }
-                            catch (Exception ex)
+                            else
                             {
-                                err = "An error occurred: " + ex.Message;
+                                err = "New Password and Re-enter New Password are not same";
                             }
-                        }
-                        else
-                        {
-                            err = "New Password and Re-enter New Password are not same";
                         }
                     }
+
                 }
-
+                lblMessage.Text = err;
             }
-
-            lblMessage.Text = err;
-
         }
     }
 }

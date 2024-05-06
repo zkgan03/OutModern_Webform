@@ -34,38 +34,52 @@ namespace OutModern.src.Client.Shipping
         private int customerId;
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
-            {
-                try
-                {
-
-                    if (Session["CartToShipping"] == null || !(bool)Session["CartToShipping"])
-                    {
-                        Response.Redirect("~/src/Client/Cart/Cart.aspx");
-                    }
-                }
-                catch (NullReferenceException)
-                {
-                    // Handle the NullReferenceException by redirecting back to the cart page
-                    Response.Redirect("~/src/Client/Cart/Cart.aspx");
-                }
-
-                Session["CartToShipping"] = false;
-                Session["SelectedAddress"] = null;
-            }
-
             if (Session["CUSTID"] != null)
             {
                 customerId = (int)Session["CUSTID"];
+                if (IsCartEmpty(customerId))
+                {
+                    Response.Redirect("~/src/Client/Cart/Cart.aspx");
+                }
             }
             else
             {
                 Response.Redirect("~/src/Client/Login/Login.aspx");
             }
 
+            if (!IsPostBack)
+            {
+                Session["SelectedAddress"] = null;
+            }
+
             BindCartItems();
             BindAddresses();
             UpdateSubtotalandGrandTotalLabel();
+        }
+
+        private bool IsCartEmpty(int custId)
+        {
+            bool cartIsEmpty = true;
+
+            // Check if the cart has any items
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "SELECT COUNT(*) FROM CartItem WHERE CartId = (SELECT CartId FROM Cart WHERE CustomerId = @CustomerId)";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@CustomerId", custId);
+
+                con.Open();
+                int itemCount = (int)cmd.ExecuteScalar();
+                con.Close();
+
+                // If item count is greater than 0, cart is not empty
+                if (itemCount > 0)
+                {
+                    cartIsEmpty = false;
+                }
+            }
+
+            return cartIsEmpty;
         }
 
         private void BindAddresses()
@@ -233,8 +247,9 @@ namespace OutModern.src.Client.Shipping
 
                 BindAddresses();
 
-                Session["CartToShipping"] = true;
-                Response.Redirect(Request.Url.AbsoluteUri);
+                string script = $"window.onload = function() {{ showSnackbar(); }};";
+                lblSnackbar.Text = "Addess added successfully!";
+                ScriptManager.RegisterStartupScript(this, GetType(), "showSnackbar", script, true);
             }
 
         }

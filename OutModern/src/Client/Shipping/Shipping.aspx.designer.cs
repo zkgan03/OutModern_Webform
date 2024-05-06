@@ -24,6 +24,15 @@ namespace OutModern.src.Client.Shipping
         protected global::System.Web.UI.ScriptManager ScriptManager1;
 
         /// <summary>
+        /// lblSnackbar control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSnackbar;
+
+        /// <summary>
         /// SiteMapPath1 control.
         /// </summary>
         /// <remarks>
@@ -49,6 +58,15 @@ namespace OutModern.src.Client.Shipping
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ListView AddressListView;
+
+        /// <summary>
+        /// panelAddShipping control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel panelAddShipping;
 
         /// <summary>
         /// txtNickname control.

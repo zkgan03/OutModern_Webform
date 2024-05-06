@@ -246,7 +246,8 @@
                                     </li>
 
                                     <li>
-                                        <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink9" NavigateUrl="~/src/Client/Login/Login.aspx" runat="server">Log Out</asp:HyperLink>
+                                        <%--<asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink9" NavigateUrl="~/src/Client/Login/Login.aspx" runat="server">Log Out</asp:HyperLink>--%>
+                                        <asp:Button ID="btn_logout" runat="server" CssClass="nav-dropdown-list" Style="width: 100%; text-align: left;" Text="Log Out" OnClick="btn_logout_Click" />
                                     </li>
 
 
@@ -293,9 +294,6 @@
                             <ul>
                                 <li class="pb-2">
                                     <asp:HyperLink ID="myAccountLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="~/src/Client/UserProfile/UserProfile.aspx">My Account</asp:HyperLink>
-                                </li>
-                                <li class="pb-2">
-                                    <asp:HyperLink ID="loginLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="~/src/Client/Login/Login.aspx">Login</asp:HyperLink>
                                 </li>
                                 <li class="pb-2">
                                     <asp:HyperLink ID="myCartLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="~/src/Client/Cart/Cart.aspx">My Cart</asp:HyperLink>

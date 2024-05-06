@@ -252,7 +252,7 @@ namespace OutModern.src.Client.Profile
 
                 if (!reader.HasRows) // Check if there are any results
                 {
-                    Session["ShowAddAddressPopup"] = true;
+                    Session["ShowAddAddressPopup2"] = true;
                 }
                 else
                 {

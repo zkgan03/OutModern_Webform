@@ -424,18 +424,7 @@ namespace OutModern.src.Admin.PromoCode
                 Page.ClientScript
                     .RegisterStartupScript(GetType(),
                     "alert",
-                    $"document.addEventListener('DOMContentLoaded', ()=> alert('Promo Code {promoCode} already not exist'))",
-                    true);
-                return;
-            }
-
-            // check the promo code exist
-            if (isPromoCodeExist(promoCode))
-            {
-                Page.ClientScript
-                    .RegisterStartupScript(GetType(),
-                    "alert",
-                    $"document.addEventListener('DOMContentLoaded', ()=> alert('Promo Code {promoCode} already not exist'))",
+                    $"document.addEventListener('DOMContentLoaded', ()=> alert('Promo Code {promoCode} already exist'))",
                     true);
                 return;
             }
@@ -444,9 +433,6 @@ namespace OutModern.src.Admin.PromoCode
 
             if (noOfRowAffected > 0)
             {
-                Page.ClientScript.RegisterStartupScript(GetType(), "alert",
-                    $"document.addEventListener('DOMContentLoaded', ()=> alert('You has added PromoCode >> Code: {promoCode}'))",
-                    true);
 
                 lblMsg.Text = "**Promo Code added successfully";
                 lvPromoCodes.InsertItemPosition = InsertItemPosition.None;
@@ -456,6 +442,14 @@ namespace OutModern.src.Admin.PromoCode
                     promoDataSource() :
                     promoDataSource(sortExpression, SortDirections[sortExpression]);
                 lvPromoCodes.DataBind();
+            }
+            else
+            {
+                Page.ClientScript
+                    .RegisterStartupScript(GetType(),
+                                           "alert",
+                                    $"document.addEventListener('DOMContentLoaded', ()=> alert('Failed to add Promo Code'))",
+                                                                             true);
             }
         }
 
@@ -562,6 +556,7 @@ namespace OutModern.src.Admin.PromoCode
                     "alert",
                     $"document.addEventListener('DOMContentLoaded', ()=> alert('Promo Code {promoCode} already exist'))",
                     true);
+
                 return;
             }
 
@@ -569,10 +564,6 @@ namespace OutModern.src.Admin.PromoCode
 
             if (noOfRowAffected > 0)
             {
-                Page.ClientScript.RegisterStartupScript(GetType(), "alert",
-                    $"document.addEventListener('DOMContentLoaded', ()=> alert('You had updated Promo Code >> ID: {promoId}, Name: {promoCode}'))",
-                    true);
-
                 lvPromoCodes.EditIndex = -1;
                 string sortExpression = ViewState["SortExpression"]?.ToString();
                 lvPromoCodes.DataSource =
@@ -581,11 +572,14 @@ namespace OutModern.src.Admin.PromoCode
                     promoDataSource(sortExpression, SortDirections[sortExpression]);
                 lvPromoCodes.DataBind();
             }
-        }
-
-        protected void btnClear_Click(object sender, EventArgs e)
-        {
-
+            else
+            {
+                Page.Page.ClientScript
+                    .RegisterStartupScript(GetType(),
+                                "alert",
+                    $"document.addEventListener('DOMContentLoaded', ()=> alert('Failed to update Promo Code'))",
+                         true);
+            }
         }
 
         protected void txtFilterStartDateFrom_TextChanged(object sender, EventArgs e)
