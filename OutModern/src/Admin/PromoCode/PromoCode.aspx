@@ -168,8 +168,12 @@
                             <asp:TextBox CssClass="w-14 px-2" ID="txtAddQuantity" runat="server"></asp:TextBox>
                         </td>
                         <td>
-                            <asp:Button UseSubmitBehavior="false" CssClass="button bg-green-500" ID="btnAdd" runat="server" Text="Add" CommandName="Insert" />
-                            <asp:Button UseSubmitBehavior="false" ID="btnCancel" CssClass="button bg-red-500 mt-2" runat="server" CommandName="Cancel" Text="Cancel" />
+                            <asp:Button UseSubmitBehavior="false" CssClass="button bg-green-500" ID="btnAdd" runat="server" Text="Add"
+                                OnClientClick="return confirm('Are you sure you want to add this promo code?');"
+                                CommandName="Insert" />
+                            <asp:Button UseSubmitBehavior="false" ID="btnCancel" CssClass="button bg-red-500 mt-2" runat="server"
+                                onlientClick="return confirm('Are you sure you want to cancel?');"
+                                CommandName="Cancel" Text="Cancel" />
                         </td>
                     </tr>
                 </InsertItemTemplate>
@@ -196,8 +200,12 @@
                             <asp:TextBox CssClass="w-14 px-2" ID="txtAddQuantity" runat="server" Text='<%# Eval("Quantity") %>'></asp:TextBox>
                         </td>
                         <td>
-                            <asp:Button UseSubmitBehavior="false" CssClass="button bg-green-500" ID="btnAdd" runat="server" Text="Update" CommandName="Update" />
-                            <asp:Button UseSubmitBehavior="false" ID="btnCancel" CssClass="button bg-red-500 mt-2" runat="server" CommandName="Cancel" Text="Cancel" />
+                            <asp:Button UseSubmitBehavior="false" CssClass="button bg-green-500" ID="btnAdd" runat="server"
+                                OnClientClick="return confirm('Are you sure you want to update this promo code?');"
+                                Text="Update" CommandName="Update" />
+                            <asp:Button UseSubmitBehavior="false" ID="btnCancel" CssClass="button bg-red-500 mt-2" runat="server"
+                                OnClientClick="return confirm('Are you sure you want to cancel?');"
+                                CommandName="Cancel" Text="Cancel" />
                         </td>
                     </tr>
                 </EditItemTemplate>
