@@ -32,31 +32,24 @@ namespace OutModern.src.Client.Login
             //Session.Remove("CUSTID");
             //Session.Remove("CustStatus");
 
-            bool redirectNeeded = false; // Track if redirection is needed
+            // Check if there's a redirect parameter
+            string redirectParam = Request.QueryString["redirect"];
 
-            // Check if session variables are not null and remove them if they have values
-            if (Session["LoggedIn"] != null)
-            {
-                Session.Remove("LoggedIn");
-                redirectNeeded = true; // If session variable is removed, set flag to redirect
-            }
 
-            if (Session["CUSTID"] != null)
+            // If user is logged in
+            if (Session["CUSTID"] != null && Session["LoggedIn"] != null && (int)Session["CustStatus"] == 1)
             {
-                Session.Remove("CUSTID");
-                redirectNeeded = true; // If session variable is removed, set flag to redirect
-            }
-
-            if (Session["CustStatus"] != null)
-            {
-                Session.Remove("CustStatus");
-                redirectNeeded = true; // If session variable is removed, set flag to redirect
-            }
-
-            // If any session variable was removed, refresh the page to ensure changes are reflected
-            if (redirectNeeded)
-            {
-                Response.Redirect("~/src/Client/Login/Login.aspx"); // Redirect to the same page
+                // If there's a "redirect=home" query, redirect to Home.aspx
+                if (redirectParam == "home")
+                {
+                    Response.Redirect("~/src/Client/Home/Home.aspx");
+                }
+                else
+                {
+                    Session.Remove("LoggedIn");
+                    Session.Remove("CUSTID");
+                    Session.Remove("CustStatus");
+                }
             }
 
         }

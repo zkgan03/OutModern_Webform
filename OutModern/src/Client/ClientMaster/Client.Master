@@ -295,7 +295,7 @@
                                     <asp:HyperLink ID="myAccountLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="~/src/Client/UserProfile/UserProfile.aspx">My Account</asp:HyperLink>
                                 </li>
                                 <li class="pb-2">
-                                    <asp:HyperLink ID="loginLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="~/src/Client/Login/Login.aspx">Login</asp:HyperLink>
+                                    <asp:HyperLink ID="loginLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="~/src/Client/Login/Login.aspx?redirect=home">Login</asp:HyperLink>
                                 </li>
                                 <li class="pb-2">
                                     <asp:HyperLink ID="myCartLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="~/src/Client/Cart/Cart.aspx">My Cart</asp:HyperLink>
