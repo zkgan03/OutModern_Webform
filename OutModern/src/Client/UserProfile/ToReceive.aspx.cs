@@ -278,5 +278,10 @@ namespace OutModern.src.Client.UserProfile
             Response.Redirect("~/src/Client/UserProfile/UserReivew.aspx");
 
         }
+
+        protected void btn_rw_his_Click1(object sender, EventArgs e)
+        {
+            Response.Redirect("~/src/Client/UserProfile/UserReivew.aspx");
+        }
     }
 }

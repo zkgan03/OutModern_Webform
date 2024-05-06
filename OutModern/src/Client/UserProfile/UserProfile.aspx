@@ -40,7 +40,7 @@
             // Check if the address has been delete successfully
             var ShowAddAddressPopup = '<%= Session["ShowAddAddressPopup"] %>';
             if (ShowAddAddressPopup === 'True') {
-                alert("You must have at least one address before you can edit your profile or delete an address.");
+                alert("You must have at least one address before you can edit your profile or delete an address. Please add an address and try again.");
             // Reset the session variable to avoid displaying the message again on subsequent page loads
             '<%= Session["ShowAddAddressPopup"] = null %>';
             }
