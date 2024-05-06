@@ -4,6 +4,11 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+        <div id="snackbar" class="-translate-x-1/2 fixed left-1/2 top-20 z-50 hidden transform rounded bg-green-500 px-6 py-3 text-center text-lg text-white shadow-lg" style="z-index: 50;">
+        <div class="justify-center">
+               <asp:Label ID="lblSnackbar" runat="server" CssClass="text-center text-white" Text=""></asp:Label>
+        </div>
+    </div>
 
     <div class="mx-10">
 
@@ -461,9 +466,17 @@
             }
         }
 
+        window.showSnackbar = function () {
+            var snackbar = document.getElementById("snackbar");
 
+            snackbar.classList.remove('hidden');
+            snackbar.classList.add('flex');
 
-
+            setTimeout(function () {
+                snackbar.classList.remove('flex');
+                snackbar.classList.add('hidden');
+            }, 3000);
+        }
     </script>
 
     <style>

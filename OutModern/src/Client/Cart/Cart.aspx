@@ -4,6 +4,12 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
+    <div id="snackbar" class="-translate-x-1/2 fixed left-1/2 top-20 z-50 hidden transform rounded bg-red-500 px-6 py-3 text-center text-lg text-white shadow-lg" style="z-index: 50;">
+        <div class="justify-center">
+               <asp:Label ID="lblSnackbar" runat="server" CssClass="text-center text-white" Text=""></asp:Label>
+        </div>
+    </div>
+
     <div class="w-[72%] min-h-[60vh] mx-auto pb-20 pt-10">
         <asp:SiteMapPath ID="SiteMapPath1" runat="server" CssClass="mb-4 text-3xl font-bold"></asp:SiteMapPath>
         <h1 class="mb-4 text-3xl font-bold">Checkout</h1>
@@ -76,7 +82,7 @@
 
                         <div class="mt-7 flex flex-col items-center justify-center">
                             <div>
-                                <asp:Image ID="ImgEmptyCart" runat="server" ImageUrl="~/images/cartEmpty.png" CssClass="h-40 w-44"/>
+                                <asp:Image ID="ImgEmptyCart" runat="server" ImageUrl="~/images/cartEmpty.png" CssClass="h-40 w-44" />
                             </div>
                             <div>
                                 <asp:Label ID="lblEmptyCart" runat="server" CssClass="text-center text-xl" Text=""></asp:Label>
@@ -130,4 +136,18 @@
             </div>
         </div>
     </div>
+
+    <script>
+        window.showSnackbar = function () {
+            var snackbar = document.getElementById("snackbar");
+
+            snackbar.classList.remove('hidden');
+            snackbar.classList.add('flex');
+
+            setTimeout(function () {
+                snackbar.classList.remove('flex');
+                snackbar.classList.add('hidden');
+            }, 3000);
+        }
+    </script>
 </asp:Content>

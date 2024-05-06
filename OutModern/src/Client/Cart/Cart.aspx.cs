@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -280,6 +281,9 @@ namespace OutModern.src.Client.Cart
             }
             else
             {
+                string script = $"window.onload = function() {{ showSnackbar(); }};";
+                lblSnackbar.Text = "Minimum quantity reached!";
+                ScriptManager.RegisterStartupScript(this, GetType(), "showSnackbar", script, true);
                 btnDecrement.Enabled = false;
             }
         }
@@ -313,9 +317,15 @@ namespace OutModern.src.Client.Cart
 
                 UpdateSubtotalandGrandTotalLabel();
                 BindCartItems();
+
+
             }
             else
             {
+                string script = $"window.onload = function() {{ showSnackbar(); }};";
+                lblSnackbar.Text = "Maximum quantity reached!";
+                ScriptManager.RegisterStartupScript(this, GetType(), "showSnackbar", script, true);
+
                 btnIncrement.Enabled = false;
             }
         }
@@ -457,23 +467,27 @@ namespace OutModern.src.Client.Cart
                         // Update the UI with the discount amount
                         lblDiscount.Text = $"RM{discountAmount.ToString("N2")}";
 
-                        lblCodeError.Text = "";
+                        lblCodeError.Text = "Promo Cde is applied!";
+                        lblCodeError.ForeColor = System.Drawing.Color.Green;
                     }
                     else
                     {
                         // Code is valid but out of stock
                         lblCodeError.Text = "Promo Code is out of stock!";
+                        lblCodeError.ForeColor = System.Drawing.Color.Red;
                     }
                 }
                 else
                 {
                     lblCodeError.Text = "Promo Code Expired!";
+                    lblCodeError.ForeColor = System.Drawing.Color.Red;
                 }
             }
             else
             {
                 // Code is invalid or expired
                 lblCodeError.Text = "Invalid Promo Code!";
+                lblCodeError.ForeColor = System.Drawing.Color.Red;
             }
 
             UpdateSubtotalandGrandTotalLabel();

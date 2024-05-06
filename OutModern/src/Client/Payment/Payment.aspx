@@ -40,7 +40,7 @@
                     </div>
                     <div class="mb-4">
                         <asp:Label for="txtCardNumber" runat="server" class="text-gray-700">Card Number</asp:Label>
-                        <asp:TextBox ID="txtCardNumber" runat="server" CssClass="mt-1 w-full rounded-md border border-gray-300 px-3 py-2" placeholder="1234 1234 1234 2343" MaxLength="16"></asp:TextBox>
+                        <asp:TextBox ID="txtCardNumber" runat="server" CssClass="mt-1 w-full rounded-md border border-gray-300 px-3 py-2" placeholder="1234 1234 1234 2343" MaxLength="16" oninput="validateDigits(this)"></asp:TextBox>
                         <asp:Label ID="lblCreditError" runat="server" CssClass="text-red-700" Text=""></asp:Label>
                     </div>
                     <div class="flex space-x-4">
