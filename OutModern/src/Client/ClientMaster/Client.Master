@@ -176,9 +176,9 @@
 
             <!-- Ads -->
             <div class="nav-ads flex relative text-center bg-[#626262] h-10 text-white justify-center items-center">
-                Use CODE2 before 16 May to get 15% discount!
-                    <i class="fa-solid fa-xmark absolute top-[10px] right-[10px] cursor-pointer"
-                        style="color: #ffffff; font-size: 20px;"></i>
+                <asp:Label ID="lblPromoCode" runat="server" CssClass="text-white" Text="No Promo Code Available...."></asp:Label>
+                <i class="fa-solid fa-xmark absolute top-[10px] right-[10px] cursor-pointer"
+                    style="color: #ffffff; font-size: 20px;"></i>
             </div>
 
             <!-- Header -->
@@ -249,7 +249,7 @@
                                         <asp:HyperLink CssClass="nav-dropdown-list" ID="HyperLink9" NavigateUrl="~/src/Client/Login/Login.aspx" runat="server">Log Out</asp:HyperLink>
                                     </li>
 
-                                    
+
                                     <%}%>
                                 </ul>
                             </div>
@@ -299,7 +299,7 @@
                                 </li>
                                 <li class="pb-2">
                                     <asp:HyperLink ID="myCartLink" runat="server" CssClass="text-white hover:underline" NavigateUrl="~/src/Client/Cart/Cart.aspx">My Cart</asp:HyperLink>
-                                </li>   
+                                </li>
                             </ul>
                         </div>
 

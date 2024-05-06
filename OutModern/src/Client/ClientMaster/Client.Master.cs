@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -39,7 +40,7 @@ namespace OutModern.src.Client.ClientMaster
 
             int cartItemCount = GetCartItemCount();
             numberLabel.Text = cartItemCount.ToString();
-
+            LoadPromoCode();
 
             Page.DataBind();
         }
@@ -81,7 +82,7 @@ namespace OutModern.src.Client.ClientMaster
 
         private void LockUserAccount()
         {
-             if(customerId != 0)
+            if (customerId != 0)
             {
                 // Define the update query
                 string updateQuery = "UPDATE Customer SET CustomerStatusId = 2 WHERE CustomerId = @customerId;";
@@ -121,6 +122,39 @@ namespace OutModern.src.Client.ClientMaster
             // No suspicious SQL keywords found
             return false;
         }
+
+        //load random promo code
+        private void LoadPromoCode()
+        {
+            DataTable data = new DataTable();
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "SELECT TOP 1 PromoCode, EndDate, DiscountRate " +
+                               "FROM PromoCode " +
+                               "WHERE GETDATE() BETWEEN StartDate AND EndDate " +
+                               "ORDER BY NEWID();";
+
+                SqlCommand cmd = new SqlCommand(query, con);
+                con.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                adapter.Fill(data);
+            }
+
+            if (data.Rows.Count > 0)
+            {
+                DataRow row = data.Rows[0];
+                string promoCode = row["PromoCode"].ToString();
+                DateTime endDate = (DateTime)row["EndDate"];
+                int discountRate = (int)row["DiscountRate"];
+
+                lblPromoCode.Text = $"Use promo code {promoCode} to get {discountRate}% off. Hurry, offer ends on {endDate:dd MMM yyyy}!";
+            }
+            else
+            {
+                lblPromoCode.Text = "No promo code available";
+            }
+        }
+
 
         protected void btnTest_Click(object sender, EventArgs e)
         {

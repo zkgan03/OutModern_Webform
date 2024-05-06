@@ -227,9 +227,12 @@ namespace OutModern.src.Admin.Dashboard
                 string sqlQuery =
                     "Select AVG(Rating) as Average " +
                     "FROM Review ";
+
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
-                    average = double.Parse(command.ExecuteScalar().ToString());
+                    var result = command.ExecuteScalar();
+                    if (result != DBNull.Value)
+                        average = double.Parse(command.ExecuteScalar().ToString());
                 }
             }
 

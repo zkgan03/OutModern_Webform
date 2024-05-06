@@ -36,36 +36,12 @@ namespace OutModern.src.Admin.ProductAdd
                 ddlCategory.DataTextField = "ProductCategory";
                 ddlCategory.DataBind();
 
-                //ddlStatus.DataSource = getProductStatus();
-                //ddlStatus.DataValueField = "ProductStatusId";
-                //ddlStatus.DataTextField = "ProductStatusName";
-                //ddlStatus.DataBind();
             }
         }
 
         //
         //db operation
         //
-
-        ////Get All Product Status Available
-        //private DataTable getProductStatus()
-        //{
-        //    DataTable data = new DataTable();
-
-        //    using (SqlConnection connection = new SqlConnection(ConnectionString))
-        //    {
-        //        connection.Open();
-        //        string sqlQuery =
-        //            "Select ProductStatusId, ProductStatusName " +
-        //            "From ProductStatus;";
-        //        using (SqlCommand command = new SqlCommand(sqlQuery, connection))
-        //        {
-        //            data.Load(command.ExecuteReader());
-        //        }
-        //    }
-
-        //    return data;
-        //}
 
         //Get Categories
         private DataTable getProductCategory()
@@ -79,7 +55,6 @@ namespace OutModern.src.Admin.ProductAdd
             data.Rows.Add("Sweaters");
             data.Rows.Add("Shorts and Pants");
             data.Rows.Add("Trousers");
-            data.Rows.Add("Accessories");
 
             return data;
         }
@@ -95,7 +70,7 @@ namespace OutModern.src.Admin.ProductAdd
                     "INSERT into Product (ProductName, ProductDescription, ProductCategory, UnitPrice, ProductStatusId) " +
                     "OUTPUT INSERTED.ProductId " +
                     "values (@productName, @productDescription, @category, @unitPrice, " +
-                    "(SELECT ProductStatusId FROM ProductStatus WHERE ProductStatusName = 'unavailable'))";
+                    "(SELECT ProductStatusId FROM ProductStatus WHERE ProductStatusName = 'Unavailable'))";
 
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {

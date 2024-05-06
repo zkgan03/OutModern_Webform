@@ -163,7 +163,9 @@ namespace OutModern.src.Admin.AdminMaster
 
         protected void linkBtnLogout_Click(object sender, EventArgs e)
         {
-            Session.Clear();
+            Session.Remove("AdminRole");
+            Session.Remove("AdminId");
+
             Response.Redirect("~/src/Admin/AdminLogin/AdminLogin.aspx");
         }
     }
