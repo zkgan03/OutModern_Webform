@@ -28,80 +28,108 @@ namespace OutModern.src.Client.Login
             string conn = System.Configuration.ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
             string custId = Session["CustomerId"] as string;
 
-            if (newPassword == "" || retypePassword == "")
+            if (string.IsNullOrEmpty(newPassword))
             {
                 err = "Password cannot be left empty.";
+                lblMessage.Text = err;
             }
             else
             {
-                if (custId != null)
+                if (!System.Text.RegularExpressions.Regex.IsMatch(newPassword, @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\d\s]).{8,}$"))
                 {
-                    //password validation
-                    if (!System.Text.RegularExpressions.Regex.IsMatch(newPassword, @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\d\s]).{8,}$"))
-                    {
-                        err = "Invalid Password Format.";
-                    }
-                    else
-                    {
-                        if (err == "")
-                        {
-
-                            if (newPassword == retypePassword)
-                            {
-                                try
-                                {
-                                    using (SqlConnection sqlConnection = new SqlConnection(conn))
-                                    {
-                                        sqlConnection.Open();
-
-                                        string updatePasswd = "UPDATE Customer SET CustomerPassword = @Password WHERE CustomerId = @CustId";
-
-                                        using (SqlCommand updateCommand = new SqlCommand(updatePasswd, sqlConnection))
-                                        {
-                                            String hashedPassword = PasswordUtil.HashPassword(newPassword);
-
-                                            updateCommand.Parameters.AddWithValue("@Password", hashedPassword);
-                                            updateCommand.Parameters.AddWithValue("@CustId", custId);
-
-                                            int rowsAffected = updateCommand.ExecuteNonQuery();
-
-                                            if (rowsAffected > 0)
-                                            {
-                                                // Password updated successfully
-                                                err = "Password updated successfully";
-                                                //for show pop up message in log in
-                                                Session["PasswordChange"] = true;
-                                                Response.Redirect("Login.aspx");
-                                            }
-                                            else
-                                            {
-                                                err = "Failed to update password";
-                                            }
-                                        }
-                                    }
-                                }
-                                catch (Exception ex)
-                                {
-                                    err = "An error occurred: " + ex.Message;
-                                }
-                            }
-                            else
-                            {
-                                err = "New Password and Re-enter New Password are not same";
-                            }
-
-                        }
-                    }
-
+                    err = "Password must be at least 8 characters long and contain at least 1 uppercase, 1 lowercase, 1 number and 1 special character.";
+                    lblMessage.Text = err;
                 }
                 else
                 {
-                    Console.WriteLine("Invalid to change bacause valid time had passed.");
+                    if (newPassword == "" || retypePassword == "")
+                    {
+                        err = "Password cannot be left empty.";
+                        lblMessage.Text = err;
+                    }
+                    else
+                    {
+                        if (newPassword != retypePassword)
+                        {
+                            err = "Confirm Password does not match Password.";
+                        }
+                        else
+                        {
+                            if (custId != null)
+                            {
+                                //password validation
+                                if (!System.Text.RegularExpressions.Regex.IsMatch(newPassword, @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\d\s]).{8,}$"))
+                                {
+                                    err = "Invalid Password Format.";
+                                }
+                                else
+                                {
+                                    if (err == "")
+                                    {
+
+                                        if (newPassword == retypePassword)
+                                        {
+                                            try
+                                            {
+                                                using (SqlConnection sqlConnection = new SqlConnection(conn))
+                                                {
+                                                    sqlConnection.Open();
+
+                                                    string updatePasswd = "UPDATE Customer SET CustomerPassword = @Password WHERE CustomerId = @CustId";
+
+                                                    using (SqlCommand updateCommand = new SqlCommand(updatePasswd, sqlConnection))
+                                                    {
+                                                        String hashedPassword = PasswordUtil.HashPassword(newPassword);
+
+                                                        updateCommand.Parameters.AddWithValue("@Password", hashedPassword);
+                                                        updateCommand.Parameters.AddWithValue("@CustId", custId);
+
+                                                        int rowsAffected = updateCommand.ExecuteNonQuery();
+
+                                                        if (rowsAffected > 0)
+                                                        {
+                                                            // Password updated successfully
+                                                            err = "Password updated successfully";
+                                                            //for show pop up message in log in
+                                                            Session["PasswordChange"] = true;
+                                                            Response.Redirect("Login.aspx");
+                                                        }
+                                                        else
+                                                        {
+                                                            err = "Failed to update password";
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                err = "An error occurred: " + ex.Message;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            err = "New Password and Re-enter New Password are not same";
+                                        }
+
+                                    }
+                                }
+
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid to change bacause valid time had passed.");
+                            }
+                        }
+
+                        lblMessage.Text = err;
+
+                    }
                 }
+
+
             }
 
-            lblMessage.Text = err;
-
         }
+
     }
 }
