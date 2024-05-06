@@ -32,26 +32,33 @@ namespace OutModern.src.Client.Login
             //Session.Remove("CUSTID");
             //Session.Remove("CustStatus");
 
-            // Check if there's a redirect parameter
-            string redirectParam = Request.QueryString["redirect"];
+            //// Check if there's a redirect parameter
+            //string redirectParam = Request.QueryString["redirect"];
 
+            //// If user is logged in
+            //if (Session["CUSTID"] != null && Session["LoggedIn"] != null && (int)Session["CustStatus"] == 1)
+            //{
+            //    // If there's a "redirect=home" query, redirect to Home.aspx
+            //    if (redirectParam == "home")
+            //    {
+            //        Response.Redirect("~/src/Client/Home/Home.aspx");
+            //    }
+            //    else
+            //    {
+            //        Session.Remove("LoggedIn");
+            //        Session.Remove("CUSTID");
+            //        Session.Remove("CustStatus");
+            //    }
+            //}
 
-            // If user is logged in
-            if (Session["CUSTID"] != null && Session["LoggedIn"] != null && (int)Session["CustStatus"] == 1)
+            //if already logged in, redirect to dashboard
+            string loggedIn = Session["LoggedIn"]?.ToString();
+            string custId = Session["CUSTID"]?.ToString();
+            string custStatus = Session["CustStatus"]?.ToString();
+            if (loggedIn != null && custId != null && custStatus == "1")
             {
-                // If there's a "redirect=home" query, redirect to Home.aspx
-                if (redirectParam == "home")
-                {
-                    Response.Redirect("~/src/Client/Home/Home.aspx");
-                }
-                else
-                {
-                    Session.Remove("LoggedIn");
-                    Session.Remove("CUSTID");
-                    Session.Remove("CustStatus");
-                }
+                Response.Redirect("~/src/Client/Home/Home.aspx");
             }
-
         }
 
         protected void btn_login_Click(object sender, EventArgs e)

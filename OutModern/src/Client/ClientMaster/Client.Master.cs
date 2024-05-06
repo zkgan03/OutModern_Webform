@@ -127,5 +127,13 @@ namespace OutModern.src.Client.ClientMaster
 
         }
 
+        protected void btn_logout_Click(object sender, EventArgs e)
+        {
+            Session.Remove("LoggedIn");
+            Session.Remove("CUSTID");
+            Session.Remove("CustStatus");
+
+            Response.Redirect("~/src/Client/Login/Login.aspx");
+        }
     }
 }
