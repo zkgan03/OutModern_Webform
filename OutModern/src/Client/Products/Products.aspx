@@ -82,7 +82,7 @@
                         </div>
                         <ul class="pb-5 pl-5 pt-2">
                             <li class="list-none">
-                                <asp:TextBox class="text-center" Type="Number" ID="txtMinPrice" runat="server" Style="width: 45%; border: 1px solid rgba(0, 0, 0, .26); border-radius: .125rem;" placeholder="Min Price"></asp:TextBox>
+                                <asp:TextBox class="text-center" Min="1" Type="Number" ID="txtMinPrice" runat="server" Style="width: 45%; border: 1px solid rgba(0, 0, 0, .26); border-radius: .125rem;" placeholder="Min Price"></asp:TextBox>
                                 -
                                 <asp:TextBox class="text-center" Type="Number" placeholder="Max Price" ID="txtMaxPrice" runat="server" Style="width: 45%; border: 1px solid rgba(0, 0, 0, .26); border-radius: .125rem;"></asp:TextBox>
                             </li>
