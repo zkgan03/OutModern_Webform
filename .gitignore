@@ -357,12 +357,4 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /OutModern/App_Data/OutModern.mdf
-/.gitignore
-/.gitignore
 /OutModern/App_Data/OutModern_log.ldf
-/.gitignore
-/.gitignore
-/OutModern/App_Data/OutModern.mdf
-/.gitignore
-/OutModern/App_Data/OutModern_log.ldf
-/OutModern/App_Data/OutModern.mdf
