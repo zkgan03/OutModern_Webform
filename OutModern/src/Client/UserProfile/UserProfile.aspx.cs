@@ -121,7 +121,7 @@ namespace OutModern.src.Client.Profile
             {
                 conn.Open();
                 //use parameterized query to prevent sql injection
-                string query = "SELECT * FROM [Address] WHERE CustomerId = @custId";
+                string query = "SELECT * FROM [Address] WHERE CustomerId = @custId And isDeleted = 0";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@custId", custID);
 
@@ -244,7 +244,7 @@ namespace OutModern.src.Client.Profile
             {
                 conn.Open();
                 //use parameterized query to prevent sql injection
-                string query = "SELECT * FROM [Address] WHERE CustomerId = @custId";
+                string query = "SELECT * FROM [Address] WHERE CustomerId = @custId And isDeleted = 0";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@custId", custID);
 

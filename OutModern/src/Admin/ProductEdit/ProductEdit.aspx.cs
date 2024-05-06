@@ -235,7 +235,6 @@ namespace OutModern.src.Admin.ProductEdit
             data.Rows.Add("Sweaters");
             data.Rows.Add("Shorts and Pants");
             data.Rows.Add("Trousers");
-            data.Rows.Add("Accessories");
 
             return data;
         }

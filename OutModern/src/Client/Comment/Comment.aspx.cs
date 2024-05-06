@@ -94,15 +94,17 @@ namespace OutModern.src.Client.Comment
                         command.Parameters.AddWithValue("@Rating", rating);
                         command.Parameters.AddWithValue("@ReviewDateTime", DateTime.Now);
                         command.Parameters.AddWithValue("@ReviewDescription", commentText);
-                        command.ExecuteNonQuery();
+                        int rowsAffected = command.ExecuteNonQuery();
+                        if(rowsAffected > 0)
+                        {
+                            txtComment.Text = "";
+                            lblMessage.Visible = false;
+                            lblStarErrorMessage.Visible = false;
+                            commentMessage.Visible = true;
+                        }
                     }
                 }
             }
-
-            txtComment.Text = "";
-            lblMessage.Visible = false;
-            commentMessage.Visible = true;
-
         }
 
         protected void BtnOk_Click(object sender, EventArgs e)

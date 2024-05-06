@@ -165,66 +165,8 @@
                             valuables secure and close at hand.</li>
             </ul>
         </div>
-        <img src="../../../images/product-img/hoodie-size-guide.png" alt="hoodie-size-guide"
-            style="width: 100%; max-width: 320px; margin: 1em auto; display: block;">
-        <div class="mt-6 w-full overflow-auto">
-            <table class="min-w-[500px] max-w-[1100px] bg-whitesmoke size-chart mx-auto w-full border border-gray-300">
-                <thead>
-                    <tr class="bg-gray-200">
-                        <th class="px-4 py-2 text-center">Size</th>
-                        <th class="px-4 py-2 text-center">EUR</th>
-                        <th class="px-4 py-2 text-center">US (inch)</th>
-                        <th class="px-4 py-2 text-center">Height (cm)</th>
-                        <th class="px-4 py-2 text-center">Chest (cm)</th>
-                        <th class="px-4 py-2 text-center">Waist (cm)</th>
-                        <th class="px-4 py-2 text-center">Neckline (cm)</th>
-                        <th class="px-4 py-2 text-center">Sleeve (cm)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="text-center">
-                        <th class="px-4 py-2 text-center">S</th>
-                        <td class="px-4 py-2 text-center">36</td>
-                        <td class="px-4 py-2 text-center">34</td>
-                        <td class="px-4 py-2 text-center">165</td>
-                        <td class="px-4 py-2 text-center">92</td>
-                        <td class="px-4 py-2 text-center">76</td>
-                        <td class="px-4 py-2 text-center">37</td>
-                        <td class="px-4 py-2 text-center">62</td>
-                    </tr>
-                    <tr class="text-center">
-                        <th class="px-4 py-2 text-center">M</th>
-                        <td class="px-4 py-2 text-center">38</td>
-                        <td class="px-4 py-2 text-center">36</td>
-                        <td class="px-4 py-2 text-center">170</td>
-                        <td class="px-4 py-2 text-center">96</td>
-                        <td class="px-4 py-2 text-center">80</td>
-                        <td class="px-4 py-2 text-center">38</td>
-                        <td class="px-4 py-2 text-center">63</td>
-                    </tr>
-                    <tr class="text-center">
-                        <th class="px-4 py-2 text-center">L</th>
-                        <td class="px-4 py-2 text-center">40</td>
-                        <td class="px-4 py-2 text-center">38</td>
-                        <td class="px-4 py-2 text-center">175</td>
-                        <td class="px-4 py-2 text-center">100</td>
-                        <td class="px-4 py-2 text-center">84</td>
-                        <td class="px-4 py-2 text-center">39</td>
-                        <td class="px-4 py-2 text-center">64</td>
-                    </tr>
-                    <tr class="text-center">
-                        <th class="px-4 py-2 text-center">XL</th>
-                        <td class="px-4 py-2 text-center">42</td>
-                        <td class="px-4 py-2 text-center">40</td>
-                        <td class="px-4 py-2 text-center">180</td>
-                        <td class="px-4 py-2 text-center">104</td>
-                        <td class="px-4 py-2 text-center">88</td>
-                        <td class="px-4 py-2 text-center">40</td>
-                        <td class="px-4 py-2 text-center">65</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <asp:Image ID="ImgSizeChart" runat="server" Style="width: 60%; margin: 1em auto; display: block;"/>
+      
         <p style="text-align: center;" class="pt-2">*Difference of 1-2cm may occur</p>
         <p style="text-align: center; font-size: 1.1rem;" class="p-1 underline"><b>Size Chart</b></p>
     </div>
