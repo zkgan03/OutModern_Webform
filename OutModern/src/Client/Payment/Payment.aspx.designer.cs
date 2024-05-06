@@ -15,6 +15,15 @@ namespace OutModern.src.Client.Payment
     {
 
         /// <summary>
+        /// panelPayment control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel panelPayment;
+
+        /// <summary>
         /// SiteMapPath1 control.
         /// </summary>
         /// <remarks>

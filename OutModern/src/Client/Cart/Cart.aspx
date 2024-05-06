@@ -6,7 +6,7 @@
 
     <div id="snackbar" class="-translate-x-1/2 fixed left-1/2 top-20 z-50 hidden transform rounded bg-red-500 px-6 py-3 text-center text-lg text-white shadow-lg" style="z-index: 50;">
         <div class="justify-center">
-               <asp:Label ID="lblSnackbar" runat="server" CssClass="text-center text-white" Text=""></asp:Label>
+            <asp:Label ID="lblSnackbar" runat="server" CssClass="text-center text-white" Text=""></asp:Label>
         </div>
     </div>
 
@@ -104,10 +104,12 @@
                         <span class="text-sm">Enter Discount Code</span>
                     </div>
 
-                    <div class="border-2 mb-2 flex items-center rounded-lg border-black">
-                        <asp:TextBox runat="server" ID="txtDiscountCode" CssClass="w-full flex-grow rounded-lg px-4 py-4 text-sm outline-none" />
-                        <asp:Button runat="server" ID="btnApply" CssClass="right-0 cursor-pointer rounded-md bg-black px-6 py-4 text-sm text-white hover:bg-gray-800" Text="Apply" OnClick="btnApply_Click" />
-                    </div>
+                    <asp:Panel ID="panelApplyPromo" runat="server" DefaultButton="btnApply">
+                        <div class="border-2 mb-2 flex items-center rounded-lg border-black">
+                            <asp:TextBox runat="server" ID="txtDiscountCode" CssClass="w-full flex-grow rounded-lg px-4 py-4 text-sm outline-none" />
+                            <asp:Button runat="server" ID="btnApply" CssClass="right-0 cursor-pointer rounded-md bg-black px-6 py-4 text-sm text-white hover:bg-gray-800" Text="Apply" OnClick="btnApply_Click" />
+                        </div>
+                    </asp:Panel>
 
                     <div class="flex flex-wrap justify-between">
                         <asp:Label ID="lblCodeError" runat="server" CssClass="text-red-700" Text=""></asp:Label>
