@@ -28,9 +28,36 @@ namespace OutModern.src.Client.Login
             //    }
             //}
 
-            Session.Remove("LoggedIn");
-            Session.Remove("CUSTID");
-            Session.Remove("CustStatus");
+            //Session.Remove("LoggedIn");
+            //Session.Remove("CUSTID");
+            //Session.Remove("CustStatus");
+
+            bool redirectNeeded = false; // Track if redirection is needed
+
+            // Check if session variables are not null and remove them if they have values
+            if (Session["LoggedIn"] != null)
+            {
+                Session.Remove("LoggedIn");
+                redirectNeeded = true; // If session variable is removed, set flag to redirect
+            }
+
+            if (Session["CUSTID"] != null)
+            {
+                Session.Remove("CUSTID");
+                redirectNeeded = true; // If session variable is removed, set flag to redirect
+            }
+
+            if (Session["CustStatus"] != null)
+            {
+                Session.Remove("CustStatus");
+                redirectNeeded = true; // If session variable is removed, set flag to redirect
+            }
+
+            // If any session variable was removed, refresh the page to ensure changes are reflected
+            if (redirectNeeded)
+            {
+                Response.Redirect("~/src/Client/Login/Login.aspx"); // Redirect to the same page
+            }
 
         }
 
