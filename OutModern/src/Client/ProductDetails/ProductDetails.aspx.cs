@@ -352,12 +352,34 @@ namespace OutModern.src.Client.ProductDetails
                             lblProdName.Text = reader["ProductName"].ToString();
                             lblDescription.Text = reader["ProductDescription"].ToString();
                             lblPrice.Text = "RM " + reader["UnitPrice"].ToString();
+                            updateSizeChart(reader["ProductCategory"].ToString());
                         }
                         connection.Close();
                     }
                 }
             }
         }
+
+        private void updateSizeChart(string category)
+        {
+            if(category == "Hoodies")
+            {
+                ImgSizeChart.ImageUrl = "~/images/product-img/hoodie-size-guide.png";
+            } else if (category == "Sweaters")
+            {
+                ImgSizeChart.ImageUrl = "~/images/product-img/sweater-size-guide.png";
+            } else if (category == "Tee Shirts")
+            {
+                ImgSizeChart.ImageUrl = "~/images/product-img/tee-size-guide.png";
+            } else if (category == "Trousers")
+            {
+                ImgSizeChart.ImageUrl = "~/images/product-img/trouser-size-guide.png";
+            } else if (category == "Shorts")
+            {
+                ImgSizeChart.ImageUrl = "~/images/product-img/short-size-guide.png";
+            }
+        }
+
         private void selectColor(string colorId)
         {
             foreach (RepeaterItem item in ColorRepeater.Items)

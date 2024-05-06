@@ -101,7 +101,7 @@
                                     <asp:ListItem Text="Hoodies" Value="Hoodies"></asp:ListItem>
                                     <asp:ListItem Text="Shorts" Value="Shorts"></asp:ListItem>
                                     <asp:ListItem Text="Sweaters" Value="Sweaters"></asp:ListItem>
-                                    <asp:ListItem Text="TeeShirts" Value="TeeShirts"></asp:ListItem>
+                                    <asp:ListItem Text="Tee Shirts" Value="Tee Shirts"></asp:ListItem>
                                     <asp:ListItem Text="Trousers" Value="Trousers"></asp:ListItem>
                                 </asp:CheckBoxList>
                             </li>
