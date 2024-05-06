@@ -16,11 +16,13 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>
-    </IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>44338</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -334,6 +336,13 @@
     <Compile Include="src\ErrorPages\500.aspx.designer.cs">
       <DependentUpon>500.aspx</DependentUpon>
     </Compile>
+    <Compile Include="src\ErrorPages\ErrorSQLInjection.aspx.cs">
+      <DependentUpon>ErrorSQLInjection.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\ErrorPages\ErrorSQLInjection.aspx.designer.cs">
+      <DependentUpon>ErrorSQLInjection.aspx</DependentUpon>
+    </Compile>
     <Compile Include="src\Util\StringUtil.cs" />
     <Content Include="App_Data\OutModern.mdf" />
     <Content Include="App_Data\OutModern_log.ldf" />
@@ -355,6 +364,7 @@
     <Content Include="images\about_us_img\our_purpose.jpg" />
     <Content Include="images\about_us_img\Simple.jpg" />
     <Content Include="images\about_us_img\Together.jpg" />
+    <Content Include="images\cartEmpty.png" />
     <Content Include="images\charles-etoroma-95UF6LXe-Lo-unsplash.jpg" />
     <Content Include="images\contact_us_pic.jpg" />
     <Content Include="images\customerService.jpeg" />
@@ -363,7 +373,18 @@
     <Content Include="images\formbackground.jpg" />
     <Content Include="images\grab_pay_logo.png" />
     <Content Include="images\half-star.svg" />
+    <Content Include="images\home-img\home1.jpeg" />
+    <Content Include="images\home-img\home2.jpg" />
     <Content Include="images\loading.gif" />
+    <Content Include="images\login-img\login-background.jpg" />
+    <Content Include="images\login-img\login-background11.jpg" />
+    <Content Include="images\login-img\login-background13.jpg" />
+    <Content Include="images\login-img\login-background14.jpg" />
+    <Content Include="images\login-img\login-background15.jpg" />
+    <Content Include="images\login-img\login-background3.jpg" />
+    <Content Include="images\login-img\login-background6.jpg" />
+    <Content Include="images\login-img\login-background7.jpg" />
+    <Content Include="images\login-img\login-background8.jpg" />
     <Content Include="images\logo-admin.png" />
     <Content Include="images\logo-admin2.png" />
     <Content Include="images\logo2.png" />
@@ -884,6 +905,7 @@
     <Content Include="src\ErrorPages\403.aspx" />
     <Content Include="src\ErrorPages\404.aspx" />
     <Content Include="src\ErrorPages\500.aspx" />
+    <Content Include="src\ErrorPages\ErrorSQLInjection.aspx" />
     <Content Include="Web.config" />
     <Content Include="src\Admin\AdminMaster\Admin.Master" />
     <Content Include="src\Client\ClientMaster\Client.Master" />

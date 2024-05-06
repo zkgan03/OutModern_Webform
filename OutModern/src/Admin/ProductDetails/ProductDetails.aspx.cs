@@ -1,4 +1,5 @@
 ﻿using OutModern.src.Admin.Orders;
+using OutModern.src.Admin.Utils;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -6,6 +7,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Net;
+using System.Runtime.InteropServices.ComTypes;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -115,11 +117,12 @@ namespace OutModern.src.Admin.ProductDetails
 
             // Build the filter expression with relevant fields
             string expression = string.Format(
-                "Convert(OrderId, 'System.String') LIKE '%{0}%' OR " +
                 "CustomerName LIKE '%{0}%' OR " +
-                "Convert(OrderDateTime, 'System.String') LIKE '%{0}%' OR " +
-                "Convert(Total, 'System.String') LIKE '%{0}%' OR " +
-                "OrderStatusName LIKE '%{0}%'",
+                "Convert(ReviewTime, 'System.String') LIKE '%{0}%' OR " +
+                "Convert(ReviewRating, 'System.String') LIKE '%{0}%' OR " +
+                "ReviewColor LIKE '%{0}%' OR " +
+                "Convert(ReviewQuantity, 'System.String') LIKE '%{0}%' OR  " +
+                "ReviewText LIKE '%{0}%' ",
                 safeSearchTerm);
 
             // Filter the rows
@@ -283,6 +286,27 @@ namespace OutModern.src.Admin.ProductDetails
         {
             DataTable data = new DataTable();
 
+            string reviewDateFrom = txtReviewDateFrom.Text.Trim();
+            string reviewDateTo = txtReviewDateTo.Text.Trim();
+
+            //check null
+            if (!String.IsNullOrEmpty(reviewDateFrom) && !String.IsNullOrEmpty(reviewDateTo))
+            {
+                reviewDateFrom += " 00:00:00";
+                reviewDateTo += " 23:59:59";
+                if (!ValidationUtils.IsValidDateTimeRange(reviewDateFrom, reviewDateTo))
+                {
+                    Page.ClientScript.RegisterStartupScript(GetType(),
+                        "Failed to Filter",
+                        "document.addEventListener('DOMContentLoaded',  ()=> alert('End date must be greater than start date'));",
+                        true);
+                    reviewDateFrom = "";
+                    reviewDateTo = "";
+                }
+            }
+
+            string rating = ddlRating.SelectedValue;
+
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
@@ -291,10 +315,33 @@ namespace OutModern.src.Admin.ProductDetails
                      "From Review r, Customer c, ProductDetail pd, Product p, Color co, Size s " +
                      "Where r.CustomerId = c.CustomerId AND pd.ProductDetailId = r.ProductDetailId " +
                      "AND pd.ColorId = co.ColorId AND pd.ProductId = p.ProductId AND s.SizeId = pd.SizeId " +
-                     "AND p.ProductId = @productId;";
+                     "AND p.ProductId = @productId ";
+
+                if (!String.IsNullOrEmpty(reviewDateFrom) && !String.IsNullOrEmpty(reviewDateTo))
+                {
+                    sqlQuery += "AND r.ReviewDateTime BETWEEN @reviewDateFrom AND @reviewDateTo ";
+                }
+
+                if (!String.IsNullOrEmpty(rating) && rating != "-1")
+                {
+                    sqlQuery += "AND r.Rating = @rating ";
+                }
+
+                sqlQuery += "ORDER BY r.ReviewDateTime DESC;";
 
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
+                    if (!String.IsNullOrEmpty(reviewDateFrom) && !String.IsNullOrEmpty(reviewDateTo))
+                    {
+                        command.Parameters.AddWithValue("@reviewDateFrom", reviewDateFrom);
+                        command.Parameters.AddWithValue("@reviewDateTo", reviewDateTo);
+                    }
+
+                    if (!String.IsNullOrEmpty(rating) && rating != "-1")
+                    {
+                        command.Parameters.AddWithValue("@rating", rating);
+                    }
+
                     command.Parameters.AddWithValue("@productId", productId);
                     data.Load(command.ExecuteReader());
                 }
@@ -420,7 +467,17 @@ namespace OutModern.src.Admin.ProductDetails
             setQuantity();
         }
 
+        protected void txtReviewDateFrom_TextChanged(object sender, EventArgs e)
+        {
+            lvReviews.DataSource = reviewDataSource();
+            lvReviews.DataBind();
+        }
 
+        protected void ddlRating_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            lvReviews.DataSource = reviewDataSource();
+            lvReviews.DataBind();
+        }
     }
 }
 

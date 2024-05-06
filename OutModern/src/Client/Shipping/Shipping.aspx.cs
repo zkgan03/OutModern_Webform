@@ -51,10 +51,6 @@ namespace OutModern.src.Client.Shipping
                 }
 
                 Session["CartToShipping"] = false;
-
-
-
-
                 Session["SelectedAddress"] = null;
             }
 
@@ -234,6 +230,11 @@ namespace OutModern.src.Client.Shipping
 
                 // Add the address to the database
                 AddAddressToDatabase(address);
+
+                BindAddresses();
+
+                Session["CartToShipping"] = true;
+                Response.Redirect(Request.Url.AbsoluteUri);
             }
 
         }
@@ -396,46 +397,56 @@ namespace OutModern.src.Client.Shipping
                 if (string.IsNullOrEmpty(nickname))
                 {
                     errorControls.Add(txtNickname);
+                    lblNameError.Text = "Nickname cannot be left empty.";
                 }
                 else
                 {
                     RemoveErrorBorder(txtNickname);
+                    lblNameError.Text = "";
                 }
 
                 if (string.IsNullOrEmpty(addr))
                 {
                     errorControls.Add(txtAddr);
+                    lblAddrError.Text = "Address cannot be left empty.";
                 }
                 else
                 {
                     RemoveErrorBorder(txtAddr);
+                    lblAddrError.Text = "";
                 }
 
                 if (string.IsNullOrEmpty(postal))
                 {
                     errorControls.Add(txtPostal);
+                    lblPostalError.Text = "Postal cannot be left empty.";
                 }
                 else
                 {
                     RemoveErrorBorder(txtPostal);
+                    lblPostalError.Text = "";
                 }
 
                 if (string.IsNullOrEmpty(state))
                 {
                     errorControls.Add(txtState);
+                    lblStateError.Text = "State cannot be left empty.";
                 }
                 else
                 {
                     RemoveErrorBorder(txtState);
+                    lblStateError.Text = "";
                 }
 
                 if (country == "default")
                 {
                     errorControls.Add(ddlCountryOrigin);
+                    lblCountryError.Text = "Please select a country.";
                 }
                 else
                 {
                     RemoveErrorBorder(ddlCountryOrigin);
+                    lblCountryError.Text = "";
                 }
 
                 // Apply red border only to controls with errors

@@ -59,18 +59,22 @@
                     <div class="mb-2">
                         <p class="text-sm text-black">Nickname</p>
                         <asp:TextBox ID="txtNickname" runat="server" CssClass="h-12 w-full rounded-lg border border-black p-6" placeholder="Enter NickName" onKeyUp="validateNickname();" MaxLength="20"></asp:TextBox>
+                        <asp:Label ID="lblNameError" runat="server" CssClass="text-red-700" Text=""></asp:Label>
                     </div>
                     <div class="my-2">
                         <p class="text-sm text-black">Address Line</p>
                         <asp:TextBox ID="txtAddr" runat="server" CssClass="h-12 w-full rounded-lg border border-black p-6" placeholder="Enter Address" MaxLength="50" onKeyUp="validateAddr();"></asp:TextBox>
+                        <asp:Label ID="lblAddrError" runat="server" CssClass="text-red-700" Text=""></asp:Label>
                     </div>
                     <div class="my-2">
                         <p class="text-sm text-black">Postal Code</p>
                         <asp:TextBox ID="txtPostal" runat="server" CssClass="h-12 w-full rounded-lg border border-black p-6" placeholder="Enter Postal Code" MaxLength="12" onkeyup="validateNumericInput();"></asp:TextBox>
+                        <asp:Label ID="lblPostalError" runat="server" CssClass="text-red-700" Text=""></asp:Label>
                     </div>
                     <div class="my-2">
                         <p class="text-sm text-black">State</p>
                         <asp:TextBox ID="txtState" runat="server" CssClass="h-12 w-full rounded-lg border border-black p-6" placeholder="Enter State" MaxLength="50" onKeyUp="validateState();"></asp:TextBox>
+                        <asp:Label ID="lblStateError" runat="server" CssClass="text-red-700" Text=""></asp:Label>
                     </div>
                     <div class="my-2">
                         <p class="text-sm text-black">Country</p>
@@ -312,6 +316,7 @@
                             <asp:ListItem>Zambia</asp:ListItem>
                             <asp:ListItem>Zimbabwe</asp:ListItem>
                         </asp:DropDownList>
+                        <asp:Label ID="lblCountryError" runat="server" CssClass="text-red-700" Text=""></asp:Label>
                     </div>
 
                     <!--Add address button-->

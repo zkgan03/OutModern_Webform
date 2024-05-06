@@ -38,17 +38,17 @@ namespace OutModern.src.Admin.AdminMaster
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            string adminRole = Session["AdminRole"]?.ToString();
+            string adminId = Session["AdminId"]?.ToString();
+
+            // Check if user is logged in
+            if (adminRole == null || adminId == null)
+            {
+                Response.Redirect("~/src/ErrorPages/403.aspx");
+            }
+
             if (!IsPostBack)
             {
-                string adminRole = Session["AdminRole"]?.ToString();
-                string adminId = Session["AdminId"]?.ToString();
-
-                // Check if user is logged in
-                if (adminRole == null || adminId == null)
-                {
-                    Response.Redirect("~/src/ErrorPages/403.aspx");
-                }
-
                 DataTable user = getUser(adminId);
                 DataRow row = user.Rows[0];
                 lblUsername.Text = row["AdminUsername"].ToString();

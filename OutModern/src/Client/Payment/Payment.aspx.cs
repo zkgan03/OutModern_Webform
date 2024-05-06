@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -326,40 +327,78 @@ namespace OutModern.src.Client.Payment
         private void ValidateAndHighlightInputs()
         {
             // Validate card number input
-            if (string.IsNullOrWhiteSpace(txtCardNumber.Text))
+            if (string.IsNullOrWhiteSpace(txtCardNumber.Text) || !ValidateCreditCardNumber(txtCardNumber.Text))
             {
                 txtCardNumber.Attributes["style"] = "border-color: red;";
+                lblCreditError.Text = "Please enter Credit Card number in correct format!";
             }
             else
             {
                 txtCardNumber.Attributes["style"] = "";
+                lblCreditError.Text = "";
             }
 
             // Validate expiration date input
             if (string.IsNullOrWhiteSpace(txtExpirationDate.Text) || txtExpirationDate.Text.Length < 5)
             {
                 txtExpirationDate.Attributes["style"] = "border-color: red;";
+                lblDateError.Text = "Please enter Expiration Date in correct format.";
             }
             else
             {
                 txtExpirationDate.Attributes["style"] = "";
+                lblDateError.Text = "";
             }
 
             // Validate CVV input
             if (string.IsNullOrWhiteSpace(txtCvv.Text) || txtCvv.Text.Length < 3)
             {
                 txtCvv.Attributes["style"] = "border-color: red;";
+                lblCvvError.Text = "Please Enter CVV in correct format.";
             }
             else
             {
                 txtCvv.Attributes["style"] = "";
+                lblCvvError.Text = "";
             }
         }
+
+        private bool ValidateCreditCardNumber(string cardNumber)
+        {
+            // Remove non-numeric characters
+            cardNumber = Regex.Replace(cardNumber, @"\D", "");
+
+            // Validate credit card number using Luhn algorithm
+            int sum = 0;
+            bool doubleDigit = false;
+
+            for (int i = cardNumber.Length - 1; i >= 0; i--)
+            {
+                int digit = int.Parse(cardNumber[i].ToString());
+
+                if (doubleDigit)
+                {
+                    digit *= 2;
+                    if (digit > 9)
+                    {
+                        digit -= 9;
+                    }
+                }
+
+                sum += digit;
+                doubleDigit = !doubleDigit;
+            }
+
+            bool isValid = (sum % 10) == 0;
+
+            return isValid;
+        }
+
 
         private bool HasValidationErrors()
         {
             // Check if any input has validation errors
-            return string.IsNullOrWhiteSpace(txtCardNumber.Text)
+            return string.IsNullOrWhiteSpace(txtCardNumber.Text) || !ValidateCreditCardNumber(txtCardNumber.Text)
                 || (string.IsNullOrWhiteSpace(txtExpirationDate.Text) || txtExpirationDate.Text.Length < 5)
                 || (string.IsNullOrWhiteSpace(txtCvv.Text) || txtCvv.Text.Length < 3);
         }

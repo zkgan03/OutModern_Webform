@@ -27,49 +27,44 @@ namespace OutModern.src.Client.UserProfile
 
                 if (!IsPostBack)
                 {
-                    try
+
+                    ////For show the customer address
+                    using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
                     {
-                        ////For show the customer profile
-                        using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
+                        conn.Open();
+
+                        //// get address name for dropdownlist for customer
+                        string addressQuery = "SELECT * FROM Address WHERE CustomerId = @custId And isDeleted = 0";
+                        SqlCommand addressCmd = new SqlCommand(addressQuery, conn);
+                        addressCmd.Parameters.AddWithValue("@custId", custID);
+
+                        DataTable data = new DataTable();
+                        data.Load(addressCmd.ExecuteReader());
+
+                        if (data.Rows.Count == 0)
                         {
-                            conn.Open();
-
-                            //// get address name for dropdownlist for customer
-                            string addressQuery = "SELECT * FROM Address WHERE CustomerId = @custId And isDeleted = 0";
-                            SqlCommand addressCmd = new SqlCommand(addressQuery, conn);
-                            addressCmd.Parameters.AddWithValue("@custId", custID);
-
-                            DataTable data = new DataTable();
-                            data.Load(addressCmd.ExecuteReader());
-
-                            if (data.Rows.Count == 0)
-                            {
-                                txt_address_line.Text = "N/A";
-                                txt_country.Text = "N/A";
-                                txt_state.Text = "N/A";
-                                txt_postal_code.Text = "N/A";
-                            }
-                            else
-                            {
-                                txt_address_line.Text = data.Rows[0]["AddressLine"].ToString();
-                                txt_country.Text = data.Rows[0]["Country"].ToString();
-                                txt_state.Text = data.Rows[0]["State"].ToString();
-                                txt_postal_code.Text = data.Rows[0]["PostalCode"].ToString();
-
-                                //if no change selection
-                                Session["AddressNameForDlt"] = ddl_address_name.SelectedValue;
-
-                                ddl_address_name.DataSource = data;
-                                ddl_address_name.DataTextField = "AddressName";
-                                ddl_address_name.DataValueField = "AddressName";
-                                ddl_address_name.DataBind();
-                            }
-
+                            txt_address_line.Text = "N/A";
+                            txt_country.Text = "N/A";
+                            txt_state.Text = "N/A";
+                            txt_postal_code.Text = "N/A";
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        Response.Write(ex.Message);
+                        else
+                        {
+                            txt_address_line.Text = data.Rows[0]["AddressLine"].ToString();
+                            txt_country.Text = data.Rows[0]["Country"].ToString();
+                            txt_state.Text = data.Rows[0]["State"].ToString();
+                            txt_postal_code.Text = data.Rows[0]["PostalCode"].ToString();
+
+                            //if no change selection
+                            //Session["AddressNameForDlt"] = ddl_address_name.SelectedValue;
+                            Session["AddressNameForDlt"] = data.Rows[0]["AddressName"].ToString();
+
+                            ddl_address_name.DataSource = data;
+                            ddl_address_name.DataTextField = "AddressName";
+                            ddl_address_name.DataValueField = "AddressName";
+                            ddl_address_name.DataBind();
+                        }
+
                     }
                 }
             }
@@ -151,8 +146,7 @@ namespace OutModern.src.Client.UserProfile
             }
             catch (Exception ex)
             {
-                Response.Write(ex.Message);
-                lblMessage.Text = "An error occurred while deleting address.";
+                lblMessage.Text = "Error: You cannot delete an address when there is none. An error occurred while deleting address.";
             }
         }
     }

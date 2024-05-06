@@ -173,7 +173,7 @@
                             ID="btnUpdateQuantity" OnClick="btnUpdateQuantity_Click" runat="server" Text="Set" />
                     </div>
                     <div class="opacity-50 mt-4 self-end">
-                        <asp:Label ID="lblSetStatus" runat="server"></asp:Label>
+                        <asp:Label ID="lblSetQuantityStatus" runat="server"></asp:Label>
                     </div>
                 </div>
 
@@ -184,7 +184,11 @@
                     <div class="flex gap-2 items-center">
                         <asp:DropDownList ID="ddlColorAdd" runat="server"></asp:DropDownList>
                         <div class="color-varient add-color"></div>
-                        <asp:Button ID="btnAddColor" OnClick="btnAddColor_Click" CssClass="button" runat="server" Text="Add" />
+                        <asp:Button ID="btnAddColor"
+                            OnClick="btnAddColor_Click"
+                            OnClientClick="return confirm('Are you sure you want to add this color?');"
+                            CssClass="button"
+                            runat="server" Text="Add" />
                         <asp:Label ID="lblAddColorStatus" runat="server" CssClass="opacity-50"></asp:Label>
                     </div>
 
@@ -327,12 +331,15 @@
                         const Extension = FileUploadPath.substring(
                             FileUploadPath.lastIndexOf('.') + 1).toLowerCase();
 
+                        if (!confirm("Are you sure you want to upload this image?")) {
+                            return;
+                        }
+
                         //The file uploaded is an image
                         if (Extension == "webp" || Extension == "png"
                             || Extension == "jpeg" || Extension == "jpg") {
 
                             __doPostBack('<%= btnAddImage.UniqueID %>', '');
-
                         }
                         //The file upload is NOT an image
                         else {

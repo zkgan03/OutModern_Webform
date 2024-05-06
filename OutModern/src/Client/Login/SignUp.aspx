@@ -34,38 +34,33 @@
                     <div class="rightBoxBottom">
                         <div class="boxItem">
                             <asp:TextBox ID="txt_su_fullname" runat="server" class="SUTextBox" placeholder="Fullname"></asp:TextBox>
+                            <!-- Error Message-->
+                            <asp:Label ID="FullnameErrMsg" runat="server" Style="color: red"></asp:Label>
                         </div>
-
-                        <!-- Error Message-->
-                        <asp:Label ID="FullnameErrMsg" runat="server" Style="color: red"></asp:Label>
 
                         <div class="boxItem">
                             <asp:TextBox ID="txt_su_username" runat="server" class="SUTextBox" placeholder="Username"></asp:TextBox>
+                            <!-- Error Message-->
+                            <asp:Label ID="UsernameErrMsg" runat="server" Style="color: red"></asp:Label>
                         </div>
-
-                        <!-- Error Message-->
-                        <asp:Label ID="UsernameErrMsg" runat="server" Style="color: red"></asp:Label>
 
                         <div class="boxItem">
                             <asp:TextBox ID="txt_su_email" runat="server" class="SUTextBox" placeholder="Email" TextMode="Email"></asp:TextBox>
+                            <!-- Error Message-->
+                            <asp:Label ID="EmailErrMsg" runat="server" Style="color: red"></asp:Label>
                         </div>
-
-                        <!-- Error Message-->
-                        <asp:Label ID="EmailErrMsg" runat="server" Style="color: red"></asp:Label>
 
                         <div class="boxItem">
                             <asp:TextBox ID="txt_su_password" runat="server" class="SUTextBox" TextMode="Password" placeholder="Password"></asp:TextBox>
+                            <!-- Error Message-->
+                            <asp:Label ID="PasswordErrMsg" runat="server" Style="color: red"></asp:Label>
                         </div>
-
-                        <!-- Error Message-->
-                        <asp:Label ID="PasswordErrMsg" runat="server" Style="color: red"></asp:Label>
 
                         <div class="boxItem">
                             <asp:TextBox ID="txt_su_reenter_password" runat="server" class="SUTextBox" TextMode="Password" placeholder="Re-enter Password"></asp:TextBox>
+                            <!-- Error Message-->
+                            <asp:Label ID="ReenterPasswordErrMsg" runat="server" Style="color: red"></asp:Label>
                         </div>
-
-                        <!-- Error Message-->
-                        <asp:Label ID="ReenterPasswordErrMsg" runat="server" Style="color: red"></asp:Label>
 
                         <div class="boxItem3">
                             <asp:CheckBox ID="chkbox_policy" runat="server" Text="&nbsp;I agree to the terms and" class="policyText" />

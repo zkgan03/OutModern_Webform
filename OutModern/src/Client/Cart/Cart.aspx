@@ -74,9 +74,13 @@
 
                         </table>
 
-                        <div class="mt-7 flex justify-center">
-
-                            <asp:Label runat="server" CssClass="text-center text-xl" Text="Your shopping cart Ends Here!"></asp:Label>
+                        <div class="mt-7 flex flex-col items-center justify-center">
+                            <div>
+                                <asp:Image ID="ImgEmptyCart" runat="server" ImageUrl="~/images/cartEmpty.png" CssClass="h-40 w-44"/>
+                            </div>
+                            <div>
+                                <asp:Label ID="lblEmptyCart" runat="server" CssClass="text-center text-xl" Text=""></asp:Label>
+                            </div>
                         </div>
                     </div>
                 </div>

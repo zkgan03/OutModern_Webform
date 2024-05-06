@@ -30,7 +30,7 @@ namespace OutModern.src.Client.Login
                 using (SqlConnection sqlConnection = new SqlConnection(conn))
                 {
                     sqlConnection.Open();
-                    string query = "SELECT CustomerId FROM Customer WHERE CustomerEmail = @Email";
+                    string query = "SELECT CustomerId FROM Customer WHERE CustomerEmail = @Email And CustomerStatusId = 1";
 
                     using (SqlCommand sqlCommand = new SqlCommand(query, sqlConnection))
                     {

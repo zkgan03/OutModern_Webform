@@ -135,8 +135,25 @@
             <!--Customer's Order details-->
             <div class="mt-10">
                 <div class="flex items-center justify-between ">
-                    <div class="text-xl font-[600]">Orders Made (<asp:Label ID="lblOrderMade" CssClass="text-xl font-[600]" runat="server" Text="Label"></asp:Label>)</div>
-                    <div class="filter-item mr-10">
+                    <div class="text-xl font-[600] self-center">Orders Made (<asp:Label ID="lblOrderMade" CssClass="text-xl font-[600]" runat="server" Text="Label"></asp:Label>)</div>
+                    <div class="filter-item flex mr-10">
+
+                        <!-- Filter Date -->
+                        <div class="item">
+                            <div>
+                                <div class="w-16 float-left">From :</div>
+                                <asp:TextBox ID="txtOrderDateFrom"
+                                    OnTextChanged="txtOrderDateFrom_TextChanged"
+                                    AutoPostBack="true" TextMode="Date" runat="server"></asp:TextBox>
+                            </div>
+                            <div class="mt-3">
+                                <div class="w-16 float-left">To :</div>
+                                <asp:TextBox ID="txtOrderDateTo"
+                                    OnTextChanged="txtOrderDateFrom_TextChanged"
+                                    AutoPostBack="true" TextMode="Date" runat="server"></asp:TextBox>
+                            </div>
+                        </div>
+
                         <!-- Filter Order Status -->
                         <div class="item self-end">
                             <asp:DropDownList ID="ddlFilterOrderStatus" runat="server"
