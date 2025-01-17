@@ -1,5 +1,10 @@
 # OutModern_Webform
 
+**OutModern_Webform** is a redeveloped version of the original **OutModern** project, which was a static website built using only HTML, CSS, and JavaScript. This new version enhances the original by introducing **server-side management** and an **admin panel** using **ASP.NET WebForms** and **MSSQL**.
+
+The original project ([OutModern_HTML_CSS_JS](https://github.com/zkgan03/OutModern_HTML_CSS_JS)) was a frontend-only implementation, focusing on a sleek and responsive user interface. This redevelopment adds robust backend functionality, making it a fully dynamic e-commerce platform.
+
+
 ## Technologies Used
 
 This project was built using the following technologies:
